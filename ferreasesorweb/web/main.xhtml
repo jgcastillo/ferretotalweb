@@ -20,85 +20,214 @@
     <ui:define name="status">
 
         <style type="text/css">
-            .display {
+            .display11 {
                 font-size: 28px !important;
                 font-weight: bold;
-                color: green;
-                display: block;
-                visibility: visible;
+                font-family: arial black;
+                text-align: left;
+                color: white;
+                background: #52D737; 
+                width:160px; 
+                height: 100px;
+                background-image: url(resources/images/green.png)
             }
-            .display2 {
+            .display12 {
                 font-size: 28px !important;
                 font-weight: bold;
-                color: yellow;
-                display: block;
-                visibility: visible;
+                font-family: arial black;
+                text-align: left;
+                color: white;
+                background: #F5E663; 
+                width:160px; 
+                height: 100px;
+                background-image: url(resources/images/yellow.png)
             }
-            .display3 {
+            .display13 {
                 font-size: 28px !important;
                 font-weight: bold;
-                color: red;
-                display: block;
-                visibility: visible;
+                font-family: arial black;
+                text-align: left;
+                color: white;
+                background: #F93F40; 
+                width:160px; 
+                height: 100px;
+                background-image: url(resources/images/blue.png)
+            }
+
+            .display21 {
+                font-size: 28px !important;
+                font-weight: bold;
+                font-family: arial black;
+                text-align: left;
+                color: white;
+                background: #52D737; 
+                width:160px; 
+                height: 100px;
+                background-image: url(resources/images/green.png)
+            }
+            .display22 {
+                font-size: 28px !important;
+                font-weight: bold;
+                font-family: arial black;
+                text-align: left;
+                color: white;
+                background: #F5E663; 
+                width:160px; 
+                height: 100px;
+                background-image: url(resources/images/yellow.png)
+            }
+            .display23 {
+                font-size: 28px !important;
+                font-weight: bold;
+                font-family: arial black;
+                text-align: left;
+                color: white;
+                background: #F93F40; 
+                width:160px; 
+                height: 100px;
+                background-image: url(resources/images/blue.png)
+            }
+
+            .display31 {
+                font-size: 28px !important;
+                font-weight: bold;
+                font-family: arial black;
+                text-align: left;
+                color: white;
+                background: #52D737; 
+                width:160px; 
+                height: 100px;
+                background-image: url(resources/images/green.png)
+            }
+            .display32 {
+                font-size: 28px !important;
+                font-weight: bold;
+                font-family: arial black;
+                text-align: left;
+                color: white;
+                background: #F5E663; 
+                width:160px; 
+                height: 100px;
+                background-image: url(resources/images/yellow.png)
+            }
+            .display33 {
+                font-size: 28px !important;
+                font-weight: bold;
+                font-family: arial black;
+                text-align: left;
+                color: white;
+                background: #F93F40; 
+                width:160px; 
+                height: 100px;
+                background-image: url(resources/images/blue.png)
             }
         </style>
         <script type="text/javascript">
-            function handleMessage(data) {
-                var boton = data.botonId;
-                if (boton == 18) {
-                    
-                    //                    $('.display').html(function() {
-                    //                        return '<p> Boton: ' + data.botonId + '</p> <p>Ubicación: ' + data.ubicacion + '</p>';
-                    //                    });
-                    
-                    $('.display').html(function() {
-                        return data.botonId;
-                    });
-                } 
-                if (boton == 19) {
-                    $('.display2').html(function() {
                         
-                        return '<p> Boton: ' + data.botonId + '</p> <p>Ubicación: ' + data.ubicacion + '</p>';
-                    });
-                } 
-                if (boton == 20) {
-                    $('.display3').html(function() {
-                       
-                        return '<p> Boton: ' + data.botonId + '</p> <p>Ubicación: ' + data.ubicacion + '</p>';
+            function handleMessage1(data) {
+                
+                var status = data.status;
+                
+                if(status == 1){
+                    $('.display11').html(function() {
+                        $('.display11').show();
+                        return '<p> Boton: ' + data.botonId + '</p> <p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
                     });
                 }
+                
+                if(status == 2){
+                    $('.display12').html(function() {
+                        $('.display11').hide();
+                        $('.display12').show();
+                        return '<p> Boton: ' + data.botonId + '</p> <p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+                    });
+                }
+                
+                if(status == 3){
+                    $('.display13').html(function() {
+                        $('.display12').hide();
+                        $('.display13').show();
+                        return '<p> Boton: ' + data.botonId + '</p> <p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+                    });
+                }
+                
+                if(status == 4){
+                    $('.display13').hide();
+                }
+                
+            }
+            
+            function handleMessage2(data) {
+                $('.display12').html(function() {
+                    $('.display12').show();
+                    return '<p> Boton: ' + data.botonId + '</p> <p>Ubicación: ' + data.ubicacion + '</p><p>tBueno: ' + data.tiempoBueno + '</p><p>tRegular: ' + data.tiempoRegular + '</p>';
+                });  
+            }
+            
+            function handleMessage3(data) {
+                $('.display13').html(function() {
+                    $('.display13').show();
+                    return '<p> Boton: ' + data.botonId + '</p> <p>Ubicación: ' + data.ubicacion + '</p><p>tBueno: ' + data.tiempoBueno + '</p><p>tRegular: ' + data.tiempoRegular + '</p>';
+                });  
             }
         </script>
+
+
 
         <h:outputText value="Aqui va una alarma"/>
         <h:form id="form">
             <p:fieldset>
-                <h:panelGrid>
-                    <h:outputText id="out" value="#{alarmaBean.botonId}" styleClass="ui-widget display" style="display: block;"/>
-                    <h:outputText id="out2" value="#{alarmaBean.botonId}" styleClass="ui-widget display2" style="display: block;" />
-                    <h:outputText id="out3" value="#{alarmaBean.botonId}" styleClass="ui-widget display3" style="display: block;"/>
+                <h:panelGrid id="principal">
+
+                    <h:panelGrid id="panel_11" styleClass="ui-widget display11" style="display: none;">
+                        <h:outputText id="out11" value="#{alarmaBean.botonId}"/>
+                    </h:panelGrid>
+                    <h:panelGrid id="panel_12" styleClass="ui-widget display12" style="display: none;">
+                        <h:outputText id="out12" value="#{alarmaBean.botonId}"/>
+                    </h:panelGrid>
+                    <h:panelGrid id="panel_13" styleClass="ui-widget display13" style="display: none;">
+                        <h:outputText id="out13" value="#{alarmaBean.botonId}"/>
+                    </h:panelGrid>
+
+                    <h:panelGrid id="panel_21" styleClass="ui-widget display21" style="display: none;">
+                        <h:outputText id="out21" value="#{alarmaBean.botonId}"/>
+                    </h:panelGrid>
+                    <h:panelGrid id="panel_22" styleClass="ui-widget display22" style="display: none;">
+                        <h:outputText id="out22" value="#{alarmaBean.botonId}"/>
+                    </h:panelGrid>
+                    <h:panelGrid id="panel_23" styleClass="ui-widget display23" style="display: none;">
+                        <h:outputText id="out23" value="#{alarmaBean.botonId}"/>
+                    </h:panelGrid>
+
+                    <h:panelGrid id="panel_31" styleClass="ui-widget display31" style="display: none;">
+                        <h:outputText id="out31" value="#{alarmaBean.botonId}"/>
+                    </h:panelGrid>
+                    <h:panelGrid id="panel_32" styleClass="ui-widget display32" style="display: none;">
+                        <h:outputText id="out32" value="#{alarmaBean.botonId}"/>
+                    </h:panelGrid>
+                    <h:panelGrid id="panel_33" styleClass="ui-widget display33" style="display: none;">
+                        <h:outputText id="out33" value="#{alarmaBean.botonId}"/>
+                    </h:panelGrid>
+
                 </h:panelGrid>
             </p:fieldset>
 
-            <ui:repeat value="#{alarmaBean.botones}" var="button">
-
-
-                <h:outputText value="#{button.id}"/> <br />
-
-                <h:panelGrid styleClass="ui-widget display">
-
-                    <h:outputText value="#{alarmaBean.botonId}" /> <br/>
-                    <h:outputText value="Son Iguales" rendered="#{alarmaBean.botonId == button.id}" />
-
-
-                    
-                </h:panelGrid>
-
-                    <c:if test="#{button.id}"><h:outputText value="Son Iguales"/></c:if>
-            </ui:repeat>
-
         </h:form>  
-        <p:socket onMessage="handleMessage" channel="/channelBoton"/>
+
+        <p:socket onMessage="handleMessage1" channel="/channelBoton1"/>
+        <p:socket onMessage="handleMessage2" channel="/channelBoton2"/>
+        <p:socket onMessage="handleMessage3" channel="/channelBoton3"/>
+
+        <!--         Para visualizar el cronómetro   
+                <div class="recuadro3">  
+                    <form name="crono">  
+                        <p>
+                            <input type="text" size="8" name="display" value="00:00"/> 
+                            <input type="button" name="Iniciar" value=" Iniciar " onClick="IniciarCrono()"/>
+                        </p>  
+                    </form>  
+                </div>  -->
+
     </ui:define>
 
 </ui:composition>
