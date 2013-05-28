@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="./../../WEB-INF/templates/layout.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <ui:define name="title">
+        <title>Total llamadas por Turno</title>
+    </ui:define>
+
+    <ui:define name="content">
+        <p:fieldset>
+            <f:facet name="legend">
+                <h3>
+                    <h:outputText value="Cantidad de Llamadas por Turno entre Fechas"/>
+                </h3>
+            </f:facet>
+
+            <h:form id="form">
+                <h:panelGrid columns="4">
+                    <h:outputLabel value="Fecha inicio: " for="fechaInicio"/>
+                    <p:calendar id="fechaInicio" value="#{llamadasXturnoBean.fechaInicio}" 
+                                showOn="button" pattern="dd/MM/yyyy"/>
+                    <h:outputLabel value="Fecha fin: " for="fechaFin"/>
+                    <p:calendar id="fechaFin" value="#{llamadasXturnoBean.fechaFin}" 
+                                showOn="button" pattern="dd/MM/yyyy"/>
+                </h:panelGrid>
+                <p:spacer height="10"/>
+                <h:panelGrid columns="3">
+                    <h:commandButton value="Ver Data" actionListener="#{llamadasXturnoBean.populateLlamadas}"/>
+                    <p:spacer style="width: 20px;"/>
+                    <h:commandButton value="Ver Gráfico" disabled="#{llamadasXturnoBean.chartButtonDisable}" 
+                                     actionListener="#{llamadasXturnoBean.muestraGrafico}"/>
+                </h:panelGrid>
+                <p:spacer height="10"/>
+                <h:panelGroup id="panelTable" rendered="#{llamadasXturnoBean.showTable}">
+                    <p:dataTable value="#{llamadasXturnoBean.reporteData}" var="llamada" style="width: 65%;"
+                                 paginator="true" rows="10"  
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                 rowsPerPageTemplate="5,10,15"
+                                 paginatorPosition="bottom">
+                        <f:facet name="header">
+                            Llamadas por Turno entre Fechas
+                        </f:facet>
+                        <p:column headerText="Fecha">
+                            <h:outputText value="#{llamada.rango}"/>
+                        </p:column>
+                        <p:column headerText="Cantidad">
+                            <h:outputText value="#{llamada.dominio}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGroup>
+                <br/>
+                <h:panelGroup id="panelChart" rendered="#{llamadasXturnoBean.showChart}">
+                    <p:barChart value="#{llamadasXturnoBean.categoryModel}" legendPosition="ne"
+                                title="Llamadas por Turno entre Fechas" style="width: 85%"/>
+                </h:panelGroup>
+            </h:form>
+        </p:fieldset>
+    </ui:define>
+
+    <ui:define name="status">
+        status
+    </ui:define>
+
+</ui:composition>

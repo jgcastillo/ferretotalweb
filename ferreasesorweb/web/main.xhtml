@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./WEB-INF/templates/layout.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="title">
+        Página de inicio
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="formContent">
+            
+        </h:form>
+    </ui:define>
+
+    <ui:define name="status">
+
+        <style type="text/css">
+            .display {
+                font-size: 28px !important;
+                font-weight: bold;
+                color: green;
+                display: block;
+                visibility: visible;
+            }
+            .display2 {
+                font-size: 28px !important;
+                font-weight: bold;
+                color: yellow;
+                display: block;
+                visibility: visible;
+            }
+            .display3 {
+                font-size: 28px !important;
+                font-weight: bold;
+                color: red;
+                display: block;
+                visibility: visible;
+            }
+        </style>
+        <script type="text/javascript">
+            function handleMessage(data) {
+                var boton = data.botonId;
+                if (boton == 18) {
+                    
+                    //                    $('.display').html(function() {
+                    //                        return '<p> Boton: ' + data.botonId + '</p> <p>Ubicación: ' + data.ubicacion + '</p>';
+                    //                    });
+                    
+                    $('.display').html(function() {
+                        return data.botonId;
+                    });
+                } 
+                if (boton == 19) {
+                    $('.display2').html(function() {
+                        
+                        return '<p> Boton: ' + data.botonId + '</p> <p>Ubicación: ' + data.ubicacion + '</p>';
+                    });
+                } 
+                if (boton == 20) {
+                    $('.display3').html(function() {
+                       
+                        return '<p> Boton: ' + data.botonId + '</p> <p>Ubicación: ' + data.ubicacion + '</p>';
+                    });
+                }
+            }
+        </script>
+
+        <h:outputText value="Aqui va una alarma"/>
+        <h:form id="form">
+            <p:fieldset>
+                <h:panelGrid>
+                    <h:outputText id="out" value="#{alarmaBean.botonId}" styleClass="ui-widget display" style="display: block;"/>
+                    <h:outputText id="out2" value="#{alarmaBean.botonId}" styleClass="ui-widget display2" style="display: block;" />
+                    <h:outputText id="out3" value="#{alarmaBean.botonId}" styleClass="ui-widget display3" style="display: block;"/>
+                </h:panelGrid>
+            </p:fieldset>
+
+            <ui:repeat value="#{alarmaBean.botones}" var="button">
+
+
+                <h:outputText value="#{button.id}"/> <br />
+
+                <h:panelGrid styleClass="ui-widget display">
+
+                    <h:outputText value="#{alarmaBean.botonId}" /> <br/>
+                    <h:outputText value="Son Iguales" rendered="#{alarmaBean.botonId == button.id}" />
+
+
+                    
+                </h:panelGrid>
+
+                    <c:if test="#{button.id}"><h:outputText value="Son Iguales"/></c:if>
+            </ui:repeat>
+
+        </h:form>  
+        <p:socket onMessage="handleMessage" channel="/channelBoton"/>
+    </ui:define>
+
+</ui:composition>

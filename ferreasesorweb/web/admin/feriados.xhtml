@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        
+        Hello from Facelets
+        <h:form prependId="false">  
+
+            <p:growl id="messages" />  
+
+            <h:panelGrid columns="1" cellpadding="5">  
+                <h:outputText id="msg" value="Ejemplo"/>  
+
+                <p:commandButton id="showDialogButton" value="Destroy the World" onclick="confirmation.show()" type="button"/>  
+            </h:panelGrid>  
+
+            <p:confirmDialog id="confirmDialog" message="Are you sure about destroying the world?"  
+                             header="Initiating destroy process" severity="alert" widgetVar="confirmation">  
+
+                <p:commandButton id="confirm" value="Yes Sure" update="messages" oncomplete="confirmation.hide()"  
+                                 actionListener="#{buttonBean.destroyWorld}" />  
+                <p:commandButton id="decline" value="Not Yet" onclick="confirmation.hide()" type="button" />   
+
+            </p:confirmDialog>  
+
+        </h:form>   
+        <br />
+
+    </h:body>
+</html>

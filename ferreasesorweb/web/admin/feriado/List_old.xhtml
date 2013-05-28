@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="./../../WEB-INF/templates/layout.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListFeriadoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="content">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListFeriadoEmpty}" rendered="#{feriadoController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{feriadoController.items.rowCount > 0}">
+                    <h:outputText value="#{feriadoController.pagination.pageFirstItem + 1}..#{feriadoController.pagination.pageLastItem + 1}/#{feriadoController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{feriadoController.previous}" value="#{bundle.Previous} #{feriadoController.pagination.pageSize}" rendered="#{feriadoController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{feriadoController.next}" value="#{bundle.Next} #{feriadoController.pagination.pageSize}" rendered="#{feriadoController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{feriadoController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFeriadoTitle_id}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFeriadoTitle_dia}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dia}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFeriadoTitle_mes}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.mes}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFeriadoTitle_year}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.year}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFeriadoTitle_descripcion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.descripcion}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFeriadoTitle_tiendaId}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tiendaId}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{feriadoController.prepareView}" value="#{bundle.ListFeriadoViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{feriadoController.prepareEdit}" value="#{bundle.ListFeriadoEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{feriadoController.destroy}" value="#{bundle.ListFeriadoDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{feriadoController.prepareCreate}" value="#{bundle.ListFeriadoCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListFeriadoIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

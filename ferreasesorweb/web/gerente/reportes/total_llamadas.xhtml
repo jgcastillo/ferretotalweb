@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../../WEB-INF/templates/layout.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">
+        <title>Total llamadas entre fechas</title>
+    </ui:define>
+
+    <ui:define name="content">
+        <p:fieldset>
+            <f:facet name="legend">
+                <h3>
+                    <h:outputText value="Cantidad Total de Llamadas en un Período"/>
+                </h3>
+            </f:facet>
+
+            <h:form id="form">
+                <h:panelGrid columns="4">
+                    <h:outputLabel value="Fecha inicio: " for="fechaInicio"/>
+                    <p:calendar id="fechaInicio" value="#{totalLlamadasBean.fechaInicio}" 
+                                showOn="button" pattern="dd/MM/yyyy"/>
+                    <h:outputLabel value="Fecha fin: " for="fechaFin"/>
+                    <p:calendar id="fechaFin" value="#{totalLlamadasBean.fechaFin}" 
+                                showOn="button" pattern="dd/MM/yyyy"/>
+                </h:panelGrid>
+                <p:spacer height="10"/>
+                <h:panelGrid columns="3">
+                    <h:commandButton value="Ver Data" actionListener="#{totalLlamadasBean.populateLlamadas}"/>
+                    <p:spacer style="width: 20px;"/>
+                    <h:commandButton value="Ver Gráfico" disabled="#{totalLlamadasBean.chartButtonDisable}" 
+                                     actionListener="#{totalLlamadasBean.muestraGrafico}"/>
+                </h:panelGrid>
+                <p:spacer height="10"/>
+                <h:panelGroup id="panelTable" rendered="#{totalLlamadasBean.showTable}">
+                    <p:dataTable value="#{totalLlamadasBean.reporteData}" var="llamada" style="width: 65%;"
+                                 paginator="true" rows="10"  
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                 rowsPerPageTemplate="5,10,15"
+                                 paginatorPosition="bottom">
+                        <f:facet name="header">
+                            Total Llamadas entre Fechas
+                        </f:facet>
+                        <p:column headerText="Fecha">
+                            <h:outputText value="#{llamada.rango}"/>
+                        </p:column>
+                        <p:column headerText="Cantidad">
+                            <h:outputText value="#{llamada.dominio}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGroup>
+                <br/>
+                <h:panelGroup id="panelChart" rendered="#{totalLlamadasBean.showChart}">
+                    <p:barChart value="#{totalLlamadasBean.categoryModel}" legendPosition="ne"
+                                title="Total Llamadas entre Fechas" style="width: 85%"/>
+                    <fieldset>
+                        <p:graphicImage value="#{totalLlamadasBean.chart}"/>
+                    </fieldset>
+                </h:panelGroup>
+            </h:form>
+        </p:fieldset>
+    </ui:define>
+
+    <ui:define name="status">
+        status
+    </ui:define>
+
+</ui:composition>
