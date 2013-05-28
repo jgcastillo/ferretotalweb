@@ -3,7 +3,9 @@ package com.spontecorp.ferreasesor.controller;
 import com.spontecorp.ferreasesor.entity.Boton;
 import com.spontecorp.ferreasesor.jpa.BotonFacade;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.faces.bean.ApplicationScoped;
@@ -18,20 +20,24 @@ import org.primefaces.push.PushContextFactory;
 @Stateless
 @ManagedBean(name = "alarmaBean")
 @ApplicationScoped
-public class AlarmaController implements Serializable{
-    
+public class AlarmaController implements Serializable {
+
     private int count;
+    private ThreadOnButton hilo;
     private String CHANNEL = "/counter";
-    private String CHANNEL_BOTON = "/channelBoton";
+    public static final String CHANNEL_BOTON1 = "/channelBoton1";
+    private String CHANNEL_BOTON2 = "/channelBoton2";
+    private String CHANNEL_BOTON3 = "/channelBoton3";
     private Boton boton;
     @EJB
     private BotonFacade facade;
     private int botonId;
     private String ubicacion;
-    
-    private int tBueno;
-    private int tRegular;
-    
+    private int tiempoBueno;
+    private int tiempoRegular;
+    // Mapa con los hilos que se están ejecutando
+    private Map<String, Runnable> llamados = new HashMap<>();
+
     public int getCount() {
         return count;
     }
@@ -43,8 +49,8 @@ public class AlarmaController implements Serializable{
     public Boton getBoton() {
         return boton;
     }
-    
-    public int getBotonId(){
+
+    public int getBotonId() {
         return botonId;
     }
 
@@ -52,37 +58,87 @@ public class AlarmaController implements Serializable{
         return ubicacion;
     }
 
-    public int gettBueno() {
-        return tBueno;
+    public int getTiempoBueno() {
+        return tiempoBueno;
     }
 
-    public void settBueno(int tBueno) {
-        this.tBueno = tBueno;
+    public int getTiempoRegular() {
+        return tiempoRegular;
     }
 
-    public int gettRegular() {
-        return tRegular;
-    }
-
-    public void settRegular(int tRegular) {
-        this.tRegular = tRegular;
-    }
-    
-    public List<Boton> getBotones(){
+    public List<Boton> getBotones() {
         return facade.findAll();
     }
-    
+
     public synchronized void increment() {
         count++;
         PushContext pushContext = PushContextFactory.getDefault().getPushContext();
         pushContext.push(CHANNEL, String.valueOf(count));
     }
+
+    public synchronized void startThread(PushContext pushContext, Boton boton, int tiempoBueno, int tiempoRegular) {
+        String buttonSelected = boton.getUbicacion();
+        System.out.println("1.- Ubicacion startThread: " + buttonSelected);
+        System.out.println("2.- llamados.size(): " + llamados.size());
+
+        if (llamados.containsKey(buttonSelected)) {
+            System.out.println("3.- Ya existe un hilo asociado a este Botón");
+        }
+
+        if (!llamados.containsKey(buttonSelected)) {
+            hilo = new ThreadOnButton(pushContext, boton, tiempoBueno, tiempoRegular);
+            llamados.put(buttonSelected, hilo);
+            System.out.println("4.- Creando hilo asociado a este Botón");
+            System.out.println("5.- llamados.size(): " + llamados.size());
+            hilo.setArrancar();
+            hilo.run();
+        }
+    }
+
+    public synchronized void stopThread(Boton boton) {
+        String buttonSelected = boton.getUbicacion();
+
+        System.out.println("6.- Ubicacion stopThread: " + buttonSelected);
+        System.out.println("7.- llamados.size(): " + llamados.size());
+        
+        if (!llamados.containsKey(buttonSelected)) {
+            System.out.println("8.- No existe un hilo asociado a este Botón");
+        }
+        
+        if (llamados.containsKey(buttonSelected)) {
+            System.out.println("9.- Eliminando el hilo asociado a este Botón");
+            hilo = (ThreadOnButton) llamados.get(buttonSelected);
+            hilo.setTerminar();
+            llamados.remove(buttonSelected);
+            System.out.println("10.- llamados.size(): " + llamados.size());
+        }
+
+    }
     
-    public synchronized void enviarBoton(int botonId){
+    
+
+    public synchronized void enviarBoton(int botonId, int tBueno, int tRegular) {
         boton = facade.find(botonId);
         this.botonId = boton.getId();
         this.ubicacion = boton.getUbicacion();
+        this.tiempoBueno = tBueno;
+        this.tiempoRegular = tRegular;
+
         PushContext pushContext = PushContextFactory.getDefault().getPushContext();
-        pushContext.push(CHANNEL_BOTON, new BotonIntermedia(ubicacion, this.botonId));
+        startThread(pushContext, boton, tiempoBueno, tiempoRegular);
+
+    }
+
+    public void detenerBoton(int botonId) {
+        boton = facade.find(botonId);
+        stopThread(boton);
+    }
+
+    public Map<String, Runnable> getLlamados() {
+        return llamados;
+    }
+
+    public void setLlamados(Map<String, Runnable> llamados) {
+        this.llamados = llamados;
     }
 }
