@@ -1,13 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.spontecorp.ferreasesor.controller;
 
 import com.spontecorp.ferreasesor.entity.Boton;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.primefaces.push.PushContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -25,8 +23,11 @@ public class ThreadOnButton implements Runnable {
     private PushContext pushContext;
     private String showCounter;
     private boolean terminar;
+    private final String nombreHilo;
+    private final static Logger logger = LoggerFactory.getLogger(ThreadOnButton.class);
 
-    ThreadOnButton(PushContext pushContext, Boton boton, int tiempoBueno, int tiempoRegular) {
+    ThreadOnButton(String nombreHilo, PushContext pushContext, Boton boton, int tiempoBueno, int tiempoRegular) {
+        this.nombreHilo = nombreHilo;
         this.pushContext = pushContext;
         this.boton = boton;
         this.tiempoBueno = tiempoBueno;
@@ -49,7 +50,7 @@ public class ThreadOnButton implements Runnable {
     @Override
     public void run() {
 
-        System.out.println("1.- Inicio el hilo: " + terminar);
+        System.out.println("1.- Inicio el hilo: " + nombreHilo + "Terminar vale:" + terminar);
 
         while (!terminar) {
             try {
@@ -65,15 +66,15 @@ public class ThreadOnButton implements Runnable {
                     pushContext.push(AlarmaController.CHANNEL_BOTON1, new BotonIntermedia(boton.getUbicacion(), boton.getId(), this.tiempoBueno, this.tiempoRegular, 3, this.showCounter));
                 }
                 Thread.sleep(1000);
-                if (counter == 20) {
+                if (counter == 40) {
                     terminar = true;
                 }
             } catch (InterruptedException e) {
-                System.out.println(e.getMessage());
+                logger.error("Error de interrupción: " + e.getMessage());
             }
         }
         if (terminar) {
-            System.out.println("2.- Detengo el Hilo: " + counter);
+            System.out.println("2.- Detengo el Hilo: " + nombreHilo + " con el contador en:" + counter);
             pushContext.push(AlarmaController.CHANNEL_BOTON1, new BotonIntermedia(boton.getUbicacion(), boton.getId(), this.tiempoBueno, this.tiempoRegular, 4, this.showCounter));
         }
         
