@@ -1,0 +1,79 @@
+/* 
+    Document   : display
+    Created on : 29/05/2013, 05:08:54 PM
+    Author     : jgcastillo
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+.display11 {
+    font-size: 28px !important;
+    font-weight: bold;
+    font-family: arial black;
+    text-align: left;
+    color: white;
+    background: #52D737; 
+    width:160px; 
+    height: 100px;
+    background-image: url(resources/images/green.png)
+}
+.display12 {
+    font-size: 28px !important;
+    font-weight: bold;
+    font-family: arial black;
+    text-align: left;
+    color: black;
+    background: #F5E663; 
+    width:160px; 
+    height: 100px;
+    background-image: url(resources/images/yellow.png)
+}
+.display13 {
+    font-size: 28px !important;
+    font-weight: bold;
+    font-family: arial black;
+    text-align: left;
+    color: white;
+    background: #F93F40; 
+    width:160px; 
+    height: 100px;
+    background-image: url(resources/images/blue.png)
+}
+
+.display21 {
+    font-size: 28px !important;
+    font-weight: bold;
+    font-family: arial black;
+    text-align: left;
+    color: white;
+    background: #52D737; 
+    width:160px; 
+    height: 100px;
+    background-image: url(resources/images/green.png)
+}
+.display22 {
+    font-size: 28px !important;
+    font-weight: bold;
+    font-family: arial black;
+    text-align: left;
+    color: black;
+    background: #F5E663; 
+    width:160px; 
+    height: 100px;
+    background-image: url(resources/images/yellow.png)
+}
+.display23 {
+    font-size: 28px !important;
+    font-weight: bold;
+    font-family: arial black;
+    text-align: left;
+    color: white;
+    background: #F93F40; 
+    width:160px; 
+    height: 100px;
+    background-image: url(resources/images/blue.png)
+}
