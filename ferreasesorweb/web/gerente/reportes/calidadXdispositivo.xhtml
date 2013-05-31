@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../../WEB-INF/templates/layout.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">
+        <title>Calidad de Atención por Dispositivo</title>
+    </ui:define>
+
+    <ui:define name="content">
+        <p:fieldset>
+            <f:facet name="legend">
+                <h3>
+                    <h:outputText value="Calidad de Atención por Dispositivo"/>
+                </h3>
+            </f:facet>
+
+            <h:form id="form"><br/>
+                <h:panelGrid columns="8">
+                    <h:outputLabel value="Fecha inicio: " for="fechaInicio"/>
+                    <p:calendar id="fechaInicio" value="#{calidadDispositivoBean.fechaInicio}" 
+                                showOn="button" pattern="dd/MM/yyyy"/>
+                    <h:outputLabel value="Fecha fin: " for="fechaFin"/>
+                    <p:calendar id="fechaFin" value="#{calidadDispositivoBean.fechaFin}" 
+                                showOn="button" pattern="dd/MM/yyyy"/>
+                    <p:spacer height="15"/>
+                    <h:commandButton value="Ver Data" actionListener="#{calidadDispositivoBean.populateLlamadas}"/>
+                    <p:spacer style="width: 10px;"/>
+                    <h:commandButton value="Ver Gráfico" disabled="#{calidadDispositivoBean.chartButtonDisable}" 
+                                     actionListener="#{calidadDispositivoBean.muestraGrafico}"/>
+                </h:panelGrid>
+                <br/><br/>
+                
+                <h:panelGroup id="panelTable" rendered="#{calidadDispositivoBean.showTable}">
+                    <p:dataTable value="#{calidadDispositivoBean.reporteData}" var="llamada" style="width: 79%;margin-left: 85px;"
+                                 paginator="true" rows="10"  
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                 rowsPerPageTemplate="5,10,15"
+                                 paginatorPosition="bottom">
+                        <f:facet name="header">
+                            <p  style="text-align: center">Calidad de Atención por Dispositivo</p>
+                        </f:facet><br/>
+                        <p:column headerText="Dispositivo">
+                            <h:outputText value="#{llamada.rango}"/>
+                        </p:column>
+                        <p:column headerText="Buenas">
+                            <h:outputText value="#{llamada.dominio}"/>
+                        </p:column>
+                        
+                    </p:dataTable>
+                </h:panelGroup>
+                <br/><br/>
+                <h:panelGroup id="panelChart" rendered="#{calidadDispositivoBean.showChart}">
+                    <p:barChart value="#{calidadDispositivoBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="chart"
+                                title="Calidad de Atención por Dispositivo" style="width: 80%; margin-left: 85px;" extender="customExtender" />
+                    <br/>
+                    <h:panelGrid columns="3">
+                    <h:commandButton value="Export. PDF"  actionListener="#{calidadDispositivoBean.exportarReportePDF}" style="margin-left:485px"/>
+                    <p:spacer style="width: 10px;"/>
+                    <h:commandButton value="Export. Excel"  actionListener="#{calidadDispositivoBean.exportarReporteXLS}"/>
+                </h:panelGrid>
+                </h:panelGroup>
+                
+                
+            </h:form>
+        </p:fieldset>
+    </ui:define>
+
+    <ui:define name="status">
+        status
+    </ui:define>
+
+</ui:composition>
+
+
+

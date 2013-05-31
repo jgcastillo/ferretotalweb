@@ -1,14 +1,82 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="./../../WEB-INF/templates/layout.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../../WEB-INF/templates/layout.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="title">
-        title
+        <title>Tiempos de Atención por FerreAsesor</title>
     </ui:define>
 
     <ui:define name="content">
-        content
+        <p:fieldset>
+            <f:facet name="legend">
+                <h3>
+                    <h:outputText value="Tiempos de Atención por FerreAsesor"/>
+                </h3>
+            </f:facet>
+
+            <h:form id="form"><br/>
+                <h:panelGrid columns="8">
+                    <h:outputLabel value="Fecha inicio: " for="fechaInicio"/>
+                    <p:calendar id="fechaInicio" value="#{tiempoAsesorBean.fechaInicio}" 
+                                showOn="button" pattern="dd/MM/yyyy"/>
+                    <h:outputLabel value="Fecha fin: " for="fechaFin"/>
+                    <p:calendar id="fechaFin" value="#{tiempoAsesorBean.fechaFin}" 
+                                showOn="button" pattern="dd/MM/yyyy"/>
+                    <p:spacer height="15"/>
+                    <h:commandButton value="Ver Data" actionListener="#{tiempoAsesorBean.populateLlamadas}"/>
+                    <p:spacer style="width: 10px;"/>
+                    <h:commandButton value="Ver Gráfico" disabled="#{tiempoAsesorBean.chartButtonDisable}" 
+                                     actionListener="#{tiempoAsesorBean.muestraGrafico}"/>
+                </h:panelGrid>
+                <br/><br/>
+                
+                <h:panelGroup id="panelTable" rendered="#{tiempoAsesorBean.showTable}">
+                    <p:dataTable value="#{tiempoAsesorBean.reporteData}" var="llamada" style="width: 79%;margin-left: 85px;"
+                                 paginator="true" rows="10"  
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                 rowsPerPageTemplate="5,10,15"
+                                 paginatorPosition="bottom">
+                        <f:facet name="header">
+                            <p  style="text-align: center">Tiempos de Atención por FerreAsesor</p>
+                        </f:facet><br/>
+                        <p:column headerText="FerreAsesor">
+                            <h:outputText value="#{llamada.rango}"/>
+                        </p:column>
+                        <p:column headerText="Tiempo Mínimo">
+                            <h:outputText value="#{llamada.dominio}"/>
+                        </p:column>
+<!--                        <p:column headerText="Tiempo Promedio">
+                            <h:outputText value="#{llamada.dominio}"/>
+                        </p:column>
+                        <p:column headerText="Tiempo Máximo">
+                            <h:outputText value="#{llamada.dominio}"/>
+                        </p:column>-->
+                        
+                    </p:dataTable>
+                </h:panelGroup>
+                <br/><br/>
+                <h:panelGroup id="panelChart" rendered="#{tiempoAsesorBean.showChart}">
+                    <p:barChart value="#{tiempoAsesorBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="chart"
+                                title="Tiempos de Atención por FerreAsesor" style="width: 80%; margin-left: 85px;" extender="customExtender" />
+<!--                                        <fieldset>
+                                            <p:graphicImage value="#{tiempoAsesorBean.chart}"/>
+                                        </fieldset>-->
+                    <br/>
+                    <h:panelGrid columns="3">
+                    <h:commandButton value="Export. PDF"  actionListener="#{tiempoAsesorBean.exportarReportePDF}" style="margin-left:485px"/>
+                    <p:spacer style="width: 10px;"/>
+                    <h:commandButton value="Export. Excel"  actionListener="#{tiempoAsesorBean.exportarReporteXLS}"/>
+                </h:panelGrid>
+                </h:panelGroup>
+                
+                
+            </h:form>
+        </p:fieldset>
     </ui:define>
 
     <ui:define name="status">
@@ -16,3 +84,4 @@
     </ui:define>
 
 </ui:composition>
+

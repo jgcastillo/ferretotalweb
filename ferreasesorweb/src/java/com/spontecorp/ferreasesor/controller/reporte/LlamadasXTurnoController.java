@@ -1,5 +1,6 @@
 package com.spontecorp.ferreasesor.controller.reporte;
 
+import com.spontecorp.ferreasesor.controller.chart.BarChart;
 import com.spontecorp.ferreasesor.entity.Turno;
 import com.spontecorp.ferreasesor.jpa.ext.LlamadaFacadeExt;
 import java.io.Serializable;
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
+import org.primefaces.model.StreamedContent;
 
 /**
  *
@@ -16,14 +18,24 @@ import javax.faces.event.ActionEvent;
 @SessionScoped
 public class LlamadasXTurnoController extends LlamadaReporteAbstract implements Serializable {
     
+    private String nombreReporte = "Cantidad de Llamadas por Turno";
+    private String nombreRango = "Turno";
+    private String nombreDominio = "Cantidad";
+    
     @Override
     public void populateLlamadas(ActionEvent actionEvent) {
         LlamadaFacadeExt facade = new LlamadaFacadeExt();
-
-        getFechasVacias();
-        int query = ReporteHelper.LLAMADAS_TURNO;
-        result = facade.findLlamadas(query, fechaInicio, fechaFin);
         reporteData = new ArrayList<>();
+
+        //Verifico las fechas
+        getFechasVacias();
+        //Seteo los Datos del Reporte
+        setNombreReporte(nombreReporte);
+        setNombreRango(nombreRango);
+        setNombreDominio(nombreDominio);
+        //Seteo la busqueda
+        setResult(facade.findLlamadas(ReporteHelper.LLAMADAS_TURNO, fechaInicio, fechaFin));
+        
         for (Object[] array : result) {
             ReporteHelper helper = new ReporteHelper();
             Turno turno = (Turno)array[0];
@@ -34,6 +46,15 @@ public class LlamadasXTurnoController extends LlamadaReporteAbstract implements 
 
         showTable = true;
         chartButtonDisable = false;
+    }
+
+    @Override
+    public StreamedContent getChart() {
+        LlamadaFacadeExt facade = new LlamadaFacadeExt();
+        BarChart barChart = new BarChart(nombreReporte, nombreRango, nombreDominio);
+        barChart.setResult(getResult());
+        barChart.createDataset();
+        return barChart.getBarChart();
     }
 
 }

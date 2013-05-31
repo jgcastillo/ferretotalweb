@@ -35,6 +35,11 @@
                         <p:menuitem value="Atención por FerreAsesor" action="/gerente/reportes/tiempoXasesor.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-contact" />
                         <p:menuitem value="Atención por Turno" action="/gerente/reportes/tiempoXturno.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-contact" />
                     </p:submenu>
+                     <p:submenu label="Reportes Calidad">
+                        <p:menuitem value="Calidad por Dispositivo" action="/gerente/reportes/calidadXdispositivo.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-contact" />
+                        <p:menuitem value="Calidad por FerreAsesor" action="/gerente/reportes/calidadXasesor.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-contact" />
+                        <p:menuitem value="Calidad por Turno" action="/gerente/reportes/calidadXturno.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-contact" />
+                    </p:submenu>
                     <p:submenu label="Navegación">
                         <p:menuitem value="Principal" action="/main.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-home" />
                         <p:menuitem value="Logout" action="#{loginBean.logout}" icon="ui-icon-power"/>

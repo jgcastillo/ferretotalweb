@@ -19,32 +19,31 @@
                 </h3>
             </f:facet>
 
-            <h:form id="form">
-                <h:panelGrid columns="4">
+            <h:form id="form"><br/>
+                <h:panelGrid columns="8">
                     <h:outputLabel value="Fecha inicio: " for="fechaInicio"/>
                     <p:calendar id="fechaInicio" value="#{totalLlamadasBean.fechaInicio}" 
                                 showOn="button" pattern="dd/MM/yyyy"/>
                     <h:outputLabel value="Fecha fin: " for="fechaFin"/>
                     <p:calendar id="fechaFin" value="#{totalLlamadasBean.fechaFin}" 
                                 showOn="button" pattern="dd/MM/yyyy"/>
-                </h:panelGrid>
-                <p:spacer height="10"/>
-                <h:panelGrid columns="3">
+                    <p:spacer height="15"/>
                     <h:commandButton value="Ver Data" actionListener="#{totalLlamadasBean.populateLlamadas}"/>
-                    <p:spacer style="width: 20px;"/>
+                    <p:spacer style="width: 10px;"/>
                     <h:commandButton value="Ver Gráfico" disabled="#{totalLlamadasBean.chartButtonDisable}" 
                                      actionListener="#{totalLlamadasBean.muestraGrafico}"/>
                 </h:panelGrid>
-                <p:spacer height="10"/>
+                <br/><br/>
+                
                 <h:panelGroup id="panelTable" rendered="#{totalLlamadasBean.showTable}">
-                    <p:dataTable value="#{totalLlamadasBean.reporteData}" var="llamada" style="width: 65%;"
+                    <p:dataTable value="#{totalLlamadasBean.reporteData}" var="llamada" style="width: 79%;margin-left: 85px;"
                                  paginator="true" rows="10"  
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                                  rowsPerPageTemplate="5,10,15"
                                  paginatorPosition="bottom">
                         <f:facet name="header">
-                            Total Llamadas entre Fechas
-                        </f:facet>
+                            <p  style="text-align: center">Total Llamadas entre Fechas</p>
+                        </f:facet><br/>
                         <p:column headerText="Fecha">
                             <h:outputText value="#{llamada.rango}"/>
                         </p:column>
@@ -53,14 +52,22 @@
                         </p:column>
                     </p:dataTable>
                 </h:panelGroup>
-                <br/>
+                <br/><br/>
                 <h:panelGroup id="panelChart" rendered="#{totalLlamadasBean.showChart}">
-                    <p:barChart value="#{totalLlamadasBean.categoryModel}" legendPosition="ne"
-                                title="Total Llamadas entre Fechas" style="width: 85%"/>
-                    <fieldset>
-                        <p:graphicImage value="#{totalLlamadasBean.chart}"/>
-                    </fieldset>
+                    <p:barChart value="#{totalLlamadasBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="chart"
+                                title="Total Llamadas entre Fechas" style="width: 80%; margin-left: 85px;" extender="customExtender" />
+<!--                                        <fieldset>
+                                            <p:graphicImage value="#{totalLlamadasBean.chart}"/>
+                                        </fieldset>-->
+                    <br/>
+                    <h:panelGrid columns="3">
+                    <h:commandButton value="Export. PDF"  actionListener="#{totalLlamadasBean.exportarReportePDF}" style="margin-left:485px"/>
+                    <p:spacer style="width: 10px;"/>
+                    <h:commandButton value="Export. Excel"  actionListener="#{totalLlamadasBean.exportarReporteXLS}"/>
+                </h:panelGrid>
                 </h:panelGroup>
+                
+                
             </h:form>
         </p:fieldset>
     </ui:define>

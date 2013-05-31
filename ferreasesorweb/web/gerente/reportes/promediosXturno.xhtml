@@ -19,44 +19,57 @@
                 </h3>
             </f:facet>
 
-            <h:form id="form">
-                <h:panelGrid columns="4">
+            <h:form id="form"><br/>
+                <h:panelGrid columns="8">
                     <h:outputLabel value="Fecha inicio: " for="fechaInicio"/>
                     <p:calendar id="fechaInicio" value="#{promedioXturnoBean.fechaInicio}" 
                                 showOn="button" pattern="dd/MM/yyyy"/>
                     <h:outputLabel value="Fecha fin: " for="fechaFin"/>
                     <p:calendar id="fechaFin" value="#{promedioXturnoBean.fechaFin}" 
                                 showOn="button" pattern="dd/MM/yyyy"/>
-                </h:panelGrid>
-                <p:spacer height="10"/>
-                <h:panelGrid columns="3">
+                    <p:spacer height="15"/>
                     <h:commandButton value="Ver Data" actionListener="#{promedioXturnoBean.populateLlamadas}"/>
                     <p:spacer style="width: 20px;"/>
                     <h:commandButton value="Ver Gráfico" disabled="#{promedioXturnoBean.chartButtonDisable}" 
                                      actionListener="#{promedioXturnoBean.muestraGrafico}"/>
                 </h:panelGrid>
-                <p:spacer height="10"/>
+                <br/><br/>
+
                 <h:panelGroup id="panelTable" rendered="#{promedioXturnoBean.showTable}">
-                    <p:dataTable value="#{promedioXturnoBean.reporteData}" var="llamada" style="width: 65%;"
+                    <p:dataTable value="#{promedioXturnoBean.reporteData}" var="llamada" style="width: 79%;margin-left: 85px;"
                                  paginator="true" rows="10"  
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                                  rowsPerPageTemplate="5,10,15"
                                  paginatorPosition="bottom">
                         <f:facet name="header">
-                            Promedio de Llamadas por Turno entre Fechas
+                            <p  style="text-align: center">Promedio de Llamadas por Turno entre Fechas</p>
                         </f:facet>
-                        <p:column headerText="Fecha">
+                        <p:column headerText="Turno">
                             <h:outputText value="#{llamada.rango}"/>
                         </p:column>
-                        <p:column headerText="Cantidad">
+                        <p:column headerText="Promedio">
                             <h:outputText value="#{llamada.dominio}"/>
                         </p:column>
                     </p:dataTable>
                 </h:panelGroup>
-                <br/>
+                <br/><br/>
+
                 <h:panelGroup id="panelChart" rendered="#{promedioXturnoBean.showChart}">
-                    <p:barChart value="#{promedioXturnoBean.categoryModel}" legendPosition="ne"
-                                title="Promedio de Llamadas por Turno entre Fechas" style="width: 85%"/>
+                    <p:barChart value="#{promedioXturnoBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="chart"
+                                title="Promedio de Llamadas por Turno entre Fechas" style="width: 80%; margin-left: 85px;" extender="customExtender"/>
+                    <br/>
+                    
+<!--                    <fieldset>
+                                            <p:graphicImage value="#{promedioXturnoBean.chart}"/>
+                                        </fieldset>
+                    -->
+                    <h:panelGrid columns="3">
+                        <h:commandButton value="Export. PDF"  actionListener="#{promedioXturnoBean.exportarReportePDF}" style="margin-left:485px"/>
+                        <p:spacer style="width: 10px;"/>
+                        <h:commandButton value="Export. Excel"  actionListener="#{promedioXturnoBean.exportarReporteXLS}"/>
+                    </h:panelGrid>
+                    
+                    
                 </h:panelGroup>
             </h:form>
         </p:fieldset>

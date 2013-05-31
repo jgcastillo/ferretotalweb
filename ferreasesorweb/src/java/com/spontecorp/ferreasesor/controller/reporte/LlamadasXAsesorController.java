@@ -1,15 +1,14 @@
 package com.spontecorp.ferreasesor.controller.reporte;
 
+import com.spontecorp.ferreasesor.controller.chart.BarChart;
 import com.spontecorp.ferreasesor.entity.Asesor;
 import com.spontecorp.ferreasesor.jpa.ext.LlamadaFacadeExt;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
+import org.primefaces.model.StreamedContent;
 
 /**
  *
@@ -19,14 +18,24 @@ import javax.faces.event.ActionEvent;
 @SessionScoped
 public class LlamadasXAsesorController extends LlamadaReporteAbstract implements Serializable{
     
+    private String nombreReporte = "Cantidad de Llamadas por Persona";
+    private String nombreRango = "FerreAsesor";
+    private String nombreDominio = "Cantidad";
+    
     @Override
     public void populateLlamadas(ActionEvent actionEvent) {
         LlamadaFacadeExt facade = new LlamadaFacadeExt();
-
-        getFechasVacias();
-        int query = ReporteHelper.LLAMADAS_ASESOR;
-        result = facade.findLlamadas(query, fechaInicio, fechaFin);
         reporteData = new ArrayList<>();
+        
+        //Verifico las fechas
+        getFechasVacias();
+        //Seteo los Datos del Reporte
+        setNombreReporte(nombreReporte);
+        setNombreRango(nombreRango);
+        setNombreDominio(nombreDominio);
+        //Seteo la busqueda
+        setResult(facade.findLlamadas(ReporteHelper.LLAMADAS_ASESOR, fechaInicio, fechaFin));
+        
         for (Object[] array : result) {
             ReporteHelper helper = new ReporteHelper();
             Asesor asesor = (Asesor)array[0];
@@ -37,6 +46,15 @@ public class LlamadasXAsesorController extends LlamadaReporteAbstract implements
 
         showTable = true;
         chartButtonDisable = false;
+    }
+
+    @Override
+    public StreamedContent getChart() {
+        LlamadaFacadeExt facade = new LlamadaFacadeExt();
+        BarChart barChart = new BarChart(nombreReporte, nombreRango, nombreDominio);
+        barChart.setResult(getResult());
+        barChart.createDataset();
+        return barChart.getBarChart();
     }
 
 }
