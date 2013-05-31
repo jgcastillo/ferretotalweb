@@ -13,210 +13,60 @@
 
     <ui:define name="content">
         <h:form id="formContent">
-            
+
         </h:form>
     </ui:define>
 
     <ui:define name="status">
 
-        <style type="text/css">
-            .display11 {
-                font-size: 28px !important;
-                font-weight: bold;
-                font-family: arial black;
-                text-align: left;
-                color: white;
-                background: #52D737; 
-                width:160px; 
-                height: 100px;
-                background-image: url(resources/images/green.png)
-            }
-            .display12 {
-                font-size: 28px !important;
-                font-weight: bold;
-                font-family: arial black;
-                text-align: left;
-                color: white;
-                background: #F5E663; 
-                width:160px; 
-                height: 100px;
-                background-image: url(resources/images/yellow.png)
-            }
-            .display13 {
-                font-size: 28px !important;
-                font-weight: bold;
-                font-family: arial black;
-                text-align: left;
-                color: white;
-                background: #F93F40; 
-                width:160px; 
-                height: 100px;
-                background-image: url(resources/images/blue.png)
-            }
-
-            .display21 {
-                font-size: 28px !important;
-                font-weight: bold;
-                font-family: arial black;
-                text-align: left;
-                color: white;
-                background: #52D737; 
-                width:160px; 
-                height: 100px;
-                background-image: url(resources/images/green.png)
-            }
-            .display22 {
-                font-size: 28px !important;
-                font-weight: bold;
-                font-family: arial black;
-                text-align: left;
-                color: white;
-                background: #F5E663; 
-                width:160px; 
-                height: 100px;
-                background-image: url(resources/images/yellow.png)
-            }
-            .display23 {
-                font-size: 28px !important;
-                font-weight: bold;
-                font-family: arial black;
-                text-align: left;
-                color: white;
-                background: #F93F40; 
-                width:160px; 
-                height: 100px;
-                background-image: url(resources/images/blue.png)
-            }
-
-            .display31 {
-                font-size: 28px !important;
-                font-weight: bold;
-                font-family: arial black;
-                text-align: left;
-                color: white;
-                background: #52D737; 
-                width:160px; 
-                height: 100px;
-                background-image: url(resources/images/green.png)
-            }
-            .display32 {
-                font-size: 28px !important;
-                font-weight: bold;
-                font-family: arial black;
-                text-align: left;
-                color: white;
-                background: #F5E663; 
-                width:160px; 
-                height: 100px;
-                background-image: url(resources/images/yellow.png)
-            }
-            .display33 {
-                font-size: 28px !important;
-                font-weight: bold;
-                font-family: arial black;
-                text-align: left;
-                color: white;
-                background: #F93F40; 
-                width:160px; 
-                height: 100px;
-                background-image: url(resources/images/blue.png)
-            }
-        </style>
-        <script type="text/javascript">
-                        
-            function handleMessage1(data) {
-                
-                var status = data.status;
-                
-                if(status == 1){
-                    $('.display11').html(function() {
-                        $('.display11').show();
-                        return '<p> Boton: ' + data.botonId + '</p> <p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
-                    });
-                }
-                
-                if(status == 2){
-                    $('.display12').html(function() {
-                        $('.display11').hide();
-                        $('.display12').show();
-                        return '<p> Boton: ' + data.botonId + '</p> <p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
-                    });
-                }
-                
-                if(status == 3){
-                    $('.display13').html(function() {
-                        $('.display12').hide();
-                        $('.display13').show();
-                        return '<p> Boton: ' + data.botonId + '</p> <p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
-                    });
-                }
-                
-                if(status == 4){
-                    $('.display13').hide();
-                }
-                
-            }
-            
-            function handleMessage2(data) {
-                $('.display12').html(function() {
-                    $('.display12').show();
-                    return '<p> Boton: ' + data.botonId + '</p> <p>Ubicación: ' + data.ubicacion + '</p><p>tBueno: ' + data.tiempoBueno + '</p><p>tRegular: ' + data.tiempoRegular + '</p>';
-                });  
-            }
-            
-            function handleMessage3(data) {
-                $('.display13').html(function() {
-                    $('.display13').show();
-                    return '<p> Boton: ' + data.botonId + '</p> <p>Ubicación: ' + data.ubicacion + '</p><p>tBueno: ' + data.tiempoBueno + '</p><p>tRegular: ' + data.tiempoRegular + '</p>';
-                });  
-            }
-        </script>
-
-
+        <h:outputStylesheet library="css" name="display.css"/>
+        <h:outputScript library="js" name="handleMessage.js"/>
 
         <h:outputText value="Aqui va una alarma"/>
         <h:form id="form">
             <p:fieldset>
                 <h:panelGrid id="principal">
 
-                    <h:panelGrid id="panel_11" styleClass="ui-widget display11" style="display: none;">
-                        <h:outputText id="out11" value="#{alarmaBean.botonId}"/>
-                    </h:panelGrid>
-                    <h:panelGrid id="panel_12" styleClass="ui-widget display12" style="display: none;">
-                        <h:outputText id="out12" value="#{alarmaBean.botonId}"/>
-                    </h:panelGrid>
-                    <h:panelGrid id="panel_13" styleClass="ui-widget display13" style="display: none;">
-                        <h:outputText id="out13" value="#{alarmaBean.botonId}"/>
-                    </h:panelGrid>
+                    <c:forEach begin="1" end="4" varStatus="status">
+                        <h:panelGrid id="panel_11" styleClass="ui-widget display#{status.index}1" style="display: none;">
+                            <h:outputText id="out11" value="#{status.index}"/>
+                        </h:panelGrid>
+                        <h:panelGrid id="panel_12" styleClass="ui-widget display#{status.index}2" style="display: none;">
+                            <h:outputText id="out12" value="#{status.index}"/>
+                        </h:panelGrid>
+                        <h:panelGrid id="panel_13" styleClass="ui-widget display#{status.index}3" style="display: none;">
+                            <h:outputText id="out13" value="#{status.index}"/>
+                        </h:panelGrid>
+                    </c:forEach>
 
-                    <h:panelGrid id="panel_21" styleClass="ui-widget display21" style="display: none;">
-                        <h:outputText id="out21" value="#{alarmaBean.botonId}"/>
-                    </h:panelGrid>
-                    <h:panelGrid id="panel_22" styleClass="ui-widget display22" style="display: none;">
-                        <h:outputText id="out22" value="#{alarmaBean.botonId}"/>
-                    </h:panelGrid>
-                    <h:panelGrid id="panel_23" styleClass="ui-widget display23" style="display: none;">
-                        <h:outputText id="out23" value="#{alarmaBean.botonId}"/>
-                    </h:panelGrid>
-
-                    <h:panelGrid id="panel_31" styleClass="ui-widget display31" style="display: none;">
-                        <h:outputText id="out31" value="#{alarmaBean.botonId}"/>
-                    </h:panelGrid>
-                    <h:panelGrid id="panel_32" styleClass="ui-widget display32" style="display: none;">
-                        <h:outputText id="out32" value="#{alarmaBean.botonId}"/>
-                    </h:panelGrid>
-                    <h:panelGrid id="panel_33" styleClass="ui-widget display33" style="display: none;">
-                        <h:outputText id="out33" value="#{alarmaBean.botonId}"/>
-                    </h:panelGrid>
+                    <!--                    <h:panelGrid id="panel_21" styleClass="ui-widget display21" style="display: none;">
+                                            <h:outputText id="out21" value="#{alarmaBean.botonId}"/>
+                                        </h:panelGrid>
+                                        <h:panelGrid id="panel_22" styleClass="ui-widget display22" style="display: none;">
+                                            <h:outputText id="out22" value="#{alarmaBean.botonId}"/>
+                                        </h:panelGrid>
+                                        <h:panelGrid id="panel_23" styleClass="ui-widget display23" style="display: none;">
+                                            <h:outputText id="out23" value="#{alarmaBean.botonId}"/>
+                                        </h:panelGrid>
+                    
+                                        <h:panelGrid id="panel_31" styleClass="ui-widget display31" style="display: none;">
+                                            <h:outputText id="out31" value="#{alarmaBean.botonId}"/>
+                                        </h:panelGrid>
+                                        <h:panelGrid id="panel_32" styleClass="ui-widget display32" style="display: none;">
+                                            <h:outputText id="out32" value="#{alarmaBean.botonId}"/>
+                                        </h:panelGrid>
+                                        <h:panelGrid id="panel_33" styleClass="ui-widget display33" style="display: none;">
+                                            <h:outputText id="out33" value="#{alarmaBean.botonId}"/>
+                                        </h:panelGrid>-->
 
                 </h:panelGrid>
             </p:fieldset>
 
         </h:form>  
 
-        <p:socket onMessage="handleMessage1" channel="/channelBoton1"/>
-        <p:socket onMessage="handleMessage2" channel="/channelBoton2"/>
-        <p:socket onMessage="handleMessage3" channel="/channelBoton3"/>
+        <ui:repeat value="#{alarmaBean.botones}" var="boton" varStatus="status">
+            <p:socket onMessage="handleMessage#{status.index+1}" channel="/channel#{boton.id}"/>
+        </ui:repeat>
 
         <!--         Para visualizar el cronómetro   
                 <div class="recuadro3">  

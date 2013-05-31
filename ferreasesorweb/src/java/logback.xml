@@ -4,7 +4,7 @@
                timeReference="contextBirth"/>
     
     <appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>ferrelog.log</file>
+        <file>c:\ferreLog\ferrelog.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
             <fileNamePattern>ferrelog.%d{yyyy-MM-dd}.log</fileNamePattern>
