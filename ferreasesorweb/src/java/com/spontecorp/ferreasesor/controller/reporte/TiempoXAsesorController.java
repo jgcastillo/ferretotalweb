@@ -121,6 +121,7 @@ public class TiempoXAsesorController extends LlamadaReporteAbstract implements S
 
         showTable = true;
         chartButtonDisable = false;
+        chartButtonStackedDisable = false;
     }
 
     @Override

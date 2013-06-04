@@ -20,7 +20,7 @@
             </f:facet>
 
             <h:form id="form"><br/>
-                <h:panelGrid columns="8">
+                <h:panelGrid columns="10">
                     <h:outputLabel value="Fecha inicio: " for="fechaInicio"/>
                     <p:calendar id="fechaInicio" value="#{calidadDispositivoBean.fechaInicio}" 
                                 showOn="button" pattern="dd/MM/yyyy"/>
@@ -28,10 +28,13 @@
                     <p:calendar id="fechaFin" value="#{calidadDispositivoBean.fechaFin}" 
                                 showOn="button" pattern="dd/MM/yyyy"/>
                     <p:spacer height="15"/>
-                    <h:commandButton value="Ver Data" actionListener="#{calidadDispositivoBean.populateLlamadas}"/>
+                    <h:commandButton value="Ver Data" actionListener="#{calidadDispositivoBean.populateLlamadas}" title="Ver Data"/>
                     <p:spacer style="width: 10px;"/>
-                    <h:commandButton value="Ver Gráfico" disabled="#{calidadDispositivoBean.chartButtonDisable}" 
-                                     actionListener="#{calidadDispositivoBean.muestraGrafico}"/>
+                    <h:commandButton value="Gráfico Barras" disabled="#{calidadDispositivoBean.chartButtonDisable}" 
+                                     actionListener="#{calidadDispositivoBean.muestraGrafico}" title="Gráfico Barras"/>
+                    <p:spacer style="width: 10px;"/>
+                    <h:commandButton value="Gráfico Stacked" disabled="#{tiempoDispositivoBean.chartButtonDisable}"  
+                                     actionListener="#{tiempoDispositivoBean.muestraStackedGrafico}" title="Gráfico Stacked"/>
                 </h:panelGrid>
                 <br/><br/>
                 
@@ -64,12 +67,22 @@
                                 title="Calidad de Atención por Dispositivo" style="width: 80%; margin-left: 85px;" extender="customExtender" />
                     <br/>
                     <h:panelGrid columns="3">
-                    <h:commandButton value="Export. PDF"  actionListener="#{calidadDispositivoBean.exportarReportePDF}" style="margin-left:485px"/>
+                    <h:commandButton value="Exportar PDF"  actionListener="#{calidadDispositivoBean.exportarReportePDF}" style="margin-left:485px" title="Exportar a PDF"/>
                     <p:spacer style="width: 10px;"/>
-                    <h:commandButton value="Export. Excel"  actionListener="#{calidadDispositivoBean.exportarReporteXLS}"/>
+                    <h:commandButton value="Exportar Excel"  actionListener="#{calidadDispositivoBean.exportarReporteXLS}" title="Exportar a Excel"/>
                 </h:panelGrid>
                 </h:panelGroup>
                 
+                <h:panelGroup id="panelStackedChart" rendered="#{calidadDispositivoBean.showStackedChart}">
+                    <p:barChart value="#{calidadDispositivoBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="stackedChart" stacked="true"
+                                title="Tiempos de Atención por Dispositivo" style="width: 80%; margin-left: 85px;" extender="customExtender" />
+                    <br/>
+                    <h:panelGrid columns="3">
+                        <h:commandButton value="Exportar PDF"  actionListener="#{calidadDispositivoBean.exportarReportePDF}" style="margin-left:485px" title="Exportar a PDF"/>
+                        <p:spacer style="width: 10px;"/>
+                        <h:commandButton value="Exportar Excel"  actionListener="#{calidadDispositivoBean.exportarReporteXLS}" title="Exportar a Excel"/>
+                    </h:panelGrid>
+                </h:panelGroup>
                 
             </h:form>
         </p:fieldset>

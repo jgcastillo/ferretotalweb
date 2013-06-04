@@ -28,10 +28,10 @@
                     <p:calendar id="fechaFin" value="#{promedioXturnoBean.fechaFin}" 
                                 showOn="button" pattern="dd/MM/yyyy"/>
                     <p:spacer height="15"/>
-                    <h:commandButton value="Ver Data" actionListener="#{promedioXturnoBean.populateLlamadas}"/>
+                    <h:commandButton value="Ver Data" actionListener="#{promedioXturnoBean.populateLlamadas}" title="Ver Data"/>
                     <p:spacer style="width: 20px;"/>
-                    <h:commandButton value="Ver Gráfico" disabled="#{promedioXturnoBean.chartButtonDisable}" 
-                                     actionListener="#{promedioXturnoBean.muestraGrafico}"/>
+                    <h:commandButton value="Gráfico Barras" disabled="#{promedioXturnoBean.chartButtonDisable}" 
+                                     actionListener="#{promedioXturnoBean.muestraGrafico}" title="Gráfico Barras"/>
                 </h:panelGrid>
                 <br/><br/>
 
@@ -64,9 +64,9 @@
                                         </fieldset>
                     -->
                     <h:panelGrid columns="3">
-                        <h:commandButton value="Export. PDF"  actionListener="#{promedioXturnoBean.exportarReportePDF}" style="margin-left:485px"/>
+                        <h:commandButton value="Exportar PDF"  actionListener="#{promedioXturnoBean.exportarReportePDFPromedios}" style="margin-left:485px" title="Exportar a PDF"/>
                         <p:spacer style="width: 10px;"/>
-                        <h:commandButton value="Export. Excel"  actionListener="#{promedioXturnoBean.exportarReporteXLS}"/>
+                        <h:commandButton value="Exportar Excel"  actionListener="#{promedioXturnoBean.exportarReporteXLSPromedios}" title="Exportar a Excel"/>
                     </h:panelGrid>
                     
                     

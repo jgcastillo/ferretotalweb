@@ -28,10 +28,10 @@
                     <p:calendar id="fechaFin" value="#{llamadasXdispBean.fechaFin}" 
                                 showOn="button" pattern="dd/MM/yyyy"/>
                     <p:spacer height="15"/>
-                    <h:commandButton value="Ver Data" actionListener="#{llamadasXdispBean.populateLlamadas}"/>
+                    <h:commandButton value="Ver Data" actionListener="#{llamadasXdispBean.populateLlamadas}" title="Ver Data"/>
                     <p:spacer style="width: 10px;"/>
-                    <h:commandButton value="Ver Gráfico" disabled="#{llamadasXdispBean.chartButtonDisable}" 
-                                     actionListener="#{llamadasXdispBean.muestraGrafico}"/>
+                    <h:commandButton value="Gráfico Barras" disabled="#{llamadasXdispBean.chartButtonDisable}" 
+                                     actionListener="#{llamadasXdispBean.muestraGrafico}" title="Gráfico Barras"/>
                 </h:panelGrid>
                 <br/><br/>
                 <p:spacer height="10"/>
@@ -57,9 +57,9 @@
                     <p:barChart value="#{llamadasXdispBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="chart"
                                 title="Llamadas por Dispositivo entre Fechas" style="width: 80%; margin-left: 85px;" extender="customExtender"/>
                     <h:panelGrid columns="3">
-                        <h:commandButton value="Export. PDF"  actionListener="#{llamadasXdispBean.exportarReportePDF}" style="margin-left:485px"/>
+                        <h:commandButton value="Export. PDF"  actionListener="#{llamadasXdispBean.exportarReportePDF}" style="margin-left:485px" title="Exportar a PDF"/>
                         <p:spacer style="width: 10px;"/>
-                        <h:commandButton value="Export. Excel"  actionListener="#{llamadasXdispBean.exportarReporteXLS}"/>
+                        <h:commandButton value="Export. Excel"  actionListener="#{llamadasXdispBean.exportarReporteXLS}" title="Exportar a Excel"/>
                     </h:panelGrid>
                 </h:panelGroup>
             </h:form>

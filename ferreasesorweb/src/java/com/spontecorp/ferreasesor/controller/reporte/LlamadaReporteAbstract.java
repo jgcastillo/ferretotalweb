@@ -35,7 +35,9 @@ public abstract class LlamadaReporteAbstract {
     protected List<Llamada> totalLlamadas;
     protected boolean showTable = false;
     protected boolean showChart = false;
+    protected boolean showStackedChart = false;
     protected boolean chartButtonDisable = true;
+    protected boolean chartButtonStackedDisable = true;
     protected List<Object[]> result;
     protected List<ReporteHelper> reporteData;
     protected SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -77,8 +79,16 @@ public abstract class LlamadaReporteAbstract {
         return showChart;
     }
 
+    public boolean isShowStackedChart() {
+        return showStackedChart;
+    }
+
     public boolean isChartButtonDisable() {
         return chartButtonDisable;
+    }
+
+    public boolean isChartButtonStackedDisable() {
+        return chartButtonStackedDisable;
     }
 
     public List<ReporteHelper> getReporteData() {
@@ -153,7 +163,6 @@ public abstract class LlamadaReporteAbstract {
         this.diasEntreFechas = diasEntreFechas;
     }
 
- 
     /**
      * Verificar si las fechas son nulas
      */
@@ -171,7 +180,8 @@ public abstract class LlamadaReporteAbstract {
 
     /**
      * Metodo para Generar la Tabla de Datos
-     * @param actionEvent 
+     *
+     * @param actionEvent
      */
     public abstract void populateLlamadas(ActionEvent actionEvent);
 
@@ -179,14 +189,20 @@ public abstract class LlamadaReporteAbstract {
 
     public void muestraGrafico(ActionEvent event) {
         createCategoryModel();
+        showStackedChart = false;
         showChart = true;
+    }
+
+    public void muestraStackedGrafico(ActionEvent event) {
+        createCategoryModel();
+        showChart = false;
+        showStackedChart = true;
     }
 
     /**
      * Metodo para Generar el Grafico en PrimeFaces
      */
     public abstract void createCategoryModel();
-
 
     /**
      * Exportar Reporte .PDF
@@ -199,39 +215,71 @@ public abstract class LlamadaReporteAbstract {
 
         String extension = "PDF";
         String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportepdf.jasper");
-
-        exportarReporte(extension, jasperFileAddress);
+        setPromedios(false);
+        exportarReporte(extension, jasperFileAddress, promedios);
 
     }
 
     /**
      * Exportar Reporte .XLS
+     *
      * @param actionEvent
      * @throws JRException
-     * @throws IOException 
+     * @throws IOException
      */
     public void exportarReporteXLS(ActionEvent actionEvent) throws JRException, IOException {
 
         String extension = "XLS";
         String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportexls.jasper");
-        
-        exportarReporte(extension, jasperFileAddress);
+        setPromedios(false);
+        exportarReporte(extension, jasperFileAddress, promedios);
+
+    }
+    
+    /**
+     * Exportar Reporte .PDF (promedios)
+     * @param actionEvent
+     * @throws JRException
+     * @throws IOException 
+     */
+    public void exportarReportePDFPromedios(ActionEvent actionEvent) throws JRException, IOException {
+
+        String extension = "PDF";
+        String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportepdf.jasper");
+        setPromedios(true);
+        exportarReporte(extension, jasperFileAddress, promedios);
+
+    }
+    
+    /**
+     * Exportar Reporte .XLS (promedios)
+     * @param actionEvent
+     * @throws JRException
+     * @throws IOException 
+     */
+    public void exportarReporteXLSPromedios(ActionEvent actionEvent) throws JRException, IOException {
+
+        String extension = "XLS";
+        String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportexls.jasper");
+        setPromedios(true);
+        exportarReporte(extension, jasperFileAddress, promedios);
 
     }
 
     /**
      * Exportar Reporte
+     *
      * @param extension
      * @param jasperFileAddress
      * @throws JRException
-     * @throws IOException 
+     * @throws IOException
      */
-    public void exportarReporte(String extension, String jasperFileAddress) throws JRException, IOException {
+    public void exportarReporte(String extension, String jasperFileAddress, boolean promedios) throws JRException, IOException {
 
         List<JasperBean> myList;
         JasperManagement jm = new JasperManagement();
         String logoAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/ferretotallogo.jpg");
-        
+
         try {
             if (promedios == true) {
 
@@ -268,7 +316,7 @@ public abstract class LlamadaReporteAbstract {
                 //cuando el reporte sea de promedios 
                 myList = jm.FillList(rango, dominioP);
                 promedios = false;
-                
+
             } else {
                 //Revisa los casos y llena la lista de jasperbean
                 myList = jm.FillList(result);
@@ -283,7 +331,7 @@ public abstract class LlamadaReporteAbstract {
             parametros.put("cantidad", nombreDominio);
             parametros.put("logo", logoAddress);
 
-            jm.FillReport(parametros, myList, extension, jasperFileAddress);
+            jm.FillReport(parametros, myList, extension, jasperFileAddress, nombreReporte);
 
         } catch (JRException e) {
             Logger.getLogger(LlamadaReporteAbstract.class.getName()).log(Level.SEVERE, null, e);

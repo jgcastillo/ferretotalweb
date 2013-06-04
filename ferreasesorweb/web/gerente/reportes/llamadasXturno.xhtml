@@ -28,10 +28,10 @@
                     <p:calendar id="fechaFin" value="#{llamadasXturnoBean.fechaFin}" 
                                 showOn="button" pattern="dd/MM/yyyy"/>
                     <p:spacer height="15"/>
-                    <h:commandButton value="Ver Data" actionListener="#{llamadasXturnoBean.populateLlamadas}"/>
+                    <h:commandButton value="Ver Data" actionListener="#{llamadasXturnoBean.populateLlamadas}" title="Ver Data"/>
                     <p:spacer style="width: 20px;"/>
-                    <h:commandButton value="Ver Gráfico" disabled="#{llamadasXturnoBean.chartButtonDisable}" 
-                                     actionListener="#{llamadasXturnoBean.muestraGrafico}"/>
+                    <h:commandButton value="Gráfico Barras" disabled="#{llamadasXturnoBean.chartButtonDisable}" 
+                                     actionListener="#{llamadasXturnoBean.muestraGrafico}" title="Gráfico Barras"/>
                 </h:panelGrid>
                 <br/><br/>
 
@@ -58,9 +58,9 @@
                                 title="Llamadas por Turno entre Fechas" style="width: 80%; margin-left: 85px;" extender="customExtender"/>
                     <br/>
                     <h:panelGrid columns="3">
-                        <h:commandButton value="Export. PDF"  actionListener="#{llamadasXturnoBean.exportarReportePDF}" style="margin-left:485px"/>
+                        <h:commandButton value="Exportar PDF"  actionListener="#{llamadasXturnoBean.exportarReportePDF}" style="margin-left:485px" title="Exportar a PDF"/>
                         <p:spacer style="width: 10px;"/>
-                        <h:commandButton value="Export. Excel"  actionListener="#{llamadasXturnoBean.exportarReporteXLS}"/>
+                        <h:commandButton value="Exportar Excel"  actionListener="#{llamadasXturnoBean.exportarReporteXLS}" title="Exportar a Excel"/>
                     </h:panelGrid>
                 </h:panelGroup>
             </h:form>

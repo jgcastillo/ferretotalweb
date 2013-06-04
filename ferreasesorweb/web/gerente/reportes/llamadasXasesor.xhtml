@@ -28,10 +28,10 @@
                     <p:calendar id="fechaFin" value="#{llamadasXasesorBean.fechaFin}" 
                                 showOn="button" pattern="dd/MM/yyyy"/>
                     <p:spacer height="15"/>
-                    <h:commandButton value="Ver Data" actionListener="#{llamadasXasesorBean.populateLlamadas}"/>
+                    <h:commandButton value="Ver Data" actionListener="#{llamadasXasesorBean.populateLlamadas}" title="Ver Data"/>
                     <p:spacer style="width: 20px;"/>
-                    <h:commandButton value="Ver Gráfico" disabled="#{llamadasXasesorBean.chartButtonDisable}" 
-                                     actionListener="#{llamadasXasesorBean.muestraGrafico}"/>
+                    <h:commandButton value="Gráfico Barras" disabled="#{llamadasXasesorBean.chartButtonDisable}" 
+                                     actionListener="#{llamadasXasesorBean.muestraGrafico}" title="Gráfico Barras"/>
                 </h:panelGrid>
                 <br/><br/>
 
@@ -58,9 +58,9 @@
                                 title="Llamadas por FerreAsesor entre Fechas" style="width: 80%; margin-left: 85px;" extender="customExtender"/>
                     <br/>
                     <h:panelGrid columns="3">
-                        <h:commandButton value="Export. PDF"  actionListener="#{llamadasXasesorBean.exportarReportePDF}" style="margin-left:485px"/>
+                        <h:commandButton value="Exportar PDF"  actionListener="#{llamadasXasesorBean.exportarReportePDF}" style="margin-left:485px" title="Exportar a PDF"/>
                         <p:spacer style="width: 10px;"/>
-                        <h:commandButton value="Export. Excel"  actionListener="#{llamadasXasesorBean.exportarReporteXLS}"/>
+                        <h:commandButton value="Exportar Excel"  actionListener="#{llamadasXasesorBean.exportarReporteXLS}" title="Exportar a Excel"/>
                     </h:panelGrid>
                 </h:panelGroup>
             </h:form>

@@ -101,6 +101,7 @@ public class CalidadXDispositivoController extends LlamadaReporteAbstract implem
 
         showTable = true;
         chartButtonDisable = false;
+        chartButtonStackedDisable = false;
     }
 
     @Override

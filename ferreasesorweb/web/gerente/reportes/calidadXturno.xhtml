@@ -20,7 +20,7 @@
             </f:facet>
 
             <h:form id="form"><br/>
-                <h:panelGrid columns="8">
+                <h:panelGrid columns="10">
                     <h:outputLabel value="Fecha inicio: " for="fechaInicio"/>
                     <p:calendar id="fechaInicio" value="#{calidadTurnoBean.fechaInicio}" 
                                 showOn="button" pattern="dd/MM/yyyy"/>
@@ -28,10 +28,13 @@
                     <p:calendar id="fechaFin" value="#{calidadTurnoBean.fechaFin}" 
                                 showOn="button" pattern="dd/MM/yyyy"/>
                     <p:spacer height="15"/>
-                    <h:commandButton value="Ver Data" actionListener="#{calidadTurnoBean.populateLlamadas}"/>
+                    <h:commandButton value="Ver Data" actionListener="#{calidadTurnoBean.populateLlamadas}" title="Ver Data"/>
                     <p:spacer style="width: 10px;"/>
-                    <h:commandButton value="Ver Gráfico" disabled="#{calidadTurnoBean.chartButtonDisable}" 
-                                     actionListener="#{calidadTurnoBean.muestraGrafico}"/>
+                    <h:commandButton value="Gráfico Barras" disabled="#{calidadTurnoBean.chartButtonDisable}" 
+                                     actionListener="#{calidadTurnoBean.muestraGrafico}" title="Gráfico Barras"/>
+                    <p:spacer style="width: 10px;"/>
+                    <h:commandButton value="Gráfico Stacked" disabled="#{tiempoDispositivoBean.chartButtonDisable}"  
+                                     actionListener="#{tiempoDispositivoBean.muestraStackedGrafico}" title="Gráfico Stacked"/>
                 </h:panelGrid>
                 <br/><br/>
                 
@@ -64,9 +67,9 @@
                                 title="Calidad de Atención por Turno" style="width: 80%; margin-left: 85px;" extender="customExtender" />
                     <br/>
                     <h:panelGrid columns="3">
-                    <h:commandButton value="Export. PDF"  actionListener="#{calidadTurnoBean.exportarReportePDF}" style="margin-left:485px"/>
+                    <h:commandButton value="Exportar PDF"  actionListener="#{calidadTurnoBean.exportarReportePDF}" style="margin-left:485px" title="Exportar a PDF"/>
                     <p:spacer style="width: 10px;"/>
-                    <h:commandButton value="Export. Excel"  actionListener="#{calidadTurnoBean.exportarReporteXLS}"/>
+                    <h:commandButton value="Exportar Excel"  actionListener="#{calidadTurnoBean.exportarReporteXLS}" title="Exportar a Excel"/>
                 </h:panelGrid>
                 </h:panelGroup>
                 

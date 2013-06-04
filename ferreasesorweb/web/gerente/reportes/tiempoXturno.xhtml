@@ -20,7 +20,7 @@
             </f:facet>
 
             <h:form id="form"><br/>
-                <h:panelGrid columns="8">
+                <h:panelGrid columns="10">
                     <h:outputLabel value="Fecha inicio: " for="fechaInicio"/>
                     <p:calendar id="fechaInicio" value="#{tiempoTurnoBean.fechaInicio}" 
                                 showOn="button" pattern="dd/MM/yyyy"/>
@@ -28,10 +28,13 @@
                     <p:calendar id="fechaFin" value="#{tiempoTurnoBean.fechaFin}" 
                                 showOn="button" pattern="dd/MM/yyyy"/>
                     <p:spacer height="15"/>
-                    <h:commandButton value="Ver Data" actionListener="#{tiempoTurnoBean.populateLlamadas}"/>
+                    <h:commandButton value="Ver Data" actionListener="#{tiempoTurnoBean.populateLlamadas}" title="Ver Data"/>
                     <p:spacer style="width: 10px;"/>
-                    <h:commandButton value="Ver Gráfico" disabled="#{tiempoTurnoBean.chartButtonDisable}" 
-                                     actionListener="#{tiempoTurnoBean.muestraGrafico}"/>
+                    <h:commandButton value="Gráfico Barras" disabled="#{tiempoTurnoBean.chartButtonDisable}" 
+                                     actionListener="#{tiempoTurnoBean.muestraGrafico}" title="Gráfico Barras"/>
+                    <p:spacer style="width: 10px;"/>
+                    <h:commandButton value="Gráfico Stacked" disabled="#{tiempoDispositivoBean.chartButtonDisable}"  
+                                     actionListener="#{tiempoDispositivoBean.muestraStackedGrafico}" title="Gráfico Stacked"/>
                 </h:panelGrid>
                 <br/><br/>
                 
@@ -65,12 +68,22 @@
                                 title="Tiempos de Atención por Turno" style="width: 80%; margin-left: 85px;" extender="customExtender" />
                     <br/>
                     <h:panelGrid columns="3">
-                    <h:commandButton value="Export. PDF"  actionListener="#{tiempoTurnoBean.exportarReportePDF}" style="margin-left:485px"/>
+                    <h:commandButton value="Export. PDF"  actionListener="#{tiempoTurnoBean.exportarReportePDF}" style="margin-left:485px" title="Exportar a PDF"/>
                     <p:spacer style="width: 10px;"/>
-                    <h:commandButton value="Export. Excel"  actionListener="#{tiempoTurnoBean.exportarReporteXLS}"/>
+                    <h:commandButton value="Export. Excel"  actionListener="#{tiempoTurnoBean.exportarReporteXLS}" title="Exportar a Excel"/>
                 </h:panelGrid>
                 </h:panelGroup>
                 
+                <h:panelGroup id="panelStackedChart" rendered="#{tiempoTurnoBean.showStackedChart}">
+                    <p:barChart value="#{tiempoTurnoBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="stackedChart" stacked="true"
+                                title="Tiempos de Atención por Dispositivo" style="width: 80%; margin-left: 85px;" extender="customExtender" />
+                    <br/>
+                    <h:panelGrid columns="3">
+                        <h:commandButton value="Exportar PDF"  actionListener="#{tiempoTurnoBean.exportarReportePDF}" style="margin-left:485px" title="Exportar a PDF"/>
+                        <p:spacer style="width: 10px;"/>
+                        <h:commandButton value="Exportar Excel"  actionListener="#{tiempoTurnoBean.exportarReporteXLS}" title="Exportar a Excel"/>
+                    </h:panelGrid>
+                </h:panelGroup>
                 
             </h:form>
         </p:fieldset>

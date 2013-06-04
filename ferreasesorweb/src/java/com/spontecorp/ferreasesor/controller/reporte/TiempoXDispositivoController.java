@@ -124,6 +124,7 @@ public class TiempoXDispositivoController extends LlamadaReporteAbstract impleme
 
         showTable = true;
         chartButtonDisable = false;
+        chartButtonStackedDisable = false;
     }
 
     @Override

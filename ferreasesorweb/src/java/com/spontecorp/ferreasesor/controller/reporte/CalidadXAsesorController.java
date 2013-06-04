@@ -100,6 +100,7 @@ public class CalidadXAsesorController extends LlamadaReporteAbstract implements 
 
         showTable = true;
         chartButtonDisable = false;
+        chartButtonStackedDisable = false;
     }
 
     @Override

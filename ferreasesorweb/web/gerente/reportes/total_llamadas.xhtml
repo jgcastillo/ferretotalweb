@@ -28,10 +28,10 @@
                     <p:calendar id="fechaFin" value="#{totalLlamadasBean.fechaFin}" 
                                 showOn="button" pattern="dd/MM/yyyy"/>
                     <p:spacer height="15"/>
-                    <h:commandButton value="Ver Data" actionListener="#{totalLlamadasBean.populateLlamadas}"/>
+                    <h:commandButton value="Ver Data" actionListener="#{totalLlamadasBean.populateLlamadas}" title="Ver Data"/>
                     <p:spacer style="width: 10px;"/>
-                    <h:commandButton value="Ver Gráfico" disabled="#{totalLlamadasBean.chartButtonDisable}" 
-                                     actionListener="#{totalLlamadasBean.muestraGrafico}"/>
+                    <h:commandButton value="Gráfico Barras" disabled="#{totalLlamadasBean.chartButtonDisable}" 
+                                     actionListener="#{totalLlamadasBean.muestraGrafico}" title="Gráfico Barras"/>
                 </h:panelGrid>
                 <br/><br/>
                 
@@ -61,9 +61,9 @@
                                         </fieldset>-->
                     <br/>
                     <h:panelGrid columns="3">
-                    <h:commandButton value="Export. PDF"  actionListener="#{totalLlamadasBean.exportarReportePDF}" style="margin-left:485px"/>
+                    <h:commandButton value="Exportar PDF"  actionListener="#{totalLlamadasBean.exportarReportePDF}" style="margin-left:485px" title="Exportar a PDF"/>
                     <p:spacer style="width: 10px;"/>
-                    <h:commandButton value="Export. Excel"  actionListener="#{totalLlamadasBean.exportarReporteXLS}"/>
+                    <h:commandButton value="Exportar Excel"  actionListener="#{totalLlamadasBean.exportarReporteXLS}" title="Exportar a Excel"/>
                 </h:panelGrid>
                 </h:panelGroup>
                 

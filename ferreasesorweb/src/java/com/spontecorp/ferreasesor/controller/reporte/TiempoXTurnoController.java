@@ -120,6 +120,7 @@ public class TiempoXTurnoController extends LlamadaReporteAbstract implements Se
 
         showTable = true;
         chartButtonDisable = false;
+        chartButtonStackedDisable = false;
 
     }
 

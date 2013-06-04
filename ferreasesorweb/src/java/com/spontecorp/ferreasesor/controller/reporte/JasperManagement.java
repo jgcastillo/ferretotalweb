@@ -25,8 +25,6 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
@@ -37,7 +35,6 @@ import net.sf.jasperreports.engine.util.JRLoader;
 public class JasperManagement {
 
     private List<JasperBean> lista = new ArrayList<>();
-    private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
     public List<JasperBean> FillList(List<Object[]> result) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -67,8 +64,8 @@ public class JasperManagement {
         return lista;
     }
 
-    public void FillReport(Map parametros, List<JasperBean> lista, String extension, String nombreJasper) throws JRException, IOException {
-
+    public void FillReport(Map parametros, List<JasperBean> lista, String extension, String nombreJasper, String nombreReporte) throws JRException, IOException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         JRExporter exporter;
         File file = new File(nombreJasper);
         JasperReport reporte = (JasperReport) JRLoader.loadObject(file);
@@ -86,7 +83,7 @@ public class JasperManagement {
         //exporter.exportReport();
 
         HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-        httpServletResponse.addHeader("Content-disposition", "attachment; filename=report_" + sdf.format((new Date())) + "." + extension);
+        httpServletResponse.addHeader("Content-disposition", "attachment; filename="+nombreReporte+"_" + sdf.format((new Date())) + "." + extension);
         ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
 
         if ("PDF".equals(extension)) {
