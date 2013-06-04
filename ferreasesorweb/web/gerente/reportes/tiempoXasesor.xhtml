@@ -45,20 +45,20 @@
                             <p  style="text-align: center">Tiempos de Atención por FerreAsesor</p>
                         </f:facet><br/>
                         <p:column headerText="FerreAsesor">
-                            <h:outputText value="#{llamada.rango}"/>
+                            <h:outputText value="#{llamada.nombreObj}"/>
                         </p:column>
                         <p:column headerText="Tiempo Mínimo">
-                            <h:outputText value="#{llamada.dominio}"/>
+                            <h:outputText value="#{llamada.propiedadObj[0]}"/>
                         </p:column>
-<!--                        <p:column headerText="Tiempo Promedio">
-                            <h:outputText value="#{llamada.dominio}"/>
+                        <p:column headerText="Tiempo Promedio">
+                            <h:outputText value="#{llamada.propiedadObj[1]}"/>
                         </p:column>
                         <p:column headerText="Tiempo Máximo">
-                            <h:outputText value="#{llamada.dominio}"/>
-                        </p:column>-->
-                        
+                            <h:outputText value="#{llamada.propiedadObj[2]}"/>
+                        </p:column>                       
                     </p:dataTable>
                 </h:panelGroup>
+                
                 <br/><br/>
                 <h:panelGroup id="panelChart" rendered="#{tiempoAsesorBean.showChart}">
                     <p:barChart value="#{tiempoAsesorBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="chart"

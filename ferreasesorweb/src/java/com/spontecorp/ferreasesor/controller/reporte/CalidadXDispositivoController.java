@@ -10,13 +10,14 @@ import com.spontecorp.ferreasesor.entity.Tiempo;
 import com.spontecorp.ferreasesor.jpa.ext.LlamadaFacadeExt;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 import org.primefaces.model.StreamedContent;
+import org.primefaces.model.chart.CartesianChartModel;
+import org.primefaces.model.chart.ChartSeries;
 
 /**
  *
@@ -30,6 +31,11 @@ public class CalidadXDispositivoController extends LlamadaReporteAbstract implem
     private String nombreRango = "Dispositivos";
     private String nombreDominio = "atenciones";
 
+    /**
+     * Metodo para Generar la Tabla de Datos
+     *
+     * @param actionEvent
+     */
     @Override
     public void populateLlamadas(ActionEvent actionEvent) {
         LlamadaFacadeExt facade = new LlamadaFacadeExt();
@@ -37,7 +43,6 @@ public class CalidadXDispositivoController extends LlamadaReporteAbstract implem
         long atencion;
         int atencionBuena;
         int atencionRegular;
-        Object[][] valores = null;
 
         //Verifico las fechas
         getFechasVacias();
@@ -75,29 +80,23 @@ public class CalidadXDispositivoController extends LlamadaReporteAbstract implem
             atencionesBotMap.put(boton, temp);
         }
 
-        valores = new Object[atencionesBotMap.size()][4];
-        int i = 0;
-
         for (Map.Entry<Boton, int[]> mapIterator : atencionesBotMap.entrySet()) {
+
+            //Arreglo para manejar las Propiedades(buenas, regulares, malas)
+            Object datos[] = new Object[3];
+
             ReporteHelper helper = new ReporteHelper();
-            
-            valores[i][0] = mapIterator.getKey().getUbicacion();
-            valores[i][1] = mapIterator.getValue()[0];
-            valores[i][2] = mapIterator.getValue()[1];
-            valores[i][3] = mapIterator.getValue()[2];
 
-//            dataset.addValue(Integer.valueOf(valores[i][1].toString()), "Buenas", valores[i][0].toString());
-//            dataset.addValue(Integer.valueOf(valores[i][2].toString()), "Regulares", valores[i][0].toString());
-//            dataset.addValue(Integer.valueOf(valores[i][3].toString()), "Malas", valores[i][0].toString());
+            //Seteo el Nombre del Objeto (Dispositivo)
+            helper.setNombreObj(mapIterator.getKey().getUbicacion());
 
-            //NO ESTOY SEGURA SI ESTA ES LA FORMA IDONEA DE SETEAR EL RANGO
-            helper.setRango(mapIterator.getKey().getUbicacion());
+            //Seteo las Propiedades del Objeto (buenas, regulares, malas)
+            datos[0] = mapIterator.getValue()[0];
+            datos[1] = mapIterator.getValue()[1];
+            datos[2] = mapIterator.getValue()[2];
+            helper.setPropiedadObj(datos);
 
-            //CON RESPECTO AL DOMINIO DEBE SER UN ARREGLO CON Buenas, Regulares y Malas
-            // helper.setDominio(Integer.valueOf(String.valueOf(  )));
             reporteData.add(helper);
-
-            i++;
         }
 
         showTable = true;
@@ -107,5 +106,27 @@ public class CalidadXDispositivoController extends LlamadaReporteAbstract implem
     @Override
     public StreamedContent getChart() {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    /**
+     * Metodo para Generar el Grafico en PrimeFaces
+     */
+    @Override
+    public void createCategoryModel() {
+        categoryModel = new CartesianChartModel();
+        ChartSeries buenas = new ChartSeries("buenas");
+        ChartSeries regulares = new ChartSeries("regulares");
+        ChartSeries malas = new ChartSeries("malas");
+
+        for (ReporteHelper data : reporteData) {
+            Object valor[] = data.getPropiedadObj();
+            buenas.set(data.getNombreObj().toString(), Double.valueOf(valor[0].toString()));
+            regulares.set(data.getNombreObj().toString(), Double.valueOf(valor[1].toString()));
+            malas.set(data.getNombreObj().toString(), Double.valueOf(valor[2].toString()));
+        }
+
+        categoryModel.addSeries(buenas);
+        categoryModel.addSeries(regulares);
+        categoryModel.addSeries(malas);
     }
 }

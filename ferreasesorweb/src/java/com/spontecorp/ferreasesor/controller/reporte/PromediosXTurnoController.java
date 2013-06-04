@@ -12,6 +12,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 import org.primefaces.model.StreamedContent;
+import org.primefaces.model.chart.CartesianChartModel;
+import org.primefaces.model.chart.ChartSeries;
 
 /**
  *
@@ -25,6 +27,10 @@ public class PromediosXTurnoController extends LlamadaReporteAbstract implements
     private String nombreRango = "Turno";
     private String nombreDominio = "Promedios";
     
+    /**
+     * Metodo para Generar la Tabla de Datos
+     * @param actionEvent 
+     */
     @Override
     public void populateLlamadas(ActionEvent actionEvent) {
         LlamadaFacadeExt facade = new LlamadaFacadeExt();
@@ -49,6 +55,10 @@ public class PromediosXTurnoController extends LlamadaReporteAbstract implements
         Long diasEntreFechas = facade.getDiasEntreFechasCount(fechaInicio, fechaFin);
         double promedioDiario = ((double) totalCalls) / diasEntreFechas;
 
+        setTotalCalls(totalCalls);
+        setDiasEntreFechas(diasEntreFechas);
+        setPromedioDiario(promedioDiario);
+        
         //Seteo la busqueda
         setResult(facade.findLlamadas(ReporteHelper.LLAMADAS_TURNO, fechaInicio, fechaFin));
 
@@ -56,7 +66,7 @@ public class PromediosXTurnoController extends LlamadaReporteAbstract implements
         helper.setRango("Diario");
         helper.setDominio(Double.valueOf(df.format(promedioDiario)));
         reporteData.add(helper);
-        
+
         for(Object[] array : result){
             helper = new ReporteHelper();
             Turno turno = (Turno) array[0];
@@ -78,6 +88,20 @@ public class PromediosXTurnoController extends LlamadaReporteAbstract implements
         barChart.setResult(getResult());
         barChart.createDataset();
         return barChart.getBarChart();
+    }
+    
+    /**
+     * Metodo para Generar el Grafico en PrimeFaces
+     */
+    @Override
+    public void createCategoryModel() {
+        categoryModel = new CartesianChartModel();
+        ChartSeries cant = new ChartSeries("Cantidad");
+
+        for (ReporteHelper data : reporteData) {
+            cant.set(data.getRango(), data.getDominio());
+        }
+        categoryModel.addSeries(cant);
     }
     
 }

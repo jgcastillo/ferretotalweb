@@ -1,5 +1,8 @@
 package com.spontecorp.ferreasesor.controller.reporte;
 
+import java.util.Map;
+
+
 /**
  *
  * @author jgcastillo
@@ -8,6 +11,8 @@ public class ReporteHelper {
     
     private Object rango;
     private Number dominio;
+    private Object nombreObj;
+    private Object[] propiedadObj;
     public static final int LLAMADAS_TOTALES = 1;
     public static final int LLAMADAS_DISPOSITIVO = 2;
     public static final int LLAMADAS_ASESOR = 3;
@@ -35,5 +40,21 @@ public class ReporteHelper {
     public void setDominio(Number dominio) {
         this.dominio = dominio;
     }
-    
+
+    public Object getNombreObj() {
+        return nombreObj;
+    }
+
+    public void setNombreObj(Object nombreObj) {
+        this.nombreObj = nombreObj;
+    }
+
+    public Object[] getPropiedadObj() {
+        return propiedadObj;
+    }
+
+    public void setPropiedadObj(Object[] propiedadObj) {
+        this.propiedadObj = propiedadObj;
+    }
+
 }

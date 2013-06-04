@@ -45,10 +45,16 @@
                             <p  style="text-align: center">Calidad de Atención por FerreAsesor</p>
                         </f:facet><br/>
                         <p:column headerText="FerreAsesor">
-                            <h:outputText value="#{llamada.rango}"/>
+                            <h:outputText value="#{llamada.nombreObj}"/>
                         </p:column>
-                        <p:column headerText="Tiempo Mínimo">
-                            <h:outputText value="#{llamada.dominio}"/>
+                        <p:column headerText="Atención Buena">
+                            <h:outputText value="#{llamada.propiedadObj[0]}"/>
+                        </p:column>
+                        <p:column headerText="Atención Regular">
+                            <h:outputText value="#{llamada.propiedadObj[1]}"/>
+                        </p:column>
+                        <p:column headerText="Atención Mala">
+                            <h:outputText value="#{llamada.propiedadObj[2]}"/>
                         </p:column>
                         
                     </p:dataTable>

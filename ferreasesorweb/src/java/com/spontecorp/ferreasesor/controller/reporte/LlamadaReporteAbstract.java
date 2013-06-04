@@ -1,8 +1,11 @@
 package com.spontecorp.ferreasesor.controller.reporte;
 
 import com.spontecorp.ferreasesor.entity.Llamada;
+import com.spontecorp.ferreasesor.entity.Turno;
+import com.spontecorp.ferreasesor.jpa.ext.LlamadaFacadeExt;
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,6 +29,7 @@ import org.primefaces.model.chart.ChartSeries;
  */
 public abstract class LlamadaReporteAbstract {
 
+    LlamadaFacadeExt facade = new LlamadaFacadeExt();
     protected Date fechaInicio;
     protected Date fechaFin;
     protected List<Llamada> totalLlamadas;
@@ -41,6 +45,9 @@ public abstract class LlamadaReporteAbstract {
     private int reporte;
     private String nombreReporte;
     private boolean promedios;
+    private double promedioDiario;
+    private Long totalCalls;
+    private Long diasEntreFechas;
 
     public Date getFechaInicio() {
         return fechaInicio;
@@ -121,6 +128,31 @@ public abstract class LlamadaReporteAbstract {
     public void setPromedios(boolean promedios) {
         this.promedios = promedios;
     }
+
+    public double getPromedioDiario() {
+        return promedioDiario;
+    }
+
+    public void setPromedioDiario(double promedioDiario) {
+        this.promedioDiario = promedioDiario;
+    }
+
+    public Long getTotalCalls() {
+        return totalCalls;
+    }
+
+    public void setTotalCalls(Long totalCalls) {
+        this.totalCalls = totalCalls;
+    }
+
+    public Long getDiasEntreFechas() {
+        return diasEntreFechas;
+    }
+
+    public void setDiasEntreFechas(Long diasEntreFechas) {
+        this.diasEntreFechas = diasEntreFechas;
+    }
+
  
     /**
      * Verificar si las fechas son nulas
@@ -137,6 +169,10 @@ public abstract class LlamadaReporteAbstract {
         }
     }
 
+    /**
+     * Metodo para Generar la Tabla de Datos
+     * @param actionEvent 
+     */
     public abstract void populateLlamadas(ActionEvent actionEvent);
 
     public abstract StreamedContent getChart();
@@ -147,17 +183,10 @@ public abstract class LlamadaReporteAbstract {
     }
 
     /**
-     * Crear Grafico en PrimeFaces
+     * Metodo para Generar el Grafico en PrimeFaces
      */
-    private void createCategoryModel() {
-        categoryModel = new CartesianChartModel();
-        ChartSeries cant = new ChartSeries("Cantidad");
+    public abstract void createCategoryModel();
 
-        for (ReporteHelper data : reporteData) {
-            cant.set(data.getRango(), data.getDominio());
-        }
-        categoryModel.addSeries(cant);
-    }
 
     /**
      * Exportar Reporte .PDF
@@ -205,19 +234,41 @@ public abstract class LlamadaReporteAbstract {
         
         try {
             if (promedios == true) {
-                List rangoList = new ArrayList();
-                List dominioList = new ArrayList();
 
-                for (ReporteHelper helper : reporteData) {
-                    rangoList.add(helper.getRango());
-                    dominioList.add(helper.getDominio());
+                Object[][] datos;
+                DecimalFormat df = new DecimalFormat("##0.0");
+
+                Object[][] llamadasXTurno = new Object[result.size()][2];
+                int i = 0;
+                for (Object[] obj : result) {
+                    llamadasXTurno[i][0] = (Turno) obj[0];
+                    llamadasXTurno[i][1] = (Long) obj[1];
+                    i++;
                 }
-                String[] rango =   (String[]) rangoList.toArray();
-                Double[] dominioP = (Double[]) dominioList.toArray();
+
+                datos = new Object[i + 1][2];
+
+                String[] rango = new String[i + 1];
+                Double[] dominioP = new Double[i + 1];
+
+                datos[0][0] = "Diario";
+                datos[0][1] = df.format(getPromedioDiario());
+
+                rango[0] = "Diario";
+                dominioP[0] = getPromedioDiario();
+
+                for (int j = 1; j < i + 1; j++) {
+                    datos[j][0] = ((Turno) llamadasXTurno[j - 1][0]).getNombre();
+                    rango[j] = datos[j][0].toString();
+                    double valor = ((Long) llamadasXTurno[j - 1][1]).doubleValue() / getDiasEntreFechas();
+                    datos[j][1] = df.format(valor);
+                    dominioP[j] = (Double) valor;
+                }
 
                 //cuando el reporte sea de promedios 
                 myList = jm.FillList(rango, dominioP);
                 promedios = false;
+                
             } else {
                 //Revisa los casos y llena la lista de jasperbean
                 myList = jm.FillList(result);

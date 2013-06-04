@@ -9,6 +9,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 import org.primefaces.model.StreamedContent;
+import org.primefaces.model.chart.CartesianChartModel;
+import org.primefaces.model.chart.ChartSeries;
 
 /**
  *
@@ -22,6 +24,10 @@ public class LlamadasXDispositivoController extends LlamadaReporteAbstract imple
     private String nombreRango = "Fechas";
     private String nombreDominio = "Cantidad";
 
+    /**
+     * Metodo para Generar la Tabla de Datos
+     * @param actionEvent 
+     */
     @Override
     public void populateLlamadas(ActionEvent actionEvent) {
         
@@ -56,5 +62,19 @@ public class LlamadasXDispositivoController extends LlamadaReporteAbstract imple
         barChart.setResult(getResult());
         barChart.createDataset();
         return barChart.getBarChart();
+    }
+    
+    /**
+     * Metodo para Generar el Grafico en PrimeFaces
+     */
+    @Override
+    public void createCategoryModel() {
+        categoryModel = new CartesianChartModel();
+        ChartSeries cant = new ChartSeries("Cantidad");
+
+        for (ReporteHelper data : reporteData) {
+            cant.set(data.getRango(), data.getDominio());
+        }
+        categoryModel.addSeries(cant);
     }
 }
