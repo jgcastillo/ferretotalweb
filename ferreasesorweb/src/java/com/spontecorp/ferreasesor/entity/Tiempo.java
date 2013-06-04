@@ -43,6 +43,9 @@ public class Tiempo implements Serializable {
     @Column(name = "atencion_regular")
     private int atencionRegular;
     @Basic(optional = false)
+    @Column(name = "cerrar_llamada")
+    private int cerrarLlamada;
+    @Basic(optional = false)
     @Column(name = "status")
     private int status;
     @JoinColumn(name = "turno_id", referencedColumnName = "id")
@@ -101,6 +104,14 @@ public class Tiempo implements Serializable {
 
     public void setTurnoId(Turno turnoId) {
         this.turnoId = turnoId;
+    }
+
+    public int getCerrarLlamada() {
+        return cerrarLlamada;
+    }
+
+    public void setCerrarLlamada(int cerrarLlamada) {
+        this.cerrarLlamada = cerrarLlamada;
     }
 
     @Override
