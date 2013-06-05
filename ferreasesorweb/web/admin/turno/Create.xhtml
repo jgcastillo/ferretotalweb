@@ -18,32 +18,34 @@
                                  required="true" requiredMessage="#{bundle.CreateTurnoRequiredMessage_nombre}"/>
                     <p:message for="nombre"/>
                     <p:outputLabel value="#{bundle.CreateTurnoLabel_horaStart}" for="horaStart" />
-                    <p:inputText id="horaStart" value="#{turnoController.selected.horaStart}" title="#{bundle.CreateTurnoTitle_horaStart}" 
+<!--                    <p:inputText id="horaStart" value="#{turnoController.selected.horaStart}" title="#{bundle.CreateTurnoTitle_horaStart}" 
                                  required="true" requiredMessage="#{bundle.CreateTurnoRequiredMessage_horaStart}">
                         <f:convertDateTime pattern="HH:mm:ss" />
-                    </p:inputText>
-<!--                    <p:calendar id="horaStart" value="#{turnoController.selected.horaStart}" mode="popup" showOn="button" 
-                                pattern="HH:mm:ss" timeOnly="true" required="true" requiredMessage="#{bundle.CreateTurnoRequiredMessage_horaStart}" />-->
+                    </p:inputText>-->
+                    <p:calendar id="horaStart" value="#{turnoController.selected.horaStart}" title="#{bundle.CreateTurnoTitle_horaStart}"
+                                pattern="HH:mm:ss a" timeOnly="true" required="true" requiredMessage="#{bundle.CreateTurnoRequiredMessage_horaStart}"/> 
                     <p:message for="horaStart"/>
                     <p:outputLabel value="#{bundle.CreateTurnoLabel_horaEnd}" for="horaEnd" />
-                    <p:inputText id="horaEnd" value="#{turnoController.selected.horaEnd}" title="#{bundle.CreateTurnoTitle_horaEnd}" 
+<!--                    <p:inputText id="horaEnd" value="#{turnoController.selected.horaEnd}" title="#{bundle.CreateTurnoTitle_horaEnd}" 
                                  required="true" requiredMessage="#{bundle.CreateTurnoRequiredMessage_horaEnd}">
                         <f:convertDateTime pattern="HH:mm:ss" />
-                    </p:inputText>
+                    </p:inputText>-->
+                    <p:calendar id="horaEnd" value="#{turnoController.selected.horaEnd}" title="#{bundle.CreateTurnoTitle_horaEnd}"
+                                pattern="HH:mm:ss a" timeOnly="true" required="true" requiredMessage="#{bundle.CreateTurnoRequiredMessage_horaEnd}"/> 
                     <p:message for="horaEnd"/>
                     <p:outputLabel value="#{bundle.CreateTurnoLabel_feriado}" for="feriado" />
-                    <p:selectOneMenu id="feriado" value="#{turnoController.selected.status}" required="true" 
+                    <h:selectOneMenu id="feriado" value="#{turnoController.selected.status}" required="true" 
                                      requiredMessage="#{bundle.CreateTurnoRequiredMessage_feriado}" style="width: 130px;"> 
                         <f:selectItem itemLabel="Normal" itemValue="1" />
                         <f:selectItem itemLabel="Feriado" itemValue="0" />
-                    </p:selectOneMenu>
+                    </h:selectOneMenu>
                     <p:message for="feriado"/>
                     <p:outputLabel value="#{bundle.CreateTurnoLabel_status}" for="status" />
-                    <p:selectOneMenu id="status" value="#{turnoController.selected.status}" required="true" 
+                    <h:selectOneMenu id="status" value="#{turnoController.selected.status}" required="true" 
                                      requiredMessage="#{bundle.CreateTurnoRequiredMessage_status}" style="width: 130px;"> 
                         <f:selectItem itemLabel="Habilitado" itemValue="1" />
                         <f:selectItem itemLabel="Inhabilitado" itemValue="0" />
-                    </p:selectOneMenu>
+                    </h:selectOneMenu>
                     <p:message for="status"/>
 <!--                    <p:outputLabel value="#{bundle.CreateTurnoLabel_tiendaId}" for="tiendaId" />
                     <p:selectOneMenu id="tiendaId" value="#{turnoController.selected.tiendaId}" title="#{bundle.CreateTurnoTitle_tiendaId}" 
@@ -52,7 +54,7 @@
                     </p:selectOneMenu>-->
                 </h:panelGrid>
                 <f:facet name="footer">
-                    <h:panelGrid columns="3" style="display:block;margin-left: 65%">
+                    <h:panelGrid columns="3" style="display:block;margin-left: 50%">
                         <p:commandButton value="Guardar" title="Guardar" icon="ui-icon-disk" 
                                          action="#{turnoController.create}"
                                          ajax="true" update="panel"/>

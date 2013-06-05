@@ -40,23 +40,33 @@
                           closable="false" collapsible="false">
                 <ui:include src="./snippets/header.xhtml"/>
             </p:layoutUnit>
-            <p:layoutUnit position="south" size="70" resizable="false" 
-                          closable="false" collapsible="true">
-                Aqui va el status de conexión
-            </p:layoutUnit>
+
+            <c:if test="#{loginBean.loggedIn}">
+                <p:layoutUnit position="south" size="70" resizable="false" 
+                              closable="false" collapsible="true">
+                    Aqui va el status de conexión
+                </p:layoutUnit>
+            </c:if>
+
             <c:if test="#{loginBean.loggedIn}">
                 <p:layoutUnit position="west" size="200" header="Menu" resizable="false" 
                               closable="false" collapsible="true">
                     <ui:include src="./snippets/menu.xhtml" />
                 </p:layoutUnit>
             </c:if>
+
             <p:layoutUnit position="center">
                 <ui:insert name="content">Put default content here, if any.</ui:insert>
             </p:layoutUnit>
-            <p:layoutUnit position="east" size="200" resizable="false"
-                          closable="false" collapsible="false">
-                <ui:insert name="status">Put default content here, if any.</ui:insert>
-            </p:layoutUnit>
+
+            <c:if test="#{loginBean.loggedIn}">
+                <p:layoutUnit position="east" size="200" resizable="false"
+                              closable="false" collapsible="false">
+                    <ui:insert name="status"> 
+                        <ui:include src="./snippets/statusButton.xhtml" />
+                    </ui:insert>
+                </p:layoutUnit>
+            </c:if>   
         </p:layout>
     </h:body>
 

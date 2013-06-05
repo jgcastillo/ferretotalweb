@@ -28,15 +28,14 @@
                     <p:calendar id="fechaFin" value="#{totalLlamadasBean.fechaFin}" 
                                 showOn="button" pattern="dd/MM/yyyy"/>
                     <p:spacer height="15"/>
-                    <h:commandButton value="Ver Data" actionListener="#{totalLlamadasBean.populateLlamadas}" title="Ver Data"/>
+                    <p:commandButton value="Ver Data" actionListener="#{totalLlamadasBean.populateLlamadas}" title="Ver Data" ajax="true" update="panelTable"/>
                     <p:spacer style="width: 10px;"/>
-                    <h:commandButton value="Gráfico Barras" disabled="#{totalLlamadasBean.chartButtonDisable}" 
-                                     actionListener="#{totalLlamadasBean.muestraGrafico}" title="Gráfico Barras"/>
+
                 </h:panelGrid>
                 <br/><br/>
-                
-                <h:panelGroup id="panelTable" rendered="#{totalLlamadasBean.showTable}">
-                    <p:dataTable value="#{totalLlamadasBean.reporteData}" var="llamada" style="width: 79%;margin-left: 85px;"
+
+                <p:panel id="panelTable" style="border: 0px solid #FFFFFF;">
+                    <p:dataTable value="#{totalLlamadasBean.reporteData}" var="llamada" style="width: 79%;margin-left: 85px;" rendered="#{totalLlamadasBean.showTable}"
                                  paginator="true" rows="10"  
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                                  rowsPerPageTemplate="5,10,15"
@@ -51,29 +50,33 @@
                             <h:outputText value="#{llamada.dominio}"/>
                         </p:column>
                     </p:dataTable>
-                </h:panelGroup>
-                <br/><br/>
-                <h:panelGroup id="panelChart" rendered="#{totalLlamadasBean.showChart}">
-                    <p:barChart value="#{totalLlamadasBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="chart"
-                                title="Total Llamadas entre Fechas" style="width: 80%; margin-left: 85px;" extender="customExtender" />
-<!--                                        <fieldset>
-                                            <p:graphicImage value="#{totalLlamadasBean.chart}"/>
-                                        </fieldset>-->
                     <br/>
-                    <h:panelGrid columns="3">
-                    <h:commandButton value="Exportar PDF"  actionListener="#{totalLlamadasBean.exportarReportePDF}" style="margin-left:485px" title="Exportar a PDF"/>
-                    <p:spacer style="width: 10px;"/>
-                    <h:commandButton value="Exportar Excel"  actionListener="#{totalLlamadasBean.exportarReporteXLS}" title="Exportar a Excel"/>
-                </h:panelGrid>
-                </h:panelGroup>
-                
-                
+                    <p:commandButton value="Gráfico Barras" disabled="#{totalLlamadasBean.chartButtonDisable}" ajax="true" update="panelGrafico"
+                                     actionListener="#{totalLlamadasBean.muestraGrafico}" title="Gráfico Barras" style="float: right;margin-right:80px;"/>
+                </p:panel>
+                <br/><br/>
+                <p:panel id="panelGrafico" style="border: 0px solid #FFFFFF;">
+                    <p:panel id="panelChart" rendered="#{totalLlamadasBean.showChart and totalLlamadasBean.reporteData.size() > 0}" style="border: 0px solid #FFFFFF;">
+                        <p:barChart value="#{totalLlamadasBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="chart"
+                                    title="Total Llamadas entre Fechas" style="width: 80%; margin-left: 85px;" extender="customExtender" />
+                        <!--                                        <fieldset>
+                                                                    <p:graphicImage value="#{totalLlamadasBean.chart}"/>
+                                                                </fieldset>-->
+                        <br/>
+                        <h:panelGrid columns="3">
+                            <h:commandButton value="Exportar PDF"  actionListener="#{totalLlamadasBean.exportarReportePDF}" style="margin-left:485px" title="Exportar a PDF"/>
+                            <p:spacer style="width: 10px;"/>
+                            <h:commandButton value="Exportar Excel"  actionListener="#{totalLlamadasBean.exportarReporteXLS}" title="Exportar a Excel"/>
+                        </h:panelGrid>
+                    </p:panel>
+                </p:panel>
+
             </h:form>
         </p:fieldset>
     </ui:define>
 
     <ui:define name="status">
-        status
+<!--    <ui:include src="../../WEB-INF/templates/snippets/statusButton.xhtml" />-->
     </ui:define>
 
 </ui:composition>

@@ -50,15 +50,15 @@
                     <p:message for="status"/>-->
                     
                     <p:outputLabel value="#{bundle.CreateUsuarioLabel_perfilId}" for="perfilId" />
-                    <p:selectOneMenu id="perfilId" value="#{usuarioControllerExt.selected.perfilId}" style="width: 130px;"
+                    <h:selectOneMenu id="perfilId" value="#{usuarioControllerExt.selected.perfilId}" style="width: 130px;"
                                      required="true" 
                                      requiredMessage="#{bundle.CreateUsuarioRequiredMessage_perfilId}">
                         <f:selectItems value="#{perfilController.itemsAvailableSelectOne}"/>
-                    </p:selectOneMenu>
+                    </h:selectOneMenu>
                     <p:message for="perfilId"/>
                 </h:panelGrid>
                 <f:facet name="footer">
-                    <h:panelGrid columns="3" style="display:block;margin-left: 65%">
+                    <h:panelGrid columns="3" style="display:block;margin-left: 50%">
                         <p:commandButton value="Guardar" title="Guardar" icon="ui-icon-disk" 
                                          action="#{usuarioControllerExt.create}"
                                          ajax="true" update="panel"/>
