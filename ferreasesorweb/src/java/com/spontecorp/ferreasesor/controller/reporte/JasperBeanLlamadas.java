@@ -8,15 +8,15 @@ package com.spontecorp.ferreasesor.controller.reporte;
  *
  * @author sponte03
  */
-public class JasperBean {
+public class JasperBeanLlamadas {
     
     private String nombre;
     private double cantidad;
 
-    public JasperBean() {
+    public JasperBeanLlamadas() {
     }
 
-    public JasperBean(String nombre, double cantidad) {
+    public JasperBeanLlamadas(String nombre, double cantidad) {
         this.nombre = nombre;
         this.cantidad = cantidad;
     }

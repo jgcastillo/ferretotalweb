@@ -33,10 +33,11 @@ import net.sf.jasperreports.engine.util.JRLoader;
  * @author sponte03
  */
 public class JasperManagement {
-
-    private List<JasperBean> lista = new ArrayList<>();
-
-    public List<JasperBean> FillList(List<Object[]> result) {
+    
+    private List<JasperBeanLlamadas> lista = new ArrayList<>();
+    List<JasperBeanTiempo> listatiempo = new ArrayList<>();
+    
+    public List<JasperBeanLlamadas> FillList(List<Object[]> result) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String nombre = "";
         for (Object[] array : result) {
@@ -49,22 +50,35 @@ public class JasperManagement {
             } else if (array[0] instanceof Date) {
                 nombre = sdf.format(((Date) array[0]));
             }
-            JasperBean jb = new JasperBean(nombre, ((Long) array[1]).doubleValue());
+            JasperBeanLlamadas jb = new JasperBeanLlamadas(nombre, ((Long) array[1]).doubleValue());
             lista.add(jb);
         }
         return lista;
     }
+    
+    public List<JasperBeanTiempo> FillListTiempo(List<ReporteHelper> reporteData) {
+        
+        for (int i = 0; i < reporteData.size(); i++) {
+            double serie1 = Double.valueOf(reporteData.get(i).getPropiedadObj()[0].toString());
+            double serie2 = Double.valueOf(reporteData.get(i).getPropiedadObj()[1].toString());
+            double serie3 =Double.valueOf(reporteData.get(i).getPropiedadObj()[2].toString());
+            String propiedad = reporteData.get(i).getNombreObj().toString();            
+            JasperBeanTiempo jbt = new JasperBeanTiempo(propiedad, serie1, serie2, serie3);
+            listatiempo.add(jbt);
+        }        
+        return listatiempo;        
+    }
 
-    public List<JasperBean> FillList(String[] rango, Double[] dominio) {
+    public List<JasperBeanLlamadas> FillList(String[] rango, Double[] dominio) {
         for (int i = 0; i < rango.length; i++) {
-            JasperBean jb = new JasperBean(rango[i], dominio[i]);
+            JasperBeanLlamadas jb = new JasperBeanLlamadas(rango[i], dominio[i]);
             //System.out.println(dominio[i]);
             lista.add(jb);
         }
         return lista;
     }
-
-    public void FillReport(Map parametros, List<JasperBean> lista, String extension, String nombreJasper, String nombreReporte) throws JRException, IOException {
+    
+    public void FillReportTiempo(Map parametros, List<JasperBeanTiempo> lista, String extension, String nombreJasper, String nombreReporte) throws JRException, IOException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         JRExporter exporter;
         File file = new File(nombreJasper);
@@ -83,9 +97,9 @@ public class JasperManagement {
         //exporter.exportReport();
 
         HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-        httpServletResponse.addHeader("Content-disposition", "attachment; filename="+nombreReporte+"_" + sdf.format((new Date())) + "." + extension);
+        httpServletResponse.addHeader("Content-disposition", "attachment; filename=" + nombreReporte + "_" + sdf.format((new Date())) + "." + extension);
         ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
-
+        
         if ("PDF".equals(extension)) {
             JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
             FacesContext.getCurrentInstance().responseComplete();
@@ -97,7 +111,41 @@ public class JasperManagement {
         }
         
     }
+    
+    public void FillReport(Map parametros, List<JasperBeanLlamadas> lista, String extension, String nombreJasper, String nombreReporte) throws JRException, IOException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        JRExporter exporter;
+        File file = new File(nombreJasper);
+        JasperReport reporte = (JasperReport) JRLoader.loadObject(file);
+        JRBeanCollectionDataSource jbs = new JRBeanCollectionDataSource(lista);
+        JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, parametros, jbs);
 
+//        if ("PDF".equals(extension)) {
+//            exporter = new JRPdfExporter();
+//        } else {
+//            exporter = new JRXlsExporter();
+//        }
+
+        //exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+        //exporter.setParameter(JRExporterParameter.OUTPUT_FILE, new java.io.File(storage + "report." + extension));
+        //exporter.exportReport();
+
+        HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+        httpServletResponse.addHeader("Content-disposition", "attachment; filename=" + nombreReporte + "_" + sdf.format((new Date())) + "." + extension);
+        ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+        
+        if ("PDF".equals(extension)) {
+            JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
+            FacesContext.getCurrentInstance().responseComplete();
+        } else {
+            JRXlsxExporter docxExporter = new JRXlsxExporter();
+            docxExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+            docxExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, servletOutputStream);
+            docxExporter.exportReport();
+        }
+        
+    }
+    
     public JasperManagement() {
         super();
     }

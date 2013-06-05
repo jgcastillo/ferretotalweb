@@ -3,11 +3,9 @@ package com.spontecorp.ferreasesor.controller.reporte;
 import com.spontecorp.ferreasesor.entity.Llamada;
 import com.spontecorp.ferreasesor.entity.Turno;
 import com.spontecorp.ferreasesor.jpa.ext.LlamadaFacadeExt;
-import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -21,7 +19,6 @@ import javax.faces.event.ActionEvent;
 import net.sf.jasperreports.engine.JRException;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.chart.CartesianChartModel;
-import org.primefaces.model.chart.ChartSeries;
 
 /**
  *
@@ -50,6 +47,7 @@ public abstract class LlamadaReporteAbstract {
     private double promedioDiario;
     private Long totalCalls;
     private Long diasEntreFechas;
+    private boolean tiempos;
 
     public Date getFechaInicio() {
         return fechaInicio;
@@ -147,6 +145,14 @@ public abstract class LlamadaReporteAbstract {
         this.promedioDiario = promedioDiario;
     }
 
+    public boolean isTiempos() {
+        return tiempos;
+    }
+
+    public void setTiempos(boolean tiempos) {
+        this.tiempos = tiempos;
+    }
+
     public Long getTotalCalls() {
         return totalCalls;
     }
@@ -220,6 +226,33 @@ public abstract class LlamadaReporteAbstract {
 
     }
 
+    public void exportarReportePDFCalidad(ActionEvent actionEvent) throws JRException, IOException {
+        String extension = "PDF";
+        String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportepdf2.jasper");
+        setTiempos(false);
+        exportarReporteTiempoCalidad(extension, jasperFileAddress, tiempos, nombreRango, nombreDominio);
+    }
+    public void exportarReportePDFTiempo(ActionEvent actionEvent) throws JRException, IOException {
+        String extension = "PDF";
+        String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportepdf2.jasper");
+        setTiempos(true);
+        exportarReporteTiempoCalidad(extension, jasperFileAddress, tiempos, nombreRango, nombreDominio);
+    }
+
+
+    public void exportarReporteXLSCalidad(ActionEvent actionEvent) throws JRException, IOException {
+        String extension = "XLS";
+        String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportepdf2.jasper");
+        setTiempos(false);
+        exportarReporteTiempoCalidad(extension, jasperFileAddress, tiempos, "Ferreasesor", "Calidad");
+    }
+     public void exportarReporteXLSTiempo(ActionEvent actionEvent) throws JRException, IOException {
+        String extension = "XLS";
+        String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportepdf2.jasper");
+        setTiempos(true);
+        exportarReporteTiempoCalidad(extension, jasperFileAddress, tiempos, "Ferreasesor", "Calidad");
+    }
+
     /**
      * Exportar Reporte .XLS
      *
@@ -232,36 +265,41 @@ public abstract class LlamadaReporteAbstract {
         String extension = "XLS";
         String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportexls.jasper");
         setPromedios(false);
+        setTiempos(false);
         exportarReporte(extension, jasperFileAddress, promedios);
 
     }
-    
+
     /**
      * Exportar Reporte .PDF (promedios)
+     *
      * @param actionEvent
      * @throws JRException
-     * @throws IOException 
+     * @throws IOException
      */
     public void exportarReportePDFPromedios(ActionEvent actionEvent) throws JRException, IOException {
 
         String extension = "PDF";
         String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportepdf.jasper");
         setPromedios(true);
+        setTiempos(false);
         exportarReporte(extension, jasperFileAddress, promedios);
 
     }
-    
+
     /**
      * Exportar Reporte .XLS (promedios)
+     *
      * @param actionEvent
      * @throws JRException
-     * @throws IOException 
+     * @throws IOException
      */
     public void exportarReporteXLSPromedios(ActionEvent actionEvent) throws JRException, IOException {
 
         String extension = "XLS";
         String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportexls.jasper");
         setPromedios(true);
+        setTiempos(false);
         exportarReporte(extension, jasperFileAddress, promedios);
 
     }
@@ -274,9 +312,46 @@ public abstract class LlamadaReporteAbstract {
      * @throws JRException
      * @throws IOException
      */
+    public void exportarReporteTiempoCalidad(String extension, String jasperFileAddress, boolean tiempo, String categoria1, String categoria2) {
+        try {
+            List<JasperBeanTiempo> myList2;
+            JasperManagement jm = new JasperManagement();
+            String logoAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/ferretotallogo.jpg");
+            Map parametrosTiempo = new HashMap();
+            String serie1;
+            String serie2;
+            String serie3;
+            if (tiempo) {
+                serie1 = "Mínimo";
+                serie2 = "Promedio";
+                serie3 = "Máximo";
+            } else {
+                serie1 = "Buena";
+                serie2 = "Regular";
+                serie3 = "Mala";
+            }
+
+            parametrosTiempo.put("logo", logoAddress);
+            parametrosTiempo.put("fechai", sdf.format(fechaInicio));
+            parametrosTiempo.put("fechaf", sdf.format(fechaFin));
+            parametrosTiempo.put("nombrereporte", nombreReporte);
+            parametrosTiempo.put("categoria1", categoria1);
+            parametrosTiempo.put("categoria2", categoria2);
+            parametrosTiempo.put("serie1", serie1);
+            parametrosTiempo.put("serie2", serie2);
+            parametrosTiempo.put("serie3", serie3);
+            myList2 = jm.FillListTiempo(reporteData);
+            jm.FillReportTiempo(parametrosTiempo, myList2, extension, jasperFileAddress, nombreReporte);
+
+        } catch (JRException | IOException ex) {
+            Logger.getLogger(LlamadaReporteAbstract.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
     public void exportarReporte(String extension, String jasperFileAddress, boolean promedios) throws JRException, IOException {
 
-        List<JasperBean> myList;
+        List<JasperBeanLlamadas> myList;
         JasperManagement jm = new JasperManagement();
         String logoAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/ferretotallogo.jpg");
 
@@ -285,7 +360,6 @@ public abstract class LlamadaReporteAbstract {
 
                 Object[][] datos;
                 DecimalFormat df = new DecimalFormat("##0.0");
-
                 Object[][] llamadasXTurno = new Object[result.size()][2];
                 int i = 0;
                 for (Object[] obj : result) {
@@ -295,16 +369,12 @@ public abstract class LlamadaReporteAbstract {
                 }
 
                 datos = new Object[i + 1][2];
-
                 String[] rango = new String[i + 1];
                 Double[] dominioP = new Double[i + 1];
-
                 datos[0][0] = "Diario";
                 datos[0][1] = df.format(getPromedioDiario());
-
                 rango[0] = "Diario";
                 dominioP[0] = getPromedioDiario();
-
                 for (int j = 1; j < i + 1; j++) {
                     datos[j][0] = ((Turno) llamadasXTurno[j - 1][0]).getNombre();
                     rango[j] = datos[j][0].toString();
@@ -320,18 +390,25 @@ public abstract class LlamadaReporteAbstract {
             } else {
                 //Revisa los casos y llena la lista de jasperbean
                 myList = jm.FillList(result);
+                Map parametros = new HashMap();
+                parametros.put("fechai", sdf.format(fechaInicio));
+                parametros.put("fechaf", sdf.format(fechaFin));
+                parametros.put("nombrereporte", nombreReporte);
+                parametros.put("nombre", nombreRango);
+                parametros.put("cantidad", nombreDominio);
+                parametros.put("logo", logoAddress);
+                jm.FillReport(parametros, myList, extension, jasperFileAddress, nombreReporte);
             }
 
             //parametros solicitados en el archivo jxrml
-            Map parametros = new HashMap();
-            parametros.put("fechai", sdf.format(fechaInicio));
-            parametros.put("fechaf", sdf.format(fechaFin));
-            parametros.put("nombrereporte", nombreReporte);
-            parametros.put("nombre", nombreRango);
-            parametros.put("cantidad", nombreDominio);
-            parametros.put("logo", logoAddress);
 
-            jm.FillReport(parametros, myList, extension, jasperFileAddress, nombreReporte);
+
+
+
+            if (tiempos == true) {
+            }
+
+
 
         } catch (JRException e) {
             Logger.getLogger(LlamadaReporteAbstract.class.getName()).log(Level.SEVERE, null, e);
