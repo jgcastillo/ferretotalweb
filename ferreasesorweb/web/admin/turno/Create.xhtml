@@ -23,7 +23,7 @@
                         <f:convertDateTime pattern="HH:mm:ss" />
                     </p:inputText>-->
                     <p:calendar id="horaStart" value="#{turnoController.selected.horaStart}" title="#{bundle.CreateTurnoTitle_horaStart}"
-                                pattern="HH:mm:ss" timeOnly="true" required="true" requiredMessage="#{bundle.CreateTurnoRequiredMessage_horaStart}"/> 
+                                pattern="HH:mm:ss a" timeOnly="true" required="true" requiredMessage="#{bundle.CreateTurnoRequiredMessage_horaStart}"/> 
                     <p:message for="horaStart"/>
                     <p:outputLabel value="#{bundle.CreateTurnoLabel_horaEnd}" for="horaEnd" />
 <!--                    <p:inputText id="horaEnd" value="#{turnoController.selected.horaEnd}" title="#{bundle.CreateTurnoTitle_horaEnd}" 
@@ -31,7 +31,7 @@
                         <f:convertDateTime pattern="HH:mm:ss" />
                     </p:inputText>-->
                     <p:calendar id="horaEnd" value="#{turnoController.selected.horaEnd}" title="#{bundle.CreateTurnoTitle_horaEnd}"
-                                pattern="HH:mm:ss" timeOnly="true" required="true" requiredMessage="#{bundle.CreateTurnoRequiredMessage_horaEnd}"/> 
+                                pattern="HH:mm:ss a" timeOnly="true" required="true" requiredMessage="#{bundle.CreateTurnoRequiredMessage_horaEnd}"/> 
                     <p:message for="horaEnd"/>
                     <p:outputLabel value="#{bundle.CreateTurnoLabel_feriado}" for="feriado" />
                     <h:selectOneMenu id="feriado" value="#{turnoController.selected.status}" required="true" 

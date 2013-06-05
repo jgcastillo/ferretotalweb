@@ -17,15 +17,15 @@
                     <h:outputText value="#{turnoController.selected.nombre}" title="#{bundle.ViewTurnoTitle_nombre}"/>
                     <h:outputText value="#{bundle.ViewTurnoLabel_horaStart}"/>
                     <h:outputText value="#{turnoController.selected.horaStart}" title="#{bundle.ViewTurnoTitle_horaStart}">
-                        <f:convertDateTime pattern="HH:mm:ss" />
+                        <f:convertDateTime pattern="HH:mm:ss a" />
                     </h:outputText>
                     <h:outputText value="#{bundle.ViewTurnoLabel_horaEnd}"/>
                     <h:outputText value="#{turnoController.selected.horaEnd}" title="#{bundle.ViewTurnoTitle_horaEnd}">
-                        <f:convertDateTime pattern="HH:mm:ss" />
+                        <f:convertDateTime pattern="HH:mm:ss a" />
                     </h:outputText>
                     <h:outputText value="#{bundle.ViewTurnoLabel_feriado}"/>
-                    <h:outputText value="Normal" rendered="#{turnoController.selected.feriado==0}" />
-                    <h:outputText value="Feriado" rendered="#{turnoController.selected.feriado==1}" />
+                    <h:outputText value="Normal" rendered="#{turnoController.selected.feriado==1}" />
+                    <h:outputText value="Feriado" rendered="#{turnoController.selected.feriado==0}" />
                     <h:outputText value="#{bundle.ViewTurnoLabel_status}"/>
                     <h:outputText value="HABILITADO" rendered="#{turnoController.selected.status==1}" />
                     <h:outputText value="INHABILITADO" rendered="#{turnoController.selected.status==0}" />

@@ -10,6 +10,7 @@
         <h:outputText value="#{bundle.EditTurnoTitle}"></h:outputText>
     </ui:define>
     <ui:define name="content">
+        
         <h:form>
             <p:panel id="panel" header="Editar Turno" style="width:60%; margin-left:15px;">
                 <h:panelGrid columns="3">
@@ -23,15 +24,17 @@
                         <f:convertDateTime pattern="HH:mm:ss" />
                     </p:inputText>-->
                     <p:calendar id="horaStart" value="#{turnoController.selected.horaStart}" title="#{bundle.EditTurnoTitle_horaStart}"
-                                pattern="HH:mm:ss" timeOnly="true" required="true" requiredMessage="#{bundle.EditTurnoRequiredMessage_horaStart}"/> 
+                                pattern="HH:mm:ss a" timeOnly="true" required="true" requiredMessage="#{bundle.EditTurnoRequiredMessage_horaStart}"/> 
                     <p:message for="horaStart"/>
+                    
+                    
                     <p:outputLabel value="#{bundle.EditTurnoLabel_horaEnd}" for="horaEnd" />
 <!--                    <p:inputText id="horaEnd" value="#{turnoController.selected.horaEnd}" title="#{bundle.EditTurnoTitle_horaEnd}" 
                                  required="true" requiredMessage="#{bundle.EditTurnoRequiredMessage_horaEnd}">
                         <f:convertDateTime pattern="HH:mm:ss" />
                     </p:inputText>-->
                     <p:calendar id="horaEnd" value="#{turnoController.selected.horaEnd}" title="#{bundle.EditTurnoTitle_horaEnd}"
-                                pattern="HH:mm:ss" timeOnly="true" required="true" requiredMessage="#{bundle.EditTurnoRequiredMessage_horaEnd}"/> 
+                                pattern="HH:mm:ss a" timeOnly="true" required="true" requiredMessage="#{bundle.EditTurnoRequiredMessage_horaEnd}"/> 
                     <p:message for="horaEnd"/>
                     <p:outputLabel value="#{bundle.EditTurnoLabel_feriado}" for="feriado" />
                     <h:selectOneMenu id="feriado" value="#{turnoController.selected.feriado}" 

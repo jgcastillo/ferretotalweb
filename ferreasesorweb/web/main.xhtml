@@ -19,7 +19,11 @@
 
     <ui:define name="status">
 
-        <h:outputStylesheet library="css" name="display.css"/>
+         <ui:include src="./WEB-INF/templates/snippets/statusButton.xhtml" />
+        
+         
+         <!--CODIGO ORIGINAL EN EL MAIN-->
+<!--        <h:outputStylesheet library="css" name="display.css"/>
         <h:outputScript library="js" name="handleMessage.js"/>
 
         <h:outputText value="Aqui va una alarma"/>
@@ -38,45 +42,13 @@
                             <h:outputText id="out13" value="#{status.index}"/>
                         </h:panelGrid>
                     </c:forEach>
-
-                    <!--                    <h:panelGrid id="panel_21" styleClass="ui-widget display21" style="display: none;">
-                                            <h:outputText id="out21" value="#{alarmaBean.botonId}"/>
-                                        </h:panelGrid>
-                                        <h:panelGrid id="panel_22" styleClass="ui-widget display22" style="display: none;">
-                                            <h:outputText id="out22" value="#{alarmaBean.botonId}"/>
-                                        </h:panelGrid>
-                                        <h:panelGrid id="panel_23" styleClass="ui-widget display23" style="display: none;">
-                                            <h:outputText id="out23" value="#{alarmaBean.botonId}"/>
-                                        </h:panelGrid>
-                    
-                                        <h:panelGrid id="panel_31" styleClass="ui-widget display31" style="display: none;">
-                                            <h:outputText id="out31" value="#{alarmaBean.botonId}"/>
-                                        </h:panelGrid>
-                                        <h:panelGrid id="panel_32" styleClass="ui-widget display32" style="display: none;">
-                                            <h:outputText id="out32" value="#{alarmaBean.botonId}"/>
-                                        </h:panelGrid>
-                                        <h:panelGrid id="panel_33" styleClass="ui-widget display33" style="display: none;">
-                                            <h:outputText id="out33" value="#{alarmaBean.botonId}"/>
-                                        </h:panelGrid>-->
-
                 </h:panelGrid>
             </p:fieldset>
-
         </h:form>  
 
         <ui:repeat value="#{alarmaBean.botones}" var="boton" varStatus="status">
             <p:socket onMessage="handleMessage#{status.index+1}" channel="/channel#{boton.id}"/>
-        </ui:repeat>
-
-        <!--         Para visualizar el cronómetro   
-                <div class="recuadro3">  
-                    <form name="crono">  
-                        <p>
-                            <input type="text" size="8" name="display" value="00:00"/> 
-                            <input type="button" name="Iniciar" value=" Iniciar " onClick="IniciarCrono()"/>
-                        </p>  
-                    </form>  
-                </div>  -->
+        </ui:repeat>-->
 
     </ui:define>
 
