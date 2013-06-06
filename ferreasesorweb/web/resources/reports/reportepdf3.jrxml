@@ -123,7 +123,7 @@
 	<columnFooter>
 		<band height="491" splitType="Stretch">
 			<elementGroup/>
-			<barChart>
+			<stackedBarChart>
 				<chart renderType="draw" theme="default">
 					<reportElement uuid="7e00d868-ba05-4d53-80d4-7bf450e72ff1" x="37" y="0" width="475" height="180"/>
 					<chartTitle/>
@@ -155,7 +155,7 @@
 					</plot>
 					<itemLabel/>
 				</barPlot>
-			</barChart>
+			</stackedBarChart>
 		</band>
 	</columnFooter>
 	<pageFooter>
