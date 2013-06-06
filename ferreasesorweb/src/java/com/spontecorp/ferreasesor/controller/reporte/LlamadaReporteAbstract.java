@@ -242,6 +242,7 @@ public abstract class LlamadaReporteAbstract {
         setTiempos(true);
         exportarReporteTiempoCalidad(extension, jasperFileAddress);
     }
+
     public void exportarReportePDFCalidadStacked(ActionEvent actionEvent) throws JRException, IOException {
         String extension = "PDF";
         String jasperFileAddress;
@@ -258,6 +259,7 @@ public abstract class LlamadaReporteAbstract {
         setTiempos(true);
         exportarReporteTiempoCalidad(extension, jasperFileAddress);
     }
+
     public void exportarReporteXLSCalidad(ActionEvent actionEvent) throws JRException, IOException {
         String extension = "XLSX";
         String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportexls2.jasper");
@@ -408,25 +410,16 @@ public abstract class LlamadaReporteAbstract {
             } else {
                 //Revisa los casos y llena la lista de jasperbean
                 myList = jm.FillList(result);
-                Map parametros = new HashMap();
-                parametros.put("fechai", sdf.format(fechaInicio));
-                parametros.put("fechaf", sdf.format(fechaFin));
-                parametros.put("nombrereporte", nombreReporte);
-                parametros.put("nombre", nombreRango);
-                parametros.put("cantidad", nombreDominio);
-                parametros.put("logo", logoAddress);
-                jm.FillReport(parametros, myList, extension, jasperFileAddress, nombreReporte);
             }
 
-            //parametros solicitados en el archivo jxrml
-
-
-
-
-            if (tiempos == true) {
-            }
-
-
+            Map parametros = new HashMap();
+            parametros.put("fechai", sdf.format(fechaInicio));
+            parametros.put("fechaf", sdf.format(fechaFin));
+            parametros.put("nombrereporte", nombreReporte);
+            parametros.put("nombre", nombreRango);
+            parametros.put("cantidad", nombreDominio);
+            parametros.put("logo", logoAddress);
+            jm.FillReport(parametros, myList, extension, jasperFileAddress, nombreReporte);
 
         } catch (JRException e) {
             Logger.getLogger(LlamadaReporteAbstract.class.getName()).log(Level.SEVERE, null, e);

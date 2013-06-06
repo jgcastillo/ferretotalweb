@@ -19,7 +19,7 @@
                 </h3>
             </f:facet>
 
-            <h:form id="form"><br/>
+            <h:form id="formLlamadasXTurno"><br/>
                 <h:panelGrid columns="8">
                     <h:outputLabel value="Fecha inicio: " for="fechaInicio"/>
                     <p:calendar id="fechaInicio" value="#{llamadasXturnoBean.fechaInicio}" 
@@ -28,7 +28,7 @@
                     <p:calendar id="fechaFin" value="#{llamadasXturnoBean.fechaFin}" 
                                 showOn="button" pattern="dd/MM/yyyy"/>
                     <p:spacer height="15"/>
-                    <p:commandButton value="Ver Data" actionListener="#{llamadasXturnoBean.populateLlamadas}" title="Ver Data" ajax="true" update="panelTable"/>
+                    <p:commandButton value="Ver Data" actionListener="#{llamadasXturnoBean.populateLlamadas}" title="Ver Data" ajax="true" update="formLlamadasXTurno"/>
                     <p:spacer style="width: 20px;"/>
 
                 </h:panelGrid>

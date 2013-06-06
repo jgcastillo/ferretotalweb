@@ -19,8 +19,8 @@
                 </h3>
             </f:facet>
 
-            <h:form id="form"><br/>
-                <h:panelGrid columns="8">
+            <h:form id="formTotalLlamada"><br/>
+                <h:panelGrid columns="8" ajax="true">
                     <h:outputLabel value="Fecha inicio: " for="fechaInicio"/>
                     <p:calendar id="fechaInicio" value="#{totalLlamadasBean.fechaInicio}" 
                                 showOn="button" pattern="dd/MM/yyyy"/>
@@ -28,7 +28,7 @@
                     <p:calendar id="fechaFin" value="#{totalLlamadasBean.fechaFin}" 
                                 showOn="button" pattern="dd/MM/yyyy"/>
                     <p:spacer height="15"/>
-                    <p:commandButton value="Ver Data" actionListener="#{totalLlamadasBean.populateLlamadas}" title="Ver Data" ajax="true" update="panelTable"/>
+                    <p:commandButton value="Ver Data" actionListener="#{totalLlamadasBean.populateLlamadas}" title="Ver Data" ajax="true" update="formTotalLlamada"/>
                     <p:spacer style="width: 10px;"/>
 
                 </h:panelGrid>
