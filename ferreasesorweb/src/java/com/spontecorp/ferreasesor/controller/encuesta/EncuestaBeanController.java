@@ -7,7 +7,6 @@ import com.spontecorp.ferreasesor.entity.Tienda;
 import com.spontecorp.ferreasesor.jpa.EncuestaFacade;
 import com.spontecorp.ferreasesor.jpa.TiendaFacade;
 import java.io.Serializable;
-import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -66,6 +65,8 @@ public class EncuestaBeanController implements Serializable {
     }
 
     public DataModel getItems() {
+        recreateModel();
+        System.out.println("llego a getITems");
         if(items == null){
             items = new ListDataModel(getFacade().findAll());
         }

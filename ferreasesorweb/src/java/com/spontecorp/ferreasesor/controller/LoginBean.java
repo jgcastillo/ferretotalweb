@@ -69,6 +69,7 @@ public class LoginBean implements Serializable {
     }
     
     public String logout(){
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove(usuario);
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         current = null;
         return "index?faces-redirect=true";

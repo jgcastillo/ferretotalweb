@@ -50,6 +50,7 @@ public class PreguntaBeanController implements Serializable {
     @EJB
     private EncuestaFacade encuestaFacade;
     private DataModel<Pregunta> preguntaItems;
+    private Map<Pregunta, List<RespuestaConf>> respuestas;
     private static final int ENCUESTA_ACTIVA = 1;
 
     public PreguntaBeanController() {
