@@ -28,26 +28,25 @@
                     <p:calendar id="fechaFin" value="#{calidadDispositivoBean.fechaFin}" 
                                 showOn="button" pattern="dd/MM/yyyy"/>
                     <p:spacer height="15"/>
-                    <h:commandButton value="Ver Data" actionListener="#{calidadDispositivoBean.populateLlamadas}" title="Ver Data"/>
+                    <p:commandButton value="Ver Data" actionListener="#{calidadDispositivoBean.populateLlamadas}" title="Ver Data" ajax="true" update="panelTable"/>
                     <p:spacer style="width: 10px;"/>
-                    <h:commandButton value="Gráfico Barras" disabled="#{calidadDispositivoBean.chartButtonDisable}" 
-                                     actionListener="#{calidadDispositivoBean.muestraGrafico}" title="Gráfico Barras"/>
-                    <p:spacer style="width: 10px;"/>
-                    <h:commandButton value="Gráfico Stacked" disabled="#{tiempoDispositivoBean.chartButtonDisable}"  
-                                     actionListener="#{tiempoDispositivoBean.muestraStackedGrafico}" title="Gráfico Stacked"/>
+
                 </h:panelGrid>
                 <br/><br/>
-                
-                <h:panelGroup id="panelTable" rendered="#{calidadDispositivoBean.showTable}">
-                    <p:dataTable value="#{calidadDispositivoBean.reporteData}" var="llamada" style="width: 79%;margin-left: 85px;"
+
+                <p:panel id="panelTable" style="border: 0px solid #FFFFFF;">
+                    <p:dataTable value="#{calidadDispositivoBean.reporteData}" var="llamada" style="width: 79%;margin-left: 85px;" rendered="#{calidadDispositivoBean.showTable}"
                                  paginator="true" rows="10"  
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                                  rowsPerPageTemplate="5,10,15"
                                  paginatorPosition="bottom">
                         <f:facet name="header">
-                            <p  style="text-align: center">Calidad de Atención por Dispositivo</p>
+                            <p  style="text-align: center">Calidad de Atención por Dispositivo<br/>
+                                (<h:outputText value="#{calidadDispositivoBean.fechaInicio}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText> 
+                                - <h:outputText value="#{calidadDispositivoBean.fechaFin}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>)
+                            </p>
                         </f:facet><br/>
-                        <p:column headerText="FerreAsesor">
+                        <p:column headerText="Dispositivo">
                             <h:outputText value="#{llamada.nombreObj}"/>
                         </p:column>
                         <p:column headerText="Atención Buena">
@@ -60,30 +59,42 @@
                             <h:outputText value="#{llamada.propiedadObj[2]}"/>
                         </p:column>
                     </p:dataTable>
-                </h:panelGroup>
-                <br/><br/>
-                <h:panelGroup id="panelChart" rendered="#{calidadDispositivoBean.showChart}">
-                    <p:barChart value="#{calidadDispositivoBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="chart"
-                                title="Calidad de Atención por Dispositivo" style="width: 80%; margin-left: 85px;" extender="customExtender" />
                     <br/>
-                    <h:panelGrid columns="3">
-                    <h:commandButton value="Exportar PDF"  actionListener="#{calidadDispositivoBean.exportarReportePDFCalidad}" style="margin-left:485px" title="Exportar a PDF"/>
+                    <p:commandButton value="Gráfico Barras" rendered="#{calidadDispositivoBean.reporteData.size() > 0}" ajax="true" update="panelGrafico" 
+                                     actionListener="#{calidadDispositivoBean.muestraGrafico}" title="Gráfico Barras" style="float: right;margin-right:80px;"/>
                     <p:spacer style="width: 10px;"/>
-                    <h:commandButton value="Exportar Excel"  actionListener="#{calidadDispositivoBean.exportarReporteXLSCalidad}" title="Exportar a Excel"/>
-                </h:panelGrid>
-                </h:panelGroup>
-                
-                <h:panelGroup id="panelStackedChart" rendered="#{calidadDispositivoBean.showStackedChart}">
-                    <p:barChart value="#{calidadDispositivoBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="stackedChart" stacked="true"
-                                title="Tiempos de Atención por Dispositivo" style="width: 80%; margin-left: 85px;" extender="customExtender" />
+                    <p:commandButton value="Gráfico Stacked" rendered="#{calidadDispositivoBean.reporteData.size() > 0}" ajax="true" update="panelGraficoStacked"    
+                                     actionListener="#{calidadDispositivoBean.muestraStackedGrafico}" title="Gráfico Stacked" style="float: right;margin-right:10px;"/>
+
+                    <br/><br/>
+
+                    <p:panel id="panelGrafico" style="border: 0px solid #FFFFFF;">
+                        <h:panelGroup id="panelChart" rendered="#{calidadDispositivoBean.showChart}">
+                            <p:barChart value="#{calidadDispositivoBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="chart"
+                                        title="Gráfico Barras - Calidad de Atención por Dispositivo" style="width: 80%; margin-left: 85px;" extender="customExtender" />
+                            <br/>
+                            <h:panelGrid columns="3">
+                                <h:commandButton value="Exportar PDF"  actionListener="#{calidadDispositivoBean.exportarReportePDFCalidad}" style="margin-left:485px" title="Exportar a PDF"/>
+                                <p:spacer style="width: 10px;"/>
+                                <h:commandButton value="Exportar Excel"  actionListener="#{calidadDispositivoBean.exportarReporteXLSCalidad}" title="Exportar a Excel"/>
+                            </h:panelGrid>
+                        </h:panelGroup>
+                    </p:panel>
+
                     <br/>
-                    <h:panelGrid columns="3">
-                        <h:commandButton value="Exportar PDF"  actionListener="#{calidadDispositivoBean.exportarReportePDF}" style="margin-left:485px" title="Exportar a PDF"/>
-                        <p:spacer style="width: 10px;"/>
-                        <h:commandButton value="Exportar Excel"  actionListener="#{calidadDispositivoBean.exportarReporteXLS}" title="Exportar a Excel"/>
-                    </h:panelGrid>
-                </h:panelGroup>
-                
+                    <p:panel id="panelGraficoStacked" style="border: 0px solid #FFFFFF;">
+                        <h:panelGroup id="panelStackedChart" rendered="#{calidadDispositivoBean.showStackedChart}">
+                            <p:barChart value="#{calidadDispositivoBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="stackedChart" stacked="true"
+                                        title="Gráfico Stacked - Tiempos de Atención por Dispositivo" style="width: 80%; margin-left: 85px;" extender="customExtender" />
+                            <br/>
+                            <h:panelGrid columns="3">
+                                <h:commandButton value="Exportar PDF"  actionListener="#{calidadDispositivoBean.exportarReportePDFCalidadStacked}" style="margin-left:485px" title="Exportar a PDF"/>
+                                <p:spacer style="width: 10px;"/>
+                                <h:commandButton value="Exportar Excel"  actionListener="#{calidadDispositivoBean.exportarReporteXLSCalidad}" title="Exportar a Excel"/>
+                            </h:panelGrid>
+                        </h:panelGroup>
+                    </p:panel>
+                </p:panel>
             </h:form>
         </p:fieldset>
     </ui:define>

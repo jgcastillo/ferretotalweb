@@ -228,29 +228,48 @@ public abstract class LlamadaReporteAbstract {
 
     public void exportarReportePDFCalidad(ActionEvent actionEvent) throws JRException, IOException {
         String extension = "PDF";
-        String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportepdf2.jasper");
+        String jasperFileAddress;
+        jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportepdf2.jasper");
+
         setTiempos(false);
-        exportarReporteTiempoCalidad(extension, jasperFileAddress, tiempos, nombreRango, nombreDominio);
+        exportarReporteTiempoCalidad(extension, jasperFileAddress);
     }
+
     public void exportarReportePDFTiempo(ActionEvent actionEvent) throws JRException, IOException {
         String extension = "PDF";
-        String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportepdf2.jasper");
+        String jasperFileAddress;
+        jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportepdf2.jasper");
         setTiempos(true);
-        exportarReporteTiempoCalidad(extension, jasperFileAddress, tiempos, nombreRango, nombreDominio);
+        exportarReporteTiempoCalidad(extension, jasperFileAddress);
     }
+    public void exportarReportePDFCalidadStacked(ActionEvent actionEvent) throws JRException, IOException {
+        String extension = "PDF";
+        String jasperFileAddress;
+        jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportepdf3.jasper");
 
-
-    public void exportarReporteXLSCalidad(ActionEvent actionEvent) throws JRException, IOException {
-        String extension = "XLS";
-        String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportepdf2.jasper");
         setTiempos(false);
-        exportarReporteTiempoCalidad(extension, jasperFileAddress, tiempos, "Ferreasesor", "Calidad");
+        exportarReporteTiempoCalidad(extension, jasperFileAddress);
     }
-     public void exportarReporteXLSTiempo(ActionEvent actionEvent) throws JRException, IOException {
-        String extension = "XLS";
-        String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportepdf2.jasper");
+
+    public void exportarReportePDFTiempoStacked(ActionEvent actionEvent) throws JRException, IOException {
+        String extension = "PDF";
+        String jasperFileAddress;
+        jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportepdf3.jasper");
         setTiempos(true);
-        exportarReporteTiempoCalidad(extension, jasperFileAddress, tiempos, "Ferreasesor", "Calidad");
+        exportarReporteTiempoCalidad(extension, jasperFileAddress);
+    }
+    public void exportarReporteXLSCalidad(ActionEvent actionEvent) throws JRException, IOException {
+        String extension = "XLSX";
+        String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportexls2.jasper");
+        setTiempos(false);
+        exportarReporteTiempoCalidad(extension, jasperFileAddress);
+    }
+
+    public void exportarReporteXLSTiempo(ActionEvent actionEvent) throws JRException, IOException {
+        String extension = "XLSX";
+        String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportexls2.jasper");
+        setTiempos(true);
+        exportarReporteTiempoCalidad(extension, jasperFileAddress);
     }
 
     /**
@@ -262,7 +281,7 @@ public abstract class LlamadaReporteAbstract {
      */
     public void exportarReporteXLS(ActionEvent actionEvent) throws JRException, IOException {
 
-        String extension = "XLS";
+        String extension = "XLSX";
         String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportexls.jasper");
         setPromedios(false);
         setTiempos(false);
@@ -282,7 +301,7 @@ public abstract class LlamadaReporteAbstract {
         String extension = "PDF";
         String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportepdf.jasper");
         setPromedios(true);
-        setTiempos(false);
+
         exportarReporte(extension, jasperFileAddress, promedios);
 
     }
@@ -295,8 +314,7 @@ public abstract class LlamadaReporteAbstract {
      * @throws IOException
      */
     public void exportarReporteXLSPromedios(ActionEvent actionEvent) throws JRException, IOException {
-
-        String extension = "XLS";
+        String extension = "XLSX";
         String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportexls.jasper");
         setPromedios(true);
         setTiempos(false);
@@ -312,7 +330,7 @@ public abstract class LlamadaReporteAbstract {
      * @throws JRException
      * @throws IOException
      */
-    public void exportarReporteTiempoCalidad(String extension, String jasperFileAddress, boolean tiempo, String categoria1, String categoria2) {
+    public void exportarReporteTiempoCalidad(String extension, String jasperFileAddress) {
         try {
             List<JasperBeanTiempo> myList2;
             JasperManagement jm = new JasperManagement();
@@ -321,7 +339,7 @@ public abstract class LlamadaReporteAbstract {
             String serie1;
             String serie2;
             String serie3;
-            if (tiempo) {
+            if (tiempos) {
                 serie1 = "Mínimo";
                 serie2 = "Promedio";
                 serie3 = "Máximo";
@@ -335,8 +353,8 @@ public abstract class LlamadaReporteAbstract {
             parametrosTiempo.put("fechai", sdf.format(fechaInicio));
             parametrosTiempo.put("fechaf", sdf.format(fechaFin));
             parametrosTiempo.put("nombrereporte", nombreReporte);
-            parametrosTiempo.put("categoria1", categoria1);
-            parametrosTiempo.put("categoria2", categoria2);
+            parametrosTiempo.put("categoria1", nombreRango);
+            parametrosTiempo.put("categoria2", nombreDominio);
             parametrosTiempo.put("serie1", serie1);
             parametrosTiempo.put("serie2", serie2);
             parametrosTiempo.put("serie3", serie3);

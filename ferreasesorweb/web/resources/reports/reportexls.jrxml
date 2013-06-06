@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report2" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4a125dc4-ac7c-498a-ab05-c265fe13bb28">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ferretotal" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4a125dc4-ac7c-498a-ab05-c265fe13bb28">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.export.xls.sheet.names.sheet1" value="&quot;Reporte Ferretotal&quot;"/>
 	<style name="Heading 1" fontSize="16" isBold="true"/>
 	<parameter name="nombre" class="java.lang.String"/>
 	<parameter name="cantidad" class="java.lang.String"/>
@@ -16,18 +17,18 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="131" splitType="Stretch">
+		<band height="125" splitType="Stretch">
 			<staticText>
 				<reportElement uuid="bc29100d-d077-4f2d-95bb-8195ab023743" positionType="FixRelativeToBottom" mode="Opaque" x="404" y="71" width="60" height="20" backcolor="#CCCCFF"/>
 				<textElement textAlignment="Justified">
-					<font fontName="Arial" size="12" isBold="true"/>
+					<font fontName="Arial" size="12" isBold="false"/>
 				</textElement>
 				<text><![CDATA[  Fecha:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="6d962561-25b0-4d39-97f8-e125b99553fa" positionType="Float" mode="Opaque" x="404" y="91" width="60" height="20" backcolor="#CCCCFF"/>
 				<textElement textAlignment="Justified">
-					<font fontName="Arial" size="12" isBold="true"/>
+					<font fontName="Arial" size="12" isBold="false"/>
 				</textElement>
 				<text><![CDATA[   Hora:]]></text>
 			</staticText>
