@@ -1,14 +1,93 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="./../../WEB-INF/templates/layout.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../../WEB-INF/templates/layout.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="title">
-        title
+        <title>Tiempos de Atención por Dispositivo</title>
     </ui:define>
 
     <ui:define name="content">
-        content
+        <p:fieldset>
+            <f:facet name="legend">
+                <h3>
+                    <h:outputText value="Tiempos de Atención por Dispositivo"/>
+                </h3>
+            </f:facet>
+
+            <h:form id="form"><br/>
+                <h:panelGrid columns="10">
+                    <h:outputLabel value="Fecha inicio: " for="fechaInicio"/>
+                    <p:calendar id="fechaInicio" value="#{tiempoDispositivoBean.fechaInicio}" 
+                                showOn="button" pattern="dd/MM/yyyy"/>
+                    <h:outputLabel value="Fecha fin: " for="fechaFin"/>
+                    <p:calendar id="fechaFin" value="#{tiempoDispositivoBean.fechaFin}"  
+                                showOn="button" pattern="dd/MM/yyyy"/>
+                    <p:spacer height="15"/>
+                    <h:commandButton value="Ver Data" actionListener="#{tiempoDispositivoBean.populateLlamadas}" title="Ver Data"/>
+                    <p:spacer style="width: 10px;"/>
+                    <h:commandButton value="Gráfico Barras" disabled="#{tiempoDispositivoBean.chartButtonDisable}" 
+                                     actionListener="#{tiempoDispositivoBean.muestraGrafico}" title="Gráfico Barras"/>
+                    <p:spacer style="width: 10px;"/>
+                    <h:commandButton value="Gráfico Stacked" disabled="#{tiempoDispositivoBean.chartButtonDisable}"  
+                                     actionListener="#{tiempoDispositivoBean.muestraStackedGrafico}" title="Gráfico Stacked"/>
+                </h:panelGrid>
+                <br/><br/>
+
+                <h:panelGroup id="panelTable" rendered="#{tiempoDispositivoBean.showTable}">
+                    <p:dataTable value="#{tiempoDispositivoBean.reporteData}" var="llamada" style="width: 79%;margin-left: 85px;"
+                                 paginator="true" rows="10"   
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                 rowsPerPageTemplate="5,10,15"
+                                 paginatorPosition="bottom">
+                        <f:facet name="header">
+                            <p  style="text-align: center">Tiempos de Atención por Dispositivo</p>
+                        </f:facet><br/>
+                        <p:column headerText="Dispositivo">
+                            <h:outputText value="#{llamada.nombreObj}"/>
+                        </p:column>
+                        <p:column headerText="Tiempo Mínimo">
+                            <h:outputText value="#{llamada.propiedadObj[0]}"/>
+                        </p:column>
+                        <p:column headerText="Tiempo Promedio">
+                            <h:outputText value="#{llamada.propiedadObj[1]}"/>
+                        </p:column>
+                        <p:column headerText="Tiempo Máximo">
+                            <h:outputText value="#{llamada.propiedadObj[2]}"/>
+                        </p:column>   
+
+                    </p:dataTable>
+                </h:panelGroup>
+                <br/><br/>
+
+                <h:panelGroup id="panelChart" rendered="#{tiempoDispositivoBean.showChart}">
+                    <p:barChart value="#{tiempoDispositivoBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="chart" 
+                                title="Tiempos de Atención por Dispositivo" style="width: 80%; margin-left: 85px;" extender="customExtender" />
+                    <br/>
+                    <h:panelGrid columns="3">
+                        <h:commandButton value="Exportar PDF"  actionListener="#{tiempoDispositivoBean.exportarReportePDFTiempoDisp}" style="margin-left:485px" title="Exportar a PDF"/>
+                        <p:spacer style="width: 10px;"/>
+                        <h:commandButton value="Exportar Excel"  actionListener="#{tiempoDispositivoBean.exportarReporteXLSTiempoDisp}" title="Exportar a Excel"/>
+                    </h:panelGrid>
+                </h:panelGroup>
+
+                <h:panelGroup id="panelStackedChart" rendered="#{tiempoDispositivoBean.showStackedChart}">
+                    <p:barChart value="#{tiempoDispositivoBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="stackedChart" stacked="true"
+                                title="Tiempos de Atención por Dispositivo" style="width: 80%; margin-left: 85px;" extender="customExtender" />
+                    <br/>
+                    <h:panelGrid columns="3">
+                        <h:commandButton value="Exportar PDF"  actionListener="#{tiempoDispositivoBean.exportarReportePDFTiempo}" style="margin-left:485px" title="Exportar a PDF"/>
+                        <p:spacer style="width: 10px;"/>
+                        <h:commandButton value="Exportar Excel"  actionListener="#{tiempoDispositivoBean.exportarReporteXLSTiempo}" title="Exportar a Excel"/>
+                    </h:panelGrid>
+                </h:panelGroup>
+
+            </h:form>
+        </p:fieldset>
     </ui:define>
 
     <ui:define name="status">
@@ -16,3 +95,5 @@
     </ui:define>
 
 </ui:composition>
+
+

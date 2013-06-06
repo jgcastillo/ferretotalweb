@@ -19,51 +19,62 @@
                 </h3>
             </f:facet>
 
-            <h:form id="form">
-                <h:panelGrid columns="4">
+            <h:form id="form"><br/>
+                <h:panelGrid columns="8">
                     <h:outputLabel value="Fecha inicio: " for="fechaInicio"/>
                     <p:calendar id="fechaInicio" value="#{promedioXturnoBean.fechaInicio}" 
                                 showOn="button" pattern="dd/MM/yyyy"/>
                     <h:outputLabel value="Fecha fin: " for="fechaFin"/>
                     <p:calendar id="fechaFin" value="#{promedioXturnoBean.fechaFin}" 
                                 showOn="button" pattern="dd/MM/yyyy"/>
-                </h:panelGrid>
-                <p:spacer height="10"/>
-                <h:panelGrid columns="3">
-                    <h:commandButton value="Ver Data" actionListener="#{promedioXturnoBean.populateLlamadas}"/>
+                    <p:spacer height="15"/>
+                    <p:commandButton value="Ver Data" actionListener="#{promedioXturnoBean.populateLlamadas}" title="Ver Data" ajax="true" update="panelTable"/>
                     <p:spacer style="width: 20px;"/>
-                    <h:commandButton value="Ver Gráfico" disabled="#{promedioXturnoBean.chartButtonDisable}" 
-                                     actionListener="#{promedioXturnoBean.muestraGrafico}"/>
+                    
                 </h:panelGrid>
-                <p:spacer height="10"/>
-                <h:panelGroup id="panelTable" rendered="#{promedioXturnoBean.showTable}">
-                    <p:dataTable value="#{promedioXturnoBean.reporteData}" var="llamada" style="width: 65%;"
+                <br/><br/>
+                
+                <p:panel id="panelTable" style="border: 0px solid #FFFFFF;">
+                    <p:dataTable value="#{promedioXturnoBean.reporteData}" var="llamada" style="width: 79%;margin-left: 85px;" rendered="#{promedioXturnoBean.showTable}"
                                  paginator="true" rows="10"  
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                                  rowsPerPageTemplate="5,10,15"
                                  paginatorPosition="bottom">
                         <f:facet name="header">
-                            Promedio de Llamadas por Turno entre Fechas
+                            <p  style="text-align: center">Promedio de Llamadas por Turno entre Fechas</p>
                         </f:facet>
-                        <p:column headerText="Fecha">
+                        <p:column headerText="Turno">
                             <h:outputText value="#{llamada.rango}"/>
                         </p:column>
-                        <p:column headerText="Cantidad">
+                        <p:column headerText="Promedio">
                             <h:outputText value="#{llamada.dominio}"/>
                         </p:column>
                     </p:dataTable>
-                </h:panelGroup>
-                <br/>
-                <h:panelGroup id="panelChart" rendered="#{promedioXturnoBean.showChart}">
-                    <p:barChart value="#{promedioXturnoBean.categoryModel}" legendPosition="ne"
-                                title="Promedio de Llamadas por Turno entre Fechas" style="width: 85%"/>
-                </h:panelGroup>
+                    <br/>
+                    <p:commandButton value="Gráfico Barras" disabled="#{promedioXturnoBean.chartButtonDisable}" ajax="true" update="panelGrafico"
+                                     actionListener="#{promedioXturnoBean.muestraGrafico}" title="Gráfico Barras" style="float: right;margin-right:80px;"/>
+                </p:panel>
+                <br/><br/>
+
+                <p:panel id="panelGrafico" style="border: 0px solid #FFFFFF;">
+                    <p:panel id="panelChart" rendered="#{promedioXturnoBean.showChart and promedioXturnoBean.reporteData.size() > 0}" style="border: 0px solid #FFFFFF;">
+                        <p:barChart value="#{promedioXturnoBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="chart"
+                                    title="Promedio de Llamadas por Turno entre Fechas" style="width: 80%; margin-left: 85px;" extender="customExtender" />
+                        <br/>
+                        <h:panelGrid columns="3">
+                            <h:commandButton value="Exportar PDF"  actionListener="#{promedioXturnoBean.exportarReportePDFPromedios}" style="margin-left:485px" title="Exportar a PDF"/>
+                            <p:spacer style="width: 10px;"/>
+                            <h:commandButton value="Exportar Excel"  actionListener="#{promedioXturnoBean.exportarReporteXLSPromedios}" title="Exportar a Excel"/>
+                        </h:panelGrid>
+                    </p:panel>
+                </p:panel>                 
+
             </h:form>
         </p:fieldset>
     </ui:define>
 
     <ui:define name="status">
-        status
+        <!--        <ui:include src="../../WEB-INF/templates/snippets/statusButton.xhtml" />-->
     </ui:define>
 
 </ui:composition>

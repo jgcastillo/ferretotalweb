@@ -33,15 +33,22 @@ public class LlamadaFacadeExt extends LlamadaFacade {
     }
 
     /**
-     * Devuelve una lista de llamadas entre dos fechas, dependiendo del query que reciba
+     * Devuelve una lista de llamadas entre dos fechas, dependiendo del query
+     * que reciba
+     *
      * @param tipo
      * @param fechaInicio
      * @param fechaFin
-     * @return 
+     * @return
      */
     public List<Object[]> findLlamadas(int tipo, Date fechaInicio, Date fechaFin) {
         String query = "";
         switch (tipo) {
+            case ReporteHelper.LLAMADAS_TOTALES:
+                query = "SELECT ll.fechaClose, count(ll) FROM Llamada ll "
+                        + "WHERE ll.accion = '0' AND ll.fechaClose >= :fechaInicio AND ll.fechaClose <= :fechaFin "
+                        + "GROUP BY ll.fechaClose";
+                break;
             case ReporteHelper.LLAMADAS_DISPOSITIVO:
                 query = "SELECT b, COUNT(ll) "
                         + "FROM Llamada ll, Distribucion d, Boton b "
@@ -63,6 +70,48 @@ public class LlamadaFacadeExt extends LlamadaFacade {
                         + "AND ll.accion = '0' AND ll.fechaClose >= :fechaInicio AND ll.fechaClose <= :fechaFin "
                         + "GROUP BY d.turnoId";
                 break;
+            case ReporteHelper.TIEMPOS_X_DISPOSITIVO:
+                query = "SELECT ll, b "
+                        + "FROM Llamada ll , Distribucion d, Boton b "
+                        + "WHERE ll.distribucionId.id = d.id AND d.botonId = b.id "
+                        + "AND ll.fechaClose >= :fechaInicio AND ll.fechaClose <= :fechaFin "
+                        + "ORDER BY b.id";
+                break;
+            case ReporteHelper.TIEMPOS_X_FERREASESOR:
+                query = "SELECT ll, a "
+                        + "FROM Llamada ll, Distribucion d, Asesor a "
+                        + "WHERE ll.distribucionId.id = d.id AND d.asesorId = a.id "
+                        + "AND ll.fechaClose >= :fechaInicio AND ll.fechaClose <= :fechaFin "
+                        + "ORDER BY a.id";
+                break;
+            case ReporteHelper.TIEMPOS_X_TURNO:
+                query = "SELECT ll, t "
+                        + "FROM Llamada ll, Distribucion d, Turno t "
+                        + "WHERE ll.distribucionId.id = d.id AND d.turnoId = t.id "
+                        + "AND ll.fechaClose >= :fechaInicio AND ll.fechaClose <= :fechaFin "
+                        + "ORDER BY t.id";
+                break;
+            case ReporteHelper.CALIDAD_X_DISPOSITIVO:
+                query = "SELECT ll, b, t "
+                        + "FROM Llamada ll, Distribucion d, Boton b, Tiempo t "
+                        + "WHERE ll.distribucionId.id = d.id AND t.turnoId.id = d.turnoId AND d.botonId = b.id "
+                        + "AND ll.fechaClose >= :fechaInicio AND ll.fechaClose <= :fechaFin "
+                        + "ORDER BY b.id";
+                break;
+            case ReporteHelper.CALIDAD_X_FERREASESOR:
+                query = "SELECT ll, a, t "
+                        + "FROM Llamada ll, Distribucion d, Asesor a, Tiempo t "
+                        + "WHERE ll.distribucionId.id = d.id AND t.turnoId.id = d.turnoId AND d.asesorId = a.id "
+                        + "AND ll.fechaClose >= :fechaInicio AND ll.fechaClose <= :fechaFin "
+                        + "ORDER BY a.id";
+                break;
+            case ReporteHelper.CALIDAD_X_TURNO:
+                query = "SELECT ll, tu , t "
+                        + "FROM Llamada ll , Distribucion d, Turno tu, Tiempo t "
+                        + "WHERE ll.distribucionId.id = d.id AND t.turnoId.id = d.turnoId AND d.turnoId = tu.id "
+                        + "AND ll.fechaClose >= :fechaInicio AND ll.fechaClose <= :fechaFin "
+                        + "ORDER BY tu.id";
+                break;
 
         }
 
@@ -74,37 +123,39 @@ public class LlamadaFacadeExt extends LlamadaFacade {
             result = q.getResultList();
         } catch (Exception e) {
             logger.error("Error generando los datos: " + e);
-        } 
+        }
         return result;
     }
-    
+
     /**
      * Cuenta las llamdas entre dos fechas
+     *
      * @param fechaInicial
      * @param fechaFin
      * @return la cantidad de llamadas
      */
     public Long getLlamadaCount(Date fechaInicio, Date fechaFin) {
-            String query = "SELECT COUNT(ll) FROM Llamada ll "
-                    + "WHERE ll.accion = '0' AND ll.fechaClose >= :fechaInicio AND ll.fechaClose <= :fechaFin ";
-            Query q = em.createQuery(query);
-            q.setParameter("fechaInicio", fechaInicio);
-            q.setParameter("fechaFin", fechaFin);
-            return (Long)q.getSingleResult();
+        String query = "SELECT COUNT(ll) FROM Llamada ll "
+                + "WHERE ll.accion = '0' AND ll.fechaClose >= :fechaInicio AND ll.fechaClose <= :fechaFin ";
+        Query q = em.createQuery(query);
+        q.setParameter("fechaInicio", fechaInicio);
+        q.setParameter("fechaFin", fechaFin);
+        return (Long) q.getSingleResult();
     }
 
     /**
      * Cuenta la cantidad de llamdas cerradas entre dos fechas
+     *
      * @param fechaInicial
      * @param fechaFin
-     * @return 
+     * @return
      */
     public Long getDiasEntreFechasCount(Date fechaInicial, Date fechaFin) {
-            String query = "SELECT COUNT(DISTINCT ll.fechaClose) FROM Llamada ll "
-                    + "WHERE ll.accion = '0' AND ll.fechaClose >= :fechaInicio AND ll.fechaClose <= :fechaFin ";
-            Query q = em.createQuery(query);
-            q.setParameter("fechaInicio", fechaInicial);
-            q.setParameter("fechaFin", fechaFin);
-            return (Long)q.getSingleResult();
+        String query = "SELECT COUNT(DISTINCT ll.fechaClose) FROM Llamada ll "
+                + "WHERE ll.accion = '0' AND ll.fechaClose >= :fechaInicio AND ll.fechaClose <= :fechaFin ";
+        Query q = em.createQuery(query);
+        q.setParameter("fechaInicio", fechaInicial);
+        q.setParameter("fechaFin", fechaFin);
+        return (Long) q.getSingleResult();
     }
 }

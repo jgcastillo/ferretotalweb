@@ -12,7 +12,7 @@
 
     <ui:define name="content">
         <h:form prependId="false">
-            <p:panel header="Configuración de Tiempos de Atención" style="width:60%; margin-left:15px;">
+            <p:panel header="Configuración de Tiempos de Atención" style="width:75%; margin-left:15px;">
                 <p:dataTable value="#{tiempoController.items}" var="item" style="width: auto;"
                              paginator="true" rows="9" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
                     <f:facet name="header" >
@@ -24,6 +24,9 @@
                     </p:column>
                     <p:column headerText="Atención Regular" style="text-align: center;">
                         <h:outputText value="Entre #{item.atencionBuena} y #{item.atencionRegular} seg."/>
+                    </p:column>
+                    <p:column headerText="Cerrar Llamada" style="text-align: center;">
+                        <h:outputText value="#{item.cerrarLlamada} seg."/>
                     </p:column>
                     <p:column headerText="Status" width="15%" style="text-align: center;">
                         <h:outputText value="HABILITADO" rendered="#{item.status==1}" />

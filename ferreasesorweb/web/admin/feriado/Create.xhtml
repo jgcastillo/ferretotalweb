@@ -16,23 +16,23 @@
         
         <h:form id="form">
             
-            <p:panel id="panel" header="Configuración de Feriados" style="width: 60%; margin-left: 15px;">
+            <p:panel id="panel" header="Crear Feriado" style="width: 60%; margin-left: 15px;">
                 <h:panelGrid columns="3">
                     <p:outputLabel value="#{bundle.CreateFeriadoLabel_dia}" for="dia"/>
-                    <p:selectOneMenu id="dia" value="#{feriadoController.selected.dia}" style="width: 130px;"
+                    <h:selectOneMenu id="dia" value="#{feriadoController.selected.dia}" style="width: 130px;"
                                      required="true" requiredMessage="#{bundle.CreateFeriadoRequiredMessage_dia}">
                         <f:selectItem itemLabel="Seleccione un día" itemValue=""/>
                         <f:selectItems value="#{feriadoControllerExt.dias}"/>
-                    </p:selectOneMenu>
+                    </h:selectOneMenu>
 <!--                    <h:inputText id="dia" value="#{feriadoController.selected.dia}" title="#{bundle.CreateFeriadoTitle_dia}" 
                                  required="true" requiredMessage="#{bundle.CreateFeriadoRequiredMessage_dia}"/>-->
                     <p:message for="dia"/>
                     <p:outputLabel value="#{bundle.CreateFeriadoLabel_mes}" for="mes" />
-                    <p:selectOneMenu id="mes" value="#{feriadoController.selected.mes}" style="width: 130px;"
+                    <h:selectOneMenu id="mes" value="#{feriadoController.selected.mes}" style="width: 130px;"
                                      required="true" requiredMessage="bundle.CreateFeriadoRequiredMessage_mes">
                         <f:selectItem itemLabel="Seleccione un mes" itemValue=""/>
                         <f:selectItems value="#{feriadoControllerExt.meses}"/>
-                    </p:selectOneMenu>
+                    </h:selectOneMenu>
 <!--                    <h:inputText id="mes" value="#{feriadoController.selected.mes}" title="#{bundle.CreateFeriadoTitle_mes}" 
                                  required="true" requiredMessage="#{bundle.CreateFeriadoRequiredMessage_mes}"/>-->
                     <p:message for="mes"/>
@@ -50,7 +50,7 @@
                     </p:selectOneMenu>-->
                 </h:panelGrid>
                 <f:facet name="footer">
-                    <h:panelGrid columns="3" style="display: block; margin-left: 65%;">
+                    <h:panelGrid columns="3" style="display: block; margin-left: 50%;">
                         <p:commandButton value="Guardar" 
                                          action="#{feriadoController.create}"
                                          ajax="true" update="panel"

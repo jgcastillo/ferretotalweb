@@ -44,24 +44,24 @@
                     <p:message for="psw_repeat"/>
                     
                     <p:outputLabel value="#{bundle.EditUsuarioLabel_status}" for="status" />
-                    <p:selectOneMenu id="status" value="#{usuarioControllerExt.selected.status}" 
+                    <h:selectOneMenu id="status" value="#{usuarioControllerExt.selected.status}" 
                                      required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_status}" 
                                      style="width: 130px;">
                         <f:selectItem itemLabel="Habilitado" itemValue="1" />
                         <f:selectItem itemLabel="Inhabilitado" itemValue="0" />
-                    </p:selectOneMenu>
+                    </h:selectOneMenu>
                     <p:message for="status"/>
                     <p:outputLabel value="#{bundle.EditUsuarioLabel_perfilId}" for="perfilId" />
-                    <p:selectOneMenu id="perfilId" value="#{usuarioControllerExt.selected.perfilId}" 
+                    <h:selectOneMenu id="perfilId" value="#{usuarioControllerExt.selected.perfilId}" 
                                      required="true" style="width: 130px;"
                                      requiredMessage="#{bundle.EditUsuarioRequiredMessage_perfilId}">
                         <f:selectItems value="#{perfilController.itemsAvailableSelectOne}"/>
-                    </p:selectOneMenu>
+                    </h:selectOneMenu>
                     <p:message for="perfilId"/>
                 </h:panelGrid>
                 
                 <f:facet name="footer">
-                    <h:panelGrid columns="3" style="display:block;margin-left: 65%">
+                    <h:panelGrid columns="3" style="display:block;margin-left: 50%">
                         <p:commandButton value="Guardar" title="Guardar" icon="ui-icon-disk" 
                                          action="#{usuarioControllerExt.update}"
                                          ajax="true" update="panel"/>

@@ -11,36 +11,41 @@
     </ui:define>
     <ui:define name="content">
         <h:form>
-            <p:panel id="panel" header="Editar Dispositivo" style="width:60%; margin-left:15px;">
+            <p:panel id="panel" header="Editar Tiempos de Atención" style="width:60%; margin-left:15px;">
                 <h:panelGrid columns="3">
-                    <p:outputLabel value="#{bundle.EditTiempoLabel_turnoId}" for="turnoId" />
-                    <p:selectOneMenu id="turnoId" value="#{tiempoController.selected.turnoId.nombre}" 
-                                     required="true" style="width: 130px;"
-                                     requiredMessage="#{bundle.EditTiempoRequiredMessage_turnoId}">
+                    <p:outputLabel value="#{bundle.CreateTiempoLabel_turnoId}" for="turnoId" />
+                    <h:selectOneMenu id="turnoId" value="#{tiempoController.selected.turnoId}" style="width: 130px;" 
+                                     title="#{bundle.CreateTiempoTitle_turnoId}" required="true" 
+                                     requiredMessage="#{bundle.CreateTiempoRequiredMessage_turnoId}">
                         <f:selectItems value="#{turnoController.itemsAvailableSelectOne}"/>
-                    </p:selectOneMenu>
+                    </h:selectOneMenu>
                     <p:message for="turnoId"/>
-                    <h:outputLabel value="Criterio de Buena Atención:" for="atencionBuena" />
+                    <p:outputLabel value="Criterio de Buena Atención:" for="atencionBuena" />
                     <h:inputText id="atencionBuena" value="#{tiempoController.selected.atencionBuena}" 
                                  title="#{bundle.EditTiempoTitle_atencionBuena}" required="true" 
                                  requiredMessage="#{bundle.EditTiempoRequiredMessage_atencionBuena}"/>
                     <p:message for="atencionBuena"/>
-                    <h:outputLabel value="Criterio de Atención Regular:" for="atencionRegular" />
+                    <p:outputLabel value="Criterio de Atención Regular:" for="atencionRegular" />
                     <h:inputText id="atencionRegular" value="#{tiempoController.selected.atencionRegular}" 
                                  title="#{bundle.EditTiempoTitle_atencionRegular}" required="true" 
                                  requiredMessage="#{bundle.EditTiempoRequiredMessage_atencionRegular}"/>
                     <p:message for="atencionRegular"/>
-                    <h:outputLabel value="#{bundle.EditTiempoLabel_status}" for="status" />
-                    <p:selectOneMenu id="status" value="#{tiempoController.selected.status}" 
+                    <p:outputLabel value="Cerrar Llamada:" for="cerrarLlamada" />
+                    <h:inputText id="cerrarLlamada" value="#{tiempoController.selected.cerrarLlamada}" 
+                                 title="Cerrar llamada" required="true" 
+                                 requiredMessage="El campo Cerrar Llamada es requerido"/>
+                    <p:message for="cerrarLlamada"/>
+                    <p:outputLabel value="#{bundle.EditTiempoLabel_status}" for="status" />
+                    <h:selectOneMenu id="status" value="#{tiempoController.selected.status}" 
                                      required="true" requiredMessage="#{bundle.EditTiempoRequiredMessage_status}" 
                                      style="width: 130px;">
                         <f:selectItem itemLabel="Habilitado" itemValue="1" />
                         <f:selectItem itemLabel="Inhabilitado" itemValue="0" />
-                    </p:selectOneMenu>
+                    </h:selectOneMenu>
                     <p:message for="status"/>
                 </h:panelGrid>
                 <f:facet name="footer">
-                    <h:panelGrid columns="3" style="display:block;margin-left: 65%">
+                    <h:panelGrid columns="3" style="display:block;margin-left: 50%">
                         <p:commandButton value="Guardar" title="Guardar" icon="ui-icon-disk" 
                                          action="#{tiempoController.update}"
                                          ajax="true" update="panel"/>

@@ -19,7 +19,11 @@
 
     <ui:define name="status">
 
-        <h:outputStylesheet library="css" name="display.css"/>
+         <ui:include src="./WEB-INF/templates/snippets/statusButton.xhtml" />
+        
+         
+         <!--CODIGO ORIGINAL EN EL MAIN-->
+<!--        <h:outputStylesheet library="css" name="display.css"/>
         <h:outputScript library="js" name="handleMessage.js"/>
 
         <h:outputText value="Aqui va una alarma"/>
@@ -40,22 +44,11 @@
                     </c:forEach>
                 </h:panelGrid>
             </p:fieldset>
-
         </h:form>  
 
         <ui:repeat value="#{alarmaBean.botones}" var="boton" varStatus="status">
             <p:socket onMessage="handleMessage#{status.index+1}" channel="/channel#{boton.id}"/>
-        </ui:repeat>
-
-        <!--         Para visualizar el cronómetro   
-                <div class="recuadro3">  
-                    <form name="crono">  
-                        <p>
-                            <input type="text" size="8" name="display" value="00:00"/> 
-                            <input type="button" name="Iniciar" value=" Iniciar " onClick="IniciarCrono()"/>
-                        </p>  
-                    </form>  
-                </div>  -->
+        </ui:repeat>-->
 
     </ui:define>
 

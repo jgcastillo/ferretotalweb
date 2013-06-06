@@ -9,6 +9,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 import org.primefaces.model.StreamedContent;
+import org.primefaces.model.chart.CartesianChartModel;
+import org.primefaces.model.chart.ChartSeries;
 
 /**
  *
@@ -18,14 +20,30 @@ import org.primefaces.model.StreamedContent;
 @SessionScoped
 public class TotalLLamadasController extends LlamadaReporteAbstract implements Serializable{
     
+    private String nombreReporte = "Cantidad Total de Llamadas";
+    private String nombreRango = "Id de Botón";
+    private String nombreDominio = "Cantidad";
     
+    /**
+     * Metodo para Generar la Tabla de Datos
+     * @param actionEvent 
+     */
     @Override
     public void populateLlamadas(ActionEvent actionEvent){
-        reporteData = new ArrayList<>();
+        
         LlamadaFacadeExt facade = new LlamadaFacadeExt();
+        reporteData = new ArrayList<>();
+        
+        //Verifico las fechas
         getFechasVacias();
-        result = facade.findLlamadas(fechaInicio, fechaFin);
-        for(Object[] array : result){
+        //Seteo los Datos del Reporte
+        setNombreReporte(nombreReporte);
+        setNombreRango(nombreRango);
+        setNombreDominio(nombreDominio);
+        //Seteo la busqueda
+        setResult(facade.findLlamadas(ReporteHelper.LLAMADAS_TOTALES, fechaInicio, fechaFin));
+        
+        for(Object[] array : getResult()){
             ReporteHelper helper = new ReporteHelper();
             helper.setRango(sdf.format((Date)array[0]));
             helper.setDominio(Integer.valueOf(String.valueOf(array[1])));
@@ -36,14 +54,28 @@ public class TotalLLamadasController extends LlamadaReporteAbstract implements S
         chartButtonDisable = false;
     }
     
+    @Override
     public StreamedContent getChart(){
         LlamadaFacadeExt facade = new LlamadaFacadeExt();
-        result = facade.findLlamadas(fechaInicio, fechaFin);
-        
-        BarChart barChart = new BarChart("Llamadas Totales", "Días", "Llamdas");
-        barChart.setResult(result);
+        //result = facade.findLlamadas(ReporteHelper.LLAMADAS_TOTALES, fechaInicio, fechaFin);
+        BarChart barChart = new BarChart(nombreReporte, nombreRango, nombreDominio);
+        barChart.setResult(getResult());
         barChart.createDataset();
         return barChart.getBarChart();
+    }
+    
+    /**
+     * Metodo para Generar el Grafico en PrimeFaces
+     */
+    @Override
+     public void createCategoryModel() {
+        categoryModel = new CartesianChartModel();
+        ChartSeries cant = new ChartSeries("Cantidad");
+
+        for (ReporteHelper data : reporteData) {
+            cant.set(data.getRango(), data.getDominio());
+        }
+        categoryModel.addSeries(cant);
     }
 
 }

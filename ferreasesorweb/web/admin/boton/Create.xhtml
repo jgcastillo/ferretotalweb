@@ -29,11 +29,11 @@
                                  requiredMessage="#{bundle.CreateBotonRequiredMessage_ubicacion}"/>
                     <p:message for="ubicacion"/>
                     <p:outputLabel value="#{bundle.CreateBotonLabel_status}" for="status" />
-                    <p:selectOneMenu id="status" value="#{botonController.selected.status}" required="true" 
+                    <h:selectOneMenu id="status" value="#{botonController.selected.status}" required="true" 
                                      requiredMessage="#{bundle.EditBotonRequiredMessage_status}" style="width: 130px;">   
                         <f:selectItem itemLabel="Habilitado" itemValue="1" />
                         <f:selectItem itemLabel="Inhabilitado" itemValue="0" />
-                    </p:selectOneMenu>
+                    </h:selectOneMenu>
                     <p:message for="status"/>
 <!--                    <p:outputLabel value="#{bundle.CreateBotonLabel_tiendaId}" for="tiendaId" />
                     <p:selectOneMenu id="tiendaId" value="#{botonController.selected.tiendaId}" title="#{bundle.CreateBotonTitle_tiendaId}" required="true" requiredMessage="#{bundle.CreateBotonRequiredMessage_tiendaId}" style="width: 130px;">
@@ -42,7 +42,7 @@
                     <p:message for="tiendaId"/>-->
                 </h:panelGrid>
                 <f:facet name="footer">
-                    <h:panelGrid columns="3" style="display:block;margin-left: 65%">
+                    <h:panelGrid columns="3" style="display:block;margin-left: 50%">
                         <p:commandButton value="Guardar" title="Guardar" icon="ui-icon-disk" 
                                          action="#{botonController.create}"
                                          ajax="true" update="panel"/>
