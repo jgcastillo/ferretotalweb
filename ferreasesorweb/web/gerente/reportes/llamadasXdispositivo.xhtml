@@ -41,7 +41,10 @@
                                  rowsPerPageTemplate="5,10,15"
                                  paginatorPosition="bottom">
                         <f:facet name="header">
-                            <p  style="text-align: center">Llamadas por Dispositivo entre Fechas</p>
+                            <p  style="text-align: center">Llamadas por Dispositivo entre Fechas<br/>
+                                (<h:outputText value="#{llamadasXdispBean.fechaInicio}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText> 
+                                - <h:outputText value="#{llamadasXdispBean.fechaFin}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>)
+                            </p>
                         </f:facet>
                         <p:column headerText="Botón">
                             <h:outputText value="#{llamada.rango}"/>
@@ -51,23 +54,24 @@
                         </p:column>
                     </p:dataTable>
                     <br/>
-                    <p:commandButton value="Gráfico Barras" disabled="#{llamadasXdispBean.chartButtonDisable}" ajax="true" update="panelGrafico"
+                    <p:commandButton value="Gráfico Barras" rendered="#{llamadasXdispBean.reporteData.size() > 0}" ajax="true" update="panelGrafico"
                                      actionListener="#{llamadasXdispBean.muestraGrafico}" title="Gráfico Barras" style="float: right;margin-right:80px;"/>
-                </p:panel>
-                <br/><br/>
-                <p:panel id="panelGrafico" style="border: 0px solid #FFFFFF;">
-                    <p:panel id="panelChart" rendered="#{llamadasXdispBean.showChart and llamadasXdispBean.reporteData.size() > 0}" style="border: 0px solid #FFFFFF;">
-                        <p:barChart value="#{llamadasXdispBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="chart"
-                                    title="Llamadas por Dispositivo entre Fechas" style="width: 80%; margin-left: 85px;" extender="customExtender" />
-                        <!--                                        <fieldset>
-                                                                    <p:graphicImage value="#{llamadasXdispBean.chart}"/>
-                                                                </fieldset>-->
-                        <br/>
-                        <h:panelGrid columns="3">
-                            <h:commandButton value="Exportar PDF"  actionListener="#{llamadasXdispBean.exportarReportePDF}" style="margin-left:485px" title="Exportar a PDF"/>
-                            <p:spacer style="width: 10px;"/>
-                            <h:commandButton value="Exportar Excel"  actionListener="#{llamadasXdispBean.exportarReporteXLS}" title="Exportar a Excel"/>
-                        </h:panelGrid>
+
+                    <br/><br/>
+                    <p:panel id="panelGrafico" style="border: 0px solid #FFFFFF;">
+                        <p:panel id="panelChart" rendered="#{llamadasXdispBean.showChart and llamadasXdispBean.reporteData.size() > 0}" style="border: 0px solid #FFFFFF;">
+                            <p:barChart value="#{llamadasXdispBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="chart"
+                                        title="Llamadas por Dispositivo entre Fechas" style="width: 80%; margin-left: 85px;" extender="customExtender" />
+                            <!--                                        <fieldset>
+                                                                        <p:graphicImage value="#{llamadasXdispBean.chart}"/>
+                                                                    </fieldset>-->
+                            <br/>
+                            <h:panelGrid columns="3">
+                                <h:commandButton value="Exportar PDF"  actionListener="#{llamadasXdispBean.exportarReportePDF}" style="margin-left:485px" title="Exportar a PDF"/>
+                                <p:spacer style="width: 10px;"/>
+                                <h:commandButton value="Exportar Excel"  actionListener="#{llamadasXdispBean.exportarReporteXLS}" title="Exportar a Excel"/>
+                            </h:panelGrid>
+                        </p:panel>
                     </p:panel>
                 </p:panel>
             </h:form>

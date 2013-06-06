@@ -28,24 +28,23 @@
                     <p:calendar id="fechaFin" value="#{tiempoAsesorBean.fechaFin}" 
                                 showOn="button" pattern="dd/MM/yyyy"/>
                     <p:spacer height="15"/>
-                    <h:commandButton value="Ver Data" actionListener="#{tiempoAsesorBean.populateLlamadas}" title="Ver Data"/>
+                    <p:commandButton value="Ver Data" actionListener="#{tiempoAsesorBean.populateLlamadas}" title="Ver Data" ajax="true" update="panelTable"/>
                     <p:spacer style="width: 10px;"/>
-                    <h:commandButton value="Gráfico Barras" disabled="#{tiempoAsesorBean.chartButtonDisable}" 
-                                     actionListener="#{tiempoAsesorBean.muestraGrafico}" title="Gráfico Barras"/>
-                    <p:spacer style="width: 10px;"/>
-                    <h:commandButton value="Gráfico Stacked" disabled="#{tiempoDispositivoBean.chartButtonDisable}"  
-                                     actionListener="#{tiempoDispositivoBean.muestraStackedGrafico}" title="Gráfico Stacked"/>
+
                 </h:panelGrid>
                 <br/><br/>
-                
-                <h:panelGroup id="panelTable" rendered="#{tiempoAsesorBean.showTable}">
-                    <p:dataTable value="#{tiempoAsesorBean.reporteData}" var="llamada" style="width: 79%;margin-left: 85px;"
+
+                <p:panel id="panelTable" style="border: 0px solid #FFFFFF;">
+                    <p:dataTable value="#{tiempoAsesorBean.reporteData}" var="llamada" style="width: 79%;margin-left: 85px;" rendered="#{tiempoAsesorBean.showTable}"
                                  paginator="true" rows="10"  
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                                  rowsPerPageTemplate="5,10,15"
                                  paginatorPosition="bottom">
                         <f:facet name="header">
-                            <p  style="text-align: center">Tiempos de Atención por FerreAsesor</p>
+                            <p  style="text-align: center">Tiempos de Atención por FerreAsesor<br/>
+                                (<h:outputText value="#{tiempoAsesorBean.fechaInicio}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText> 
+                                - <h:outputText value="#{tiempoAsesorBean.fechaFin}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>)
+                            </p>
                         </f:facet><br/>
                         <p:column headerText="FerreAsesor">
                             <h:outputText value="#{llamada.nombreObj}"/>
@@ -60,34 +59,41 @@
                             <h:outputText value="#{llamada.propiedadObj[2]}"/>
                         </p:column>                       
                     </p:dataTable>
-                </h:panelGroup>
-                
-                <br/><br/>
-                <h:panelGroup id="panelChart" rendered="#{tiempoAsesorBean.showChart}">
-                    <p:barChart value="#{tiempoAsesorBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="chart"
-                                title="Tiempos de Atención por FerreAsesor" style="width: 80%; margin-left: 85px;" extender="customExtender" />
-<!--                                        <fieldset>
-                                            <p:graphicImage value="#{tiempoAsesorBean.chart}"/>
-                                        </fieldset>-->
                     <br/>
-                    <h:panelGrid columns="3">
-                    <h:commandButton value="Export. PDF"  actionListener="#{tiempoAsesorBean.exportarReportePDFTiempo}" style="margin-left:485px" title="Exportar a PDF"/>
+                    <p:commandButton value="Gráfico Barras" rendered="#{tiempoAsesorBean.reporteData.size() > 0}" ajax="true" update="panelGrafico" 
+                                     actionListener="#{tiempoAsesorBean.muestraGrafico}" title="Gráfico Barras" style="float: right;margin-right:80px;"/>
                     <p:spacer style="width: 10px;"/>
-                    <h:commandButton value="Export. Excel"  actionListener="#{tiempoAsesorBean.exportarReporteXLSTiempo}" title="Exportar a Excel"/>
-                </h:panelGrid>
-                </h:panelGroup>
-                
-                <h:panelGroup id="panelStackedChart" rendered="#{tiempoAsesorBean.showStackedChart}">
-                    <p:barChart value="#{tiempoAsesorBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="stackedChart" stacked="true"
-                                title="Tiempos de Atención por Dispositivo" style="width: 80%; margin-left: 85px;" extender="customExtender" />
+                    <p:commandButton value="Gráfico Stacked" rendered="#{tiempoAsesorBean.reporteData.size() > 0}" ajax="true" update="panelGraficoStacked"   
+                                     actionListener="#{tiempoAsesorBean.muestraStackedGrafico}" title="Gráfico Stacked" style="float: right;margin-right:10px;"/>
+
+                    <br/><br/>
+
+                    <p:panel id="panelGrafico" style="border: 0px solid #FFFFFF;">
+                        <h:panelGroup id="panelChart" rendered="#{tiempoAsesorBean.showChart}">
+                            <p:barChart value="#{tiempoAsesorBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="chart"
+                                        title="Gráfico Barras - Tiempos de Atención por FerreAsesor" style="width: 80%; margin-left: 85px;" extender="customExtender" />
+                            <br/>
+                            <h:panelGrid columns="3">
+                                <h:commandButton value="Export. PDF"  actionListener="#{tiempoAsesorBean.exportarReportePDFTiempo}" style="margin-left:485px" title="Exportar a PDF"/>
+                                <p:spacer style="width: 10px;"/>
+                                <h:commandButton value="Export. Excel"  actionListener="#{tiempoAsesorBean.exportarReporteXLSTiempo}" title="Exportar a Excel"/>
+                            </h:panelGrid>
+                        </h:panelGroup>
+                    </p:panel>
                     <br/>
-                    <h:panelGrid columns="3">
-                        <h:commandButton value="Exportar PDF"  actionListener="#{tiempoAsesorBean.exportarReportePDF}" style="margin-left:485px" title="Exportar a PDF"/>
-                        <p:spacer style="width: 10px;"/>
-                        <h:commandButton value="Exportar Excel"  actionListener="#{tiempoAsesorBean.exportarReporteXLS}" title="Exportar a Excel"/>
-                    </h:panelGrid>
-                </h:panelGroup>
-                
+                    <p:panel id="panelGraficoStacked" style="border: 0px solid #FFFFFF;">
+                        <h:panelGroup id="panelStackedChart" rendered="#{tiempoAsesorBean.showStackedChart}">
+                            <p:barChart value="#{tiempoAsesorBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="stackedChart" stacked="true"
+                                        title="Gráfico Stacked -  Tiempos de Atención por Dispositivo" style="width: 80%; margin-left: 85px;" extender="customExtender" />
+                            <br/>
+                            <h:panelGrid columns="3">
+                                <h:commandButton value="Exportar PDF"  actionListener="#{tiempoAsesorBean.exportarReportePDF}" style="margin-left:485px" title="Exportar a PDF"/>
+                                <p:spacer style="width: 10px;"/>
+                                <h:commandButton value="Exportar Excel"  actionListener="#{tiempoAsesorBean.exportarReporteXLS}" title="Exportar a Excel"/>
+                            </h:panelGrid>
+                        </h:panelGroup>
+                    </p:panel>
+                </p:panel>
             </h:form>
         </p:fieldset>
     </ui:define>

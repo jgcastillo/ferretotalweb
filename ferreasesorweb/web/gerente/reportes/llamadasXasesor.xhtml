@@ -32,7 +32,7 @@
                     <p:spacer style="width: 20px;"/>
                 </h:panelGrid>
                 <br/><br/>
-                
+
                 <p:panel id="panelTable" style="border: 0px solid #FFFFFF;">
                     <p:dataTable value="#{llamadasXasesorBean.reporteData}" var="llamada" style="width: 79%;margin-left: 85px;" rendered="#{llamadasXasesorBean.showTable}"
                                  paginator="true" rows="10"  
@@ -40,7 +40,10 @@
                                  rowsPerPageTemplate="5,10,15"
                                  paginatorPosition="bottom">
                         <f:facet name="header">
-                            <p  style="text-align: center">Llamadas por FerreAsesor entre Fechas</p>
+                            <p  style="text-align: center">Llamadas por FerreAsesor entre Fechas<br/>
+                                (<h:outputText value="#{llamadasXasesorBean.fechaInicio}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText> 
+                                - <h:outputText value="#{llamadasXasesorBean.fechaFin}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>)
+                            </p>
                         </f:facet>
                         <p:column headerText="FerreAsesor">
                             <h:outputText value="#{llamada.rango}"/>
@@ -50,20 +53,21 @@
                         </p:column>
                     </p:dataTable>
                     <br/>
-                    <p:commandButton value="Gráfico Barras" disabled="#{llamadasXasesorBean.chartButtonDisable}" ajax="true" update="panelGrafico"
+                    <p:commandButton value="Gráfico Barras" rendered="#{llamadasXasesorBean.reporteData.size() > 0}" ajax="true" update="panelGrafico"
                                      actionListener="#{llamadasXasesorBean.muestraGrafico}" title="Gráfico Barras" style="float: right;margin-right:80px;"/>
-                </p:panel>
-                <br/><br/>
-                <p:panel id="panelGrafico" style="border: 0px solid #FFFFFF;">
-                    <p:panel id="panelChart" rendered="#{llamadasXasesorBean.showChart and llamadasXasesorBean.reporteData.size() > 0}" style="border: 0px solid #FFFFFF;">
-                        <p:barChart value="#{llamadasXasesorBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="chart"
-                                    title="Llamadas por FerreAsesor entre Fechas" style="width: 80%; margin-left: 85px;" extender="customExtender" />
-                        <br/>
-                        <h:panelGrid columns="3">
-                            <h:commandButton value="Exportar PDF"  actionListener="#{llamadasXasesorBean.exportarReportePDF}" style="margin-left:485px" title="Exportar a PDF"/>
-                            <p:spacer style="width: 10px;"/>
-                            <h:commandButton value="Exportar Excel"  actionListener="#{llamadasXasesorBean.exportarReporteXLS}" title="Exportar a Excel"/>
-                        </h:panelGrid>
+
+                    <br/><br/>
+                    <p:panel id="panelGrafico" style="border: 0px solid #FFFFFF;">
+                        <p:panel id="panelChart" rendered="#{llamadasXasesorBean.showChart and llamadasXasesorBean.reporteData.size() > 0}" style="border: 0px solid #FFFFFF;">
+                            <p:barChart value="#{llamadasXasesorBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="chart"
+                                        title="Llamadas por FerreAsesor entre Fechas" style="width: 80%; margin-left: 85px;" extender="customExtender" />
+                            <br/>
+                            <h:panelGrid columns="3">
+                                <h:commandButton value="Exportar PDF"  actionListener="#{llamadasXasesorBean.exportarReportePDF}" style="margin-left:485px" title="Exportar a PDF"/>
+                                <p:spacer style="width: 10px;"/>
+                                <h:commandButton value="Exportar Excel"  actionListener="#{llamadasXasesorBean.exportarReporteXLS}" title="Exportar a Excel"/>
+                            </h:panelGrid>
+                        </p:panel>
                     </p:panel>
                 </p:panel>
             </h:form>
@@ -71,7 +75,7 @@
     </ui:define>
 
     <ui:define name="status">
-<!--        <ui:include src="../../WEB-INF/templates/snippets/statusButton.xhtml" />-->
+        <!--        <ui:include src="../../WEB-INF/templates/snippets/statusButton.xhtml" />-->
     </ui:define>
 
 </ui:composition>
