@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ez="http://java.sun.com/jsf/composite/ezcomp"
+                template="./../../WEB-INF/templates/layout.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="title">
+        Creación de preguntas
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <p:fieldset legend="Agregar preguntas para: #{preguntaBean.encuesta.nombre}" style="width: 75%">
+
+                <h:panelGrid columns="3">
+                    <h:outputLabel for="textoPregunta" value="Texto Pregunta:"/>
+                    <p:inputText id="textoPregunta" value="#{preguntaBean.preguntaTexto}"
+                                 required="true" requiredMessage="El 'Texto de la pregunta es requerido'"
+                                 style="width: 300px;"/>
+                    <p:message for="textoPregunta"/>
+                    <h:outputLabel for="tipoPregunta" value="Tipo pregunta:"/>
+                    <p:selectOneMenu id="tipoPregunta" value="#{preguntaBean.tipoPregunta}">
+                        <f:selectItem itemLabel="Seleccione un tipo" itemValue=""/>
+                        <f:selectItem itemLabel="Textual" itemValue="1"/>
+                        <f:selectItem itemLabel="Numérico" itemValue="2"/>
+                        <f:selectItem itemLabel="Selección" itemValue="3"/>
+                        <f:selectItem itemLabel="Calificación" itemValue="4"/>
+                    </p:selectOneMenu>
+                </h:panelGrid>
+                <h:panelGrid columns="3">
+                    <p:commandButton value="Configurar" action="#{preguntaBean.configuraPregunta}"/>
+                    <h:outputText value="&nbsp;"/>
+                    <p:commandButton value="Cancelar" action="#{preguntaBean.prepareCancel}"
+                                     immediate="true"/>
+                </h:panelGrid>
+            </p:fieldset>
+            <br/>
+            <p:fieldset legend="Preguntas: " style="width: 75%;">
+                <p:dataTable value="#{preguntaBean.preguntaItems}" var="pregunta">
+                    <p:column headerText="Pregunta">
+                        <h:outputText value="#{pregunta.pregunta}"/>
+                    </p:column>
+                    <p:column headerText="Tipo">
+                        <h:outputText value="Textual" rendered="#{pregunta.tipo == 1}"/>
+                        <h:outputText value="Numérica" rendered="#{pregunta.tipo == 2}"/>
+                        <h:outputText value="Selección" rendered="#{pregunta.tipo == 3}"/>
+                        <h:outputText value="Calificación" rendered="#{pregunta.tipo == 4}"/>
+                    </p:column>
+                    <p:column headerText="Acción">
+                        <p:commandButton title="Eliminar" icon="ui-icon-trash" style="margin-left: 10px;" 
+                                         action="#{preguntaBean.prepareDelete}" immediate="true"/>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="status">
+        status
+    </ui:define>
+
+</ui:composition>

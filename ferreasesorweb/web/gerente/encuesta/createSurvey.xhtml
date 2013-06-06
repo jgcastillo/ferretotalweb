@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/templates/layout.xhtml">
+
+            <ui:define name="title">
+                Creación de encuestas
+            </ui:define>
+
+            <ui:define name="content">
+                
+                <h:form id="form">
+                    <p:growl id="mensajes" />
+                    <p:fieldset legend="Creación de encuesta" style="width: 75%;">
+                        <h:panelGrid columns="3">
+                            <h:outputLabel value="Nombre de la encuesta: " for="nombre"/>
+                            <p:inputText id="nombre" value="#{encuestaBeanController.selected.nombre}" 
+                                         required="true" requiredMessage="El campo 'Nombre de la encuesta' es requerido"
+                                         style="width: 300px;"/>
+                            <p:message for="nombre"/>
+                            <h:outputLabel value="Fecha inicio: " for="fecha_inicio"/>
+                            <p:calendar id="fecha_inicio" value="#{encuestaBeanController.selected.fechaInicio}"
+                                        required="true" requiredMessage="El campo 'fecha inicio' es requerido"
+                                        showOn="button"/>
+                            <p:message for="fecha_inicio"/>
+                            <h:outputLabel value="Fecha fin: " for="fecha_fin"/>
+                            <p:calendar id="fecha_fin" value="#{encuestaBeanController.selected.fechaFin}"
+                                        required="true" requiredMessage="El campo 'fecha fin' es requerido"
+                                        showOn="button"/>
+                            <p:message for="fecha_fin"/>
+
+                        </h:panelGrid>
+                        <p:spacer height="15"/>
+                        <h:panelGrid columns="3">
+                            <p:commandButton id="guardarButton" value="Guardar" 
+                                             action="#{encuestaBeanController.create}"
+                                             update="mensajes"/>
+                            <h:outputText value="&nbsp;"/>
+                            <p:commandButton id="cancelButton" value="Cancelar"
+                                             action="#{encuestaBeanController.prepareCancel}"
+                                             immediate="true"/>
+                        </h:panelGrid>
+                    </p:fieldset>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="status">
+                status
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

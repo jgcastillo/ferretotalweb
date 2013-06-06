@@ -35,7 +35,7 @@
                         <p:menuitem value="Atención por FerreAsesor" action="/gerente/reportes/tiempoXasesor.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-contact" />
                         <p:menuitem value="Atención por Turno" action="/gerente/reportes/tiempoXturno.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-contact" />
                     </p:submenu>
-                     <p:submenu label="Reportes Calidad">
+                    <p:submenu label="Reportes Calidad">
                         <p:menuitem value="Calidad por Dispositivo" action="/gerente/reportes/calidadXdispositivo.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-contact" />
                         <p:menuitem value="Calidad por FerreAsesor" action="/gerente/reportes/calidadXasesor.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-contact" />
                         <p:menuitem value="Calidad por Turno" action="/gerente/reportes/calidadXturno.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-contact" />
@@ -45,13 +45,22 @@
                         <p:menuitem value="Logout" action="#{loginBean.logout}" icon="ui-icon-power"/>
                     </p:submenu>
                 </p:panelMenu>
+                <p:panelMenu id="menuEncuestas">
+                    <p:submenu label="Encuestas">
+                        <p:menuitem value="Lista Encuestas" action="/gerente/encuesta/encuestaMain?faces-redirect=true" 
+                                    ajax="false" icon="ui-icon-comment"/>
+                        <p:menuitem value="Ver Encuesta" action="#" ajax="false" icon="ui-icon-search"/>
+                    </p:submenu>
+                </p:panelMenu>
             </c:if>
             <c:if test="#{loginBean.asesor}" >
-                <p:menuitem value="Home" action="/admin/AdminHome.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-home" /> 
-                <p:menuitem value="Users" action="/admin/UserList.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-person"/>
-                <p:menuitem value="Logout" action="#{loginBean.logout}" icon="ui-icon-power"/>
+                <p:panelMenu id="menuAsesor">
+                    <p:submenu label="Navegación">
+                        <p:menuitem value="Principal" action="/main.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-home" />
+                        <p:menuitem value="Logout" action="#{loginBean.logout}" icon="ui-icon-power"/>
+                    </p:submenu>
+                </p:panelMenu>
             </c:if>
-
         </h:form>
     </h:body>
 </ui:composition>

@@ -5,15 +5,42 @@
                 template="./WEB-INF/templates/layout.xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:c="http://java.sun.com/jsp/jstl/core">
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:ez="http://java.sun.com/jsf/composite/ezcomp">
 
     <ui:define name="title">
         Página de inicio
     </ui:define>
 
     <ui:define name="content">
-        <h:form id="formContent">
+        <h:form id="formEncuesta">
+            <p:fieldset legend="#{preguntaBean.encuestaActiva.nombre}">
+                <ui:repeat value="#{preguntaBean.preguntaList}" var="question">
+                    <h:outputText value="#{question.pregunta}"/>
+                    <br/>
+                    <ez:textualQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
+                                        preguntaPrompt="#{preguntaBean.promptPreguntaTextual}"
+                                        preguntaBean="#{preguntaBean}"
+                                        rendered="#{question.tipo == 1}"/>
 
+                    <ez:numericQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
+                                        preguntaPrompt="Opciones: "
+                                        preguntaBean="#{preguntaBean}"
+                                        rendered="#{question.tipo == 2}"/>
+
+                    <ez:selectionQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
+                                          preguntaPrompt="#{preguntaBean.promptPreguntaTextual}"
+                                          preguntaBean="#{preguntaBean}"
+                                          rendered="#{question.tipo == 3}"/>
+
+                    <ez:ratingQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
+                                       preguntaPrompt="#{preguntaBean.promptPreguntaTextual}" 
+                                       preguntaBean="#{preguntaBean}"
+                                       rendered="#{question.tipo == 4}"/>
+
+                    <br/>
+                </ui:repeat>
+            </p:fieldset>
         </h:form>
     </ui:define>
 
