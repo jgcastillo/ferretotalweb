@@ -43,6 +43,7 @@ public class CalidadXDispositivoController extends LlamadaReporteAbstract implem
         long atencion;
         int atencionBuena;
         int atencionRegular;
+        int cierreAutomatico;
 
         //Verifico las fechas
         getFechasVacias();
@@ -56,7 +57,7 @@ public class CalidadXDispositivoController extends LlamadaReporteAbstract implem
 
         Map<Boton, int[]> atencionesBotMap = new HashMap<>();
         for (Object[] array : result) {
-            atencionesBotMap.put((Boton) array[1], new int[3]); // indice 0 buena, 1 regular, 2 mala
+            atencionesBotMap.put((Boton) array[1], new int[4]); // indice 0 buena, 1 regular, 2 mala
         }
 
         for (Object[] array : result) {
@@ -67,15 +68,18 @@ public class CalidadXDispositivoController extends LlamadaReporteAbstract implem
             atencion = (llamada.getHoraClose().getTime() - llamada.getHoraOpen().getTime()) / 1000;
             atencionBuena = tiempo.getAtencionBuena();
             atencionRegular = tiempo.getAtencionRegular();
+            cierreAutomatico = tiempo.getCerrarLlamada();
 
             int[] temp = atencionesBotMap.get(boton);
             if (atencion <= atencionBuena) {
                 temp[0]++;
-            }
+            }else
             if (atencion > atencionBuena && atencion <= atencionRegular) {
                 temp[1]++;
-            } else if (atencion > atencionRegular) {
+            } else if (atencion > atencionRegular && atencion < cierreAutomatico) {
                 temp[2]++;
+            } else if (atencion >= cierreAutomatico) {
+                temp[3]++;
             }
             atencionesBotMap.put(boton, temp);
         }
@@ -83,7 +87,7 @@ public class CalidadXDispositivoController extends LlamadaReporteAbstract implem
         for (Map.Entry<Boton, int[]> mapIterator : atencionesBotMap.entrySet()) {
 
             //Arreglo para manejar las Propiedades(buenas, regulares, malas)
-            Object datos[] = new Object[3];
+            Object datos[] = new Object[4];
 
             ReporteHelper helper = new ReporteHelper();
 
@@ -94,6 +98,7 @@ public class CalidadXDispositivoController extends LlamadaReporteAbstract implem
             datos[0] = mapIterator.getValue()[0];
             datos[1] = mapIterator.getValue()[1];
             datos[2] = mapIterator.getValue()[2];
+            datos[3] = mapIterator.getValue()[3];
             helper.setPropiedadObj(datos);
 
             reporteData.add(helper);
@@ -118,16 +123,22 @@ public class CalidadXDispositivoController extends LlamadaReporteAbstract implem
         ChartSeries buenas = new ChartSeries("buenas");
         ChartSeries regulares = new ChartSeries("regulares");
         ChartSeries malas = new ChartSeries("malas");
+        ChartSeries automaticas = new ChartSeries("automáticas");
+
 
         for (ReporteHelper data : reporteData) {
             Object valor[] = data.getPropiedadObj();
             buenas.set(data.getNombreObj().toString(), Double.valueOf(valor[0].toString()));
             regulares.set(data.getNombreObj().toString(), Double.valueOf(valor[1].toString()));
             malas.set(data.getNombreObj().toString(), Double.valueOf(valor[2].toString()));
+            automaticas.set(data.getNombreObj().toString(), Double.valueOf(valor[3].toString()));
+
         }
 
         categoryModel.addSeries(buenas);
         categoryModel.addSeries(regulares);
         categoryModel.addSeries(malas);
+        categoryModel.addSeries(automaticas);
+
     }
 }
