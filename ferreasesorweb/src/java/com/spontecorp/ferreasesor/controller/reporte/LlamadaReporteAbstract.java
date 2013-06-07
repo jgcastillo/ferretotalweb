@@ -419,15 +419,8 @@ public abstract class LlamadaReporteAbstract {
             }
 
             //parametros solicitados en el archivo jxrml
-
-
-
-
             if (tiempos == true) {
             }
-
-
-
         } catch (JRException e) {
             Logger.getLogger(LlamadaReporteAbstract.class.getName()).log(Level.SEVERE, null, e);
         }

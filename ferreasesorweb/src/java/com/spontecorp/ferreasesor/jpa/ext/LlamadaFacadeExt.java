@@ -36,7 +36,7 @@ public class LlamadaFacadeExt extends LlamadaFacade {
      * Devuelve una lista de llamadas entre dos fechas, dependiendo del query
      * que reciba
      *
-     * @param tipo
+     * @param tipo de reporte
      * @param fechaInicio
      * @param fechaFin
      * @return

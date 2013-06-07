@@ -38,11 +38,12 @@ public class CalidadXTurnoController extends LlamadaReporteAbstract implements S
      */
     @Override
     public void populateLlamadas(ActionEvent actionEvent) {
-        LlamadaFacadeExt facade = new LlamadaFacadeExt();
+        LlamadaFacadeExt llamadaFacade = new LlamadaFacadeExt();
         reporteData = new ArrayList<>();
         long atencion;
         int atencionBuena;
         int atencionRegular;
+        int cierreAutomatico;
 
         //Verifico las fechas
         getFechasVacias();
@@ -52,11 +53,11 @@ public class CalidadXTurnoController extends LlamadaReporteAbstract implements S
         setNombreDominio(nombreDominio);
 
         //Seteo la busqueda (result)
-        setResult(facade.findLlamadas(ReporteHelper.CALIDAD_X_TURNO, fechaInicio, fechaFin));
+        setResult(llamadaFacade.findLlamadas(ReporteHelper.CALIDAD_X_TURNO, fechaInicio, fechaFin));
 
         Map<Turno, int[]> atencionesMap = new HashMap<>();
         for (Object[] array : result) {
-            atencionesMap.put((Turno) array[1], new int[3]); // indice 0 buena, 1 regular, 2 mala
+            atencionesMap.put((Turno) array[1], new int[4]); // indice: 0 buena, 1 regular, 2 mala, 3 automática
         }
 
         for (Object[] array : result) {
@@ -67,6 +68,7 @@ public class CalidadXTurnoController extends LlamadaReporteAbstract implements S
             atencion = (llamada.getHoraClose().getTime() - llamada.getHoraOpen().getTime()) / 1000;
             atencionBuena = tiempo.getAtencionBuena();
             atencionRegular = tiempo.getAtencionRegular();
+            cierreAutomatico = tiempo.getCerrarLlamada();
 
             int[] temp = atencionesMap.get(turno);
             if (atencion <= atencionBuena) {
@@ -74,8 +76,10 @@ public class CalidadXTurnoController extends LlamadaReporteAbstract implements S
             }
             if (atencion > atencionBuena && atencion <= atencionRegular) {
                 temp[1]++;
-            } else if (atencion > atencionRegular) {
+            } else if (atencion > atencionRegular && atencion < cierreAutomatico) {
                 temp[2]++;
+            } else if (atencion >= cierreAutomatico){
+                temp[3]++;
             }
             atencionesMap.put(turno, temp);
         }
@@ -83,7 +87,7 @@ public class CalidadXTurnoController extends LlamadaReporteAbstract implements S
         for (Map.Entry<Turno, int[]> mapIterator : atencionesMap.entrySet()) {
 
             //Arreglo para manejar las Propiedades(buenas, regulares, malas)
-            Object datos[] = new Object[3];
+            Object datos[] = new Object[4];
 
             ReporteHelper helper = new ReporteHelper();
 
@@ -94,6 +98,7 @@ public class CalidadXTurnoController extends LlamadaReporteAbstract implements S
             datos[0] = mapIterator.getValue()[0];
             datos[1] = mapIterator.getValue()[1];
             datos[2] = mapIterator.getValue()[2];
+            datos[3] = mapIterator.getValue()[3];
             helper.setPropiedadObj(datos);
 
             reporteData.add(helper);
@@ -118,16 +123,19 @@ public class CalidadXTurnoController extends LlamadaReporteAbstract implements S
         ChartSeries buenas = new ChartSeries("buenas");
         ChartSeries regulares = new ChartSeries("regulares");
         ChartSeries malas = new ChartSeries("malas");
+        ChartSeries automaticas = new ChartSeries("automáticas");
 
         for (ReporteHelper data : reporteData) {
             Object valor[] = data.getPropiedadObj();
             buenas.set(data.getNombreObj().toString(), Double.valueOf(valor[0].toString()));
             regulares.set(data.getNombreObj().toString(), Double.valueOf(valor[1].toString()));
             malas.set(data.getNombreObj().toString(), Double.valueOf(valor[2].toString()));
+            automaticas.set(data.getNombreObj().toString(), Double.valueOf(valor[3].toString()));
         }
 
         categoryModel.addSeries(buenas);
         categoryModel.addSeries(regulares);
         categoryModel.addSeries(malas);
+        categoryModel.addSeries(automaticas);
     }
 }
