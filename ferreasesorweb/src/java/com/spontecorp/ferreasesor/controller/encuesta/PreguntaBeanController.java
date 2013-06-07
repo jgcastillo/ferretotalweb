@@ -148,11 +148,11 @@ public class PreguntaBeanController implements Serializable {
         this.respuestaRating = respuestaRating;
     }
 
-    public Encuesta getEncuestaActiva(){
-        encuesta = getEncuestaFacade().find(ENCUESTA_ACTIVA);
+    public Encuesta getEncuestaActiva() {
+        encuesta = getEncuestaFacade().findAll(ENCUESTA_ACTIVA);
         return encuesta;
     }
-    
+
     public Encuesta getEncuesta() {
         return encuesta;
     }
@@ -169,20 +169,25 @@ public class PreguntaBeanController implements Serializable {
     }
 
     public List<Pregunta> getPreguntaList() {
+
         encuesta = getEncuestaActiva();
-        preguntaSeleccionValores = new ArrayList();
+        //preguntaList = null;
+
+        if (encuesta != null) {
+            preguntaSeleccionValores = new ArrayList();
             preguntaList = getPreguntaFacade().findAll(encuesta);
             for (Pregunta pregunta : preguntaList) {
                 opcionsList = pregunta.getRespuestaConfList();
-                for(RespuestaConf opcion : opcionsList){
+                for (RespuestaConf opcion : opcionsList) {
                     preguntaSeleccionValores.add(opcion.getOpcion());
                 }
             }
-        System.out.println("la encuesta tiene " + preguntaList.size() + " preguntas.");
+        }
+
         return preguntaList;
+
     }
-    
-    
+
     public String guardaRespuesta() {
         return null;
     }
@@ -190,17 +195,17 @@ public class PreguntaBeanController implements Serializable {
     public String configuraPregunta() {
         promptPreguntaTextual = null;
         preguntaSeleccionValores = new ArrayList();
-        return "configQuestion";
+        return "configQuestion?faces-redirect=true";
     }
 
     public String retornaCreate() {
         promptPreguntaTextual = null;
         preguntaTexto = null;
-        return "createQuestions";
+        return "createQuestions?faces-redirect=true";
     }
 
     public String muestraPregunta() {
-        return "showQuestion";
+        return "showQuestion?faces-redirect=true";
     }
 
     public String guardaPregunta() {
@@ -235,7 +240,7 @@ public class PreguntaBeanController implements Serializable {
         }
         recreateModel();
         JsfUtil.addSuccessMessage("Pregunta agregada con éxito");
-        return "createQuestions";
+        return "createQuestions?faces-redirect=true";
     }
 
     public void addItemToSeleccion(ActionEvent event) {

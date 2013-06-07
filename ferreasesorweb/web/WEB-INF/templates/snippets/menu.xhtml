@@ -40,18 +40,17 @@
                         <p:menuitem value="Calidad por FerreAsesor" action="/gerente/reportes/calidadXasesor.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-contact" />
                         <p:menuitem value="Calidad por Turno" action="/gerente/reportes/calidadXturno.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-contact" />
                     </p:submenu>
-                    <p:submenu label="Navegación">
-                        <p:menuitem value="Principal" action="/main.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-home" />
-                        <p:menuitem value="Logout" action="#{loginBean.logout}" icon="ui-icon-power"/>
-                    </p:submenu>
-                </p:panelMenu>
-                <p:panelMenu id="menuEncuestas">
                     <p:submenu label="Encuestas">
                         <p:menuitem value="Lista Encuestas" action="/gerente/encuesta/encuestaMain?faces-redirect=true" 
                                     ajax="false" icon="ui-icon-comment"/>
                         <p:menuitem value="Ver Encuesta" action="/main.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-search"/>
                     </p:submenu>
+                    <p:submenu label="Navegación">
+                        <p:menuitem value="Principal" action="/main.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-home" />
+                        <p:menuitem value="Logout" action="#{loginBean.logout}" icon="ui-icon-power"/>
+                    </p:submenu>
                 </p:panelMenu>
+               
             </c:if>
             <c:if test="#{loginBean.asesor}" >
                 <p:panelMenu id="menuAsesor">
