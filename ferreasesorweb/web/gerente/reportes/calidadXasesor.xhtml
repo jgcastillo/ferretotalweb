@@ -58,6 +58,9 @@
                         <p:column headerText="Atención Mala">
                             <h:outputText value="#{llamada.propiedadObj[2]}"/>
                         </p:column>
+                        <p:column headerText="Cierre Automático">
+                            <h:outputText value="#{llamada.propiedadObj[3]}"/>
+                        </p:column>
                     </p:dataTable>
                     <br/>
                     <p:commandButton value="Gráfico Barras" rendered="#{calidadAsesorBean.reporteData.size() > 0}" ajax="true" update="panelGrafico"  

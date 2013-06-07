@@ -8,21 +8,31 @@ package com.spontecorp.ferreasesor.controller.reporte;
  *
  * @author sponte07
  */
-public class JasperBeanTiempo {
+public class JasperBeanTiempoCalidad {
 
     private String propiedad;
     private double serie1;
     private double serie2;
     private double serie3;
+    private double serie4;
 
-    public JasperBeanTiempo() {
+    public JasperBeanTiempoCalidad() {
     }
 
-    public JasperBeanTiempo(String propiedad, double serie1, double serie2, double serie3) {
+    public JasperBeanTiempoCalidad(String propiedad, double serie1, double serie2, double serie3, double serie4) {
         this.propiedad = propiedad;
         this.serie1 = serie1;
         this.serie2 = serie2;
         this.serie3 = serie3;
+        this.serie4 = serie4;
+    }
+
+    public void setSerie4(double serie4) {
+        this.serie4 = serie4;
+    }
+
+    public double getSerie4() {
+        return serie4;
     }
 
     public String getPropiedad() {
@@ -56,6 +66,4 @@ public class JasperBeanTiempo {
     public void setSerie3(double serie3) {
         this.serie3 = serie3;
     }
-
-   
 }

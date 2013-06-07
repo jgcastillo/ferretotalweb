@@ -229,7 +229,7 @@ public abstract class LlamadaReporteAbstract {
     public void exportarReportePDFCalidad(ActionEvent actionEvent) throws JRException, IOException {
         String extension = "PDF";
         String jasperFileAddress;
-        jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportepdf2.jasper");
+        jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportepdfcalidad.jasper");
 
         setTiempos(false);
         exportarReporteTiempoCalidad(extension, jasperFileAddress);
@@ -238,7 +238,7 @@ public abstract class LlamadaReporteAbstract {
     public void exportarReportePDFTiempo(ActionEvent actionEvent) throws JRException, IOException {
         String extension = "PDF";
         String jasperFileAddress;
-        jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportepdf2.jasper");
+        jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportepdftiempo.jasper");
         setTiempos(true);
         exportarReporteTiempoCalidad(extension, jasperFileAddress);
     }
@@ -246,7 +246,7 @@ public abstract class LlamadaReporteAbstract {
     public void exportarReportePDFCalidadStacked(ActionEvent actionEvent) throws JRException, IOException {
         String extension = "PDF";
         String jasperFileAddress;
-        jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportepdf3.jasper");
+        jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportepdfcalidadstacked.jasper");
 
         setTiempos(false);
         exportarReporteTiempoCalidad(extension, jasperFileAddress);
@@ -255,21 +255,21 @@ public abstract class LlamadaReporteAbstract {
     public void exportarReportePDFTiempoStacked(ActionEvent actionEvent) throws JRException, IOException {
         String extension = "PDF";
         String jasperFileAddress;
-        jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportepdf3.jasper");
+        jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportepdftiempostacked.jasper");
         setTiempos(true);
         exportarReporteTiempoCalidad(extension, jasperFileAddress);
     }
 
     public void exportarReporteXLSCalidad(ActionEvent actionEvent) throws JRException, IOException {
         String extension = "XLSX";
-        String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportexls2.jasper");
+        String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportexlscalidad.jasper");
         setTiempos(false);
         exportarReporteTiempoCalidad(extension, jasperFileAddress);
     }
 
     public void exportarReporteXLSTiempo(ActionEvent actionEvent) throws JRException, IOException {
         String extension = "XLSX";
-        String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportexls2.jasper");
+        String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportexlstiempo.jasper");
         setTiempos(true);
         exportarReporteTiempoCalidad(extension, jasperFileAddress);
     }
@@ -334,13 +334,14 @@ public abstract class LlamadaReporteAbstract {
      */
     public void exportarReporteTiempoCalidad(String extension, String jasperFileAddress) {
         try {
-            List<JasperBeanTiempo> myList2;
+            List<JasperBeanTiempoCalidad> myList2;
             JasperManagement jm = new JasperManagement();
             String logoAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/ferretotallogo.jpg");
             Map parametrosTiempo = new HashMap();
             String serie1;
             String serie2;
             String serie3;
+            String serie4 = "";
             if (tiempos) {
                 serie1 = "Mínimo";
                 serie2 = "Promedio";
@@ -349,8 +350,9 @@ public abstract class LlamadaReporteAbstract {
                 serie1 = "Buena";
                 serie2 = "Regular";
                 serie3 = "Mala";
+                serie4 = "Cierre Automático";
             }
-
+            
             parametrosTiempo.put("logo", logoAddress);
             parametrosTiempo.put("fechai", sdf.format(fechaInicio));
             parametrosTiempo.put("fechaf", sdf.format(fechaFin));
@@ -360,7 +362,8 @@ public abstract class LlamadaReporteAbstract {
             parametrosTiempo.put("serie1", serie1);
             parametrosTiempo.put("serie2", serie2);
             parametrosTiempo.put("serie3", serie3);
-            myList2 = jm.FillListTiempo(reporteData);
+            parametrosTiempo.put("serie4", serie4);
+            myList2 = jm.FillListTiempoCalidad(reporteData, tiempos);
             jm.FillReportTiempo(parametrosTiempo, myList2, extension, jasperFileAddress, nombreReporte);
 
         } catch (JRException | IOException ex) {
