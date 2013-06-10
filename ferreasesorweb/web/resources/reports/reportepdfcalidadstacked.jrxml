@@ -166,7 +166,7 @@
 						<valueExpression><![CDATA[$F{serie4}]]></valueExpression>
 					</categorySeries>
 				</categoryDataset>
-				<barPlot>
+				<barPlot isShowLabels="true">
 					<plot/>
 					<itemLabel/>
 				</barPlot>

@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report2" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="4a125dc4-ac7c-498a-ab05-c265fe13bb28">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="16"/>
+	<property name="ireport.y" value="256"/>
 	<style name="Heading 1" fontSize="16" isBold="true"/>
 	<parameter name="nombre" class="java.lang.String"/>
 	<parameter name="cantidad" class="java.lang.String"/>
@@ -90,7 +90,7 @@
 		<band height="491" splitType="Stretch">
 			<elementGroup/>
 			<barChart>
-				<chart isShowLegend="false">
+				<chart isShowLegend="false" customizerClass="com.spontecorp.ferreasesor.utilities.JasperCustom">
 					<reportElement uuid="1127f276-0f58-4039-8117-5cecb2644721" positionType="FixRelativeToBottom" x="37" y="0" width="475" height="180"/>
 					<chartTitle/>
 					<chartSubtitle/>
