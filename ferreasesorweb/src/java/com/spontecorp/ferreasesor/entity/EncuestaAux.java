@@ -10,7 +10,7 @@ public class EncuestaAux implements Serializable{
     
     private Encuesta encuesta;
     private Pregunta pregunta;
-    private RespuestaConf configura;
+    private RespuestaConf opcion;
     private RespuestaObtenida respuesta;
     
     public EncuestaAux(){
@@ -32,12 +32,12 @@ public class EncuestaAux implements Serializable{
         this.pregunta = pregunta;
     }
 
-    public RespuestaConf getConfigura() {
-        return configura;
+    public RespuestaConf getOpcion() {
+        return opcion;
     }
 
-    public void setConfigura(RespuestaConf configura) {
-        this.configura = configura;
+    public void setOpcion(RespuestaConf opcion) {
+        this.opcion = opcion;
     }
 
     public RespuestaObtenida getRespuesta() {

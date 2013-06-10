@@ -52,7 +52,7 @@ public class MainPageController implements Serializable {
         if(llamadaList == null){
             llamadaList = new ArrayList<>();
             llamadas = getLlamadaFacade().findLastCalls();
-            Collections.reverse(llamadas);
+            
             for(Llamada llamada : llamadas){
                 Asesor asesor = asesorFacade.find(llamada.getDistribucionId().getAsesorId());
                 Boton boton = botonFacade.find(llamada.getDistribucionId().getBotonId());
