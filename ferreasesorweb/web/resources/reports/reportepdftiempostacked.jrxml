@@ -124,7 +124,7 @@
 		<band height="491" splitType="Stretch">
 			<elementGroup/>
 			<stackedBarChart>
-				<chart renderType="draw" theme="default">
+				<chart customizerClass="com.spontecorp.ferreasesor.utilities.JasperCustom" renderType="draw" theme="default">
 					<reportElement uuid="7e00d868-ba05-4d53-80d4-7bf450e72ff1" x="37" y="0" width="475" height="180"/>
 					<chartTitle/>
 					<chartSubtitle/>
@@ -132,27 +132,23 @@
 				</chart>
 				<categoryDataset>
 					<categorySeries>
-						<seriesExpression><![CDATA[$P{serie1}]]></seriesExpression>
-						<categoryExpression><![CDATA[$F{propiedad}]]></categoryExpression>
+						<seriesExpression><![CDATA[$F{propiedad}]]></seriesExpression>
+						<categoryExpression><![CDATA[$P{serie1}]]></categoryExpression>
 						<valueExpression><![CDATA[$F{serie1}]]></valueExpression>
 					</categorySeries>
 					<categorySeries>
-						<seriesExpression><![CDATA[$P{serie2}]]></seriesExpression>
-						<categoryExpression><![CDATA[$F{propiedad}]]></categoryExpression>
+						<seriesExpression><![CDATA[$F{propiedad}]]></seriesExpression>
+						<categoryExpression><![CDATA[$P{serie2}]]></categoryExpression>
 						<valueExpression><![CDATA[$F{serie2}]]></valueExpression>
 					</categorySeries>
 					<categorySeries>
-						<seriesExpression><![CDATA[$P{serie3}]]></seriesExpression>
-						<categoryExpression><![CDATA[$F{propiedad}]]></categoryExpression>
+						<seriesExpression><![CDATA[$F{propiedad}]]></seriesExpression>
+						<categoryExpression><![CDATA[$P{serie3}]]></categoryExpression>
 						<valueExpression><![CDATA[$F{serie3}]]></valueExpression>
 					</categorySeries>
 				</categoryDataset>
 				<barPlot>
-					<plot>
-						<seriesColor seriesOrder="0" color="#0033CC"/>
-						<seriesColor seriesOrder="1" color="#CC0066"/>
-						<seriesColor seriesOrder="2" color="#339900"/>
-					</plot>
+					<plot/>
 					<itemLabel/>
 				</barPlot>
 			</stackedBarChart>

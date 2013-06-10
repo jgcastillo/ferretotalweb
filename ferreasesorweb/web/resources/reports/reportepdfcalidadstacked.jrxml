@@ -166,13 +166,8 @@
 						<valueExpression><![CDATA[$F{serie4}]]></valueExpression>
 					</categorySeries>
 				</categoryDataset>
-				<barPlot>
-					<plot>
-						<seriesColor seriesOrder="0" color="#0033CC"/>
-						<seriesColor seriesOrder="1" color="#CC0066"/>
-						<seriesColor seriesOrder="2" color="#339900"/>
-						<seriesColor seriesOrder="3" color="#CC6600"/>
-					</plot>
+				<barPlot isShowLabels="true">
+					<plot/>
 					<itemLabel/>
 				</barPlot>
 			</stackedBarChart>
