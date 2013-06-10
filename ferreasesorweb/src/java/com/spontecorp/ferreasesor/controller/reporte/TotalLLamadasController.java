@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.chart.CartesianChartModel;
@@ -17,7 +17,7 @@ import org.primefaces.model.chart.ChartSeries;
  * @author jgcastillo
  */
 @ManagedBean (name = "totalLlamadasBean")
-@SessionScoped
+@ViewScoped
 public class TotalLLamadasController extends LlamadaReporteAbstract implements Serializable{
     
     private String nombreReporte = "Cantidad Total de Llamadas";

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.spontecorp.ferreasesor.controller.reporte;
 
 import com.spontecorp.ferreasesor.entity.Llamada;
@@ -13,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.chart.CartesianChartModel;
@@ -24,7 +20,7 @@ import org.primefaces.model.chart.ChartSeries;
  * @author sponte03
  */
 @ManagedBean(name = "calidadTurnoBean")
-@SessionScoped
+@ViewScoped
 public class CalidadXTurnoController extends LlamadaReporteAbstract implements Serializable {
 
     private String nombreReporte = "Calidad de Atención por Turno";

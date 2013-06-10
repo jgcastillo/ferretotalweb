@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.chart.CartesianChartModel;
@@ -27,7 +27,7 @@ import org.primefaces.model.chart.ChartSeries;
  * @author sponte03
  */
 @ManagedBean(name = "tiempoDispositivoBean")
-@SessionScoped
+@ViewScoped
 public class TiempoXDispositivoController extends LlamadaReporteAbstract implements Serializable {
 
     private String nombreReporte = "Tiempos de Atención por Dispositivo";

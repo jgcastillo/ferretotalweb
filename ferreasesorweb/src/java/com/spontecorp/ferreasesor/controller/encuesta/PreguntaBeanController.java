@@ -169,7 +169,6 @@ public class PreguntaBeanController implements Serializable {
     }
 
     public List<Pregunta> getPreguntaList() {
-
         encuesta = getEncuestaActiva();
         //preguntaList = null;
 

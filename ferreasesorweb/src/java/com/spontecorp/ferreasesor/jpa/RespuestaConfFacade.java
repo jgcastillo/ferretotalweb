@@ -4,10 +4,13 @@
  */
 package com.spontecorp.ferreasesor.jpa;
 
+import com.spontecorp.ferreasesor.entity.Pregunta;
 import com.spontecorp.ferreasesor.entity.RespuestaConf;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,4 +30,10 @@ public class RespuestaConfFacade extends AbstractFacade<RespuestaConf> {
         super(RespuestaConf.class);
     }
     
+    public List<RespuestaConf> findRespuestaConf(Pregunta pregunta) {
+        String query = "SELECT rc from RespuestaConf rc WHERE rc.preguntaId = :pregunta";
+        Query q = getEntityManager().createQuery(query);
+        q.setParameter("pregunta", pregunta);
+        return q.getResultList();
+    }
 }

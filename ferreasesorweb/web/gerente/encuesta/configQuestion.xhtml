@@ -50,16 +50,7 @@
                                                  actionListener="#{preguntaBean.removeItemFromSeleccion}"/>
                             </h:panelGrid>
                         </f:facet>
-
-
-                        <!--                     <h:panelGrid columns="3">
-                                                <p:commandButton value="Agregar opción" actionListener="#{preguntaBean.addItemToSeleccion}"/>
-                                                <h:outputText value="&nbsp;"/>
-                                                <p:commandButton value="Eliminar opción" actionListener="#{preguntaBean.removeItemFromSeleccion}"/>
-                                            </h:panelGrid>-->
-
                     </p:panel>
-
 
                 </c:if>
                 <c:if test="#{preguntaBean.tipoPregunta == 4}">
@@ -72,19 +63,13 @@
 
                 <f:facet name="footer">
                     <h:panelGrid columns="3" style="display:block;margin-left: 50%">
-                        <p:commandButton value="Regresar" title="Regresar" icon="ui-icon-disk" 
+                        <p:commandButton value="Regresar" title="Regresar" icon="ui-icon-arrowthick-1-w" 
                                          action="#{preguntaBean.retornaCreate}"/>
                         <p:spacer width="10"/>
-                        <p:commandButton value="Continuar" title="Continuar" icon="ui-icon-cancel" immediate="true"
+                        <p:commandButton value="Continuar" title="Continuar" icon="ui-icon-arrowthick-1-e" immediate="true"
                                          action="#{preguntaBean.muestraPregunta}"/>
                     </h:panelGrid>
                 </f:facet>
-
-<!--                <h:panelGrid columns="3">
-                    <p:commandButton value="Regresar" action="#{preguntaBean.retornaCreate}"/>
-                    <h:outputText value="&nbsp;"/>
-                    <p:commandButton value="Continuar" action="#{preguntaBean.muestraPregunta}"/>
-                </h:panelGrid>-->
             </p:panel>
         </h:form>
     </ui:define>

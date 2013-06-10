@@ -1,6 +1,5 @@
 package com.spontecorp.ferreasesor.controller.encuesta;
 
-
 import com.spontecorp.ferreasesor.controller.util.JsfUtil;
 import com.spontecorp.ferreasesor.entity.Encuesta;
 import com.spontecorp.ferreasesor.entity.Tienda;
@@ -13,6 +12,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -23,23 +24,25 @@ import javax.faces.model.ListDataModel;
 public class EncuestaBeanController implements Serializable {
 
     private Encuesta current;
-    private DataModel items = null;
+    private transient DataModel items = null;
     @EJB
     private EncuestaFacade ejbFacade;
     @EJB
     private TiendaFacade tiendaFacade;
     private static final int ACTIVO = 1;
     private static final int INACTIVO = 0;
-    
-    @ManagedProperty (value = "#{preguntaBean}")
+    @ManagedProperty(value = "#{preguntaBean}")
     private PreguntaBeanController preguntaBean;
+    private Logger logger = LoggerFactory.getLogger(EncuestaBeanController.class);
 
     public EncuestaBeanController() {
     }
 
     /**
-     * Usados para soportar la annotacion @ManagedProperty
-     * @return 
+     * Usados para soportar la annotacion
+     *
+     * @ManagedProperty
+     * @return
      */
     public PreguntaBeanController getPreguntaBean() {
         return preguntaBean;
@@ -48,7 +51,7 @@ public class EncuestaBeanController implements Serializable {
     public void setPreguntaBean(PreguntaBeanController preguntaBean) {
         this.preguntaBean = preguntaBean;
     }
-    
+
     public Encuesta getSelected() {
         if (current == null) {
             current = new Encuesta();
@@ -65,9 +68,7 @@ public class EncuestaBeanController implements Serializable {
     }
 
     public DataModel getItems() {
-        recreateModel();
-        System.out.println("llego a getITems");
-        if(items == null){
+        if (items == null) {
             items = new ListDataModel(getFacade().findAll());
         }
         return items;
@@ -82,9 +83,10 @@ public class EncuestaBeanController implements Serializable {
         current = new Encuesta();
         return "createSurvey?faces-redirect=true";
     }
-    
-    private void getCurrent(){
+
+    private void getCurrent() {
         current = (Encuesta) getItems().getRowData();
+        logger.info("la encuesta seleccionada es: " + current.getNombre());
         preguntaBean.setEncuesta(current);
     }
 
@@ -93,20 +95,20 @@ public class EncuestaBeanController implements Serializable {
         recreateModel();
         return "encuestaMain?faces-redirect=true";
     }
-    
-    public String prepareEdit(){
+
+    public String prepareEdit() {
         getCurrent();
         return "editSurvey?faces-redirect=true";
     }
-    
-    public String prepareAddQuestions(){
+
+    public String prepareAddQuestions() {
         getCurrent();
         return "createQuestions?faces-redirect=true";
     }
-    
-    public String prepareDelete(){
+
+    public String prepareDelete() {
         getCurrent();
-        if(!current.getPreguntaList().isEmpty()){
+        if (!current.getPreguntaList().isEmpty()) {
             JsfUtil.addErrorMessage("La encuesta tiene preguntas cargadas, no puede ser eliminada");
         } else {
             getFacade().remove(current);
@@ -117,21 +119,20 @@ public class EncuestaBeanController implements Serializable {
     private void recreateModel() {
         items = null;
     }
-    
-    public String prepareActivate(){
+
+    public String prepareActivate() {
         getCurrent();
-        if(current.getStatus() == ACTIVO){
+        if (current.getStatus() == ACTIVO) {
             current.setStatus(INACTIVO);
         } else {
             current.setStatus(ACTIVO);
         }
         update();
-        JsfUtil.addSuccessMessage("Encuesta actualizada");
         return prepareCancel();
     }
 
     public String create() {
-        Tienda tienda = tiendaFacade.find(1);
+        Tienda tienda = getTiendaFacade().find(1);
         try {
             current.setTiendaId(tienda);
             current.setStatus(INACTIVO);
@@ -143,11 +144,11 @@ public class EncuestaBeanController implements Serializable {
             return null;
         }
     }
-    
-    public String update(){
+
+    public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage("Encuesta eliminada con éxito");
+            JsfUtil.addSuccessMessage("Encuesta actualizada con éxito");
             return prepareCancel();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, "Error a nivel de Base de Datos");

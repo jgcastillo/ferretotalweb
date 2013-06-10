@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./WEB-INF/templates/layout.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="title">
+        title
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="mainFor">
+            <p:fieldset>
+                <p:dataTable value="#{mainBean.llamadaList}" var="item" paginator="true"
+                             rows="15" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                             rowsPerPageTemplate="5,10,15"
+                             paginatorPosition="bottom"
+                             resizableColumns="true">
+                    <p:column headerText="Fecha" sortBy="#{item.llamada.fechaClose}">
+                        <h:outputText value="#{item.llamada.fechaClose}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Hora Llamada" style="text-align: center">
+                        <h:outputText value="#{item.llamada.horaOpen}">
+                            <f:convertDateTime pattern="hh:mm:ss"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Hora Cierre" style="text-align: center">
+                        <h:outputText value="#{item.llamada.horaClose}">
+                            <f:convertDateTime pattern="hh:mm:ss"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Pasillo" sortBy="#{item.boton.ubicacion}">
+                        <h:outputText value="#{item.boton.ubicacion}"/>
+                    </p:column>
+                    <p:column headerText="Asesor" sortBy="#{item.asesor.nombre} #{item.asesor.apellido}">
+                        <h:outputText value="#{item.asesor.nombre} #{item.asesor.apellido}"/>
+                    </p:column>
+                    <p:column headerText="Turno" sortBy="#{item.turno.nombre}">
+                        <h:outputText value="#{item.turno.nombre}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="status">
+        status
+    </ui:define>
+
+</ui:composition>

@@ -48,7 +48,7 @@
                             <p:commandButton value="Agregar" title="Agregar" icon="ui-icon-disk" 
                                              action="#{preguntaBean.guardaPregunta}" update="mensajes"/>
                             <p:spacer width="10"/>
-                            <p:commandButton value="Regresar" title="Regresar" icon="ui-icon-cancel" immediate="true"
+                            <p:commandButton value="Regresar" title="Regresar" icon="ui-icon-arrowthick-1-w" immediate="true"
                                              action="#{preguntaBean.configuraPregunta}"/>
                             <p:spacer width="10"/>
                             <p:commandButton value="Cancelar" title="Cancelar" icon="ui-icon-cancel" immediate="true"
@@ -56,14 +56,6 @@
                         </h:panelGrid>
                     </f:facet>
 
-<!--                    <p:spacer height="50"/>
-                    <h:panelGrid columns="5">
-                        <p:commandButton value="Agregar" action="#{preguntaBean.guardaPregunta}" update="mensajes"/>
-                        <h:outputText value="&nbsp;"/>
-                        <p:commandButton value="Atrás" action="#{preguntaBean.configuraPregunta}"/>
-                        <h:outputText value="&nbsp;"/>
-                        <p:commandButton value="Cancelar" action="#{preguntaBean.retornaCreate}"/>
-                    </h:panelGrid>-->
             </p:panel>
         </h:form>
     </ui:define>
