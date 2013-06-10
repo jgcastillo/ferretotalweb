@@ -104,11 +104,7 @@
 					</categorySeries>
 				</categoryDataset>
 				<barPlot isShowLabels="true">
-					<plot>
-						<seriesColor seriesOrder="0" color="#0033CC"/>
-						<seriesColor seriesOrder="1" color="#CC0066"/>
-						<seriesColor seriesOrder="2" color="#339900"/>
-					</plot>
+					<plot/>
 					<itemLabel/>
 				</barPlot>
 			</barChart>
