@@ -4,13 +4,9 @@
  */
 package com.spontecorp.ferreasesor.utilities;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Shape;
 import net.sf.jasperreports.engine.JRAbstractChartCustomizer;
 import net.sf.jasperreports.engine.JRChart;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
 
 /**

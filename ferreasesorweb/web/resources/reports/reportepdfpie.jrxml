@@ -89,29 +89,22 @@
 	<columnFooter>
 		<band height="491" splitType="Stretch">
 			<elementGroup/>
-			<barChart>
-				<chart isShowLegend="false">
-					<reportElement uuid="1127f276-0f58-4039-8117-5cecb2644721" positionType="FixRelativeToBottom" x="37" y="0" width="475" height="180"/>
+			<pieChart>
+				<chart>
+					<reportElement uuid="bbaa4b50-21cf-4865-ab30-112877904d5a" x="37" y="0" width="475" height="180"/>
 					<chartTitle/>
 					<chartSubtitle/>
-					<chartLegend textColor="#000000" position="Bottom"/>
+					<chartLegend/>
 				</chart>
-				<categoryDataset>
-					<categorySeries>
-						<seriesExpression><![CDATA["Aqui va el parametro 1"]]></seriesExpression>
-						<categoryExpression><![CDATA[$F{nombre}]]></categoryExpression>
-						<valueExpression><![CDATA[$F{cantidad}]]></valueExpression>
-					</categorySeries>
-				</categoryDataset>
-				<barPlot isShowLabels="true">
-					<plot>
-						<seriesColor seriesOrder="0" color="#0033CC"/>
-						<seriesColor seriesOrder="1" color="#CC0066"/>
-						<seriesColor seriesOrder="2" color="#339900"/>
-					</plot>
+				<pieDataset>
+					<keyExpression><![CDATA[$F{nombre}]]></keyExpression>
+					<valueExpression><![CDATA[$F{cantidad}]]></valueExpression>
+				</pieDataset>
+				<piePlot isShowLabels="true" isCircular="true" labelFormat="{0} ({2})">
+					<plot/>
 					<itemLabel/>
-				</barPlot>
-			</barChart>
+				</piePlot>
+			</pieChart>
 		</band>
 	</columnFooter>
 	<pageFooter>

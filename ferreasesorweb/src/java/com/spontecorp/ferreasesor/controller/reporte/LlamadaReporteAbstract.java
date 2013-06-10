@@ -236,7 +236,14 @@ public abstract class LlamadaReporteAbstract {
         exportarReporte(extension, jasperFileAddress, promedios);
 
     }
+    public void exportarReportePDFPie(ActionEvent actionEvent) throws JRException, IOException {
 
+        String extension = "PDF";
+        String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportepdfpie.jasper");
+        setPromedios(false);
+        exportarReporte(extension, jasperFileAddress, promedios);
+
+    }
     public void exportarReportePDFCalidad(ActionEvent actionEvent) throws JRException, IOException {
         String extension = "PDF";
         String jasperFileAddress;
