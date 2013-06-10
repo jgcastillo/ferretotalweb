@@ -11,6 +11,7 @@ import javax.faces.event.ActionEvent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.chart.CartesianChartModel;
 import org.primefaces.model.chart.ChartSeries;
+import org.primefaces.model.chart.PieChartModel;
 
 /**
  *
@@ -70,12 +71,16 @@ public class TotalLLamadasController extends LlamadaReporteAbstract implements S
     @Override
      public void createCategoryModel() {
         categoryModel = new CartesianChartModel();
+        categoryModelPie = new PieChartModel();
+        
         ChartSeries cant = new ChartSeries("Cantidad");
 
         for (ReporteHelper data : reporteData) {
             cant.set(data.getRango(), data.getDominio());
+            categoryModelPie.set(data.getRango().toString(), data.getDominio());
         }
         categoryModel.addSeries(cant);
+        
     }
 
 }

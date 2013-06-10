@@ -19,6 +19,7 @@ import javax.faces.event.ActionEvent;
 import net.sf.jasperreports.engine.JRException;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.chart.CartesianChartModel;
+import org.primefaces.model.chart.PieChartModel;
 
 /**
  *
@@ -39,6 +40,7 @@ public abstract class LlamadaReporteAbstract {
     protected List<ReporteHelper> reporteData;
     protected SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     protected CartesianChartModel categoryModel;
+    protected PieChartModel categoryModelPie; 
     private String nombreRango;
     private String nombreDominio;
     private int reporte;
@@ -168,6 +170,15 @@ public abstract class LlamadaReporteAbstract {
     public void setDiasEntreFechas(Long diasEntreFechas) {
         this.diasEntreFechas = diasEntreFechas;
     }
+
+    public PieChartModel getCategoryModelPie() {
+        return categoryModelPie;
+    }
+
+    public void setCategoryModelPie(PieChartModel categoryModelPie) {
+        this.categoryModelPie = categoryModelPie;
+    }
+
 
     /**
      * Verificar si las fechas son nulas

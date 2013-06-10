@@ -48,13 +48,16 @@
                         <p:column headerText="Turno">
                             <h:outputText value="#{llamada.rango}"/>
                         </p:column>
-                        <p:column headerText="Cantidad">
+                        <p:column headerText="Cantidad" style="text-align: center; width: 30%">
                             <h:outputText value="#{llamada.dominio}"/>
                         </p:column>
                     </p:dataTable>
                     <br/>
-                    <p:commandButton value="Gráfico Barras" rendered="#{llamadasXturnoBean.reporteData.size() > 0}" ajax="true" update="panelGrafico"
+                    <p:commandButton value="Gráfico Barras" rendered="#{llamadasXturnoBean.reporteData.size() > 0}" ajax="true" update="formLlamadasXTurno"
                                      actionListener="#{llamadasXturnoBean.muestraGrafico}" title="Gráfico Barras" style="float: right;margin-right:80px;"/>
+                    <p:spacer style="width: 10px;"/>
+                    <p:commandButton value="Gráfico Pie" rendered="#{llamadasXturnoBean.reporteData.size() > 0}" ajax="true" update="formLlamadasXTurno"   
+                                     actionListener="#{llamadasXturnoBean.muestraStackedGrafico}" title="Gráfico Pie" style="float: right;margin-right:10px;"/>
 
                     <br/><br/>
                     <p:panel id="panelGrafico" style="border: 0px solid #FFFFFF;">
@@ -68,6 +71,18 @@
                                 <h:commandButton value="Exportar Excel"  actionListener="#{llamadasXturnoBean.exportarReporteXLS}" title="Exportar a Excel"/>
                             </h:panelGrid>
                         </p:panel>
+                    </p:panel>
+                    <p:panel id="panelGraficoStacked" style="border: 0px solid #FFFFFF;">
+                        <h:panelGroup id="panelStackedChart" rendered="#{llamadasXturnoBean.showStackedChart}">
+                            <p:pieChart id="sample" value="#{llamadasXturnoBean.categoryModelPie}" legendPosition="e" showDataLabels="true" 
+                                        title="Llamadas por Turno entre Fechas" style="width: 80%; margin-left: 85px;" /> 
+                            <br/>
+                            <h:panelGrid columns="3">
+                                <h:commandButton value="Exportar PDF"  actionListener="#{llamadasXturnoBean.exportarReportePDF}" style="margin-left:485px" title="Exportar a PDF"/>
+                                <p:spacer style="width: 10px;"/>
+                                <h:commandButton value="Exportar Excel"  actionListener="#{llamadasXturnoBean.exportarReporteXLS}" title="Exportar a Excel"/>
+                            </h:panelGrid>
+                        </h:panelGroup>
                     </p:panel>
                 </p:panel>
             </h:form>

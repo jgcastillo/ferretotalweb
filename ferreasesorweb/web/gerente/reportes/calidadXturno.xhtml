@@ -49,29 +49,26 @@
                         <p:column headerText="Turno">
                             <h:outputText value="#{llamada.nombreObj}"/>
                         </p:column>
-                        <p:column headerText="Atención Buena">
+                        <p:column headerText="Atención Buena" style="text-align: center; width: 15%">
                             <h:outputText value="#{llamada.propiedadObj[0]}"/>
                         </p:column>
-                        <p:column headerText="Atención Regular">
+                        <p:column headerText="Atención Regular" style="text-align: center; width: 15%">
                             <h:outputText value="#{llamada.propiedadObj[1]}"/>
                         </p:column>
-                        <p:column headerText="Atención Mala">
+                        <p:column headerText="Atención Mala" style="text-align: center; width: 15%">
                             <h:outputText value="#{llamada.propiedadObj[2]}"/>
                         </p:column>
-                        <p:column headerText="Cierre Automático">
+                        <p:column headerText="Cierre Automático" style="text-align: center; width: 15%">
                             <h:outputText value="#{llamada.propiedadObj[3]}"/>
                         </p:column>
                     </p:dataTable>
                     <br/>
-                    <p:commandButton value="Gráfico Barras" rendered="#{calidadTurnoBean.reporteData.size() > 0}" ajax="true" update="panelGrafico" 
+                    <p:commandButton value="Gráfico Barras" rendered="#{calidadTurnoBean.reporteData.size() > 0}" ajax="true" update="formCalidadXTurno" 
                                      actionListener="#{calidadTurnoBean.muestraGrafico}" title="Gráfico Barras" style="float: right;margin-right:80px;"/>
                     <p:spacer style="width: 10px;"/>
-                    <p:commandButton value="Gráfico Stacked" rendered="#{calidadTurnoBean.reporteData.size() > 0}" ajax="true" update="panelGraficoStacked"   
+                    <p:commandButton value="Gráfico Stacked" rendered="#{calidadTurnoBean.reporteData.size() > 0}" ajax="true" update="formCalidadXTurno"   
                                      actionListener="#{calidadTurnoBean.muestraStackedGrafico}" title="Gráfico Stacked" style="float: right;margin-right:10px;"/>
-
-                    <br/><br/>
-
-                    <p:panel id="panelGrafico" style="border: 0px solid #FFFFFF;">
+                    <p:panel id="panelGrafico" style="border: 0px solid #FFFFFF;margin-top: 60px">
                         <h:panelGroup id="panelChart" rendered="#{calidadTurnoBean.showChart}">
                             <p:barChart value="#{calidadTurnoBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="chart"
                                         title="Gráfico Barras - Calidad de Atención por Turno" style="width: 80%; margin-left: 85px;" extender="customExtender" />
@@ -83,7 +80,6 @@
                             </h:panelGrid>
                         </h:panelGroup>
                     </p:panel>
-                    <br/>
                     <p:panel id="panelGraficoStacked" style="border: 0px solid #FFFFFF;">
                         <h:panelGroup id="panelStackedChart" rendered="#{calidadTurnoBean.showStackedChart}">
                             <p:barChart value="#{calidadTurnoBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="stackedChart" stacked="true"

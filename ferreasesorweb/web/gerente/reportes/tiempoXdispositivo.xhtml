@@ -49,13 +49,13 @@
                         <p:column headerText="Dispositivo">
                             <h:outputText value="#{llamada.nombreObj}"/>
                         </p:column>
-                        <p:column headerText="Tiempo Mínimo">
+                        <p:column headerText="Tiempo Mínimo" style="text-align: center; width: 20%">
                             <h:outputText value="#{llamada.propiedadObj[0]}"/>
                         </p:column>
-                        <p:column headerText="Tiempo Promedio">
+                        <p:column headerText="Tiempo Promedio" style="text-align: center; width: 20%">
                             <h:outputText value="#{llamada.propiedadObj[1]}"/>
                         </p:column>
-                        <p:column headerText="Tiempo Máximo">
+                        <p:column headerText="Tiempo Máximo" style="text-align: center; width: 20%">
                             <h:outputText value="#{llamada.propiedadObj[2]}"/>
                         </p:column>   
                     </p:dataTable>
@@ -63,12 +63,10 @@
                     <p:commandButton value="Gráfico Barras" rendered="#{tiempoDispositivoBean.reporteData.size() > 0}" ajax="true" update="panelGrafico" 
                                      actionListener="#{tiempoDispositivoBean.muestraGrafico}" title="Gráfico Barras" style="float: right;margin-right:80px;"/>
                     <p:spacer style="width: 10px;"/>
-                    <p:commandButton value="Gráfico Stacked" rendered="#{tiempoDispositivoBean.reporteData.size() > 0}" ajax="true" update="panelGraficoStacked"   
-                                     actionListener="#{tiempoDispositivoBean.muestraStackedGrafico}" title="Gráfico Stacked" style="float: right;margin-right:10px;"/>
-
-                    <br/><br/>
-
-                    <p:panel id="panelGrafico" style="border: 0px solid #FFFFFF;">
+<!--                    <p:commandButton value="Gráfico Stacked" rendered="#{tiempoDispositivoBean.reporteData.size() > 0}" ajax="true" update="formTiempoXDispositivo"   
+                                     actionListener="#{tiempoDispositivoBean.muestraStackedGrafico}" title="Gráfico Stacked" style="float: right;margin-right:10px;"/>-->
+                    
+                    <p:panel id="panelGrafico" style="border: 0px solid #FFFFFF;margin-top: 60px">
                         <h:panelGroup id="panelChart" rendered="#{tiempoDispositivoBean.showChart}">
                             <p:barChart value="#{tiempoDispositivoBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="chart" 
                                         title="Gráfico Barras - Tiempos de Atención por Dispositivo" style="width: 80%; margin-left: 85px;" extender="customExtender" />
@@ -80,8 +78,7 @@
                             </h:panelGrid>
                         </h:panelGroup>
                     </p:panel>
-                    <br/>
-                    <p:panel id="panelGraficoStacked" style="border: 0px solid #FFFFFF;">
+<!--                    <p:panel id="panelGraficoStacked" style="border: 0px solid #FFFFFF;">
                         <h:panelGroup id="panelStackedChart" rendered="#{tiempoDispositivoBean.showStackedChart}">
                             <p:barChart value="#{tiempoDispositivoBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="stackedChart" stacked="true"
                                         title="Gráfico Stacked - Tiempos de Atención por Dispositivo" style="width: 80%; margin-left: 85px;" extender="customExtender" />
@@ -92,7 +89,7 @@
                                 <h:commandButton value="Exportar Excel"  actionListener="#{tiempoDispositivoBean.exportarReporteXLSTiempo}" title="Exportar a Excel"/>
                             </h:panelGrid>
                         </h:panelGroup>
-                    </p:panel>
+                    </p:panel>-->
                 </p:panel>
             </h:form>
         </p:fieldset>
