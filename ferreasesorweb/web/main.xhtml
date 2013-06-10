@@ -24,14 +24,14 @@
 
                     <p:fieldset style="width: 70%" rendered="#{question.tipo == 1}">
                         <h:panelGrid columns="2">
-                            <h:outputText value="#{question.respuestaConfList[0].id}: "/>
+                            <h:outputText value="#{question.respuestaConfList[0]}: "/>
                             <p:inputText id="opinionTextBox" value="#{preguntaBean.respuestaTexto}" style="width: 300px;"/>
                         </h:panelGrid>
                     </p:fieldset>
                     
                     <p:fieldset style="width: 70%" rendered="#{question.tipo == 2}">
                         <h:panelGrid columns="2">
-                            <h:outputText value="#{question.respuestaConfList[0].id}: "/>
+                            <h:outputText value="#{question.respuestaConfList[0]}: "/>
                             <p:inputText id="respuesta" value="#{preguntaBean.respuestaTexto}" style="width: 60px;"/>
                         </h:panelGrid>
                     </p:fieldset>
