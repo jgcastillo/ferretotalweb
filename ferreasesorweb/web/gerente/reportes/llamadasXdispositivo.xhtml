@@ -49,22 +49,22 @@
                         <p:column headerText="Botón">
                             <h:outputText value="#{llamada.rango}"/>
                         </p:column>
-                        <p:column headerText="Cantidad">
+                        <p:column headerText="Cantidad" style="text-align: center; width: 30%">
                             <h:outputText value="#{llamada.dominio}"/>
                         </p:column>
                     </p:dataTable>
                     <br/>
-                    <p:commandButton value="Gráfico Barras" rendered="#{llamadasXdispBean.reporteData.size() > 0}" ajax="true" update="panelGrafico"
+                    <p:commandButton value="Gráfico Barras" rendered="#{llamadasXdispBean.reporteData.size() > 0}" ajax="true" update="formLlamadasXDispositivo"
                                      actionListener="#{llamadasXdispBean.muestraGrafico}" title="Gráfico Barras" style="float: right;margin-right:80px;"/>
+                    <p:spacer style="width: 10px;"/>
+                    <p:commandButton value="Gráfico Pie" rendered="#{llamadasXdispBean.reporteData.size() > 0}" ajax="true" update="formLlamadasXDispositivo"   
+                                     actionListener="#{llamadasXdispBean.muestraStackedGrafico}" title="Gráfico Pie" style="float: right;margin-right:10px;"/>
 
                     <br/><br/>
                     <p:panel id="panelGrafico" style="border: 0px solid #FFFFFF;">
                         <p:panel id="panelChart" rendered="#{llamadasXdispBean.showChart and llamadasXdispBean.reporteData.size() > 0}" style="border: 0px solid #FFFFFF;">
                             <p:barChart value="#{llamadasXdispBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="chart"
                                         title="Llamadas por Dispositivo entre Fechas" style="width: 80%; margin-left: 85px;" extender="customExtender" />
-                            <!--                                        <fieldset>
-                                                                        <p:graphicImage value="#{llamadasXdispBean.chart}"/>
-                                                                    </fieldset>-->
                             <br/>
                             <h:panelGrid columns="3">
                                 <h:commandButton value="Exportar PDF"  actionListener="#{llamadasXdispBean.exportarReportePDF}" style="margin-left:485px" title="Exportar a PDF"/>
@@ -72,6 +72,18 @@
                                 <h:commandButton value="Exportar Excel"  actionListener="#{llamadasXdispBean.exportarReporteXLS}" title="Exportar a Excel"/>
                             </h:panelGrid>
                         </p:panel>
+                    </p:panel>
+                    <p:panel id="panelGraficoStacked" style="border: 0px solid #FFFFFF;">
+                        <h:panelGroup id="panelStackedChart" rendered="#{llamadasXdispBean.showStackedChart}">
+                            <p:pieChart id="sample" value="#{llamadasXdispBean.categoryModelPie}" legendPosition="e" showDataLabels="true" 
+                                        title="Total Llamadas entre Fechas" style="width: 80%; margin-left: 85px;" /> 
+                            <br/>
+                            <h:panelGrid columns="3">
+                                <h:commandButton value="Exportar PDF"  actionListener="#{llamadasXdispBean.exportarReportePDFPie}" style="margin-left:485px" title="Exportar a PDF"/>
+                                <p:spacer style="width: 10px;"/>
+                                <h:commandButton value="Exportar Excel"  actionListener="#{llamadasXdispBean.exportarReporteXLS}" title="Exportar a Excel"/>
+                            </h:panelGrid>
+                        </h:panelGroup>
                     </p:panel>
                 </p:panel>
             </h:form>

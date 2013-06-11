@@ -24,14 +24,14 @@
 
                     <p:fieldset style="width: 70%" rendered="#{question.tipo == 1}">
                         <h:panelGrid columns="2">
-                            <h:outputText value="#{question.respuestaConfList[0].id}: "/>
+                            <h:outputText value="#{question.respuestaConfList[0]}: "/>
                             <p:inputText id="opinionTextBox" value="#{preguntaBean.respuestaTexto}" style="width: 300px;"/>
                         </h:panelGrid>
                     </p:fieldset>
-                    
+
                     <p:fieldset style="width: 70%" rendered="#{question.tipo == 2}">
                         <h:panelGrid columns="2">
-                            <h:outputText value="#{question.respuestaConfList[0].id}: "/>
+                            <h:outputText value="#{question.respuestaConfList[0]}: "/>
                             <p:inputText id="respuesta" value="#{preguntaBean.respuestaTexto}" style="width: 60px;"/>
                         </h:panelGrid>
                     </p:fieldset>
@@ -39,15 +39,16 @@
                     <p:fieldset style="width: 70%" rendered="#{question.tipo == 3}">
                         <h:panelGrid columns="2">
                             <h:outputLabel for="opciones" value="Opciones: "/>
-                            <ui:repeat value="#{question.respuestaConfList}" var="option">
-                                <p:selectOneRadio id="options" value="#{option.opcion}">  
-                                    <f:selectItem itemLabel="#{option.opcion}" itemValue="#{option.id}" />  
-                                </p:selectOneRadio>
-                            </ui:repeat>
+                            <h:selectOneRadio value="#{preguntaBean.respuestaTexto}">
+                                <f:selectItems value="#{question.respuestaConfList}" var="option"
+                                               itemLabel="#{option.opcion}" itemValue="#{option.id}" /> <br/>
+                            </h:selectOneRadio>
                         </h:panelGrid>
                     </p:fieldset>
-                    
-                    
+
+                 
+
+
 
 <!--                    <ez:textualQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
                                         preguntaPrompt="#{preguntaBean.promptPreguntaTextual}"

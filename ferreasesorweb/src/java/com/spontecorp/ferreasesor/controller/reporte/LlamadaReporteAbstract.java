@@ -19,6 +19,7 @@ import javax.faces.event.ActionEvent;
 import net.sf.jasperreports.engine.JRException;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.chart.CartesianChartModel;
+import org.primefaces.model.chart.PieChartModel;
 
 /**
  *
@@ -39,6 +40,7 @@ public abstract class LlamadaReporteAbstract {
     protected List<ReporteHelper> reporteData;
     protected SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     protected CartesianChartModel categoryModel;
+    protected PieChartModel categoryModelPie; 
     private String nombreRango;
     private String nombreDominio;
     private int reporte;
@@ -169,6 +171,15 @@ public abstract class LlamadaReporteAbstract {
         this.diasEntreFechas = diasEntreFechas;
     }
 
+    public PieChartModel getCategoryModelPie() {
+        return categoryModelPie;
+    }
+
+    public void setCategoryModelPie(PieChartModel categoryModelPie) {
+        this.categoryModelPie = categoryModelPie;
+    }
+
+
     /**
      * Verificar si las fechas son nulas
      */
@@ -225,7 +236,14 @@ public abstract class LlamadaReporteAbstract {
         exportarReporte(extension, jasperFileAddress, promedios);
 
     }
+    public void exportarReportePDFPie(ActionEvent actionEvent) throws JRException, IOException {
 
+        String extension = "PDF";
+        String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportepdfpie.jasper");
+        setPromedios(false);
+        exportarReporte(extension, jasperFileAddress, promedios);
+
+    }
     public void exportarReportePDFCalidad(ActionEvent actionEvent) throws JRException, IOException {
         String extension = "PDF";
         String jasperFileAddress;

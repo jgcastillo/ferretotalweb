@@ -49,7 +49,7 @@
                         <p:column headerText="Fecha">
                             <h:outputText value="#{llamada.rango}"/>
                         </p:column>
-                        <p:column headerText="Cantidad">
+                        <p:column headerText="Cantidad" style="text-align: center; width: 30%">
                             <h:outputText value="#{llamada.dominio}"/>
                         </p:column>
                     </p:dataTable>
@@ -72,7 +72,9 @@
                                 <h:commandButton value="Exportar Excel"  actionListener="#{totalLlamadasBean.exportarReporteXLS}" title="Exportar a Excel"/>
                             </h:panelGrid>
                         </p:panel>
+
                     </p:panel>
+
                 </p:panel>
             </h:form>
         </p:fieldset>
