@@ -38,7 +38,6 @@ public class AlarmaController implements Serializable {
     private int tiempoRegular;
     private int cerrarLlamada;
     private ExecutorService executor = Executors.newCachedThreadPool();
-    
     // Mapa con los hilos que se están ejecutando
     private Map<String, Runnable> llamados = new HashMap<>();
 
@@ -74,24 +73,26 @@ public class AlarmaController implements Serializable {
         return facade.findAll();
     }
 
-
     public void startThread(PushContext pushContext, Boton boton, int tiempoBueno, int tiempoRegular) {
         String buttonSelected = boton.getUbicacion();
-        System.out.println("1.- Ubicacion startThread: " + buttonSelected);
-        System.out.println("2.- llamados.size(): " + llamados.size());
-
-        if (llamados.containsKey(buttonSelected)) {
-            System.out.println("3.- Ya existe un hilo asociado a este Botón");
-        }
 
         if (!llamados.containsKey(buttonSelected)) {
-            
+
             hilo = new ThreadOnButton(buttonSelected, pushContext, boton, tiempoBueno, tiempoRegular);
             llamados.put(buttonSelected, hilo);
-            System.out.println("4.- Creando hilo " + buttonSelected + " asociado a este Botón");
-            System.out.println("5.- llamados.size(): " + llamados.size());
             hilo.setArrancar();
             //hilo.run();
+            executor.execute(hilo);
+        }
+    }
+
+    public void startThread(PushContext pushContext, Boton boton, int tiempoBueno, int tiempoRegular, int tCierre) {
+        String buttonSelected = boton.getUbicacion();
+
+        if (!llamados.containsKey(buttonSelected)) {
+            hilo = new ThreadOnButton(buttonSelected, pushContext, boton, tiempoBueno, tiempoRegular, tCierre);
+            llamados.put(buttonSelected, hilo);
+            hilo.setArrancar();
             executor.execute(hilo);
         }
     }
@@ -99,19 +100,10 @@ public class AlarmaController implements Serializable {
     public void stopThread(Boton boton) {
         String buttonSelected = boton.getUbicacion();
 
-        System.out.println("6.- Ubicacion stopThread: " + buttonSelected);
-        System.out.println("7.- llamados.size(): " + llamados.size());
-        
-        if (!llamados.containsKey(buttonSelected)) {
-            System.out.println("8.- No existe un hilo asociado a este Botón");
-        }
-
         if (llamados.containsKey(buttonSelected)) {
-            System.out.println("9.- Eliminando el hilo asociado a " + buttonSelected);
             hilo = (ThreadOnButton) llamados.get(buttonSelected);
             hilo.setTerminar();
             llamados.remove(buttonSelected);
-            System.out.println("10.- llamados.size(): " + llamados.size());
         }
 
     }
@@ -125,7 +117,18 @@ public class AlarmaController implements Serializable {
 
         PushContext pushContext = PushContextFactory.getDefault().getPushContext();
         startThread(pushContext, boton, tiempoBueno, tiempoRegular);
+    }
 
+    public void enviarBoton(int botonId, int tBueno, int tRegular, int tCierre) {
+        boton = facade.find(botonId);
+        this.botonId = boton.getId();
+        this.ubicacion = boton.getUbicacion();
+        this.tiempoBueno = tBueno;
+        this.tiempoRegular = tRegular;
+        this.cerrarLlamada = tCierre;
+
+        PushContext pushContext = PushContextFactory.getDefault().getPushContext();
+        startThread(pushContext, boton, tiempoBueno, tiempoRegular);
     }
 
     public void detenerBoton(int botonId) {

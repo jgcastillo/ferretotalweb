@@ -26,6 +26,7 @@ public class ThreadOnButton implements Runnable {
     private final String nombreHilo;
     private final static Logger logger = LoggerFactory.getLogger(ThreadOnButton.class);
     private String CHANNEL;
+    private int tiempoCierre;
 
     ThreadOnButton(String nombreHilo, PushContext pushContext, Boton boton, int tiempoBueno, int tiempoRegular) {
         this.nombreHilo = nombreHilo;
@@ -33,6 +34,15 @@ public class ThreadOnButton implements Runnable {
         this.boton = boton;
         this.tiempoBueno = tiempoBueno;
         this.tiempoRegular = tiempoRegular;
+    }
+    
+    ThreadOnButton(String nombreHilo, PushContext pushContext, Boton boton, int tiempoBueno, int tiempoRegular, int tCierre) {
+        this.nombreHilo = nombreHilo;
+        this.pushContext = pushContext;
+        this.boton = boton;
+        this.tiempoBueno = tiempoBueno;
+        this.tiempoRegular = tiempoRegular;
+        this.tiempoCierre = tCierre;
     }
     
     public void setTerminar(){
@@ -53,33 +63,28 @@ public class ThreadOnButton implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("1.- Inicio el hilo: " + nombreHilo + "Terminar vale:" + terminar);
         setCHANNEL("/channel" + boton.getId());
         while (!terminar) {
             try {
                 counter++;
                 sec.setTime(counter * 1000);
                 this.showCounter = secFormat.format(sec);
-                System.out.println("counter: " + counter);
                 if (counter > 0 && counter <= tiempoBueno) {
                     pushContext.push(getCHANNEL(), new BotonIntermedia(boton.getUbicacion(), boton.getId(), this.tiempoBueno, this.tiempoRegular, 1, this.showCounter));
                 } else if (counter > tiempoBueno && counter <= tiempoRegular) {
                     pushContext.push(getCHANNEL(), new BotonIntermedia(boton.getUbicacion(), boton.getId(), this.tiempoBueno, this.tiempoRegular, 2, this.showCounter));
-                } else if (counter > tiempoRegular && counter < 35) {
+                } else if (counter > tiempoRegular && counter < tiempoCierre) {
                     pushContext.push(getCHANNEL(), new BotonIntermedia(boton.getUbicacion(), boton.getId(), this.tiempoBueno, this.tiempoRegular, 3, this.showCounter));
-                } else if (counter >= 35){
+                } else if (counter >= tiempoCierre){
                     pushContext.push(getCHANNEL(), new BotonIntermedia(boton.getUbicacion(), boton.getId(), this.tiempoBueno, this.tiempoRegular, 4, this.showCounter));
                 }
                 Thread.sleep(1000);
-//                if (counter == 30) {
-//                    terminar = true;
-//                }
+
             } catch (InterruptedException e) {
                 logger.error("Error de interrupción: " + e.getMessage());
             }
         }
         if (terminar) {
-            System.out.println("2.- Detengo el Hilo: " + nombreHilo + " con el contador en:" + counter);
             pushContext.push(getCHANNEL(), new BotonIntermedia(boton.getUbicacion(), boton.getId(), this.tiempoBueno, this.tiempoRegular, 4, this.showCounter));
         }
         

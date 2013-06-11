@@ -39,4 +39,13 @@ public class AlarmaWebService {
     public void stopAlarma(@WebParam(name = "botonId") int botonId) {
         managedBean.detenerBoton(botonId);
     }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "arrancaAlarma")
+    @Oneway
+    public void arrancaAlarma(@WebParam(name = "botonId") int botonId, @WebParam(name = "tBueno") int tBueno, @WebParam(name = "tRegular") int tRegular, @WebParam(name = "tCierre") int tCierre) {
+        managedBean.enviarBoton(botonId, tBueno, tRegular, tCierre);
+    }
 }
