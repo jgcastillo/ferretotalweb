@@ -126,7 +126,7 @@ public class RespuestaConf implements Serializable {
 
     @Override
     public String toString() {
-        return "com.spontecorp.ferreasesor.entity.RespuestaConf[ id=" + id + " ]";
+        return prompt;
     }
     
 }

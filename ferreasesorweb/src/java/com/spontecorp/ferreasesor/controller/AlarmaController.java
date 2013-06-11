@@ -36,6 +36,7 @@ public class AlarmaController implements Serializable {
     private String ubicacion;
     private int tiempoBueno;
     private int tiempoRegular;
+    private int cerrarLlamada;
     private ExecutorService executor = Executors.newCachedThreadPool();
     
     // Mapa con los hilos que se están ejecutando

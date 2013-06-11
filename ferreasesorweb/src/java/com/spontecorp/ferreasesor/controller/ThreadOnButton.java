@@ -65,8 +65,10 @@ public class ThreadOnButton implements Runnable {
                     pushContext.push(getCHANNEL(), new BotonIntermedia(boton.getUbicacion(), boton.getId(), this.tiempoBueno, this.tiempoRegular, 1, this.showCounter));
                 } else if (counter > tiempoBueno && counter <= tiempoRegular) {
                     pushContext.push(getCHANNEL(), new BotonIntermedia(boton.getUbicacion(), boton.getId(), this.tiempoBueno, this.tiempoRegular, 2, this.showCounter));
-                } else if (counter > tiempoRegular) {
+                } else if (counter > tiempoRegular && counter < 35) {
                     pushContext.push(getCHANNEL(), new BotonIntermedia(boton.getUbicacion(), boton.getId(), this.tiempoBueno, this.tiempoRegular, 3, this.showCounter));
+                } else if (counter >= 35){
+                    pushContext.push(getCHANNEL(), new BotonIntermedia(boton.getUbicacion(), boton.getId(), this.tiempoBueno, this.tiempoRegular, 4, this.showCounter));
                 }
                 Thread.sleep(1000);
 //                if (counter == 30) {
