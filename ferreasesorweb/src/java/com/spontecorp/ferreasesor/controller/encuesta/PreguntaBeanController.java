@@ -257,6 +257,7 @@ public class PreguntaBeanController implements Serializable {
 
     public void addItemToSeleccion(ActionEvent event) {
         if (preguntaSeleccionValores.add(preguntaSeleccionItem)) {
+            preguntaSeleccionItem = null;
             JsfUtil.addSuccessMessage("Opción agregada");
         } else {
             JsfUtil.addErrorMessage("Opción no se pudo agregar");
