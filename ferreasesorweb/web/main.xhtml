@@ -55,8 +55,6 @@
                         </h:panelGrid>
                     </p:fieldset>
 
-
-
 <!--                    <ez:textualQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
                                         preguntaPrompt="#{preguntaBean.promptPreguntaTextual}"
                                         preguntaBean="#{preguntaBean}"
@@ -79,6 +77,8 @@
 
                     <br/>
                 </ui:repeat>
+                <p:commandButton value="Guardar" title="Guardar" icon="ui-icon-disk" 
+                                                 action="#{respuestaObtenidaController.create}"/>
             </p:fieldset>
         </h:form>
     </ui:define>

@@ -17,14 +17,14 @@
         <h:form id="form">
             <p:panel id="panel" header="Agregar preguntas para la Encuesta: #{preguntaBean.encuesta.nombre}" style="width:75%; margin-left:15px;">
                 <h:panelGrid columns="3">
-                    <p:outputLabel for="textoPregunta" value="Texto Pregunta:"/>
+                    <p:outputLabel for="textoPregunta" value="Texto Pregunta: "/>
                     <p:inputText id="textoPregunta" value="#{preguntaBean.preguntaTexto}"
                                  required="true" requiredMessage="El 'Texto de la pregunta es requerido'"
-                                 style="width: 300px;"/>
+                                 style="width: 300px; margin-left: 108px;"/>
                     <p:message for="textoPregunta"/>
 
-                    <p:outputLabel for="tipoPregunta" value="Tipo pregunta:"/>
-                    <p:selectOneMenu id="tipoPregunta" value="#{preguntaBean.tipoPregunta}"
+                    <p:outputLabel for="tipoPregunta" value="Tipo pregunta: "/>
+                    <p:selectOneMenu id="tipoPregunta" value="#{preguntaBean.tipoPregunta}" style="margin-left: 108px;"
                                      required="true" requiredMessage="El Tipo de Pregunta es requerido">
                         <f:selectItem itemLabel="Seleccione un tipo" itemValue=""/>
                         <f:selectItem itemLabel="Textual" itemValue="1"/>
@@ -36,9 +36,8 @@
                     <p:message for="tipoPregunta"/>
                 </h:panelGrid>
                 <h:panelGrid columns="3" id="prompt">
-                    <p:outputLabel for="sugerencia" value="Indique el apuntador que desea usar:" rendered="#{preguntaBean.tipoPregunta == 1 || preguntaBean.tipoPregunta == 2}"/>
-                    <p:inputText id="sugerencia" value="#{preguntaBean.promptPreguntaTextual}" rendered="#{preguntaBean.tipoPregunta == 1 || preguntaBean.tipoPregunta == 2}"
-                                 required="true" requiredMessage="El Tipo apuntador es requerido"/>
+                    <p:outputLabel for="sugerencia" value="Indique el apuntador que desea usar: " rendered="#{preguntaBean.tipoPregunta == 1 || preguntaBean.tipoPregunta == 2}"/>
+                    <p:inputText id="sugerencia" value="#{preguntaBean.promptPreguntaTextual}" rendered="#{preguntaBean.tipoPregunta == 1 || preguntaBean.tipoPregunta == 2}"/>
                     <p:message for="sugerencia"/>
                 </h:panelGrid>
 
