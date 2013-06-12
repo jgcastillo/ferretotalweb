@@ -17,44 +17,47 @@
         <h:form id="viewForm">
             <p:growl id="mensajes"/>
             <p:panel id="panel" header="Así se verá la pregunta en la encuesta:: #{preguntaBean.encuesta.nombre}" style="width:75%; margin-left:15px;">
+                <br/>
+                <c:if test="#{preguntaBean.tipoPregunta == 1}">
                     <br/>
-                    <c:if test="#{preguntaBean.tipoPregunta == 1}">
-                        <br/>
-                        <ez:textualQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
-                                            preguntaPrompt="#{preguntaBean.promptPreguntaTextual}"
-                                            preguntaBean="#{preguntaBean}"/>
-                    </c:if>
-                    <c:if test="#{preguntaBean.tipoPregunta == 2}">
-                        <br/>
-                        <ez:numericQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
-                                            preguntaPrompt="Opciones: "
-                                            preguntaBean="#{preguntaBean}"/>
-                    </c:if>
-                    <c:if test="#{preguntaBean.tipoPregunta == 3}">
-                        <br/>
-                        <ez:selectionQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
-                                              preguntaPrompt="#{preguntaBean.promptPreguntaTextual}"
-                                              preguntaBean="#{preguntaBean}"/>
-                    </c:if>
-                    <c:if test="#{preguntaBean.tipoPregunta == 4}">
-                        <br/>
-                        <ez:ratingQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
-                                           preguntaPrompt="#{preguntaBean.promptPreguntaTextual}" 
-                                           preguntaBean="#{preguntaBean}"/>
-                    </c:if>
+                    <ez:textualQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
+                                        preguntaPrompt="#{preguntaBean.promptPreguntaTextual}"
+                                        preguntaBean="#{preguntaBean}"/>
+                </c:if>
+                <c:if test="#{preguntaBean.tipoPregunta == 2}">
+                    <br/>
+                    <ez:numericQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
+                                        preguntaPrompt="#{preguntaBean.promptPreguntaTextual}"
+                                        preguntaBean="#{preguntaBean}"/>
+                </c:if>
+                <c:if test="#{preguntaBean.tipoPregunta == 3}">
+                    <br/>
+                    <ez:selectionQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
+                                          preguntaPrompt="#{preguntaBean.promptPreguntaTextual}"
+                                          preguntaBean="#{preguntaBean}"/>
+                </c:if>
+                <c:if test="#{preguntaBean.tipoPregunta == 4}">
+                    <br/>
+                    <ez:ratingQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
+                                       preguntaPrompt="El apuntador a usar será: 'En una escala del 1 al 10, siendo el 1 la más baja y 10 la mas alta, ¿cómo lo califica?'" 
+                                       preguntaBean="#{preguntaBean}"/>
+                </c:if>
 
-                    <f:facet name="footer">
-                        <h:panelGrid columns="5" style="display:block;margin-left: 50%">
-                            <p:commandButton value="Agregar" title="Agregar" icon="ui-icon-disk" 
-                                             action="#{preguntaBean.guardaPregunta}" update="mensajes"/>
-                            <p:spacer width="10"/>
+                <f:facet name="footer">
+                    <h:panelGrid columns="5" style="display:block;margin-left: 50%">
+                        <c:if test="#{preguntaBean.tipoPregunta != 1 and preguntaBean.tipoPregunta != 2}">
                             <p:commandButton value="Regresar" title="Regresar" icon="ui-icon-arrowthick-1-w" immediate="true"
                                              action="#{preguntaBean.configuraPregunta}"/>
                             <p:spacer width="10"/>
-                            <p:commandButton value="Cancelar" title="Cancelar" icon="ui-icon-cancel" immediate="true"
-                                             action="#{preguntaBean.retornaCreate}"/>
-                        </h:panelGrid>
-                    </f:facet>
+                        </c:if>
+                        <p:commandButton value="Cancelar" title="Cancelar" icon="ui-icon-cancel" immediate="true"
+                                         action="#{preguntaBean.retornaCreate}"/>
+                        <p:spacer width="10"/>
+                        <p:commandButton value="Agregar" title="Agregar" icon="ui-icon-disk" 
+                                         action="#{preguntaBean.guardaPregunta}" update="mensajes"/>
+                        <p:spacer width="10"/>
+                    </h:panelGrid>
+                </f:facet>
 
             </p:panel>
         </h:form>

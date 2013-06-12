@@ -46,9 +46,14 @@
                         </h:panelGrid>
                     </p:fieldset>
 
-                 
-
-
+                    <p:fieldset style="width: 70%" rendered="#{question.tipo == 4}">
+                        <h:panelGrid columns="2">
+                            <h:outputText value="En una escala del 1 al 10, siendo 1 la más baja y 10 la más alta, ¿cómo lo califica?: "/>
+                            <p:inputText id="ratingTextBox" value="#{preguntaBean.respuestaTexto}" style="width: 60px;">
+                                <f:convertNumber integerOnly="true" maxIntegerDigits="2" />
+                            </p:inputText>
+                        </h:panelGrid>
+                    </p:fieldset>
 
 <!--                    <ez:textualQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
                                         preguntaPrompt="#{preguntaBean.promptPreguntaTextual}"
@@ -72,6 +77,8 @@
 
                     <br/>
                 </ui:repeat>
+                <p:commandButton value="Guardar" title="Guardar" icon="ui-icon-disk" 
+                                                 action="#{respuestaObtenidaController.create}"/>
             </p:fieldset>
         </h:form>
     </ui:define>
