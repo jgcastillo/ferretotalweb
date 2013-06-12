@@ -18,6 +18,8 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -52,6 +54,7 @@ public class PreguntaBeanController implements Serializable {
     private DataModel<Pregunta> preguntaItems;
     private Map<Pregunta, List<RespuestaConf>> respuestas;
     private static final int ENCUESTA_ACTIVA = 1;
+    private static final Logger logger = LoggerFactory.getLogger(PreguntaBeanController.class);
 
     public PreguntaBeanController() {
     }
@@ -170,16 +173,15 @@ public class PreguntaBeanController implements Serializable {
 
     public List<Pregunta> getPreguntaList() {
         encuesta = getEncuestaActiva();
-        //preguntaList = null;
-
-        if (encuesta != null) {
+        preguntaList = null;
+        opcionsList = null;
+        
+        if (encuesta != null && preguntaList == null && opcionsList == null) {
             preguntaSeleccionValores = new ArrayList();
             preguntaList = getPreguntaFacade().findAll(encuesta);
-            for (Pregunta pregunta : preguntaList) {
-                opcionsList = pregunta.getRespuestaConfList();
-                for (RespuestaConf opcion : opcionsList) {
-                    preguntaSeleccionValores.add(opcion.getOpcion());
-                }
+            for (Pregunta pregunta : preguntaList){
+                opcionsList = getRespuestaFacade().findRespuestaConf(pregunta);
+                pregunta.setRespuestaConfList(opcionsList);
             }
         }
 

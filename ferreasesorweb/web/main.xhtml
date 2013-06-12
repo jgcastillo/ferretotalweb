@@ -39,7 +39,7 @@
                     <p:fieldset style="width: 70%" rendered="#{question.tipo == 3}">
                         <h:panelGrid columns="2">
                             <h:outputLabel for="opciones" value="Opciones: "/>
-                            <h:selectOneRadio value="#{preguntaBean.respuestaTexto}">
+                            <h:selectOneRadio id="opciones" value="#{preguntaBean.respuestaTexto}">
                                 <f:selectItems value="#{question.respuestaConfList}" var="option"
                                                itemLabel="#{option.opcion}" itemValue="#{option.id}" /> <br/>
                             </h:selectOneRadio>
