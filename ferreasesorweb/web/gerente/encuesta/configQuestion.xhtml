@@ -42,12 +42,12 @@
                         </p:dataTable>
                         <f:facet name="footer">
                             <h:panelGrid columns="3" style="display:block;margin-left: 50%">
+                                <p:commandButton value="Eliminar" title="Eliminar Opción" icon="ui-icon-cancel" immediate="true"
+                                                 actionListener="#{preguntaBean.removeItemFromSeleccion}"/>
+                                <p:spacer width="10"/>
                                 <p:commandButton value="Agregar" title="Agregar Opción" icon="ui-icon-disk" 
                                                  actionListener="#{preguntaBean.addItemToSeleccion}"
                                                  ajax="true" update="tableOptions"/>
-                                <p:spacer width="10"/>
-                                <p:commandButton value="Eliminar" title="Eliminar Opción" icon="ui-icon-cancel" immediate="true"
-                                                 actionListener="#{preguntaBean.removeItemFromSeleccion}"/>
                             </h:panelGrid>
                         </f:facet>
                     </p:panel>
@@ -56,7 +56,7 @@
                 <c:if test="#{preguntaBean.tipoPregunta == 4}">
                     <h:outputText value="El apuntador a usar será: 'En una escala del 1 al 10, siendo el 1 la más baja y 10 la mas alta, ¿cómo lo califica?'"/>
                     <p>
-                        <h:outputText value="Use el boton continuar"/>
+                        <h:outputText value="Use el botón continuar"/>
                     </p>
                 </c:if>
                 <br/><br/>

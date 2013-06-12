@@ -22,6 +22,7 @@
                                  required="true" requiredMessage="El 'Texto de la pregunta es requerido'"
                                  style="width: 300px;"/>
                     <p:message for="textoPregunta"/>
+
                     <p:outputLabel for="tipoPregunta" value="Tipo pregunta:"/>
                     <p:selectOneMenu id="tipoPregunta" value="#{preguntaBean.tipoPregunta}"
                                      required="true" requiredMessage="El Tipo de Pregunta es requerido">
@@ -30,18 +31,26 @@
                         <f:selectItem itemLabel="Numérico" itemValue="2"/>
                         <f:selectItem itemLabel="Selección" itemValue="3"/>
                         <f:selectItem itemLabel="Calificación" itemValue="4"/>
+                        <p:ajax update="prompt" />
                     </p:selectOneMenu>
                     <p:message for="tipoPregunta"/>
+                </h:panelGrid>
+                <h:panelGrid columns="3" id="prompt">
+                    <p:outputLabel for="sugerencia" value="Indique el apuntador que desea usar:" rendered="#{preguntaBean.tipoPregunta == 1 || preguntaBean.tipoPregunta == 2}"/>
+                    <p:inputText id="sugerencia" value="#{preguntaBean.promptPreguntaTextual}" rendered="#{preguntaBean.tipoPregunta == 1 || preguntaBean.tipoPregunta == 2}"
+                                 required="true" requiredMessage="El Tipo apuntador es requerido"/>
+                    <p:message for="sugerencia"/>
                 </h:panelGrid>
 
                 <f:facet name="footer">
                     <h:panelGrid columns="3" style="display:block;margin-left: 50%">
+                        <p:commandButton value="Cancelar" title="Cancelar" icon="ui-icon-cancel" immediate="true"
+                                         action="#{preguntaBean.prepareCancel}"/>
+                        <p:spacer width="10"/>
                         <p:commandButton value="Configurar" title="Configurar" icon="ui-icon-disk" 
                                          action="#{preguntaBean.configuraPregunta}"
                                          ajax="true" update="panel"/>
-                        <p:spacer width="10"/>
-                        <p:commandButton value="Cancelar" title="Cancelar" icon="ui-icon-cancel" immediate="true"
-                                         action="#{preguntaBean.prepareCancel}"/>
+                        
                     </h:panelGrid>
                 </f:facet>
 
@@ -70,7 +79,7 @@
                     </p:column>
                 </p:dataTable>
             </p:fieldset>
-            
+
         </h:form>
     </ui:define>
 
