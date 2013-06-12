@@ -194,9 +194,19 @@ public class PreguntaBeanController implements Serializable {
     }
 
     public String configuraPregunta() {
-        promptPreguntaTextual = null;
+        //promptPreguntaTextual = "";
+        //setPromptPreguntaTextual(promptPreguntaTextual);
+        //System.out.println("Pregunta en configuraPregunta: "+preguntaTexto);
         preguntaSeleccionValores = new ArrayList();
-        return "configQuestion?faces-redirect=true";
+        String next;
+        
+        if(tipoPregunta == 1 || tipoPregunta == 2){
+            next = "showQuestion?faces-redirect=true";
+        }else{
+            next = "configQuestion?faces-redirect=true";
+        }
+        
+        return next;
     }
 
     public String retornaCreate() {
@@ -206,6 +216,7 @@ public class PreguntaBeanController implements Serializable {
     }
 
     public String muestraPregunta() {
+        //setPromptPreguntaTextual(promptPreguntaTextual);
         return "showQuestion?faces-redirect=true";
     }
 
@@ -312,6 +323,9 @@ public class PreguntaBeanController implements Serializable {
     }
 
     private void recreateModel() {
+        preguntaTexto = null;
+        tipoPregunta = 0;
         preguntaItems = null;
+        promptPreguntaTextual = null;
     }
 }
