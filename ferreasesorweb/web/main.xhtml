@@ -18,35 +18,42 @@
             <h:outputText value="No hay Encuesta activa"/>
         </h:form>
         <h:form id="formEncuesta" rendered="#{preguntaBean.encuestaActiva != null}">
-            <p:fieldset legend="#{preguntaBean.encuestaActiva.nombre}">
+            <p:fieldset legend="#{preguntaBean.encuestaActiva.nombre}"><br/><br/>
                 <ui:repeat value="#{preguntaBean.preguntaList}" var="question">
-                    <h:outputText value="#{question.pregunta}"/><br/>
+                    <h:outputText value="#{question.pregunta}" style="font-size: 14px; font-weight: bold; margin-left:25px;"/><br/>
 
-                    <p:fieldset style="width: 70%" rendered="#{question.tipo == 1}">
-                        <h:panelGrid columns="2">
-                            <h:outputText value="#{question.respuestaConfList[0]}: "/>
-                            <p:inputText id="opinionTextBox" value="#{preguntaBean.respuestaTexto}" style="width: 300px;"/>
+                    <p:fieldset style="width: 70%; margin-left:25px;" rendered="#{question.tipo == 1}">
+                        <h:panelGrid columns="2" style="">
+                            <p:outputLabel value="#{question.respuestaConfList[0]}: "/>
+                            <p:inputTextarea id="opinionTextBox" rows="6" cols="85" counter="counter" maxlength="350" value="#{preguntaBean.respuestaTexto}"      
+                                             counterTemplate="{0} caracteres restantes."  
+                                             required="true" requiredMessage="Respuesta requerida"/><br/> 
+                            <h:outputText id="counter" /><br/> 
+                            <p:message for="opinionTextBox"/>
+                            
                         </h:panelGrid>
+                        <p:commandButton value="Guardar" title="Guardar" icon="ui-icon-disk" style="float:right"
+                                             action="#{respuestaObtenidaController.create}"/>
                     </p:fieldset>
 
-                    <p:fieldset style="width: 70%" rendered="#{question.tipo == 2}">
+                    <p:fieldset style="width: 70%; margin-left:25px;" rendered="#{question.tipo == 2}">
                         <h:panelGrid columns="2">
                             <h:outputText value="#{question.respuestaConfList[0]}: "/>
                             <p:inputText id="respuesta" value="#{preguntaBean.respuestaTexto}" style="width: 60px;"/>
                         </h:panelGrid>
                     </p:fieldset>
 
-                    <p:fieldset style="width: 70%" rendered="#{question.tipo == 3}">
+                    <p:fieldset style="width: 70%; margin-left:25px;" rendered="#{question.tipo == 3}">
                         <h:panelGrid columns="2">
                             <h:outputLabel for="opciones" value="Opciones: "/>
-                            <h:selectOneRadio value="#{preguntaBean.respuestaTexto}">
-                                <f:selectItems value="#{question.respuestaConfList}" var="option"
+                            <h:selectOneRadio id="opciones" value="#{preguntaBean.respuestaTexto}" layout="pageDirection">
+                                <f:selectItems value="#{question.respuestaConfList}" var="option" 
                                                itemLabel="#{option.opcion}" itemValue="#{option.id}" /> <br/>
                             </h:selectOneRadio>
                         </h:panelGrid>
                     </p:fieldset>
 
-                    <p:fieldset style="width: 70%" rendered="#{question.tipo == 4}">
+                    <p:fieldset style="width: 70%; margin-left:25px;" rendered="#{question.tipo == 4}">
                         <h:panelGrid columns="2">
                             <h:outputText value="En una escala del 1 al 10, siendo 1 la más baja y 10 la más alta, ¿cómo lo califica?: "/>
                             <p:inputText id="ratingTextBox" value="#{preguntaBean.respuestaTexto}" style="width: 60px;">
@@ -55,7 +62,7 @@
                         </h:panelGrid>
                     </p:fieldset>
 
-<!--                    <ez:textualQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
+<!--                   <ez:textualQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
                                         preguntaPrompt="#{preguntaBean.promptPreguntaTextual}"
                                         preguntaBean="#{preguntaBean}"
                                         rendered="#{question.tipo == 1}"/>
@@ -75,10 +82,9 @@
                                        preguntaBean="#{preguntaBean}"
                                        rendered="#{question.tipo == 4}"/>-->
 
-                    <br/>
+                    <br/><br/>
                 </ui:repeat>
-                <p:commandButton value="Guardar" title="Guardar" icon="ui-icon-disk" 
-                                                 action="#{respuestaObtenidaController.create}"/>
+
             </p:fieldset>
         </h:form>
     </ui:define>
