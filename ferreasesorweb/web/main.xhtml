@@ -88,40 +88,5 @@
             </p:fieldset>
         </h:form>
     </ui:define>
-
-    <ui:define name="status">
-
-        <ui:include src="./WEB-INF/templates/snippets/statusButton.xhtml" />
-
-
-        <!--CODIGO ORIGINAL EN EL MAIN-->
-        <!--        <h:outputStylesheet library="css" name="display.css"/>
-                <h:outputScript library="js" name="handleMessage.js"/>
-        
-                <h:outputText value="Aqui va una alarma"/>
-                <h:form id="form">
-                    <p:fieldset>
-                        <h:panelGrid id="principal">
-        
-                            <c:forEach begin="1" end="4" varStatus="status">
-                                <h:panelGrid id="panel_11" styleClass="ui-widget display#{status.index}1" style="display: none;">
-                                    <h:outputText id="out11" value="#{status.index}"/>
-                                </h:panelGrid>
-                                <h:panelGrid id="panel_12" styleClass="ui-widget display#{status.index}2" style="display: none;">
-                                    <h:outputText id="out12" value="#{status.index}"/>
-                                </h:panelGrid>
-                                <h:panelGrid id="panel_13" styleClass="ui-widget display#{status.index}3" style="display: none;">
-                                    <h:outputText id="out13" value="#{status.index}"/>
-                                </h:panelGrid>
-                            </c:forEach>
-                        </h:panelGrid>
-                    </p:fieldset>
-                </h:form>  
-        
-                <ui:repeat value="#{alarmaBean.botones}" var="boton" varStatus="status">
-                    <p:socket onMessage="handleMessage#{status.index+1}" channel="/channel#{boton.id}"/>
-                </ui:repeat>-->
-
-    </ui:define>
-
+    
 </ui:composition>

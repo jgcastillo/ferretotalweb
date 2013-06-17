@@ -10,16 +10,22 @@
         </h:panelGroup>
         <h:form>
             <c:if test="#{loginBean.admin}" >
-                <p:menu style="width: 95%">
-                    <p:menuitem value="Tienda" action="/admin/tienda/List.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-home"/>
-                    <p:menuitem value="Feriados" action="/admin/feriado/List.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-calendar"/>
-                    <p:menuitem value="Turnos" action="/admin/turno/List.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-clock" /> 
-                    <p:menuitem value="Tiempos Atención" action="/admin/tiempo/List.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-calculator" /> 
-                    <p:menuitem value="Dispositivos" action="/admin/boton/List.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-signal-diag"/>
-                    <p:menuitem value="Asesores" action="/admin/asesor/List.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-person"/>
-                    <p:menuitem value="Usuarios" action="/admin/usuario/List.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-person"/>
-                    <p:menuitem value="Logout" action="#{loginBean.logout}" icon="ui-icon-power"/>
-                </p:menu>
+                <p:panelMenu style="width: 95%">
+                    <p:submenu label="Configurar Sistema">
+                        <p:menuitem value="Tienda" action="/admin/tienda/List.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-home"/>
+                        <p:menuitem value="Feriados" action="/admin/feriado/List.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-calendar"/>
+                        <p:menuitem value="Turnos" action="/admin/turno/List.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-clock" /> 
+                        <p:menuitem value="Tiempos Atención" action="/admin/tiempo/List.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-calculator" /> 
+                        <p:menuitem value="Dispositivos" action="/admin/boton/List.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-signal-diag"/>
+                        <p:menuitem value="Asesores" action="/admin/asesor/List.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-person"/>
+                        <p:menuitem value="Usuarios" action="/admin/usuario/List.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-person"/>
+                    </p:submenu>
+                    <p:submenu label="Navegación">
+                        <p:menuitem value="Principal" action="/main1.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-home" />
+                        <p:menuitem value="Status Dispositivos" action="/statusDispositivos.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-home" />
+                        <p:menuitem value="Logout" action="#{loginBean.logout}" icon="ui-icon-power"/>
+                    </p:submenu>
+                </p:panelMenu>
             </c:if>
             <c:if test="#{loginBean.gerente}" >
                 <p:panelMenu id="menuGerente">
@@ -47,10 +53,11 @@
                     </p:submenu>
                     <p:submenu label="Navegación">
                         <p:menuitem value="Principal" action="/main1.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-home" />
+                        <p:menuitem value="Status Dispositivos" action="/statusDispositivos.xhtml?faces-redirect=true" ajax="false" icon="ui-icon-home" />
                         <p:menuitem value="Logout" action="#{loginBean.logout}" icon="ui-icon-power"/>
                     </p:submenu>
                 </p:panelMenu>
-               
+
             </c:if>
             <c:if test="#{loginBean.asesor}" >
                 <p:panelMenu id="menuAsesor">
