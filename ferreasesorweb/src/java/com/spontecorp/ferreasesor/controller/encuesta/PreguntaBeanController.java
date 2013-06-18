@@ -41,6 +41,9 @@ public class PreguntaBeanController implements Serializable {
     private String preguntaSeleccionItem;
     private List<String> preguntaSeleccionValores;
     private List<Pregunta> preguntaList = null;
+    //private List<String> respuestaList = new ArrayList();
+    //  private String[] respuestaList;
+    private String respuestaList[] = new String[25];
     private List<RespuestaConf> opcionsList = null;
     private Integer respuestaSeleccion;
     private Integer respuestaRating;
@@ -85,6 +88,10 @@ public class PreguntaBeanController implements Serializable {
 
     public String getRespuestaTexto() {
         return respuestaTexto;
+    }
+
+    public String[] getRespuestaList() {
+        return respuestaList;
     }
 
     public void setRespuestaTexto(String respuestaTexto) {
@@ -217,30 +224,41 @@ public class PreguntaBeanController implements Serializable {
      * @param actionEvent
      * @return
      */
-    public String guardaRespuesta(ActionEvent actionEvent) {
+    public String guardaRespuesta() {
 
-        for (Pregunta pregunta : preguntaList) {
+        for (int i = 0; i < preguntaList.size(); i++) {
+            respuestaTexto = respuestaList[i].toString();
 
             RespuestaObtenida respObtenida = new RespuestaObtenida();
 
-            if (pregunta.getTipo() == SELECCION) {
-                respuesta = getRespuestaFacade().find(Integer.valueOf(respuestaTexto));
-                respObtenida.setRespuesta(null);
-            } else {
-                respuesta = pregunta.getRespuestaConfList().get(0);
-                respObtenida.setRespuesta(respuestaTexto);
+            if (!respuestaTexto.equals("")) {
+                if (preguntaList.get(i).getTipo() == SELECCION) {
+                    respuesta = getRespuestaFacade().find(Integer.valueOf(respuestaTexto));
+                    respObtenida.setRespuesta(null);
+                } else {
+                    respuesta = preguntaList.get(i).getRespuestaConfList().get(0);
+                    respObtenida.setRespuesta(respuestaTexto);
+                }
+
+                respObtenida.setRespuestaConfId(respuesta);
+                respObtenida.setEncuestaId(encuesta);
+                respObtenida.setPreguntaId(preguntaList.get(i));
+                respObtenidaFacade.create(respObtenida);
             }
-
-            respObtenida.setRespuestaConfId(respuesta);
-            respObtenida.setEncuestaId(encuesta);
-            respObtenida.setPreguntaId(pregunta);
-            respObtenidaFacade.create(respObtenida);
-
+        }
+        for (int i = 0; i < preguntaList.size(); i++) {
+            respuestaList[i] = "";
         }
 
         setRespuestaTexto(null);
-        JsfUtil.addSuccessMessage("La Encuesta fue enviada con éxito!");
-        return "main?faces-redirect=true";
+        return showMessage();
+        //JsfUtil.addSuccessMessage("La Encuesta fue enviada con éxito!");
+        //return "message?faces-redirect=true";
+    }
+    
+    public String showMessage() {
+        //System.out.println("Entro a ShowMessage()");
+        return "message?faces-redirect=true";
     }
 
     /**
@@ -293,31 +311,33 @@ public class PreguntaBeanController implements Serializable {
         current.setEncuestaId(encuesta);
         current.setPregunta(preguntaTexto);
         current.setTipo(tipoPregunta);
-        preguntaFacade.create(current);
 
-        switch (tipoPregunta) {
-            case 1:
-            case 2:
-            case 4: {
-                respuesta = new RespuestaConf();
-                respuesta.setPreguntaId(current);
-                respuesta.setPrompt(promptPreguntaTextual);
-                respuestaFacade.create(respuesta);
-                break;
-            }
-            case 3: {
-                for (String opcion : preguntaSeleccionValores) {
+        if (encuesta != null) {
+            preguntaFacade.create(current);
+            switch (tipoPregunta) {
+                case 1:
+                case 2:
+                case 4: {
                     respuesta = new RespuestaConf();
                     respuesta.setPreguntaId(current);
-                    respuesta.setOpcion(opcion);
                     respuesta.setPrompt(promptPreguntaTextual);
                     respuestaFacade.create(respuesta);
+                    break;
                 }
-                break;
+                case 3: {
+                    for (String opcion : preguntaSeleccionValores) {
+                        respuesta = new RespuestaConf();
+                        respuesta.setPreguntaId(current);
+                        respuesta.setOpcion(opcion);
+                        respuesta.setPrompt(promptPreguntaTextual);
+                        respuestaFacade.create(respuesta);
+                    }
+                    break;
+                }
             }
+            JsfUtil.addSuccessMessage("Pregunta agregada con éxito");
         }
         recreateModel();
-        JsfUtil.addSuccessMessage("Pregunta agregada con éxito");
         return "createQuestions?faces-redirect=true";
     }
 
@@ -424,7 +444,7 @@ public class PreguntaBeanController implements Serializable {
             //promptPreguntaTextual = null;
             //preguntaSeleccionValores.clear();
             JsfUtil.addSuccessMessage("Pregunta eliminada de la encuesta");
-        } else if (totalRespuestas > 0){
+        } else if (totalRespuestas > 0) {
             JsfUtil.addSuccessMessage("La pregunta no puede ser eliminada, ya que tiene respuestas asociadas");
         }
         recreateModel();
