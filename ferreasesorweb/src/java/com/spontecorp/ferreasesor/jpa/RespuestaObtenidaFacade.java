@@ -5,6 +5,7 @@
 package com.spontecorp.ferreasesor.jpa;
 
 import com.spontecorp.ferreasesor.entity.Encuesta;
+import com.spontecorp.ferreasesor.entity.Pregunta;
 import com.spontecorp.ferreasesor.entity.RespuestaObtenida;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -35,5 +36,12 @@ public class RespuestaObtenidaFacade extends AbstractFacade<RespuestaObtenida> {
         Query q = getEntityManager().createQuery(query);
         q.setParameter("respuesta", encuesta);
         return q.getResultList();
+    }
+    
+    public int findRespuestaObtenida(Pregunta pregunta) {
+        String query = "SELECT ro from RespuestaObtenida ro WHERE ro.preguntaId = :pregunta";
+        Query q = getEntityManager().createQuery(query);
+        q.setParameter("pregunta", pregunta);
+        return q.getResultList().size();
     }
 }

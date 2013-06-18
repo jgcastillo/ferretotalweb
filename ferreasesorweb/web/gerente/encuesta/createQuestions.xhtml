@@ -14,6 +14,7 @@
     </ui:define>
 
     <ui:define name="content">
+
         <h:form id="form">
             <p:panel id="panel" header="Agregar preguntas para la Encuesta: #{preguntaBean.encuesta.nombre}" style="width:75%; margin-left:15px;">
                 <h:panelGrid columns="3">
@@ -49,7 +50,7 @@
                         <p:commandButton value="Configurar" title="Configurar" icon="ui-icon-disk" 
                                          action="#{preguntaBean.configuraPregunta}"
                                          ajax="true" update="panel"/>
-                        
+
                     </h:panelGrid>
                 </f:facet>
 
@@ -72,15 +73,20 @@
                         <h:outputText value="Selección" rendered="#{pregunta.tipo == 3}"/>
                         <h:outputText value="Calificación" rendered="#{pregunta.tipo == 4}"/>
                     </p:column>
-                    
-<!--                    <p:column headerText="Acción" style="width: 15%; text-align: center">
+
+                    <p:column headerText="Acción" style="width: 15%; text-align: center">
                         <p:commandButton title="Eliminar" icon="ui-icon-trash" style="margin-left: 10px;" 
                                          action="#{preguntaBean.prepareDelete}" immediate="true"/>
-                    </p:column>-->
+                    </p:column>
                 </p:dataTable>
-            </p:fieldset>
 
+            </p:fieldset>
         </h:form>
+
+        <h:panelGroup id="messagePanel" layout="block">
+            <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+        </h:panelGroup>
+
     </ui:define>
 
 </ui:composition>

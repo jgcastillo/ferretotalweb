@@ -220,9 +220,9 @@ public class PreguntaBeanController implements Serializable {
     public String guardaRespuesta(ActionEvent actionEvent) {
 
         for (Pregunta pregunta : preguntaList) {
-            
+
             RespuestaObtenida respObtenida = new RespuestaObtenida();
-            
+
             if (pregunta.getTipo() == SELECCION) {
                 respuesta = getRespuestaFacade().find(Integer.valueOf(respuestaTexto));
                 respObtenida.setRespuesta(null);
@@ -230,14 +230,14 @@ public class PreguntaBeanController implements Serializable {
                 respuesta = pregunta.getRespuestaConfList().get(0);
                 respObtenida.setRespuesta(respuestaTexto);
             }
-            
+
             respObtenida.setRespuestaConfId(respuesta);
             respObtenida.setEncuestaId(encuesta);
             respObtenida.setPreguntaId(pregunta);
             respObtenidaFacade.create(respObtenida);
-            
+
         }
-        
+
         setRespuestaTexto(null);
         JsfUtil.addSuccessMessage("La Encuesta fue enviada con éxito!");
         return "main?faces-redirect=true";
@@ -368,7 +368,7 @@ public class PreguntaBeanController implements Serializable {
      * @return
      */
     public String prepareCancel() {
-        setEncuesta(null);
+        //setEncuesta(null);
         current = null;
         recreateModel();
         return "createQuestions?faces-redirect=true";
@@ -407,16 +407,31 @@ public class PreguntaBeanController implements Serializable {
     public String deletePregunta() {
         respuestaFacade = getRespuestaFacade();
         preguntaFacade = getPreguntaFacade();
-        for (RespuestaConf opcionConf : current.getRespuestaConfList()) {
-            respuestaFacade.remove(opcionConf);
+
+        int totalRespuestas = 0;
+
+        totalRespuestas = respObtenidaFacade.findRespuestaObtenida(current);
+        System.out.println("Numero de respuesta Obtenidas: "+totalRespuestas);
+
+        if (totalRespuestas == 0) {
+            System.out.println("IdPregunta: " + current.getId());
+            opcionsList = respuestaFacade.findRespuestaConf(current);
+            current.setRespuestaConfList(opcionsList);
+            for (RespuestaConf opcionConf : current.getRespuestaConfList()) {
+                System.out.println("Listado RespConf: " + current.getRespuestaConfList().size());
+                respuestaFacade.remove(opcionConf);
+            }
+            //current.setRespuestaConfList(null);
+            preguntaFacade.remove(current);
+            //tipoPregunta = 0;
+            //preguntaTexto = null;
+            //promptPreguntaTextual = null;
+            //preguntaSeleccionValores.clear();
+            JsfUtil.addSuccessMessage("Pregunta eliminada de la encuesta");
+        } else if (totalRespuestas > 0){
+            JsfUtil.addSuccessMessage("La pregunta no puede ser eliminada, ya que tiene respuestas asociadas");
         }
-        current.setRespuestaConfList(null);
-        preguntaFacade.remove(current);
-        tipoPregunta = 0;
-        preguntaTexto = null;
-        promptPreguntaTextual = null;
-        preguntaSeleccionValores.clear();
-        JsfUtil.addSuccessMessage("Pregunta eliminada de la encuesta");
+        recreateModel();
         return prepareCreate();
     }
 
