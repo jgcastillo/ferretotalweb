@@ -409,16 +409,12 @@ public class PreguntaBeanController implements Serializable {
         preguntaFacade = getPreguntaFacade();
 
         int totalRespuestas = 0;
-
         totalRespuestas = respObtenidaFacade.findRespuestaObtenida(current);
-        System.out.println("Numero de respuesta Obtenidas: "+totalRespuestas);
 
         if (totalRespuestas == 0) {
-            System.out.println("IdPregunta: " + current.getId());
             opcionsList = respuestaFacade.findRespuestaConf(current);
             current.setRespuestaConfList(opcionsList);
             for (RespuestaConf opcionConf : current.getRespuestaConfList()) {
-                System.out.println("Listado RespConf: " + current.getRespuestaConfList().size());
                 respuestaFacade.remove(opcionConf);
             }
             //current.setRespuestaConfList(null);
