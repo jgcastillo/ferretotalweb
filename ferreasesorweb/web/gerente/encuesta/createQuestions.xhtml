@@ -66,24 +66,21 @@
                     <p:column headerText="Pregunta">
                         <h:outputText value="#{pregunta.pregunta}"/>
                     </p:column>
-                    <p:column headerText="Tipo">
+                    <p:column headerText="Tipo" style="width: 15%; text-align: center">
                         <h:outputText value="Textual" rendered="#{pregunta.tipo == 1}"/>
                         <h:outputText value="Numérica" rendered="#{pregunta.tipo == 2}"/>
                         <h:outputText value="Selección" rendered="#{pregunta.tipo == 3}"/>
                         <h:outputText value="Calificación" rendered="#{pregunta.tipo == 4}"/>
                     </p:column>
-                    <p:column headerText="Acción">
+                    
+<!--                    <p:column headerText="Acción" style="width: 15%; text-align: center">
                         <p:commandButton title="Eliminar" icon="ui-icon-trash" style="margin-left: 10px;" 
                                          action="#{preguntaBean.prepareDelete}" immediate="true"/>
-                    </p:column>
+                    </p:column>-->
                 </p:dataTable>
             </p:fieldset>
 
         </h:form>
-    </ui:define>
-
-    <ui:define name="status">
-        status
     </ui:define>
 
 </ui:composition>
