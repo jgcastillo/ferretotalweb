@@ -23,7 +23,7 @@
 
                     <h:outputText value="#{question.pregunta}" style="font-size: 14px; font-weight: bold; margin-left:25px;"/><br/>
 
-                    <p:fieldset style="width: 70%; margin-left:25px;" rendered="#{question.tipo == 1}">
+                    <p:fieldset style="width: 81%; margin-left:25px;" rendered="#{question.tipo == 1}">
                         <h:panelGrid columns="2" style="">
                             <p:outputLabel value="#{question.respuestaConfList[0]}: "/>
                             <p:inputTextarea id="opinionTextBox#{status.index}" rows="6" cols="85" counter="counter" maxlength="350"  value="#{preguntaBean.respuestaList[status.index]}"      

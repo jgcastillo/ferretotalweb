@@ -19,6 +19,7 @@ public class ThreadOnButton implements Runnable {
     private long counter = 0;
     private int tiempoBueno;
     private int tiempoRegular;
+    private int tiempoCierre;
     private Boton boton;
     private volatile PushContext pushContext;
     private String showCounter;
@@ -26,7 +27,7 @@ public class ThreadOnButton implements Runnable {
     private final String nombreHilo;
     private final static Logger logger = LoggerFactory.getLogger(ThreadOnButton.class);
     private String CHANNEL;
-    private int tiempoCierre;
+    
 
     ThreadOnButton(String nombreHilo, PushContext pushContext, Boton boton, int tiempoBueno, int tiempoRegular) {
         this.nombreHilo = nombreHilo;
@@ -76,7 +77,8 @@ public class ThreadOnButton implements Runnable {
                 } else if (counter > tiempoRegular && counter < tiempoCierre) {
                     pushContext.push(getCHANNEL(), new BotonIntermedia(boton.getUbicacion(), boton.getId(), this.tiempoBueno, this.tiempoRegular, 3, this.showCounter));
                 } else if (counter >= tiempoCierre){
-                    pushContext.push(getCHANNEL(), new BotonIntermedia(boton.getUbicacion(), boton.getId(), this.tiempoBueno, this.tiempoRegular, 4, this.showCounter));
+                    terminar = true;
+                    //pushContext.push(getCHANNEL(), new BotonIntermedia(boton.getUbicacion(), boton.getId(), this.tiempoBueno, this.tiempoRegular, 4, this.showCounter));
                 }
                 Thread.sleep(1000);
 

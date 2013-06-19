@@ -69,6 +69,14 @@ public class AlarmaController implements Serializable {
         return tiempoRegular;
     }
 
+    public int getCerrarLlamada() {
+        return cerrarLlamada;
+    }
+
+    public void setCerrarLlamada(int cerrarLlamada) {
+        this.cerrarLlamada = cerrarLlamada;
+    }
+
     public List<Boton> getBotones() {
         return facade.findAll();
     }
@@ -128,7 +136,7 @@ public class AlarmaController implements Serializable {
         this.cerrarLlamada = tCierre;
 
         PushContext pushContext = PushContextFactory.getDefault().getPushContext();
-        startThread(pushContext, boton, tiempoBueno, tiempoRegular);
+        startThread(pushContext, boton, tiempoBueno, tiempoRegular, cerrarLlamada);
     }
 
     public void detenerBoton(int botonId) {
