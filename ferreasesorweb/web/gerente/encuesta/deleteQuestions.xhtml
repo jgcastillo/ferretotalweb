@@ -6,7 +6,8 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
-                xmlns:ez="http://java.sun.com/jsf/composite/ezcomp">
+                xmlns:ez="http://java.sun.com/jsf/composite/ezcomp"
+                xmlns:f="http://java.sun.com/jsf/core">
 
     <ui:define name="title">
         Eliminar Preguntas de encuestas
@@ -15,8 +16,9 @@
     <ui:define name="content">
         <h:form id="myForm">
             <p:growl id="mensajes"/>
-            <p:fieldset legend="Eliminar pregunta" style="width: 75%">
-                <h:panelGroup>
+            <p:panel id="panel" header="Eliminar Pregunta" style="width:75%; margin-left:15px;">
+
+                <h:panelGrid columns="2">
                     <c:if test="#{preguntaBean.tipoPregunta == 1}">
                         <br/>
                         <ez:textualQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
@@ -40,19 +42,21 @@
                         <ez:ratingQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
                                            preguntaPrompt="#{preguntaBean.promptPreguntaTextual}" 
                                            preguntaBean="#{preguntaBean}"/>
-                    </c:if>
-                </h:panelGroup>
-                <h:panelGrid columns="3">
-                    <p:commandButton value="Eliminar" action="#{preguntaBean.deletePregunta}" update="myForm:mensajes"/>
-                    <h:outputText value="&nbsp;"/>
-                    <p:commandButton value="Cancelar" action="#{preguntaBean.prepareCancel}" />
+                    </c:if>                    
                 </h:panelGrid>
-            </p:fieldset>
-        </h:form>
-    </ui:define>
 
-    <ui:define name="status">
-        status
+                <f:facet name="footer">
+                    <h:panelGrid columns="3" style="display:block;margin-left: 50%">
+                        <p:commandButton value="Cancelar" action="#{preguntaBean.prepareCancel}" icon="ui-icon-cancel" 
+                                         immediate="true" />
+                        <p:spacer width="10"/>
+                        <p:commandButton value="Eliminar" action="#{preguntaBean.deletePregunta}" icon="ui-icon-trash"
+                                         update="myForm:mensajes"/>
+                    </h:panelGrid>
+                </f:facet>
+
+            </p:panel>
+        </h:form>
     </ui:define>
 
 </ui:composition>

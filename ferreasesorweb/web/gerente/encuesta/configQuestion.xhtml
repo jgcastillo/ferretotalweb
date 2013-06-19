@@ -29,27 +29,34 @@
                 </c:if>
                 <c:if test="#{preguntaBean.tipoPregunta == 3}">
                     <p:panel id="panelOptions" header="Opciones" style="width:95%; margin-left:15px;">
-                        <h:panelGrid columns="2">
+                        <h:panelGrid columns="3">
                             <h:outputLabel for="opcion" value="Opcion: "/>
-                            <h:inputText id="opcion" value="#{preguntaBean.preguntaSeleccionItem}"/>
-                            <h:message for="opcion"/>
+                            <p:inputText id="opcion" value="#{preguntaBean.preguntaSeleccionItem}" 
+                                         required="true" requiredMessage="Escriba la Opción que desea Agregar o Eliminar"/>
+                            <p:message for="opcion"/>
                         </h:panelGrid>
-                        <br/>
-                        <p:dataTable value="#{preguntaBean.preguntaSeleccionValores}" var="opcion" id="tableOptions">
-                            <p:column headerText="Opciones">
-                                <h:outputText value="#{opcion}"/>
-                            </p:column>
-                        </p:dataTable>
+                        <h:panelGrid style="width:60%; margin-left: 20%; margin-right: 20%; margin-top: 20px;">
+                            <p:dataTable value="#{preguntaBean.preguntaSeleccionValores}" var="opcion" id="tableOptions">
+                                <p:column headerText="Opciones">
+                                    <h:outputText value="#{opcion}"/>
+                                </p:column>                           
+                            </p:dataTable> 
+                        </h:panelGrid>
                         <f:facet name="footer">
                             <h:panelGrid columns="3" style="display:block;margin-left: 50%">
-                                <p:commandButton value="Eliminar" title="Eliminar Opción" icon="ui-icon-cancel" immediate="true"
-                                                 actionListener="#{preguntaBean.removeItemFromSeleccion}"/>
+                                <p:commandButton value="- Opción" title="Eliminar Opción" icon="ui-icon-trash" 
+                                                 actionListener="#{preguntaBean.removeItemFromSeleccion}"
+                                                 ajax="true" update="panelOptions"/>
                                 <p:spacer width="10"/>
-                                <p:commandButton value="Agregar" title="Agregar Opción" icon="ui-icon-disk" 
+                                <p:commandButton value="+ Opción" title="Agregar Opción" icon="ui-icon-disk" 
                                                  actionListener="#{preguntaBean.addItemToSeleccion}"
                                                  ajax="true" update="panelOptions"/>
                             </h:panelGrid>
                         </f:facet>
+                        <h:panelGroup id="messagePanel" layout="block">
+                            <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                        </h:panelGroup>
+
                     </p:panel>
 
                 </c:if>
@@ -73,9 +80,4 @@
             </p:panel>
         </h:form>
     </ui:define>
-
-    <ui:define name="status">
-        status
-    </ui:define>
-
 </ui:composition>
