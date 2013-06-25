@@ -28,7 +28,7 @@ public class AlarmaWebService {
     @WebMethod(operationName = "startAlarma")
     @Oneway
     public void startAlarma(@WebParam(name = "botonId") int botonId, @WebParam(name = "tBueno") int tBueno, @WebParam(name = "tRegular") int tRegular) {
-         managedBean.enviarBoton(botonId, tBueno, tRegular);
+         //managedBean.enviarBoton(botonId, tBueno, tRegular);
     }
 
     /**

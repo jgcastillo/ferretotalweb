@@ -27,17 +27,11 @@ public class ThreadOnButton implements Runnable {
     private final String nombreHilo;
     private final static Logger logger = LoggerFactory.getLogger(ThreadOnButton.class);
     private String CHANNEL;
+    private AlarmaController alarmaController;
     
 
-    ThreadOnButton(String nombreHilo, PushContext pushContext, Boton boton, int tiempoBueno, int tiempoRegular) {
-        this.nombreHilo = nombreHilo;
-        this.pushContext = pushContext;
-        this.boton = boton;
-        this.tiempoBueno = tiempoBueno;
-        this.tiempoRegular = tiempoRegular;
-    }
-    
-    ThreadOnButton(String nombreHilo, PushContext pushContext, Boton boton, int tiempoBueno, int tiempoRegular, int tCierre) {
+    ThreadOnButton(AlarmaController alarmaController, String nombreHilo, PushContext pushContext, Boton boton, int tiempoBueno, int tiempoRegular, int tCierre) {
+        this.alarmaController = alarmaController;
         this.nombreHilo = nombreHilo;
         this.pushContext = pushContext;
         this.boton = boton;
@@ -87,6 +81,7 @@ public class ThreadOnButton implements Runnable {
             }
         }
         if (terminar) {
+            alarmaController.stopThread(boton);
             pushContext.push(getCHANNEL(), new BotonIntermedia(boton.getUbicacion(), boton.getId(), this.tiempoBueno, this.tiempoRegular, 4, this.showCounter));
         }
         

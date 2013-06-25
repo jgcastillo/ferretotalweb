@@ -81,24 +81,11 @@ public class AlarmaController implements Serializable {
         return facade.findAll();
     }
 
-    public void startThread(PushContext pushContext, Boton boton, int tiempoBueno, int tiempoRegular) {
-        String buttonSelected = boton.getUbicacion();
-
-        if (!llamados.containsKey(buttonSelected)) {
-
-            hilo = new ThreadOnButton(buttonSelected, pushContext, boton, tiempoBueno, tiempoRegular);
-            llamados.put(buttonSelected, hilo);
-            hilo.setArrancar();
-            //hilo.run();
-            executor.execute(hilo);
-        }
-    }
-
     public void startThread(PushContext pushContext, Boton boton, int tiempoBueno, int tiempoRegular, int tCierre) {
         String buttonSelected = boton.getUbicacion();
 
         if (!llamados.containsKey(buttonSelected)) {
-            hilo = new ThreadOnButton(buttonSelected, pushContext, boton, tiempoBueno, tiempoRegular, tCierre);
+            hilo = new ThreadOnButton(this, buttonSelected, pushContext, boton, tiempoBueno, tiempoRegular, tCierre);
             llamados.put(buttonSelected, hilo);
             hilo.setArrancar();
             executor.execute(hilo);
@@ -114,17 +101,6 @@ public class AlarmaController implements Serializable {
             llamados.remove(buttonSelected);
         }
 
-    }
-
-    public void enviarBoton(int botonId, int tBueno, int tRegular) {
-        boton = facade.find(botonId);
-        this.botonId = boton.getId();
-        this.ubicacion = boton.getUbicacion();
-        this.tiempoBueno = tBueno;
-        this.tiempoRegular = tRegular;
-
-        PushContext pushContext = PushContextFactory.getDefault().getPushContext();
-        startThread(pushContext, boton, tiempoBueno, tiempoRegular);
     }
 
     public void enviarBoton(int botonId, int tBueno, int tRegular, int tCierre) {

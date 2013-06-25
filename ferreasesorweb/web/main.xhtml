@@ -14,19 +14,19 @@
     </ui:define>
 
     <ui:define name="content">
-        <h:form id="formEncuestaNull" rendered="#{preguntaBean.encuestaActiva == null}">
+        <h:form id="formEncuestaNull" rendered="#{fillEncuestaBean.encuestaActiva == null}">
             <h:outputText value="No hay Encuesta activa"/>
         </h:form>
-        <h:form id="formEncuesta" rendered="#{preguntaBean.encuestaActiva != null}">
-            <p:panel id="panel" header="#{preguntaBean.encuestaActiva.nombre}" style="width:75%; margin-left:15px;">
-                <ui:repeat value="#{preguntaBean.preguntaList}" var="question" varStatus="status">
+        <h:form id="formEncuesta" rendered="#{fillEncuestaBean.encuestaActiva != null}">
+            <p:panel id="panel" header="#{fillEncuestaBean.encuestaActiva.nombre}" style="width:75%; margin-left:15px;">
+                <ui:repeat value="#{fillEncuestaBean.preguntaList}" var="question" varStatus="status">
 
                     <h:outputText value="#{question.pregunta}" style="font-size: 14px; font-weight: bold; margin-left:25px;"/><br/>
 
                     <p:fieldset style="width: 81%; margin-left:25px;" rendered="#{question.tipo == 1}">
                         <h:panelGrid columns="2" style="">
                             <p:outputLabel value="#{question.respuestaConfList[0]}: "/>
-                            <p:inputTextarea id="opinionTextBox#{status.index}" rows="6" cols="85" counter="counter" maxlength="350"  value="#{preguntaBean.respuestaList[status.index]}"      
+                            <p:inputTextarea id="opinionTextBox#{status.index}" rows="6" cols="85" counter="counter" maxlength="350"  value="#{fillEncuestaBean.respuestaList[status.index]}"      
                                              counterTemplate="{0} caracteres restantes." /><br/> 
 
                             <h:outputText id="counter" /><br/> 
@@ -38,7 +38,7 @@
                     <p:fieldset style="width: 81%; margin-left:25px;" rendered="#{question.tipo == 2}">
                         <h:panelGrid columns="3">
                             <h:outputText value="#{question.respuestaConfList[0]}: "/>
-                            <p:inputText id="respuesta" value="#{preguntaBean.respuestaList[status.index]}" style="width: 60px;">
+                            <p:inputText id="respuesta" value="#{fillEncuestaBean.respuestaList[status.index]}" style="width: 60px;">
                                 <f:convertNumber integerOnly="true" maxIntegerDigits="2"/>
                             </p:inputText>
                             <p:message for="respuesta"/>
@@ -48,7 +48,7 @@
                     <p:fieldset style="width: 81%; margin-left:25px;" rendered="#{question.tipo == 3}">
                         <h:panelGrid columns="2">
                             <h:outputLabel for="opciones" value="Opciones: "/>
-                            <h:selectOneRadio id="opciones#{status.index}" value="#{preguntaBean.respuestaList[status.index]}" layout="pageDirection">
+                            <h:selectOneRadio id="opciones#{status.index}" value="#{fillEncuestaBean.respuestaList[status.index]}" layout="pageDirection">
                                 <f:selectItems value="#{question.respuestaConfList}" var="option" 
                                                itemLabel="#{option.opcion}" itemValue="#{option.id}" /> <br/>
                             </h:selectOneRadio>
@@ -58,31 +58,31 @@
                     <p:fieldset style="width: 81%; margin-left:25px;" rendered="#{question.tipo == 4}">
                         <h:panelGrid columns="3">
                             <h:outputText value="En una escala del 1 al 10, siendo 1 la más baja y 10 la más alta, ¿cómo lo califica?: "/>
-                            <p:inputText id="ratingTextBox" value="#{preguntaBean.respuestaList[status.index]}" style="width: 60px;">
+                            <p:inputText id="ratingTextBox" value="#{fillEncuestaBean.respuestaList[status.index]}" style="width: 60px;">
                                 <f:convertNumber integerOnly="true" maxIntegerDigits="2"/>
                             </p:inputText>
                             <p:message for="ratingTextBox"/>
                         </h:panelGrid>
                     </p:fieldset>
 
-<!--                   <ez:textualQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
-                                        preguntaPrompt="#{preguntaBean.promptPreguntaTextual}"
-                                        preguntaBean="#{preguntaBean}"
+<!--                   <ez:textualQuestion preguntaBody="#{fillEncuestaBean.preguntaTexto}"
+                                        preguntaPrompt="#{fillEncuestaBean.promptPreguntaTextual}"
+                                        fillEncuestaBean="#{fillEncuestaBean}"
                                         rendered="#{question.tipo == 1}"/>
 
-                    <ez:numericQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
+                    <ez:numericQuestion preguntaBody="#{fillEncuestaBean.preguntaTexto}"
                                         preguntaPrompt="Opciones: "
-                                        preguntaBean="#{preguntaBean}"
+                                        fillEncuestaBean="#{fillEncuestaBean}"
                                         rendered="#{question.tipo == 2}"/>
 
-                    <ez:selectionQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
-                                          preguntaPrompt="#{preguntaBean.promptPreguntaTextual}"
-                                          preguntaBean="#{preguntaBean}"
+                    <ez:selectionQuestion preguntaBody="#{fillEncuestaBean.preguntaTexto}"
+                                          preguntaPrompt="#{fillEncuestaBean.promptPreguntaTextual}"
+                                          fillEncuestaBean="#{fillEncuestaBean}"
                                           rendered="#{question.tipo == 3}"/>
 
-                    <ez:ratingQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
-                                       preguntaPrompt="#{preguntaBean.promptPreguntaTextual}" 
-                                       preguntaBean="#{preguntaBean}"
+                    <ez:ratingQuestion preguntaBody="#{fillEncuestaBean.preguntaTexto}"
+                                       preguntaPrompt="#{fillEncuestaBean.promptPreguntaTextual}" 
+                                       fillEncuestaBean="#{fillEncuestaBean}"
                                        rendered="#{question.tipo == 4}"/>-->
 
                     <br/><br/>
@@ -94,10 +94,10 @@
                 <f:facet name="footer">
                     <h:panelGrid columns="3" style="display:block;margin-left: 70%">
                         <!--                        <p:commandButton value="Regresar" title="Regresar" icon="ui-icon-arrowthick-1-w" 
-                                                                 action="#{preguntaBean.retornaCreate}"/>
+                                                                 action="#{fillEncuestaBean.retornaCreate}"/>
                                                 <p:spacer width="10"/>-->
                         <h:commandButton value="Enviar Encuesta" title="Enviar Encuesta" 
-                                         action="#{preguntaBean.guardaRespuesta}"/>
+                                         action="#{fillEncuestaBean.guardaRespuesta}"/>
 
                     </h:panelGrid>
                 </f:facet>
