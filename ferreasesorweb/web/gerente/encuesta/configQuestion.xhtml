@@ -70,8 +70,8 @@
 
                 <f:facet name="footer">
                     <h:panelGrid columns="3" style="display:block;margin-left: 50%">
-                        <p:commandButton value="Regresar" title="Regresar" icon="ui-icon-arrowthick-1-w" 
-                                         action="#{preguntaBean.retornaCreate}"/>
+                        <p:commandButton value="Regresar" title="Regresar" icon="ui-icon-arrowthick-1-w" immediate="true"
+                                         action="encuestaMain?faces-redirect=true"/>
                         <p:spacer width="10"/>
                         <p:commandButton value="Continuar" title="Continuar" icon="ui-icon-arrowthick-1-e" immediate="true"
                                          action="#{preguntaBean.muestraPregunta}"/>

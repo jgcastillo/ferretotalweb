@@ -65,6 +65,9 @@ public class PreguntaBeanController implements Serializable {
     private static final int NUMERICO = 2;
     private static final int SELECCION = 3;
     private static final int CALIFICACION = 4;
+    private boolean message1 = false;
+    private boolean message2 = false;
+    private boolean message3 = false;
     private static final Logger logger = LoggerFactory.getLogger(PreguntaBeanController.class);
 
     public PreguntaBeanController() {
@@ -183,14 +186,31 @@ public class PreguntaBeanController implements Serializable {
         this.encuesta = encuesta;
     }
 
+    public boolean isMessage1() {
+        return message1;
+    }
+
+    public boolean isMessage2() {
+        return message2;
+    }
+
+    public boolean isMessage3() {
+        return message3;
+    }
+
     /**
      * Listado de Preguntas para llenar la Tabla
      *
      * @return
      */
     public DataModel getPreguntaItems() {
+        //recreateModel();
         if (preguntaItems == null) {
             preguntaItems = new ListDataModel(getPreguntaFacade().findAll(encuesta));
+            for (Pregunta pregunta : preguntaItems) {
+                List<RespuestaObtenida> respList = getRespObtenidaFacade().findRespuestaObtenidaList(pregunta);
+                pregunta.setRespuestaObtenidaList(respList);
+            }
         }
         return preguntaItems;
     }
@@ -255,7 +275,7 @@ public class PreguntaBeanController implements Serializable {
         //JsfUtil.addSuccessMessage("La Encuesta fue enviada con éxito!");
         //return "message?faces-redirect=true";
     }
-    
+
     public String showMessage() {
         //System.out.println("Entro a ShowMessage()");
         return "message?faces-redirect=true";
@@ -278,7 +298,7 @@ public class PreguntaBeanController implements Serializable {
         } else {
             next = "configQuestion?faces-redirect=true";
         }
-
+        resetMessage();
         return next;
     }
 
@@ -287,6 +307,7 @@ public class PreguntaBeanController implements Serializable {
      * @return
      */
     public String retornaCreate() {
+        resetMessage();
         recreateModel();
         return "createQuestions?faces-redirect=true";
     }
@@ -338,6 +359,8 @@ public class PreguntaBeanController implements Serializable {
             JsfUtil.addSuccessMessage("Pregunta agregada con éxito");
         }
         recreateModel();
+        resetMessage();
+        message3 = true;
         return "createQuestions?faces-redirect=true";
     }
 
@@ -416,6 +439,8 @@ public class PreguntaBeanController implements Serializable {
             promptPreguntaTextual = opcionConf.getPrompt();
             preguntaSeleccionValores.add(opcionConf.getOpcion());
         }
+        resetMessage();
+        message3 = false;
         return "deleteQuestions?faces-redirect=true";
     }
 
@@ -443,12 +468,21 @@ public class PreguntaBeanController implements Serializable {
             //preguntaTexto = null;
             //promptPreguntaTextual = null;
             //preguntaSeleccionValores.clear();
+            message2 = false;
+            message1 = true;
             JsfUtil.addSuccessMessage("Pregunta eliminada de la encuesta");
         } else if (totalRespuestas > 0) {
-            JsfUtil.addSuccessMessage("La pregunta no puede ser eliminada, ya que tiene respuestas asociadas");
+            JsfUtil.addErrorMessage("La pregunta no puede ser eliminada, ya que tiene respuestas asociadas");
+            message1 = false;
+            message2 = true;
         }
         recreateModel();
         return prepareCreate();
+    }
+
+    private void resetMessage() {
+        message1 = false;
+        message2 = false;
     }
 
     /**
@@ -459,5 +493,6 @@ public class PreguntaBeanController implements Serializable {
         tipoPregunta = 0;
         preguntaItems = null;
         promptPreguntaTextual = null;
+        message3 = false;
     }
 }

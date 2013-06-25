@@ -64,6 +64,23 @@
             <br/>
             <p:fieldset legend="Preguntas: " style="width: 75%;">
                 <p:dataTable value="#{preguntaBean.preguntaItems}" var="pregunta">
+                    <p:column id="verMas" headerText="ver" style="width: 10%; text-align: center">
+                        <p:rowToggler/>
+                    </p:column>
+                    <p:rowExpansion>
+                        <p:rowExpansion>
+                            <p:dataTable id="respTable" var="respuesta" value="#{pregunta.respuestaObtenidaList}" rowIndexVar="status"
+                                         style="margin-top:20px; margin-bottom: 20px; margin-left:5%; margin-right: 5%; width: 90%">
+                                <p:column id="number" headerText="N°" style="width:5%;">
+                                    <h:outputText value="#{status+1}"/>
+                                </p:column>
+                                <p:column id="nombre" headerText="Respuestas obtenidas" style="width:95%;">
+                                    <h:outputText value="#{respuesta.respuesta}" rendered="#{pregunta.tipo != 3}"/>
+                                    <h:outputText value="#{respuesta.respuestaConfId.opcion}" rendered="#{pregunta.tipo == 3}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:rowExpansion>
+                    </p:rowExpansion>
                     <p:column headerText="Pregunta">
                         <h:outputText value="#{pregunta.pregunta}"/>
                     </p:column>
@@ -80,13 +97,21 @@
                     </p:column>
                 </p:dataTable>
 
+                <h:panelGroup id="messagePanel1" layout="block" rendered="${preguntaBean.message1}">
+                    <h:outputLabel style="color:green; margin-top: 10px;" value="Pregunta eliminada de la encuesta!"></h:outputLabel>
+                </h:panelGroup>
+                <h:panelGroup id="messagePanel2" layout="block" rendered="${preguntaBean.message2}">
+                    <h:outputLabel style="color:red; margin-top: 10px;" value="La pregunta no puede ser eliminada, ya que tiene respuestas asociadas"></h:outputLabel>
+                </h:panelGroup>
+                <h:panelGroup id="messagePanel3" layout="block" rendered="${preguntaBean.message3}">
+                    <h:outputLabel style="color:green; margin-top: 10px;" value="Pregunta agregada con éxito!"></h:outputLabel>
+                </h:panelGroup>
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+
             </p:fieldset>
         </h:form>
-
-        <h:panelGroup id="messagePanel" layout="block">
-            <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
-        </h:panelGroup>
-
     </ui:define>
 
 </ui:composition>

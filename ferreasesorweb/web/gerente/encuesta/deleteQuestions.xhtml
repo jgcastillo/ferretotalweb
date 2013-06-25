@@ -21,27 +21,60 @@
                 <h:panelGrid columns="2">
                     <c:if test="#{preguntaBean.tipoPregunta == 1}">
                         <br/>
-                        <ez:textualQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
-                                            preguntaPrompt="#{preguntaBean.promptPreguntaTextual}"
-                                            preguntaBean="#{preguntaBean}"/>
+                        <h:outputText value="#{preguntaBean.preguntaTexto}" style="font-size: 14px; font-weight: bold; margin-left:3px;"/><br/>
+                        <h:panelGrid columns="2" style="">
+                            <p:outputLabel value="#{preguntaBean.promptPreguntaTextual}: "/>
+                            <p:inputTextarea id="opinionTextBox#{status.index}" rows="6" cols="85" counter="counter" maxlength="350"  value=""      
+                                             counterTemplate="{0} caracteres restantes." disabled="true"/><br/> 
+
+                            <h:outputText id="counter" /><br/> 
+                            <p:message for="opinionTextBox"/>
+                        </h:panelGrid>
+    <!--                        <ez:textualQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
+                                                preguntaPrompt="#{preguntaBean.promptPreguntaTextual}"
+                                                preguntaBean="#{preguntaBean}"/>-->
                     </c:if>
                     <c:if test="#{preguntaBean.tipoPregunta == 2}">
                         <br/>
-                        <ez:numericQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
-                                            preguntaPrompt="Opciones: "
-                                            preguntaBean="#{preguntaBean}"/>
+                        <h:outputText value="#{preguntaBean.preguntaTexto}" style="font-size: 14px; font-weight: bold; margin-left:3px;"/><br/>
+                        <h:panelGrid columns="3">
+                            <h:outputText value="#{preguntaBean.promptPreguntaTextual}: "/>
+                            <p:inputText id="respuesta" value="" style="width: 60px;" disabled="true">
+                                <f:convertNumber integerOnly="true" maxIntegerDigits="2"/>
+                            </p:inputText>
+                            <p:message for="respuesta"/>
+                        </h:panelGrid> 
+    <!--                        <ez:numericQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
+                                                preguntaPrompt="Opciones: "
+                                                preguntaBean="#{preguntaBean}"/>-->
                     </c:if>
                     <c:if test="#{preguntaBean.tipoPregunta == 3}">
                         <br/>
-                        <ez:selectionQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
-                                              preguntaPrompt="#{preguntaBean.promptPreguntaTextual}"
-                                              preguntaBean="#{preguntaBean}"/>
+                        <h:outputText value="#{preguntaBean.preguntaTexto}" style="font-size: 14px; font-weight: bold; margin-left:3px;"/><br/>
+                        <h:panelGrid columns="2">
+                            <h:outputLabel for="opciones" value="Opciones: "/>
+                            <p:selectOneRadio id="opciones" value="#{preguntaBean.respuestaSeleccion}"
+                                              layout="pageDirection">
+                                <f:selectItems value="#{preguntaBean.opcionesSeleccion}"/>
+                            </p:selectOneRadio>
+                        </h:panelGrid>
+    <!--                        <ez:selectionQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
+                                                  preguntaPrompt="#{preguntaBean.promptPreguntaTextual}"
+                                                  preguntaBean="#{preguntaBean}"/>-->
                     </c:if>
                     <c:if test="#{preguntaBean.tipoPregunta == 4}">
                         <br/>
-                        <ez:ratingQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
-                                           preguntaPrompt="#{preguntaBean.promptPreguntaTextual}" 
-                                           preguntaBean="#{preguntaBean}"/>
+                        <h:outputText value="#{preguntaBean.preguntaTexto}" style="font-size: 14px; font-weight: bold; margin-left:3px;"/><br/>
+                        <h:panelGrid columns="3">
+                            <h:outputText value="En una escala del 1 al 10, siendo 1 la más baja y 10 la más alta, ¿cómo lo califica?: "/>
+                            <p:inputText id="ratingTextBox" value="" disabled="true" style="width: 60px;">
+                                <f:convertNumber integerOnly="true" maxIntegerDigits="2"/>
+                            </p:inputText>
+                            <p:message for="ratingTextBox"/>
+                        </h:panelGrid>
+    <!--                        <ez:ratingQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
+                                               preguntaPrompt="#{preguntaBean.promptPreguntaTextual}" 
+                                               preguntaBean="#{preguntaBean}"/>-->
                     </c:if>                    
                 </h:panelGrid>
 
