@@ -14,34 +14,43 @@
     </ui:define>
 
     <ui:define name="content">
+
         <h:form id="form">
             <p:panel id="panel" header="Agregar preguntas para la Encuesta: #{preguntaBean.encuesta.nombre}" style="width:75%; margin-left:15px;">
                 <h:panelGrid columns="3">
-                    <p:outputLabel for="textoPregunta" value="Texto Pregunta:"/>
+                    <p:outputLabel for="textoPregunta" value="Texto Pregunta: "/>
                     <p:inputText id="textoPregunta" value="#{preguntaBean.preguntaTexto}"
                                  required="true" requiredMessage="El 'Texto de la pregunta es requerido'"
-                                 style="width: 300px;"/>
+                                 style="width: 300px; margin-left: 108px;"/>
                     <p:message for="textoPregunta"/>
-                    <p:outputLabel for="tipoPregunta" value="Tipo pregunta:"/>
-                    <p:selectOneMenu id="tipoPregunta" value="#{preguntaBean.tipoPregunta}"
+
+                    <p:outputLabel for="tipoPregunta" value="Tipo pregunta: "/>
+                    <p:selectOneMenu id="tipoPregunta" value="#{preguntaBean.tipoPregunta}" style="margin-left: 108px;"
                                      required="true" requiredMessage="El Tipo de Pregunta es requerido">
                         <f:selectItem itemLabel="Seleccione un tipo" itemValue=""/>
                         <f:selectItem itemLabel="Textual" itemValue="1"/>
                         <f:selectItem itemLabel="Numérico" itemValue="2"/>
                         <f:selectItem itemLabel="Selección" itemValue="3"/>
                         <f:selectItem itemLabel="Calificación" itemValue="4"/>
+                        <p:ajax update="prompt" />
                     </p:selectOneMenu>
                     <p:message for="tipoPregunta"/>
+                </h:panelGrid>
+                <h:panelGrid columns="3" id="prompt">
+                    <p:outputLabel for="sugerencia" value="Indique el apuntador que desea usar: " rendered="#{preguntaBean.tipoPregunta == 1 || preguntaBean.tipoPregunta == 2}"/>
+                    <p:inputText id="sugerencia" value="#{preguntaBean.promptPreguntaTextual}" rendered="#{preguntaBean.tipoPregunta == 1 || preguntaBean.tipoPregunta == 2}"/>
+                    <p:message for="sugerencia"/>
                 </h:panelGrid>
 
                 <f:facet name="footer">
                     <h:panelGrid columns="3" style="display:block;margin-left: 50%">
+                        <p:commandButton value="Cancelar" title="Cancelar" icon="ui-icon-cancel" immediate="true"
+                                         action="#{preguntaBean.prepareCancel}"/>
+                        <p:spacer width="10"/>
                         <p:commandButton value="Configurar" title="Configurar" icon="ui-icon-disk" 
                                          action="#{preguntaBean.configuraPregunta}"
                                          ajax="true" update="panel"/>
-                        <p:spacer width="10"/>
-                        <p:commandButton value="Cancelar" title="Cancelar" icon="ui-icon-cancel" immediate="true"
-                                         action="#{preguntaBean.prepareCancel}"/>
+
                     </h:panelGrid>
                 </f:facet>
 
@@ -55,27 +64,54 @@
             <br/>
             <p:fieldset legend="Preguntas: " style="width: 75%;">
                 <p:dataTable value="#{preguntaBean.preguntaItems}" var="pregunta">
+                    <p:column id="verMas" headerText="ver" style="width: 10%; text-align: center">
+                        <p:rowToggler/>
+                    </p:column>
+                    <p:rowExpansion>
+                        <p:rowExpansion>
+                            <p:dataTable id="respTable" var="respuesta" value="#{pregunta.respuestaObtenidaList}" rowIndexVar="status"
+                                         style="margin-top:20px; margin-bottom: 20px; margin-left:5%; margin-right: 5%; width: 90%">
+                                <p:column id="number" headerText="N°" style="width:5%;">
+                                    <h:outputText value="#{status+1}"/>
+                                </p:column>
+                                <p:column id="nombre" headerText="Respuestas obtenidas" style="width:95%;">
+                                    <h:outputText value="#{respuesta.respuesta}" rendered="#{pregunta.tipo != 3}"/>
+                                    <h:outputText value="#{respuesta.respuestaConfId.opcion}" rendered="#{pregunta.tipo == 3}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:rowExpansion>
+                    </p:rowExpansion>
                     <p:column headerText="Pregunta">
                         <h:outputText value="#{pregunta.pregunta}"/>
                     </p:column>
-                    <p:column headerText="Tipo">
+                    <p:column headerText="Tipo" style="width: 15%; text-align: center">
                         <h:outputText value="Textual" rendered="#{pregunta.tipo == 1}"/>
                         <h:outputText value="Numérica" rendered="#{pregunta.tipo == 2}"/>
                         <h:outputText value="Selección" rendered="#{pregunta.tipo == 3}"/>
                         <h:outputText value="Calificación" rendered="#{pregunta.tipo == 4}"/>
                     </p:column>
-                    <p:column headerText="Acción">
+
+                    <p:column headerText="Acción" style="width: 15%; text-align: center">
                         <p:commandButton title="Eliminar" icon="ui-icon-trash" style="margin-left: 10px;" 
                                          action="#{preguntaBean.prepareDelete}" immediate="true"/>
                     </p:column>
                 </p:dataTable>
-            </p:fieldset>
-            
-        </h:form>
-    </ui:define>
 
-    <ui:define name="status">
-        status
+                <h:panelGroup id="messagePanel1" layout="block" rendered="${preguntaBean.message1}">
+                    <h:outputLabel style="color:green; margin-top: 10px;" value="Pregunta eliminada de la encuesta!"></h:outputLabel>
+                </h:panelGroup>
+                <h:panelGroup id="messagePanel2" layout="block" rendered="${preguntaBean.message2}">
+                    <h:outputLabel style="color:red; margin-top: 10px;" value="La pregunta no puede ser eliminada, ya que tiene respuestas asociadas"></h:outputLabel>
+                </h:panelGroup>
+                <h:panelGroup id="messagePanel3" layout="block" rendered="${preguntaBean.message3}">
+                    <h:outputLabel style="color:green; margin-top: 10px;" value="Pregunta agregada con éxito!"></h:outputLabel>
+                </h:panelGroup>
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+
+            </p:fieldset>
+        </h:form>
     </ui:define>
 
 </ui:composition>

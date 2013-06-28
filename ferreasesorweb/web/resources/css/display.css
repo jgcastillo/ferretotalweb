@@ -18,8 +18,9 @@ root {
     text-align: center;
     color: white;
     background: #52D737; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/green.png)
 }
 .display12 {
@@ -29,8 +30,9 @@ root {
     text-align: center;
     color: black;
     background: #F5E663; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/yellow.png)
 }
 .display13 {
@@ -40,8 +42,9 @@ root {
     text-align: center;
     color: white;
     background: #F93F40; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/blue.png)
 }
 
@@ -53,8 +56,9 @@ root {
     text-align: center;
     color: white;
     background: #52D737; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/green.png)
 }
 .display22 {
@@ -64,8 +68,9 @@ root {
     text-align: center;
     color: black;
     background: #F5E663; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/yellow.png)
 }
 .display23 {
@@ -75,8 +80,9 @@ root {
     text-align: center;
     color: white;
     background: #F93F40; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/blue.png)
 }
 
@@ -88,8 +94,9 @@ root {
     text-align: center;
     color: white;
     background: #52D737; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/green.png)
 }
 .display32 {
@@ -99,8 +106,9 @@ root {
     text-align: center;
     color: black;
     background: #F5E663; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/yellow.png)
 }
 .display33 {
@@ -110,8 +118,9 @@ root {
     text-align: center;
     color: white;
     background: #F93F40; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/blue.png)
 }
 
@@ -123,8 +132,9 @@ root {
     text-align: center;
     color: white;
     background: #52D737; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/green.png)
 }
 .display42 {
@@ -134,8 +144,9 @@ root {
     text-align: center;
     color: black;
     background: #F5E663; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/yellow.png)
 }
 .display43 {
@@ -145,8 +156,9 @@ root {
     text-align: center;
     color: white;
     background: #F93F40; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/blue.png)
 }
 
@@ -158,8 +170,9 @@ root {
     text-align: center;
     color: white;
     background: #52D737; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/green.png)
 }
 .display52 {
@@ -169,8 +182,9 @@ root {
     text-align: center;
     color: black;
     background: #F5E663; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/yellow.png)
 }
 .display53 {
@@ -180,8 +194,9 @@ root {
     text-align: center;
     color: white;
     background: #F93F40; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/blue.png)
 }
 
@@ -193,8 +208,9 @@ root {
     text-align: center;
     color: white;
     background: #52D737; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/green.png)
 }
 .display62 {
@@ -204,8 +220,9 @@ root {
     text-align: center;
     color: black;
     background: #F5E663; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/yellow.png)
 }
 .display63 {
@@ -215,8 +232,9 @@ root {
     text-align: center;
     color: white;
     background: #F93F40; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/blue.png)
 }
 
@@ -228,8 +246,9 @@ root {
     text-align: center;
     color: white;
     background: #52D737; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/green.png)
 }
 .display72 {
@@ -239,8 +258,9 @@ root {
     text-align: center;
     color: black;
     background: #F5E663; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/yellow.png)
 }
 .display73 {
@@ -250,8 +270,9 @@ root {
     text-align: center;
     color: white;
     background: #F93F40; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/blue.png)
 }
 
@@ -263,8 +284,9 @@ root {
     text-align: center;
     color: white;
     background: #52D737; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/green.png)
 }
 .display82 {
@@ -274,8 +296,9 @@ root {
     text-align: center;
     color: black;
     background: #F5E663; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/yellow.png)
 }
 .display83 {
@@ -285,8 +308,9 @@ root {
     text-align: center;
     color: white;
     background: #F93F40; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/blue.png)
 }
 
@@ -298,8 +322,9 @@ root {
     text-align: center;
     color: white;
     background: #52D737; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/green.png)
 }
 .display92 {
@@ -309,8 +334,9 @@ root {
     text-align: center;
     color: black;
     background: #F5E663; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/yellow.png)
 }
 .display93 {
@@ -320,8 +346,9 @@ root {
     text-align: center;
     color: white;
     background: #F93F40; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/blue.png)
 }
 
@@ -333,8 +360,9 @@ root {
     text-align: center;
     color: white;
     background: #52D737; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/green.png)
 }
 .display102 {
@@ -344,8 +372,9 @@ root {
     text-align: center;
     color: black;
     background: #F5E663; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/yellow.png)
 }
 .display103 {
@@ -355,7 +384,8 @@ root {
     text-align: center;
     color: white;
     background: #F93F40; 
-    width:160px; 
-    height: 100px;
+    width:800px; 
+    height: 90px;
+    margin-left:10px;
     background-image: url(./../resources/images/blue.png)
 }

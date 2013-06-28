@@ -19,6 +19,9 @@
                              rowsPerPageTemplate="5,10,15"
                              paginatorPosition="bottom"
                              resizableColumns="true">
+                    <f:facet name="header">
+                            <p  style="text-align: center">Lista de Llamadas</p>
+                        </f:facet><br/>
                     <p:column headerText="Fecha" sortBy="#{item.llamada.fechaClose}">
                         <h:outputText value="#{item.llamada.fechaClose}">
                             <f:convertDateTime pattern="dd/MM/yyyy"/>
@@ -49,6 +52,7 @@
     </ui:define>
 
     <ui:define name="status">
+       
     </ui:define>
 
 </ui:composition>

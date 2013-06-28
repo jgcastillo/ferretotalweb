@@ -4,9 +4,11 @@ import com.spontecorp.ferreasesor.controller.util.JsfUtil;
 import com.spontecorp.ferreasesor.entity.Encuesta;
 import com.spontecorp.ferreasesor.entity.Pregunta;
 import com.spontecorp.ferreasesor.entity.RespuestaConf;
+import com.spontecorp.ferreasesor.entity.RespuestaObtenida;
 import com.spontecorp.ferreasesor.jpa.EncuestaFacade;
 import com.spontecorp.ferreasesor.jpa.PreguntaFacade;
 import com.spontecorp.ferreasesor.jpa.RespuestaConfFacade;
+import com.spontecorp.ferreasesor.jpa.RespuestaObtenidaFacade;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -18,6 +20,8 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -32,12 +36,14 @@ public class PreguntaBeanController implements Serializable {
     private String preguntaTexto;
     private String promptPreguntaTextual;
     private String respuestaTexto;
-    //private String promptPreguntaNumeric;
     private String respuestaNumeric;
     private String preguntaSeleccion;
     private String preguntaSeleccionItem;
     private List<String> preguntaSeleccionValores;
     private List<Pregunta> preguntaList = null;
+    //private List<String> respuestaList = new ArrayList();
+    //  private String[] respuestaList;
+    private String respuestaList[] = new String[25];
     private List<RespuestaConf> opcionsList = null;
     private Integer respuestaSeleccion;
     private Integer respuestaRating;
@@ -49,9 +55,20 @@ public class PreguntaBeanController implements Serializable {
     private RespuestaConfFacade respuestaFacade;
     @EJB
     private EncuestaFacade encuestaFacade;
+    @EJB
+    private RespuestaObtenidaFacade respObtenidaFacade;
     private DataModel<Pregunta> preguntaItems;
     private Map<Pregunta, List<RespuestaConf>> respuestas;
     private static final int ENCUESTA_ACTIVA = 1;
+    //Tipos de Preguntas
+    private static final int TEXTUAL = 1;
+    private static final int NUMERICO = 2;
+    private static final int SELECCION = 3;
+    private static final int CALIFICACION = 4;
+    private boolean message1 = false;
+    private boolean message2 = false;
+    private boolean message3 = false;
+    private static final Logger logger = LoggerFactory.getLogger(PreguntaBeanController.class);
 
     public PreguntaBeanController() {
     }
@@ -68,8 +85,16 @@ public class PreguntaBeanController implements Serializable {
         return encuestaFacade;
     }
 
+    public RespuestaObtenidaFacade getRespObtenidaFacade() {
+        return respObtenidaFacade;
+    }
+
     public String getRespuestaTexto() {
         return respuestaTexto;
+    }
+
+    public String[] getRespuestaList() {
+        return respuestaList;
     }
 
     public void setRespuestaTexto(String respuestaTexto) {
@@ -161,25 +186,51 @@ public class PreguntaBeanController implements Serializable {
         this.encuesta = encuesta;
     }
 
+    public boolean isMessage1() {
+        return message1;
+    }
+
+    public boolean isMessage2() {
+        return message2;
+    }
+
+    public boolean isMessage3() {
+        return message3;
+    }
+
+    /**
+     * Listado de Preguntas para llenar la Tabla
+     *
+     * @return
+     */
     public DataModel getPreguntaItems() {
+        //recreateModel();
         if (preguntaItems == null) {
             preguntaItems = new ListDataModel(getPreguntaFacade().findAll(encuesta));
+            for (Pregunta pregunta : preguntaItems) {
+                List<RespuestaObtenida> respList = getRespObtenidaFacade().findRespuestaObtenidaList(pregunta);
+                pregunta.setRespuestaObtenidaList(respList);
+            }
         }
         return preguntaItems;
     }
 
+    /**
+     * Listado de Preguntas
+     *
+     * @return
+     */
     public List<Pregunta> getPreguntaList() {
         encuesta = getEncuestaActiva();
-        //preguntaList = null;
+        preguntaList = null;
+        opcionsList = null;
 
-        if (encuesta != null) {
+        if (encuesta != null && preguntaList == null && opcionsList == null) {
             preguntaSeleccionValores = new ArrayList();
             preguntaList = getPreguntaFacade().findAll(encuesta);
             for (Pregunta pregunta : preguntaList) {
-                opcionsList = pregunta.getRespuestaConfList();
-                for (RespuestaConf opcion : opcionsList) {
-                    preguntaSeleccionValores.add(opcion.getOpcion());
-                }
+                opcionsList = getRespuestaFacade().findRespuestaConf(pregunta);
+                pregunta.setRespuestaConfList(opcionsList);
             }
         }
 
@@ -187,26 +238,93 @@ public class PreguntaBeanController implements Serializable {
 
     }
 
+    /**
+     * Metodo para Guardar Respuesta por Preguntas
+     *
+     * @param actionEvent
+     * @return
+     */
     public String guardaRespuesta() {
-        return null;
+
+        for (int i = 0; i < preguntaList.size(); i++) {
+            respuestaTexto = respuestaList[i].toString();
+
+            RespuestaObtenida respObtenida = new RespuestaObtenida();
+
+            if (!respuestaTexto.equals("")) {
+                if (preguntaList.get(i).getTipo() == SELECCION) {
+                    respuesta = getRespuestaFacade().find(Integer.valueOf(respuestaTexto));
+                    respObtenida.setRespuesta(null);
+                } else {
+                    respuesta = preguntaList.get(i).getRespuestaConfList().get(0);
+                    respObtenida.setRespuesta(respuestaTexto);
+                }
+
+                respObtenida.setRespuestaConfId(respuesta);
+                respObtenida.setEncuestaId(encuesta);
+                respObtenida.setPreguntaId(preguntaList.get(i));
+                respObtenidaFacade.create(respObtenida);
+            }
+        }
+        for (int i = 0; i < preguntaList.size(); i++) {
+            respuestaList[i] = "";
+        }
+
+        setRespuestaTexto(null);
+        return showMessage();
+        //JsfUtil.addSuccessMessage("La Encuesta fue enviada con éxito!");
+        //return "message?faces-redirect=true";
     }
 
+    public String showMessage() {
+        //System.out.println("Entro a ShowMessage()");
+        return "message?faces-redirect=true";
+    }
+
+    /**
+     * Configurar Preguntas
+     *
+     * @return
+     */
     public String configuraPregunta() {
-        promptPreguntaTextual = null;
+        //promptPreguntaTextual = "";
+        //setPromptPreguntaTextual(promptPreguntaTextual);
+        //System.out.println("Pregunta en configuraPregunta: "+preguntaTexto);
         preguntaSeleccionValores = new ArrayList();
-        return "configQuestion?faces-redirect=true";
+        String next;
+
+        if (tipoPregunta == 1 || tipoPregunta == 2) {
+            next = "showQuestion?faces-redirect=true";
+        } else {
+            next = "configQuestion?faces-redirect=true";
+        }
+        resetMessage();
+        return next;
     }
 
+    /**
+     *
+     * @return
+     */
     public String retornaCreate() {
-        promptPreguntaTextual = null;
-        preguntaTexto = null;
+        resetMessage();
+        recreateModel();
         return "createQuestions?faces-redirect=true";
     }
 
+    /**
+     *
+     * @return
+     */
     public String muestraPregunta() {
         return "showQuestion?faces-redirect=true";
     }
 
+    /**
+     * Guardar Preguntas
+     *
+     * @return
+     */
     public String guardaPregunta() {
         preguntaFacade = getPreguntaFacade();
         respuestaFacade = getRespuestaFacade();
@@ -214,50 +332,69 @@ public class PreguntaBeanController implements Serializable {
         current.setEncuestaId(encuesta);
         current.setPregunta(preguntaTexto);
         current.setTipo(tipoPregunta);
-        preguntaFacade.create(current);
 
-        switch (tipoPregunta) {
-            case 1:
-            case 2:
-            case 4: {
-                respuesta = new RespuestaConf();
-                respuesta.setPreguntaId(current);
-                respuesta.setPrompt(promptPreguntaTextual);
-                respuestaFacade.create(respuesta);
-                break;
-            }
-            case 3: {
-                for (String opcion : preguntaSeleccionValores) {
+        if (encuesta != null) {
+            preguntaFacade.create(current);
+            switch (tipoPregunta) {
+                case 1:
+                case 2:
+                case 4: {
                     respuesta = new RespuestaConf();
                     respuesta.setPreguntaId(current);
-                    respuesta.setOpcion(opcion);
                     respuesta.setPrompt(promptPreguntaTextual);
                     respuestaFacade.create(respuesta);
+                    break;
                 }
-                break;
+                case 3: {
+                    for (String opcion : preguntaSeleccionValores) {
+                        respuesta = new RespuestaConf();
+                        respuesta.setPreguntaId(current);
+                        respuesta.setOpcion(opcion);
+                        respuesta.setPrompt(promptPreguntaTextual);
+                        respuestaFacade.create(respuesta);
+                    }
+                    break;
+                }
             }
+            JsfUtil.addSuccessMessage("Pregunta agregada con éxito");
         }
         recreateModel();
-        JsfUtil.addSuccessMessage("Pregunta agregada con éxito");
+        resetMessage();
+        message3 = true;
         return "createQuestions?faces-redirect=true";
     }
 
+    /**
+     * Añadir Opciones a las Preguntas del Tipo Seleccion
+     *
+     * @param event
+     */
     public void addItemToSeleccion(ActionEvent event) {
         if (preguntaSeleccionValores.add(preguntaSeleccionItem)) {
-            JsfUtil.addSuccessMessage("Opción agregada");
+            preguntaSeleccionItem = null;
+            JsfUtil.addSuccessMessage("Opción agregada con éxito");
         } else {
-            JsfUtil.addErrorMessage("Opción no se pudo agregar");
+            JsfUtil.addErrorMessage("No se pudo agregar Opciónr");
         }
     }
 
+    /**
+     * Remover Opciones a las Preguntas del Tipo Seleccion
+     */
     public void removeItemFromSeleccion() {
         if (preguntaSeleccionValores.remove(preguntaSeleccionItem)) {
-            JsfUtil.addSuccessMessage("Opción eliminar");
+            preguntaSeleccionItem = null;
+            JsfUtil.addSuccessMessage("Opción eliminada con éxito");
         } else {
-            JsfUtil.addErrorMessage("Opción no se pudo eliminar");
+            JsfUtil.addErrorMessage("No se pudo eliminar la Opción");
         }
     }
 
+    /**
+     * Opciones de las Preguntas del Tipo Seleccion
+     *
+     * @return
+     */
     public Map<String, Integer> getOpcionesSeleccion() {
         Map<String, Integer> opciones = new LinkedHashMap();
         //List<SelectItem> opciones = new ArrayList<SelectItem>();
@@ -269,18 +406,30 @@ public class PreguntaBeanController implements Serializable {
         return opciones;
     }
 
+    /**
+     *
+     * @return
+     */
     public String prepareCancel() {
-        setEncuesta(null);
+        //setEncuesta(null);
         current = null;
         recreateModel();
-        return "encuestaMain?faces-redirect=true";
+        return "createQuestions?faces-redirect=true";
     }
 
+    /**
+     *
+     * @return
+     */
     public String prepareCreate() {
         recreateModel();
         return "createQuestions?faces-redirect=true";
     }
 
+    /**
+     *
+     * @return
+     */
     public String prepareDelete() {
         preguntaSeleccionValores = new ArrayList();
         current = (Pregunta) getPreguntaItems().getRowData();
@@ -290,26 +439,60 @@ public class PreguntaBeanController implements Serializable {
             promptPreguntaTextual = opcionConf.getPrompt();
             preguntaSeleccionValores.add(opcionConf.getOpcion());
         }
+        resetMessage();
+        message3 = false;
         return "deleteQuestions?faces-redirect=true";
     }
 
+    /**
+     * Eliminar Preguntas
+     *
+     * @return
+     */
     public String deletePregunta() {
         respuestaFacade = getRespuestaFacade();
         preguntaFacade = getPreguntaFacade();
-        for (RespuestaConf opcionConf : current.getRespuestaConfList()) {
-            respuestaFacade.remove(opcionConf);
+
+        int totalRespuestas = 0;
+        totalRespuestas = respObtenidaFacade.findRespuestaObtenida(current);
+
+        if (totalRespuestas == 0) {
+            opcionsList = respuestaFacade.findRespuestaConf(current);
+            current.setRespuestaConfList(opcionsList);
+            for (RespuestaConf opcionConf : current.getRespuestaConfList()) {
+                respuestaFacade.remove(opcionConf);
+            }
+            //current.setRespuestaConfList(null);
+            preguntaFacade.remove(current);
+            //tipoPregunta = 0;
+            //preguntaTexto = null;
+            //promptPreguntaTextual = null;
+            //preguntaSeleccionValores.clear();
+            message2 = false;
+            message1 = true;
+            JsfUtil.addSuccessMessage("Pregunta eliminada de la encuesta");
+        } else if (totalRespuestas > 0) {
+            JsfUtil.addErrorMessage("La pregunta no puede ser eliminada, ya que tiene respuestas asociadas");
+            message1 = false;
+            message2 = true;
         }
-        current.setRespuestaConfList(null);
-        preguntaFacade.remove(current);
-        tipoPregunta = 0;
-        preguntaTexto = null;
-        promptPreguntaTextual = null;
-        preguntaSeleccionValores.clear();
-        JsfUtil.addSuccessMessage("Pregunta eliminada de la encuesta");
+        recreateModel();
         return prepareCreate();
     }
 
+    private void resetMessage() {
+        message1 = false;
+        message2 = false;
+    }
+
+    /**
+     * Limpiar Variables para mostrar Listados actualizados
+     */
     private void recreateModel() {
+        preguntaTexto = null;
+        tipoPregunta = 0;
         preguntaItems = null;
+        promptPreguntaTextual = null;
+        message3 = false;
     }
 }

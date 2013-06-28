@@ -14,101 +14,97 @@
     </ui:define>
 
     <ui:define name="content">
-        <h:form id="formEncuestaNull" rendered="#{preguntaBean.encuestaActiva == null}">
+        <h:form id="formEncuestaNull" rendered="#{fillEncuestaBean.encuestaActiva == null}">
             <h:outputText value="No hay Encuesta activa"/>
         </h:form>
-        <h:form id="formEncuesta" rendered="#{preguntaBean.encuestaActiva != null}">
-            <p:fieldset legend="#{preguntaBean.encuestaActiva.nombre}">
-                <ui:repeat value="#{preguntaBean.preguntaList}" var="question">
-                    <h:outputText value="#{question.pregunta}"/><br/>
+        <h:form id="formEncuesta" rendered="#{fillEncuestaBean.encuestaActiva != null}">
+            <p:panel id="panel" header="#{fillEncuestaBean.encuestaActiva.nombre}" style="width:75%; margin-left:15px;">
+                <ui:repeat value="#{fillEncuestaBean.preguntaList}" var="question" varStatus="status">
 
-                    <p:fieldset style="width: 70%" rendered="#{question.tipo == 1}">
-                        <h:panelGrid columns="2">
-                            <h:outputText value="#{question.respuestaConfList[0]}: "/>
-                            <p:inputText id="opinionTextBox" value="#{preguntaBean.respuestaTexto}" style="width: 300px;"/>
+                    <h:outputText value="#{question.pregunta}" style="font-size: 14px; font-weight: bold; margin-left:25px;"/><br/>
+
+                    <p:fieldset style="width: 81%; margin-left:25px;" rendered="#{question.tipo == 1}">
+                        <h:panelGrid columns="2" style="">
+                            <p:outputLabel value="#{question.respuestaConfList[0]}: "/>
+                            <p:inputTextarea id="opinionTextBox#{status.index}" rows="6" cols="85" counter="counter" maxlength="350"  value="#{fillEncuestaBean.respuestaList[status.index]}"      
+                                             counterTemplate="{0} caracteres restantes." /><br/> 
+
+                            <h:outputText id="counter" /><br/> 
+                            <p:message for="opinionTextBox"/>
+
                         </h:panelGrid>
                     </p:fieldset>
 
-                    <p:fieldset style="width: 70%" rendered="#{question.tipo == 2}">
-                        <h:panelGrid columns="2">
+                    <p:fieldset style="width: 81%; margin-left:25px;" rendered="#{question.tipo == 2}">
+                        <h:panelGrid columns="3">
                             <h:outputText value="#{question.respuestaConfList[0]}: "/>
-                            <p:inputText id="respuesta" value="#{preguntaBean.respuestaTexto}" style="width: 60px;"/>
-                        </h:panelGrid>
+                            <p:inputText id="respuesta" value="#{fillEncuestaBean.respuestaList[status.index]}" style="width: 60px;">
+                                <f:convertNumber integerOnly="true" maxIntegerDigits="2"/>
+                            </p:inputText>
+                            <p:message for="respuesta"/>
+                        </h:panelGrid>             
                     </p:fieldset>
 
-                    <p:fieldset style="width: 70%" rendered="#{question.tipo == 3}">
+                    <p:fieldset style="width: 81%; margin-left:25px;" rendered="#{question.tipo == 3}">
                         <h:panelGrid columns="2">
                             <h:outputLabel for="opciones" value="Opciones: "/>
-                            <h:selectOneRadio value="#{preguntaBean.respuestaTexto}">
-                                <f:selectItems value="#{question.respuestaConfList}" var="option"
+                            <h:selectOneRadio id="opciones#{status.index}" value="#{fillEncuestaBean.respuestaList[status.index]}" layout="pageDirection">
+                                <f:selectItems value="#{question.respuestaConfList}" var="option" 
                                                itemLabel="#{option.opcion}" itemValue="#{option.id}" /> <br/>
                             </h:selectOneRadio>
                         </h:panelGrid>
                     </p:fieldset>
 
-                 
-
-
-
-<!--                    <ez:textualQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
-                                        preguntaPrompt="#{preguntaBean.promptPreguntaTextual}"
-                                        preguntaBean="#{preguntaBean}"
-                                        rendered="#{question.tipo == 1}"/>
-
-                    <ez:numericQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
-                                        preguntaPrompt="Opciones: "
-                                        preguntaBean="#{preguntaBean}"
-                                        rendered="#{question.tipo == 2}"/>
-
-                    <ez:selectionQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
-                                          preguntaPrompt="#{preguntaBean.promptPreguntaTextual}"
-                                          preguntaBean="#{preguntaBean}"
-                                          rendered="#{question.tipo == 3}"/>
-
-                    <ez:ratingQuestion preguntaBody="#{preguntaBean.preguntaTexto}"
-                                       preguntaPrompt="#{preguntaBean.promptPreguntaTextual}" 
-                                       preguntaBean="#{preguntaBean}"
-                                       rendered="#{question.tipo == 4}"/>-->
-
-                    <br/>
-                </ui:repeat>
-            </p:fieldset>
-        </h:form>
-    </ui:define>
-
-    <ui:define name="status">
-
-        <ui:include src="./WEB-INF/templates/snippets/statusButton.xhtml" />
-
-
-        <!--CODIGO ORIGINAL EN EL MAIN-->
-        <!--        <h:outputStylesheet library="css" name="display.css"/>
-                <h:outputScript library="js" name="handleMessage.js"/>
-        
-                <h:outputText value="Aqui va una alarma"/>
-                <h:form id="form">
-                    <p:fieldset>
-                        <h:panelGrid id="principal">
-        
-                            <c:forEach begin="1" end="4" varStatus="status">
-                                <h:panelGrid id="panel_11" styleClass="ui-widget display#{status.index}1" style="display: none;">
-                                    <h:outputText id="out11" value="#{status.index}"/>
-                                </h:panelGrid>
-                                <h:panelGrid id="panel_12" styleClass="ui-widget display#{status.index}2" style="display: none;">
-                                    <h:outputText id="out12" value="#{status.index}"/>
-                                </h:panelGrid>
-                                <h:panelGrid id="panel_13" styleClass="ui-widget display#{status.index}3" style="display: none;">
-                                    <h:outputText id="out13" value="#{status.index}"/>
-                                </h:panelGrid>
-                            </c:forEach>
+                    <p:fieldset style="width: 81%; margin-left:25px;" rendered="#{question.tipo == 4}">
+                        <h:panelGrid columns="3">
+                            <h:outputText value="En una escala del 1 al 10, siendo 1 la más baja y 10 la más alta, ¿cómo lo califica?: "/>
+                            <p:inputText id="ratingTextBox" value="#{fillEncuestaBean.respuestaList[status.index]}" style="width: 60px;">
+                                <f:convertNumber integerOnly="true" maxIntegerDigits="2"/>
+                            </p:inputText>
+                            <p:message for="ratingTextBox"/>
                         </h:panelGrid>
                     </p:fieldset>
-                </h:form>  
-        
-                <ui:repeat value="#{alarmaBean.botones}" var="boton" varStatus="status">
-                    <p:socket onMessage="handleMessage#{status.index+1}" channel="/channel#{boton.id}"/>
-                </ui:repeat>-->
 
+<!--                   <ez:textualQuestion preguntaBody="#{fillEncuestaBean.preguntaTexto}"
+                                        preguntaPrompt="#{fillEncuestaBean.promptPreguntaTextual}"
+                                        fillEncuestaBean="#{fillEncuestaBean}"
+                                        rendered="#{question.tipo == 1}"/>
+
+                    <ez:numericQuestion preguntaBody="#{fillEncuestaBean.preguntaTexto}"
+                                        preguntaPrompt="Opciones: "
+                                        fillEncuestaBean="#{fillEncuestaBean}"
+                                        rendered="#{question.tipo == 2}"/>
+
+                    <ez:selectionQuestion preguntaBody="#{fillEncuestaBean.preguntaTexto}"
+                                          preguntaPrompt="#{fillEncuestaBean.promptPreguntaTextual}"
+                                          fillEncuestaBean="#{fillEncuestaBean}"
+                                          rendered="#{question.tipo == 3}"/>
+
+                    <ez:ratingQuestion preguntaBody="#{fillEncuestaBean.preguntaTexto}"
+                                       preguntaPrompt="#{fillEncuestaBean.promptPreguntaTextual}" 
+                                       fillEncuestaBean="#{fillEncuestaBean}"
+                                       rendered="#{question.tipo == 4}"/>-->
+
+                    <br/><br/>
+                </ui:repeat>
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:outputLabel style="color:red" value="Debe contestar al menos una Pregunta"></h:outputLabel>
+                </h:panelGroup>
+
+                <f:facet name="footer">
+                    <h:panelGrid columns="3" style="display:block;margin-left: 70%">
+                        <!--                        <p:commandButton value="Regresar" title="Regresar" icon="ui-icon-arrowthick-1-w" 
+                                                                 action="#{fillEncuestaBean.retornaCreate}"/>
+                                                <p:spacer width="10"/>-->
+                        <h:commandButton value="Enviar Encuesta" title="Enviar Encuesta" 
+                                         action="#{fillEncuestaBean.guardaRespuesta}"/>
+
+                    </h:panelGrid>
+                </f:facet>
+
+
+            </p:panel>
+        </h:form>
     </ui:define>
 
 </ui:composition>

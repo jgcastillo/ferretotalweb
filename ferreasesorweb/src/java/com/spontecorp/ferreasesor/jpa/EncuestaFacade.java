@@ -49,4 +49,10 @@ public class EncuestaFacade extends AbstractFacade<Encuesta> {
             return null;
         }
     }
+    
+    public Encuesta findByStatus(int status){
+        Query q = getEntityManager().createNamedQuery("Encuesta.findByStatus", Encuesta.class);
+        q.setParameter("status", status);
+        return (Encuesta) q.getSingleResult();
+    }
 }

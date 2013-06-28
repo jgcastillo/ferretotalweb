@@ -49,6 +49,7 @@ public class MainPageController implements Serializable {
     }
     
     public List<LlamadaAux> getLlamadaList(){
+        recreateModel();
         if(llamadaList == null){
             llamadaList = new ArrayList<>();
             llamadas = getLlamadaFacade().findLastCalls();
@@ -63,5 +64,8 @@ public class MainPageController implements Serializable {
         }
         return llamadaList;
     }
-
+    
+    private void recreateModel(){
+        llamadaList = null;
+    }
 }

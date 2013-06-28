@@ -17,11 +17,11 @@
     <!-- IMPLEMENTATION -->
     <cc:implementation>
         <h:form id="myform">
-            <p:fieldset style="width: 70%;">
+            <p:fieldset style="width: 70%; margin-left:25px;">
                 <h:panelGrid columns="2">
                     <h:outputText value="#{cc.attrs.preguntaBean.preguntaTexto}"/>
                     <h:outputText value="&nbsp;"/>
-                    <h:outputLabel for="cantTextBox"  value="#{cc.attrs.preguntaPrompt}" style="float: right;"/>
+                    <h:outputLabel for="cantTextBox"  value="#{cc.attrs.preguntaPrompt}: " style="float: right;"/>
                     <p:inputText id="cantTextBox" value="#{cc.attrs.preguntaBean.respuestaNumeric}" style="width: 60px;">
                         <f:convertNumber integerOnly="true" />
                     </p:inputText>

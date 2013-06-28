@@ -36,4 +36,5 @@ public class PreguntaFacade extends AbstractFacade<Pregunta> {
         query.setParameter("encuesta", encuesta);
         return query.getResultList();
     }
+    
 }

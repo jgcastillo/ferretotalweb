@@ -17,11 +17,11 @@
     <!-- IMPLEMENTATION -->
     <cc:implementation>
         <h:form id="myForm">
-            <p:fieldset style="width: 70%">
+            <p:fieldset style="width: 70%; margin-left:25px;">
                 <h:outputText value="#{cc.attrs.preguntaBean.preguntaTexto}"/>
                 <br/>
                 <h:panelGrid columns="2">
-                    <h:outputLabel for="opciones" value="#{cc.attrs.preguntaPrompt}"/>
+                    <h:outputLabel for="opciones" value="#{cc.attrs.preguntaPrompt}: "/>
                     <p:selectOneRadio id="opciones" value="#{cc.attrs.preguntaBean.respuestaSeleccion}"
                                       layout="pageDirection">
                         <f:selectItems value="#{cc.attrs.preguntaBean.opcionesSeleccion}"/>
