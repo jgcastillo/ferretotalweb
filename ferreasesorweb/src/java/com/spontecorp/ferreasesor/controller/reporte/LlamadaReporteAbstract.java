@@ -279,14 +279,14 @@ public abstract class LlamadaReporteAbstract {
     }
 
     public void exportarReporteXLSCalidad(ActionEvent actionEvent) throws JRException, IOException {
-        String extension = "XLSX";
+        String extension = "XLS";
         String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportexlscalidad.jasper");
         setTiempos(false);
         exportarReporteTiempoCalidad(extension, jasperFileAddress);
     }
 
     public void exportarReporteXLSTiempo(ActionEvent actionEvent) throws JRException, IOException {
-        String extension = "XLSX";
+        String extension = "XLS";
         String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportexlstiempo.jasper");
         setTiempos(true);
         exportarReporteTiempoCalidad(extension, jasperFileAddress);
@@ -301,7 +301,7 @@ public abstract class LlamadaReporteAbstract {
      */
     public void exportarReporteXLS(ActionEvent actionEvent) throws JRException, IOException {
 
-        String extension = "XLSX";
+        String extension = "XLS";
         String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reportexls.jasper");
         setPromedios(false);
         setTiempos(false);
@@ -382,7 +382,7 @@ public abstract class LlamadaReporteAbstract {
             parametrosTiempo.put("serie3", serie3);
             parametrosTiempo.put("serie4", serie4);
             myList2 = jm.FillListTiempoCalidad(reporteData, tiempos);
-            jm.FillReportTiempo(parametrosTiempo, myList2, extension, jasperFileAddress, nombreReporte);
+            jm.FillReportTiempoCalidad(parametrosTiempo, myList2, extension, jasperFileAddress, nombreReporte);
 
         } catch (JRException | IOException ex) {
             Logger.getLogger(LlamadaReporteAbstract.class.getName()).log(Level.SEVERE, null, ex);
@@ -425,8 +425,7 @@ public abstract class LlamadaReporteAbstract {
                 }
 
                 //cuando el reporte sea de promedios 
-                myList = jm.FillList(rango, dominioP);
-                promedios = false;
+                myList = jm.FillList(rango, dominioP);             
 
             } else {
                 //Revisa los casos y llena la lista de jasperbean
