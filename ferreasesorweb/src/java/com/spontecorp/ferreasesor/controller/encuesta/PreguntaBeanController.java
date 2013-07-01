@@ -1,5 +1,7 @@
 package com.spontecorp.ferreasesor.controller.encuesta;
 
+import com.spontecorp.ferreasesor.controller.reporte.JasperBeanEncuestas;
+import com.spontecorp.ferreasesor.controller.reporte.JasperManagement;
 import com.spontecorp.ferreasesor.controller.util.JsfUtil;
 import com.spontecorp.ferreasesor.entity.Encuesta;
 import com.spontecorp.ferreasesor.entity.Pregunta;
@@ -9,18 +11,23 @@ import com.spontecorp.ferreasesor.jpa.EncuestaFacade;
 import com.spontecorp.ferreasesor.jpa.PreguntaFacade;
 import com.spontecorp.ferreasesor.jpa.RespuestaConfFacade;
 import com.spontecorp.ferreasesor.jpa.RespuestaObtenidaFacade;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
-import org.slf4j.Logger;
+import net.sf.jasperreports.engine.JRException;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -68,7 +75,7 @@ public class PreguntaBeanController implements Serializable {
     private boolean message1 = false;
     private boolean message2 = false;
     private boolean message3 = false;
-    private static final Logger logger = LoggerFactory.getLogger(PreguntaBeanController.class);
+    private String nombreReporte;
 
     public PreguntaBeanController() {
     }
@@ -495,4 +502,35 @@ public class PreguntaBeanController implements Serializable {
         promptPreguntaTextual = null;
         message3 = false;
     }
+
+//    public void exportarReportePDF(ActionEvent actionEvent) throws JRException, IOException {
+//        String extension = "PDF";
+//        String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reporteEncuestaPdf.jasper");
+//        exportarReporte(extension, jasperFileAddress);
+//
+//    }
+    
+//    public void exportarReporte(String extension, String jasperFileAddress) {
+//        try {
+//            List<JasperBeanEncuestas> myList;
+//            JasperManagement jm = new JasperManagement();
+//            String logoAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/ferretotallogo.jpg");
+//            Map parametros = new HashMap();          
+//            
+//            parametros.put("logo", logoAddress);
+//            parametros.put("nombrereporte", nombreReporte);
+//            
+//            getPreguntaList();
+//
+//            myList = jm.FillListEncuestas(preguntaList);
+//            jm.FillReportEncuesta(parametros, myList, extension, jasperFileAddress, nombreReporte);
+//
+//        } catch (JRException | IOException ex) {
+//            Logger.getLogger(PreguntaBeanController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//    }
+
+
+
 }

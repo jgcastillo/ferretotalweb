@@ -230,3 +230,22 @@ a:link:hover, a:visited:hover  {
 .dp-highlighter .string { color: blue; background-color: inherit; }
 .dp-highlighter .keyword { color: #069; font-weight: bold; background-color: inherit; }
 .dp-highlighter .preprocessor { color: gray; background-color: inherit; }
+
+.promedio {
+    font-family: arial black;
+    text-align: center;
+    color: #014492; 
+    width:180px; 
+    height: 120px;
+    margin-left:0px;
+    background-image: url(./../resources/images/ferreAsesor.png)
+}
+
+.jqplot-table-legend{
+    font-size: 13px;
+}
+
+.jqplot-highlighter-tooltip{
+    font-size: 15px; 
+    color:red;
+}
