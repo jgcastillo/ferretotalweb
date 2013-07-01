@@ -92,7 +92,7 @@ public class TiempoXDispositivoController extends LlamadaReporteAbstract impleme
             total = 0L;
             promedio = 0.0;
             max = 0.0;
-            min = 99999999999.9;
+            min = 9999999999999999999999.9;
 
             for (Llamada call : map.getValue()) {
                 time = (call.getHoraClose().getTime() - call.getHoraOpen().getTime()) / 1000;
