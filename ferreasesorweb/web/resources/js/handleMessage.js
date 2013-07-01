@@ -9,7 +9,7 @@ function handleMessage1(data) {
     if (status == 1) {
         $('.display11').html(function() {
             $('.display11').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
@@ -17,7 +17,7 @@ function handleMessage1(data) {
         $('.display12').html(function() {
             $('.display11').hide();
             $('.display12').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
@@ -25,7 +25,7 @@ function handleMessage1(data) {
         $('.display13').html(function() {
             $('.display12').hide();
             $('.display13').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
@@ -46,7 +46,7 @@ function handleMessage2(data) {
     if (status == 1) {
         $('.display21').html(function() {
             $('.display21').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
@@ -54,7 +54,7 @@ function handleMessage2(data) {
         $('.display22').html(function() {
             $('.display21').hide();
             $('.display22').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
@@ -62,7 +62,7 @@ function handleMessage2(data) {
         $('.display23').html(function() {
             $('.display22').hide();
             $('.display23').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
@@ -82,7 +82,7 @@ function handleMessage3(data) {
     if (status == 1) {
         $('.display31').html(function() {
             $('.display31').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
@@ -90,7 +90,7 @@ function handleMessage3(data) {
         $('.display32').html(function() {
             $('.display31').hide();
             $('.display32').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
@@ -98,7 +98,7 @@ function handleMessage3(data) {
         $('.display33').html(function() {
             $('.display32').hide();
             $('.display33').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
@@ -118,7 +118,7 @@ function handleMessage4(data) {
     if (status == 1) {
         $('.display41').html(function() {
             $('.display41').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
@@ -126,7 +126,7 @@ function handleMessage4(data) {
         $('.display42').html(function() {
             $('.display41').hide();
             $('.display42').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
@@ -134,7 +134,7 @@ function handleMessage4(data) {
         $('.display43').html(function() {
             $('.display42').hide();
             $('.display43').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
@@ -154,7 +154,7 @@ function handleMessage5(data) {
     if (status == 1) {
         $('.display51').html(function() {
             $('.display51').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
@@ -162,7 +162,7 @@ function handleMessage5(data) {
         $('.display52').html(function() {
             $('.display51').hide();
             $('.display52').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
@@ -170,7 +170,7 @@ function handleMessage5(data) {
         $('.display53').html(function() {
             $('.display52').hide();
             $('.display53').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
@@ -190,7 +190,7 @@ function handleMessage6(data) {
     if (status == 1) {
         $('.display61').html(function() {
             $('.display61').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
@@ -198,7 +198,7 @@ function handleMessage6(data) {
         $('.display62').html(function() {
             $('.display61').hide();
             $('.display62').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
@@ -206,7 +206,7 @@ function handleMessage6(data) {
         $('.display63').html(function() {
             $('.display62').hide();
             $('.display63').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
@@ -226,7 +226,7 @@ function handleMessage7(data) {
     if (status == 1) {
         $('.display71').html(function() {
             $('.display71').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
@@ -234,7 +234,7 @@ function handleMessage7(data) {
         $('.display72').html(function() {
             $('.display71').hide();
             $('.display72').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
@@ -242,7 +242,7 @@ function handleMessage7(data) {
         $('.display73').html(function() {
             $('.display72').hide();
             $('.display73').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
@@ -262,7 +262,7 @@ function handleMessage8(data) {
     if (status == 1) {
         $('.display81').html(function() {
             $('.display81').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
@@ -270,7 +270,7 @@ function handleMessage8(data) {
         $('.display82').html(function() {
             $('.display81').hide();
             $('.display82').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
@@ -278,7 +278,7 @@ function handleMessage8(data) {
         $('.display83').html(function() {
             $('.display82').hide();
             $('.display83').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
@@ -298,7 +298,7 @@ function handleMessage9(data) {
     if (status == 1) {
         $('.display91').html(function() {
             $('.display91').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
@@ -306,7 +306,7 @@ function handleMessage9(data) {
         $('.display92').html(function() {
             $('.display91').hide();
             $('.display92').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
@@ -314,7 +314,7 @@ function handleMessage9(data) {
         $('.display93').html(function() {
             $('.display92').hide();
             $('.display93').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
@@ -334,7 +334,7 @@ function handleMessage10(data) {
     if (status == 1) {
         $('.display101').html(function() {
             $('.display101').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
@@ -342,7 +342,7 @@ function handleMessage10(data) {
         $('.display102').html(function() {
             $('.display101').hide();
             $('.display102').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
@@ -350,7 +350,7 @@ function handleMessage10(data) {
         $('.display103').html(function() {
             $('.display102').hide();
             $('.display103').show();
-            return '<p>Ubicación: ' + data.ubicacion + '</p><p>Contador: ' + data.counter + '</p>';
+            return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
         });
     }
 
