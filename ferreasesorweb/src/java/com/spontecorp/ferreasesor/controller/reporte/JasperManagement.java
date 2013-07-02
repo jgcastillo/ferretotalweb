@@ -96,10 +96,11 @@ public class JasperManagement {
             JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
             FacesContext.getCurrentInstance().responseComplete();
         } else {
-            JRXlsExporter docxExporter = new JRXlsExporter();
-            docxExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-            docxExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, servletOutputStream);
-            docxExporter.exportReport();
+            httpServletResponse.setContentType("application/vnd.ms-excel");
+            JRXlsExporter xlsExporter = new JRXlsExporter();
+            xlsExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+            xlsExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, servletOutputStream);
+            xlsExporter.exportReport();
         }
 
     }
@@ -112,16 +113,19 @@ public class JasperManagement {
         JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, parametros, jbs);
         HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
         httpServletResponse.addHeader("Content-disposition", "attachment; filename=" + nombreReporte + "_" + sdf.format((new Date())) + "." + extension);
+      
         ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
 
         if ("PDF".equals(extension)) {
             JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
             FacesContext.getCurrentInstance().responseComplete();
         } else {
-            JRXlsExporter docxExporter = new JRXlsExporter();
-            docxExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-            docxExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, servletOutputStream);
-            docxExporter.exportReport();
+            httpServletResponse.setContentType("application/vnd.ms-excel");
+            JRXlsExporter xlsxExporter = new JRXlsExporter();
+            xlsxExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+            xlsxExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, servletOutputStream);
+            xlsxExporter.exportReport();
+            FacesContext.getCurrentInstance().responseComplete();  
         }
 
 
