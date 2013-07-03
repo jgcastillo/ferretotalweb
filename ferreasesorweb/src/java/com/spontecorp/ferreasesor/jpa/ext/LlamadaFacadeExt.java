@@ -1,6 +1,7 @@
 package com.spontecorp.ferreasesor.jpa.ext;
 
 import com.spontecorp.ferreasesor.controller.reporte.ReporteHelper;
+import com.spontecorp.ferreasesor.entity.Llamada;
 import com.spontecorp.ferreasesor.jpa.LlamadaFacade;
 import java.util.Date;
 import java.util.List;
@@ -112,7 +113,6 @@ public class LlamadaFacadeExt extends LlamadaFacade {
                         + "AND ll.fechaClose >= :fechaInicio AND ll.fechaClose <= :fechaFin "
                         + "ORDER BY tu.id";
                 break;
-
         }
 
         List<Object[]> result = null;
@@ -125,6 +125,33 @@ public class LlamadaFacadeExt extends LlamadaFacade {
             logger.error("Error generando los datos: " + e);
         }
         return result;
+    }
+
+    /**
+     * Devuelve una lista de llamadas entre dos fechas
+     *
+     * @param fechaInicio
+     * @param fechaFin
+     * @return
+     */
+    public List<Llamada> findLlamadasList(Date fechaInicio, Date fechaFin) {
+        List<Llamada> result = null;
+        String query = "SELECT ll "
+                + "FROM Llamada ll , Distribucion d "
+                + "WHERE ll.distribucionId.id = d.id "
+                + "AND ll.fechaClose >= :fechaInicio AND ll.fechaClose <= :fechaFin "
+                + "ORDER BY ll.id";
+        try {
+            Query q = em.createQuery(query);
+            q.setParameter("fechaInicio", fechaInicio);
+            q.setParameter("fechaFin", fechaFin);
+            result = q.getResultList();
+        } catch (Exception e) {
+            logger.error("Error generando los datos: " + e);
+        }
+        return result;
+
+
     }
 
     /**

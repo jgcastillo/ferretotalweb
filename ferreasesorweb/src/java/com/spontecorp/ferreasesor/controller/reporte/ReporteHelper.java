@@ -1,8 +1,5 @@
 package com.spontecorp.ferreasesor.controller.reporte;
 
-import java.util.Map;
-
-
 /**
  *
  * @author jgcastillo
@@ -24,6 +21,7 @@ public class ReporteHelper {
     public static final int CALIDAD_X_DISPOSITIVO = 9;
     public static final int CALIDAD_X_FERREASESOR = 10;
     public static final int CALIDAD_X_TURNO = 11;
+    public static final int CALIDAD_TOTAL = 12;
 
     public Object getRango() {
         return rango;

@@ -2,6 +2,7 @@ package com.spontecorp.ferreasesor.controller.reporte;
 
 import com.spontecorp.ferreasesor.entity.Llamada;
 import com.spontecorp.ferreasesor.entity.Turno;
+import com.spontecorp.ferreasesor.jpa.TurnoFacade;
 import com.spontecorp.ferreasesor.jpa.ext.LlamadaFacadeExt;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import net.sf.jasperreports.engine.JRException;
@@ -28,6 +30,8 @@ import org.primefaces.model.chart.PieChartModel;
 public abstract class LlamadaReporteAbstract {
 
     LlamadaFacadeExt facade = new LlamadaFacadeExt();
+    @EJB
+    TurnoFacade turnoFacade;
     protected Date fechaInicio;
     protected Date fechaFin;
     protected List<Llamada> totalLlamadas;
@@ -37,6 +41,7 @@ public abstract class LlamadaReporteAbstract {
     protected boolean chartButtonDisable = true;
     protected boolean chartButtonStackedDisable = true;
     protected List<Object[]> result;
+    protected List<Llamada> resultLlamadas;
     protected List<ReporteHelper> reporteData;
     protected SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     protected CartesianChartModel categoryModel;
@@ -105,6 +110,14 @@ public abstract class LlamadaReporteAbstract {
 
     public void setResult(List<Object[]> result) {
         this.result = result;
+    }
+
+    public List<Llamada> getResultLlamadas() {
+        return resultLlamadas;
+    }
+
+    public void setResultLlamadas(List<Llamada> resultLlamadas) {
+        this.resultLlamadas = resultLlamadas;
     }
 
     public String getNombreReporte() {
