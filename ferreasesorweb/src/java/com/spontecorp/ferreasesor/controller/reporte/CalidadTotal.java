@@ -105,7 +105,6 @@ public class CalidadTotal extends LlamadaReporteAbstract implements Serializable
     @Override
     public void createCategoryModel() {
         categoryModel = new CartesianChartModel();
-        categoryModelPie = new PieChartModel();
 
         ChartSeries llamada = new ChartSeries("Llamadas");
 
@@ -118,9 +117,5 @@ public class CalidadTotal extends LlamadaReporteAbstract implements Serializable
         llamada.set("automáticas", Double.valueOf(valor[3].toString()));
 
         categoryModel.addSeries(llamada);
-        categoryModelPie.set("buenas.", Double.valueOf(valor[0].toString()));
-        categoryModelPie.set("regulares", Double.valueOf(valor[1].toString()));
-        categoryModelPie.set("malas", Double.valueOf(valor[2].toString()));
-        categoryModelPie.set("automáticas", Double.valueOf(valor[3].toString()));
     }
 }

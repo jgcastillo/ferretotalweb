@@ -105,7 +105,6 @@ public class TiempoTotal extends LlamadaReporteAbstract implements Serializable 
     @Override
     public void createCategoryModel() {
         categoryModel = new CartesianChartModel();
-        categoryModelPie = new PieChartModel();
 
         ChartSeries llamada = new ChartSeries("Llamadas");
 
@@ -117,9 +116,6 @@ public class TiempoTotal extends LlamadaReporteAbstract implements Serializable 
         llamada.set("max.", Double.valueOf(valor[2].toString()));
 
         categoryModel.addSeries(llamada);
-        categoryModelPie.set("min.", Double.valueOf(valor[0].toString()));
-        categoryModelPie.set("prom.", Double.valueOf(valor[1].toString()));
-        categoryModelPie.set("max.", Double.valueOf(valor[2].toString()));
 
     }
 }

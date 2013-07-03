@@ -59,11 +59,6 @@
                     <br/>
                     <p:commandButton value="Gráfico Barras" rendered="#{tiempoTotalBean.reporteData.size() > 0}" ajax="true" update="formTotalLlamada"
                                      actionListener="#{tiempoTotalBean.muestraGrafico}" title="Gráfico Barras" style="float: right;margin-right:80px;"/>
-
-                     <p:spacer style="width: 10px;"/>
-                    <p:commandButton value="Gráfico Pie" rendered="#{tiempoTotalBean.reporteData.size() > 0}" ajax="true" update="formTotalLlamada"   
-                                     actionListener="#{tiempoTotalBean.muestraStackedGrafico}" title="Gráfico Pie" style="float: right;margin-right:10px;"/>
-
                     <br/><br/>
                     <p:panel id="panelGrafico" style="border: 0px solid #FFFFFF;">
                         <p:panel id="panelChart" rendered="#{tiempoTotalBean.showChart and tiempoTotalBean.reporteData.size() > 0}" style="border: 0px solid #FFFFFF;">
@@ -77,18 +72,6 @@
                             </h:panelGrid>
                         </p:panel>
 
-                    </p:panel>
-                    <p:panel id="panelGraficoStacked" style="border: 0px solid #FFFFFF;">
-                        <h:panelGroup id="panelStackedChart" rendered="#{tiempoTotalBean.showStackedChart}">
-                            <p:pieChart id="sample" value="#{tiempoTotalBean.categoryModelPie}" legendPosition="e" showDataLabels="true" 
-                                        title="Total Tiempo de Atención entre fechas" style="width: 80%; margin-left: 85px;" /> 
-                            <br/>
-                            <h:panelGrid columns="3">
-                                <h:commandButton value="Exportar PDF"  actionListener="#{tiempoTotalBean.exportarReportePDFPie}" style="margin-left:485px" title="Exportar a PDF"/>
-                                <p:spacer style="width: 10px;"/>
-                                <h:commandButton value="Exportar Excel"  actionListener="#{tiempoTotalBean.exportarReporteXLSTiempo}" title="Exportar a Excel"/>
-                            </h:panelGrid>
-                        </h:panelGroup>
                     </p:panel>
 
                 </p:panel>
