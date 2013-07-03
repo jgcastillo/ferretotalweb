@@ -11,6 +11,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import org.primefaces.model.StreamedContent;
+import org.primefaces.model.chart.CartesianChartModel;
+import org.primefaces.model.chart.ChartSeries;
+import org.primefaces.model.chart.PieChartModel;
 
 /**
  *
@@ -18,16 +21,17 @@ import org.primefaces.model.StreamedContent;
  */
 @ManagedBean(name = "calidadTotalBean")
 @ViewScoped
-public class CalidadTotal extends LlamadaReporteAbstract implements Serializable{
+public class CalidadTotal extends LlamadaReporteAbstract implements Serializable {
 
     private String nombreReporte = "Calidad de Atención en la Tienda";
     private String nombreRango = "Calidad";
     private String nombreDominio = "Cantidad";
     private List<Llamada> llamadas;
-    
+
     /**
      * Genera la tabla de datos a presentar
-     * @param actionEvent 
+     *
+     * @param actionEvent
      */
     @Override
     public void populateLlamadas(ActionEvent actionEvent) {
@@ -37,7 +41,7 @@ public class CalidadTotal extends LlamadaReporteAbstract implements Serializable
         int atencionBuena = 0;
         int atencionRegular = 0;
         int cierreAutomatico = 0;
-        
+
         int cantBuenas = 0;
         int cantRegulares = 0;
         int cantMalas = 0;
@@ -52,7 +56,7 @@ public class CalidadTotal extends LlamadaReporteAbstract implements Serializable
         //Seteo la busqueda
         llamadas = facade.findLlamadasList(fechaInicio, fechaFin);
         Object[] datos = new Object[4];
-        
+
         for (Llamada llamada : llamadas) {
             int turnoId = llamada.getDistribucionId().getTurnoId();
             Turno turno = turnoFacade.find(turnoId);
@@ -66,7 +70,7 @@ public class CalidadTotal extends LlamadaReporteAbstract implements Serializable
                 }
             }
             atencion = (llamada.getHoraClose().getTime() - llamada.getHoraOpen().getTime()) / 1000;
-            
+
             if (atencion <= atencionBuena) {
                 cantBuenas++;
             } else if (atencion > atencionBuena && atencion <= atencionRegular) {
@@ -77,14 +81,15 @@ public class CalidadTotal extends LlamadaReporteAbstract implements Serializable
                 cantCerradasAut++;
             }
         }
-        
+
         datos[0] = cantBuenas;
         datos[1] = cantRegulares;
         datos[2] = cantMalas;
         datos[3] = cantCerradasAut;
-        
+
         ReporteHelper helper = new ReporteHelper();
         helper.setPropiedadObj(datos);
+        helper.setNombreObj("");
         reporteData.add(helper);
 
         showTable = true;
@@ -99,7 +104,23 @@ public class CalidadTotal extends LlamadaReporteAbstract implements Serializable
 
     @Override
     public void createCategoryModel() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        categoryModel = new CartesianChartModel();
+        categoryModelPie = new PieChartModel();
+
+        ChartSeries llamada = new ChartSeries("Llamadas");
+
+        ReporteHelper helper = reporteData.get(0);
+        Object[] valor = helper.getPropiedadObj();
+        
+        llamada.set("buenas", Double.valueOf(valor[0].toString()));
+        llamada.set("regulares", Double.valueOf(valor[1].toString()));
+        llamada.set("malas", Double.valueOf(valor[2].toString()));
+        llamada.set("automáticas", Double.valueOf(valor[3].toString()));
+
+        categoryModel.addSeries(llamada);
+        categoryModelPie.set("buenas.", Double.valueOf(valor[0].toString()));
+        categoryModelPie.set("regulares", Double.valueOf(valor[1].toString()));
+        categoryModelPie.set("malas", Double.valueOf(valor[2].toString()));
+        categoryModelPie.set("automáticas", Double.valueOf(valor[3].toString()));
     }
-    
 }

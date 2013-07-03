@@ -60,22 +60,35 @@
                         </p:column>
                     </p:dataTable>
                     <br/>
-                    <p:commandButton value="Gráfico Barras" rendered="#{calidadTotalBean.reporteData.size() > 0}" ajax="true" update="panelGrafico"
+                    <p:commandButton value="Gráfico Barras" rendered="#{calidadTotalBean.reporteData.size() > 0}" ajax="true" update="formTotalLlamada"
                                      actionListener="#{calidadTotalBean.muestraGrafico}" title="Gráfico Barras" style="float: right;margin-right:80px;"/>
-
+                    <p:spacer style="width: 10px;"/>
+                    <p:commandButton value="Gráfico Pie" rendered="#{calidadTotalBean.reporteData.size() > 0}" ajax="true" update="formTotalLlamada"   
+                                     actionListener="#{calidadTotalBean.muestraStackedGrafico}" title="Gráfico Pie" style="float: right;margin-right:10px;"/>
                     <br/><br/>
                     <p:panel id="panelGrafico" style="border: 0px solid #FFFFFF;">
                         <p:panel id="panelChart" rendered="#{calidadTotalBean.showChart and calidadTotalBean.reporteData.size() > 0}" style="border: 0px solid #FFFFFF;">
                             <p:barChart value="#{calidadTotalBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="chart"
-                                        title="Total Llamadas entre Fechas" style="width: 80%; margin-left: 85px;" extender="customExtender" />
+                                        title="Cantidad de Llamadas por Calidad" style="width: 80%; margin-left: 85px;" extender="customExtender" />
                             <br/>
                             <h:panelGrid columns="3">
-                                <h:commandButton value="Exportar PDF"  actionListener="#{calidadTotalBean.exportarReportePDF}" style="margin-left:485px" title="Exportar a PDF"/>
+                                <h:commandButton value="Exportar PDF"  actionListener="#{calidadTotalBean.exportarReportePDFCalidad}" style="margin-left:485px" title="Exportar a PDF"/>
                                 <p:spacer style="width: 10px;"/>
-                                <h:commandButton value="Exportar Excel"  actionListener="#{calidadTotalBean.exportarReporteXLS}" title="Exportar a Excel"/>
+                                <h:commandButton value="Exportar Excel"  actionListener="#{calidadTotalBean.exportarReporteXLSCalidad}" title="Exportar a Excel"/>
                             </h:panelGrid>
                         </p:panel>
-
+                    </p:panel>
+                    <p:panel id="panelGraficoStacked" style="border: 0px solid #FFFFFF;">
+                        <h:panelGroup id="panelStackedChart" rendered="#{calidadTotalBean.showStackedChart}">
+                            <p:pieChart id="sample" value="#{calidadTotalBean.categoryModelPie}" legendPosition="e" showDataLabels="true" 
+                                        title="Cantidad de Llamadas por Calidad" style="width: 80%; margin-left: 85px;" /> 
+                            <br/>
+                            <h:panelGrid columns="3">
+                                <h:commandButton value="Exportar PDF"  actionListener="#{calidadTotalBean.exportarReportePDFPie}" style="margin-left:485px" title="Exportar a PDF"/>
+                                <p:spacer style="width: 10px;"/>
+                                <h:commandButton value="Exportar Excel"  actionListener="#{calidadTotalBean.exportarReporteXLSTiempo}" title="Exportar a Excel"/>
+                            </h:panelGrid>
+                        </h:panelGroup>
                     </p:panel>
 
                 </p:panel>

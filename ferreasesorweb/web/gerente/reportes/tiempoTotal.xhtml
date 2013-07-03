@@ -55,33 +55,40 @@
                         <p:column headerText="Máximo" style="text-align: center; width: 30%">
                             <h:outputText value="#{llamada.propiedadObj[2]}"/>
                         </p:column>
-<!--                        <p:column headerText="Fecha">
-                            <h:outputText value="#{llamada.rango}"/>
-                        </p:column>
-                        <p:column headerText="Cantidad" style="text-align: center; width: 30%">
-                            <h:outputText value="#{llamada.dominio}"/>
-                        </p:column>-->
                     </p:dataTable>
                     <br/>
-                    <p:commandButton value="Gráfico Barras" rendered="#{tiempoTotalBean.reporteData.size() > 0}" ajax="true" update="panelGrafico"
+                    <p:commandButton value="Gráfico Barras" rendered="#{tiempoTotalBean.reporteData.size() > 0}" ajax="true" update="formTotalLlamada"
                                      actionListener="#{tiempoTotalBean.muestraGrafico}" title="Gráfico Barras" style="float: right;margin-right:80px;"/>
+
+                     <p:spacer style="width: 10px;"/>
+                    <p:commandButton value="Gráfico Pie" rendered="#{tiempoTotalBean.reporteData.size() > 0}" ajax="true" update="formTotalLlamada"   
+                                     actionListener="#{tiempoTotalBean.muestraStackedGrafico}" title="Gráfico Pie" style="float: right;margin-right:10px;"/>
 
                     <br/><br/>
                     <p:panel id="panelGrafico" style="border: 0px solid #FFFFFF;">
                         <p:panel id="panelChart" rendered="#{tiempoTotalBean.showChart and tiempoTotalBean.reporteData.size() > 0}" style="border: 0px solid #FFFFFF;">
                             <p:barChart value="#{tiempoTotalBean.categoryModel}" legendPosition="ne" xaxisAngle="45" widgetVar="chart"
-                                        title="Total Llamadas entre Fechas" style="width: 80%; margin-left: 85px;" extender="customExtender" />
-                            <!--                                        <fieldset>
-                                                                        <p:graphicImage value="#{tiempoTotalBean.chart}"/>
-                                                                    </fieldset>-->
+                                        title="Total Tiempo de Atención entre fechas" style="width: 80%; margin-left: 85px;" extender="customExtender" />
                             <br/>
                             <h:panelGrid columns="3">
-                                <h:commandButton value="Exportar PDF"  actionListener="#{tiempoTotalBean.exportarReportePDF}" style="margin-left:485px" title="Exportar a PDF"/>
+                                <h:commandButton value="Exportar PDF"  actionListener="#{tiempoTotalBean.exportarReportePDFTiempo}" style="margin-left:485px" title="Exportar a PDF"/>
                                 <p:spacer style="width: 10px;"/>
-                                <h:commandButton value="Exportar Excel"  actionListener="#{tiempoTotalBean.exportarReporteXLS}" title="Exportar a Excel"/>
+                                <h:commandButton value="Exportar Excel"  actionListener="#{tiempoTotalBean.exportarReporteXLSTiempo}" title="Exportar a Excel"/>
                             </h:panelGrid>
                         </p:panel>
 
+                    </p:panel>
+                    <p:panel id="panelGraficoStacked" style="border: 0px solid #FFFFFF;">
+                        <h:panelGroup id="panelStackedChart" rendered="#{tiempoTotalBean.showStackedChart}">
+                            <p:pieChart id="sample" value="#{tiempoTotalBean.categoryModelPie}" legendPosition="e" showDataLabels="true" 
+                                        title="Total Tiempo de Atención entre fechas" style="width: 80%; margin-left: 85px;" /> 
+                            <br/>
+                            <h:panelGrid columns="3">
+                                <h:commandButton value="Exportar PDF"  actionListener="#{tiempoTotalBean.exportarReportePDFPie}" style="margin-left:485px" title="Exportar a PDF"/>
+                                <p:spacer style="width: 10px;"/>
+                                <h:commandButton value="Exportar Excel"  actionListener="#{tiempoTotalBean.exportarReporteXLSTiempo}" title="Exportar a Excel"/>
+                            </h:panelGrid>
+                        </h:panelGroup>
                     </p:panel>
 
                 </p:panel>
