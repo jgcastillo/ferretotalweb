@@ -8,7 +8,7 @@
                 xmlns:f="http://java.sun.com/jsf/core">
 
     <ui:define name="title">
-        title
+        <title>Sistema FerreAsesor</title>
     </ui:define>
 
     <ui:define name="content">
@@ -51,30 +51,30 @@
         </h:form>
     </ui:define>
 
-<!--    <ui:define name="status">
-        <h:form id="form">  
-            <h:panelGrid id="promedio1" styleClass="ui-widget promedio" style="margin-bottom: 25px">
-                <h:outputLabel value="Promedio de Tiempo:" style="margin-left:10%; font-size: 13px; font-weight: bold; color:#F24040"></h:outputLabel>
-                <br/><h:outputLabel value="#{dailyAverage.promedioTiempo}" style="margin-left:10%; font-size: 20px; font-weight: bold"></h:outputLabel>
-                <br/><br/>
-            </h:panelGrid>
-
-            <h:panelGrid id="promedio2" styleClass="ui-widget promedio" style="margin-bottom: 25px">
-                <h:outputLabel value="Promedio de Llamadas:" style=" font-size: 13px; font-weight: bold; color:#F24040"></h:outputLabel>
-                <br/><h:outputLabel value="#{dailyAverage.promedioTiempo}" style="margin-left:10%; font-size: 20px; font-weight: bold"></h:outputLabel>
-                <br/><br/>
-            </h:panelGrid>
-
-            <h:panelGrid id="promedio3" styleClass="ui-widget promedio" style="margin-bottom: 25px">
-                <h:outputLabel value="Calidad Atención mala:" style="font-size: 13px; font-weight: bold; color:#F24040"></h:outputLabel>
-                <br/><h:outputLabel value="#{dailyAverage.promedioTiempo}" style="margin-left:10%; font-size: 20px; font-weight: bold"></h:outputLabel>
-                <br/><br/>
-            </h:panelGrid>
-            
-            <p:poll interval="5"   
-                    listener="#{dailyAverage.updateEstatistics}" update="form" />  
-        </h:form>  
-    </ui:define>-->
+    <!--    <ui:define name="status">
+            <h:form id="form">  
+                <h:panelGrid id="promedio1" styleClass="ui-widget promedio" style="margin-bottom: 25px">
+                    <h:outputLabel value="Promedio de Tiempo:" style="margin-left:10%; font-size: 13px; font-weight: bold; color:#F24040"></h:outputLabel>
+                    <br/><h:outputLabel value="#{dailyAverage.promedioTiempo}" style="margin-left:10%; font-size: 20px; font-weight: bold"></h:outputLabel>
+                    <br/><br/>
+                </h:panelGrid>
+    
+                <h:panelGrid id="promedio2" styleClass="ui-widget promedio" style="margin-bottom: 25px">
+                    <h:outputLabel value="Promedio de Llamadas:" style=" font-size: 13px; font-weight: bold; color:#F24040"></h:outputLabel>
+                    <br/><h:outputLabel value="#{dailyAverage.promedioTiempo}" style="margin-left:10%; font-size: 20px; font-weight: bold"></h:outputLabel>
+                    <br/><br/>
+                </h:panelGrid>
+    
+                <h:panelGrid id="promedio3" styleClass="ui-widget promedio" style="margin-bottom: 25px">
+                    <h:outputLabel value="Calidad Atención mala:" style="font-size: 13px; font-weight: bold; color:#F24040"></h:outputLabel>
+                    <br/><h:outputLabel value="#{dailyAverage.promedioTiempo}" style="margin-left:10%; font-size: 20px; font-weight: bold"></h:outputLabel>
+                    <br/><br/>
+                </h:panelGrid>
+                
+                <p:poll interval="5"   
+                        listener="#{dailyAverage.updateEstatistics}" update="form" />  
+            </h:form>  
+        </ui:define>-->
 
 </ui:composition>
 
