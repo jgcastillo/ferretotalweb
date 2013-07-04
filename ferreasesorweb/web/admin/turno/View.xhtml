@@ -24,8 +24,8 @@
                         <f:convertDateTime pattern="HH:mm:ss a" />
                     </h:outputText>
                     <h:outputText value="#{bundle.ViewTurnoLabel_feriado}"/>
-                    <h:outputText value="Normal" rendered="#{turnoController.selected.feriado==1}" />
-                    <h:outputText value="Feriado" rendered="#{turnoController.selected.feriado==0}" />
+                    <h:outputText value="Normal" rendered="#{turnoController.selected.feriado==0}" />
+                    <h:outputText value="Feriado" rendered="#{turnoController.selected.feriado==1}" />
                     <h:outputText value="#{bundle.ViewTurnoLabel_status}"/>
                     <h:outputText value="HABILITADO" rendered="#{turnoController.selected.status==1}" />
                     <h:outputText value="INHABILITADO" rendered="#{turnoController.selected.status==0}" />

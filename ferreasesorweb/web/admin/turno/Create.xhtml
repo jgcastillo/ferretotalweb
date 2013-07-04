@@ -36,8 +36,8 @@
                     <p:outputLabel value="#{bundle.CreateTurnoLabel_feriado}" for="feriado" />
                     <h:selectOneMenu id="feriado" value="#{turnoController.selected.status}" required="true" 
                                      requiredMessage="#{bundle.CreateTurnoRequiredMessage_feriado}" style="width: 130px;"> 
-                        <f:selectItem itemLabel="Normal" itemValue="1" />
-                        <f:selectItem itemLabel="Feriado" itemValue="0" />
+                        <f:selectItem itemLabel="Normal" itemValue="0" />
+                        <f:selectItem itemLabel="Feriado" itemValue="1" />
                     </h:selectOneMenu>
                     <p:message for="feriado"/>
                     <p:outputLabel value="#{bundle.CreateTurnoLabel_status}" for="status" />
