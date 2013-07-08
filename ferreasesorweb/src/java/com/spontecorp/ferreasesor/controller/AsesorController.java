@@ -151,7 +151,7 @@ public class AsesorController implements Serializable {
                     dist.setAsesorId(current.getId());
                     dist.setTurnoId(turno.getId());
                     dist.setBotonId(boton.getId());
-                    dist.setStatus(JpaUtilities.INHABILITADO);
+                    dist.setStatus(JpaUtilities.HABILITADO);
                     ejbFacadeDistribucion.create(dist);
                 }
             }

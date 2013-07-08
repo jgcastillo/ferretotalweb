@@ -143,7 +143,7 @@ public class TurnoController implements Serializable {
                     dist.setAsesorId(asesor.getId());
                     dist.setTurnoId(current.getId());
                     dist.setBotonId(boton.getId());
-                    dist.setStatus(JpaUtilities.INHABILITADO);
+                    dist.setStatus(JpaUtilities.HABILITADO);
                     ejbFacadeDistribucion.create(dist);
                 }
             }
