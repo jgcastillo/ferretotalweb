@@ -142,7 +142,7 @@ public class BotonController implements Serializable {
                     dist.setAsesorId(asesor.getId());
                     dist.setTurnoId(turno.getId());
                     dist.setBotonId(current.getId());
-                    dist.setStatus(JpaUtilities.HABILITADO);
+                    dist.setStatus(JpaUtilities.INHABILITADO);
                     ejbFacadeDistribucion.create(dist);
                 }
             }

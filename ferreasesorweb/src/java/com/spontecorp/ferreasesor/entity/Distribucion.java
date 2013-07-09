@@ -52,6 +52,10 @@ public class Distribucion implements Serializable {
     private int status;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "distribucionId")
     private List<Llamada> llamadaList;
+    
+    private transient String asesorNombre;
+    private transient String turnoNombre;
+    private transient String botonNombre;
 
     public Distribucion() {
     }
@@ -114,6 +118,30 @@ public class Distribucion implements Serializable {
 
     public void setLlamadaList(List<Llamada> llamadaList) {
         this.llamadaList = llamadaList;
+    }
+
+    public String getAsesorNombre() {
+        return asesorNombre;
+    }
+
+    public void setAsesorNombre(String asesorNombre) {
+        this.asesorNombre = asesorNombre;
+    }
+
+    public String getTurnoNombre() {
+        return turnoNombre;
+    }
+
+    public void setTurnoNombre(String turnoNombre) {
+        this.turnoNombre = turnoNombre;
+    }
+
+    public String getBotonNombre() {
+        return botonNombre;
+    }
+
+    public void setBotonNombre(String botonNombre) {
+        this.botonNombre = botonNombre;
     }
 
     @Override
