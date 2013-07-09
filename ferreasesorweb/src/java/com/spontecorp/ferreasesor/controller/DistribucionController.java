@@ -3,6 +3,9 @@ package com.spontecorp.ferreasesor.controller;
 import com.spontecorp.ferreasesor.entity.Distribucion;
 import com.spontecorp.ferreasesor.controller.util.JsfUtil;
 import com.spontecorp.ferreasesor.controller.util.PaginationHelper;
+import com.spontecorp.ferreasesor.entity.Asesor;
+import com.spontecorp.ferreasesor.entity.Boton;
+import com.spontecorp.ferreasesor.entity.Turno;
 import com.spontecorp.ferreasesor.jpa.DistribucionFacade;
 import com.spontecorp.ferreasesor.utilities.JpaUtilities;
 
@@ -28,6 +31,12 @@ public class DistribucionController implements Serializable {
     private DataModel items = null;
     @EJB
     private com.spontecorp.ferreasesor.jpa.DistribucionFacade ejbFacade;
+    @EJB
+    private com.spontecorp.ferreasesor.jpa.AsesorFacade asesorFacade;
+    @EJB
+    private com.spontecorp.ferreasesor.jpa.TurnoFacade turnoFacade;
+    @EJB
+    private com.spontecorp.ferreasesor.jpa.BotonFacade botonFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
@@ -172,6 +181,15 @@ public class DistribucionController implements Serializable {
     public DataModel getItems() {
         if (items == null) {
             items = new ListDataModel(getFacade().findAll());//getPagination().createPageDataModel();
+            for(Object modelo : items){
+                Distribucion dist = (Distribucion)modelo;
+                Asesor asesor = asesorFacade.find(dist.getAsesorId());
+                Turno turno = turnoFacade.find(dist.getTurnoId());
+                Boton boton = botonFacade.find(dist.getBotonId());
+                dist.setAsesorNombre(asesor.getNombre() + " " + asesor.getApellido());
+                dist.setTurnoNombre(turno.getNombre());
+                dist.setBotonNombre(boton.getUbicacion());
+            }
         }
         return items;
     }

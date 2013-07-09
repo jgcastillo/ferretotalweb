@@ -17,13 +17,13 @@
                 <p:dataTable value="#{distribucionController.items}" var="item" style="width: auto;">
 
                     <p:column headerText="Asesor" width="25%">
-                        <h:outputText value="#{item.asesorId}"/>
+                        <h:outputText value="#{item.asesorNombre}"/>
                     </p:column>
                     <p:column headerText="Dispositivo" width="25%">
-                        <h:outputText value="#{item.botonId}"/>
+                        <h:outputText value="#{item.botonNombre}"/>
                     </p:column>
                     <p:column headerText="Turno" width="25%">
-                        <h:outputText value="#{item.turnoId}"/>
+                        <h:outputText value="#{item.turnoNombre}"/>
                     </p:column>
                     <p:column headerText="Estado" width="10%">
                         <p:commandButton title="Activo" icon="ui-icon-check" style="margin-left: 10px;" 

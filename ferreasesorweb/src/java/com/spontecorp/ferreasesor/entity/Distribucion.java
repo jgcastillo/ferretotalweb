@@ -52,7 +52,6 @@ public class Distribucion implements Serializable {
     private int status;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "distribucionId")
     private List<Llamada> llamadaList;
-    
     private transient String asesorNombre;
     private transient String turnoNombre;
     private transient String botonNombre;
