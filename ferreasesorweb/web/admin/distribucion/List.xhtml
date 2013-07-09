@@ -1,74 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../../WEB-INF/templates/layout.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
 
-    <ui:composition template="/template.xhtml">
-        <ui:define name="title">
-            <h:outputText value="#{bundle.ListDistribucionTitle}"></h:outputText>
-        </ui:define>
-        <ui:define name="body">
-            <h:form styleClass="jsfcrud_list_form">
-                <h:panelGroup id="messagePanel" layout="block">
-                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
-                </h:panelGroup>
-                <h:outputText escape="false" value="#{bundle.ListDistribucionEmpty}" rendered="#{distribucionController.items.rowCount == 0}"/>
-                <h:panelGroup rendered="#{distribucionController.items.rowCount > 0}">
-                    <h:outputText value="#{distribucionController.pagination.pageFirstItem + 1}..#{distribucionController.pagination.pageLastItem + 1}/#{distribucionController.pagination.itemsCount}"/>&nbsp;
-                    <h:commandLink action="#{distribucionController.previous}" value="#{bundle.Previous} #{distribucionController.pagination.pageSize}" rendered="#{distribucionController.pagination.hasPreviousPage}"/>&nbsp;
-                    <h:commandLink action="#{distribucionController.next}" value="#{bundle.Next} #{distribucionController.pagination.pageSize}" rendered="#{distribucionController.pagination.hasNextPage}"/>&nbsp;
-                    <h:dataTable value="#{distribucionController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDistribucionTitle_id}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.id}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDistribucionTitle_asesorId}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.asesorId}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDistribucionTitle_botonId}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.botonId}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDistribucionTitle_turnoId}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.turnoId}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDistribucionTitle_status}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.status}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="&nbsp;"/>
-                            </f:facet>
-                            <h:commandLink action="#{distribucionController.prepareView}" value="#{bundle.ListDistribucionViewLink}"/>
-                            <h:outputText value=" "/>
-                            <h:commandLink action="#{distribucionController.prepareEdit}" value="#{bundle.ListDistribucionEditLink}"/>
-                            <h:outputText value=" "/>
-                            <h:commandLink action="#{distribucionController.destroy}" value="#{bundle.ListDistribucionDestroyLink}"/>
-                        </h:column>
-                    </h:dataTable>
-                </h:panelGroup>
-                <br />
-                <h:commandLink action="#{distribucionController.prepareCreate}" value="#{bundle.ListDistribucionCreateLink}"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.ListDistribucionIndexLink}"/>
-            </h:form>
-        </ui:define>
-    </ui:composition>
+    <ui:define name="title">
+        Definición de Atención
+    </ui:define>
 
-</html>
+    <ui:define name="content">
+        <h:form id="formAtencion">
+            <p:growl id="growls"/>
+            <p:panel header="Configuración de Atención" style="width:60%; margin-left:15px;">
+                <p:dataTable value="#{distribucionController.items}" var="item" style="width: auto;">
+
+                    <p:column headerText="Asesor" width="25%">
+                        <h:outputText value="#{item.asesorId}"/>
+                    </p:column>
+                    <p:column headerText="Dispositivo" width="25%">
+                        <h:outputText value="#{item.botonId}"/>
+                    </p:column>
+                    <p:column headerText="Turno" width="25%">
+                        <h:outputText value="#{item.turnoId}"/>
+                    </p:column>
+                    <p:column headerText="Estado" width="10%">
+                        <p:commandButton title="Activo" icon="ui-icon-check" style="margin-left: 10px;" 
+                                         actionListener="#{distribucionController.updateInhabilitar}" 
+                                         rendered="#{item.status==1}" disabled="false" 
+                                         ajax="true" update=":formAtencion, :formAtencion:growls"/>
+                        <p:commandButton title="Inactivo" icon="ui-icon-cancel" style="margin-left: 10px;" 
+                                         actionListener="#{distribucionController.updateHabilitar}" 
+                                         rendered="#{item.status==0}" disabled="false"
+                                         ajax="true" update=":formAtencion, :formAtencion:growls"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

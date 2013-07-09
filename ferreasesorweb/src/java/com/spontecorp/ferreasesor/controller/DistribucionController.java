@@ -4,22 +4,24 @@ import com.spontecorp.ferreasesor.entity.Distribucion;
 import com.spontecorp.ferreasesor.controller.util.JsfUtil;
 import com.spontecorp.ferreasesor.controller.util.PaginationHelper;
 import com.spontecorp.ferreasesor.jpa.DistribucionFacade;
+import com.spontecorp.ferreasesor.utilities.JpaUtilities;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.faces.event.ActionEvent;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 
 @ManagedBean(name = "distribucionController")
-@SessionScoped
+@ViewScoped
 public class DistribucionController implements Serializable {
 
     private Distribucion current;
@@ -95,11 +97,26 @@ public class DistribucionController implements Serializable {
         return "Edit";
     }
 
-    public String update() {
+    public String updateHabilitar(ActionEvent event) {
         try {
+            current = (Distribucion)getItems().getRowData();
+            current.setStatus(JpaUtilities.HABILITADO);
             getFacade().edit(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("DistribucionUpdated"));
-            return "View";
+            return prepareList();
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            return null;
+        }
+    }
+    
+    public String updateInhabilitar(ActionEvent event) {
+        try {
+            current = (Distribucion)getItems().getRowData();
+            current.setStatus(JpaUtilities.INHABILITADO);
+            getFacade().edit(current);
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("DistribucionUpdated"));
+            return prepareList();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
@@ -154,7 +171,7 @@ public class DistribucionController implements Serializable {
 
     public DataModel getItems() {
         if (items == null) {
-            items = getPagination().createPageDataModel();
+            items = new ListDataModel(getFacade().findAll());//getPagination().createPageDataModel();
         }
         return items;
     }
@@ -190,6 +207,7 @@ public class DistribucionController implements Serializable {
     @FacesConverter(forClass = Distribucion.class)
     public static class DistribucionControllerConverter implements Converter {
 
+        @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
