@@ -121,7 +121,7 @@ public class Asesor implements Serializable {
 
     @Override
     public String toString() {
-        return "com.spontecorp.ferreasesor.entity.Asesor[ id=" + id + " ]";
+        return nombre + " " + apellido;
     }
     
 }
