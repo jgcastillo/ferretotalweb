@@ -22,7 +22,7 @@
                     <f:facet name="header">
                         <p  style="text-align: center">Lista de Llamadas</p>
                     </f:facet><br/>
-                    <p:column headerText="Fecha" sortBy="#{item.llamada.fechaClose}">
+                    <p:column headerText="Fecha">
                         <h:outputText value="#{item.llamada.fechaClose}">
                             <f:convertDateTime pattern="dd/MM/yyyy"/>
                         </h:outputText>
@@ -37,13 +37,13 @@
                             <f:convertDateTime pattern="hh:mm:ss"/>
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="Pasillo" sortBy="#{item.boton.ubicacion}">
+                    <p:column headerText="Pasillo">
                         <h:outputText value="#{item.boton.ubicacion}"/>
                     </p:column>
-                    <p:column headerText="Asesor" sortBy="#{item.asesor.nombre} #{item.asesor.apellido}">
+                    <p:column headerText="Asesor">
                         <h:outputText value="#{item.asesor.nombre} #{item.asesor.apellido}"/>
                     </p:column>
-                    <p:column headerText="Turno" sortBy="#{item.turno.nombre}">
+                    <p:column headerText="Turno">
                         <h:outputText value="#{item.turno.nombre}"/>
                     </p:column>
                 </p:dataTable>
