@@ -212,10 +212,14 @@ public class PreguntaBeanController implements Serializable {
      */
     public DataModel getPreguntaItems() {
         //recreateModel();
+        preguntaItems = null;
         if (preguntaItems == null) {
             preguntaItems = new ListDataModel(getPreguntaFacade().findAll(encuesta));
             for (Pregunta pregunta : preguntaItems) {
-                List<RespuestaObtenida> respList = getRespObtenidaFacade().findRespuestaObtenidaList(pregunta);
+                List<RespuestaObtenida> respList = null;
+                if (respList == null) {
+                    respList = getRespObtenidaFacade().findRespuestaObtenidaList(pregunta);
+                }
                 pregunta.setRespuestaObtenidaList(respList);
             }
         }
@@ -502,14 +506,12 @@ public class PreguntaBeanController implements Serializable {
         promptPreguntaTextual = null;
         message3 = false;
     }
-
 //    public void exportarReportePDF(ActionEvent actionEvent) throws JRException, IOException {
 //        String extension = "PDF";
 //        String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reporteEncuestaPdf.jasper");
 //        exportarReporte(extension, jasperFileAddress);
 //
 //    }
-    
 //    public void exportarReporte(String extension, String jasperFileAddress) {
 //        try {
 //            List<JasperBeanEncuestas> myList;
@@ -530,7 +532,4 @@ public class PreguntaBeanController implements Serializable {
 //        }
 //
 //    }
-
-
-
 }
