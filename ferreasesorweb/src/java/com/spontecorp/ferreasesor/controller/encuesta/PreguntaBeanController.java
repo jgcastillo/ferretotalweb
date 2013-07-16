@@ -1,9 +1,8 @@
 package com.spontecorp.ferreasesor.controller.encuesta;
 
-import com.spontecorp.ferreasesor.controller.reporte.JasperBeanEncuestas;
-import com.spontecorp.ferreasesor.controller.reporte.JasperManagement;
 import com.spontecorp.ferreasesor.controller.util.JsfUtil;
 import com.spontecorp.ferreasesor.entity.Encuesta;
+import com.spontecorp.ferreasesor.entity.Numericas;
 import com.spontecorp.ferreasesor.entity.Pregunta;
 import com.spontecorp.ferreasesor.entity.RespuestaConf;
 import com.spontecorp.ferreasesor.entity.RespuestaObtenida;
@@ -11,24 +10,18 @@ import com.spontecorp.ferreasesor.jpa.EncuestaFacade;
 import com.spontecorp.ferreasesor.jpa.PreguntaFacade;
 import com.spontecorp.ferreasesor.jpa.RespuestaConfFacade;
 import com.spontecorp.ferreasesor.jpa.RespuestaObtenidaFacade;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
-import net.sf.jasperreports.engine.JRException;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -75,7 +68,6 @@ public class PreguntaBeanController implements Serializable {
     private boolean message1 = false;
     private boolean message2 = false;
     private boolean message3 = false;
-    private String nombreReporte;
 
     public PreguntaBeanController() {
     }
@@ -216,11 +208,127 @@ public class PreguntaBeanController implements Serializable {
         if (preguntaItems == null) {
             preguntaItems = new ListDataModel(getPreguntaFacade().findAll(encuesta));
             for (Pregunta pregunta : preguntaItems) {
+                System.out.println("Pregunta: "+pregunta.getPregunta());
                 List<RespuestaObtenida> respList = null;
+                List<RespuestaConf> options = null;
+                List<Numericas> listaNumericas = new ArrayList<>();
+                List<Integer> listRespObtenidas = new ArrayList<>();
+                
                 if (respList == null) {
                     respList = getRespObtenidaFacade().findRespuestaObtenidaList(pregunta);
                 }
+
+                //Si la Pregunta es de Tipo Numérica
+                if (pregunta.getTipo() == 2) {
+                    Map<Integer, Integer> mapNumeric = new HashMap<>();
+                    
+                    for (int i = 0; i < respList.size(); i++) {
+                        mapNumeric.put(Integer.valueOf(respList.get(i).getRespuesta()), 0);
+                    }
+ 
+                    int i = 0;
+                    int cant = 0;
+                    for (Map.Entry<Integer, Integer> mapa : mapNumeric.entrySet()) {
+                        cant = getRespObtenidaFacade().findCantidadRespuestaObtenida(pregunta,(String)mapa.getKey().toString());
+                        Numericas numericas = new Numericas();
+                        numericas.setOpcion((String)mapa.getKey().toString());
+                        numericas.setCantidad(cant);
+                        listaNumericas.add(numericas);
+                        i++;
+                    }
+                }
+
+                //Si la Pregunta es de Tipo Selección
+                if (pregunta.getTipo() == 3) {
+                    if (options == null) {
+                        //options = pregunta.getRespuestaConfList();
+                        options = getRespuestaFacade().findRespuestaConf(pregunta);
+                    }
+                    System.out.println("    Option Size: "+options.size());
+                    for (RespuestaConf option : options) {
+                        System.out.println("        idOption: "+option.getId());
+                        int count = 0;
+                        for (RespuestaObtenida resp : respList) {
+                            System.out.println("idRespuesta: " + resp.getRespuestaConfId().getId());
+                            if (option.getId() == resp.getRespuestaConfId().getId()) {
+                                option.setTotalOptions(++count);
+                            }
+                        }
+                    }
+                }
+
+                //Si la Pregunta es de Tipo Calificación
+                if (pregunta.getTipo() == 4) {
+                    Map<Integer, Integer> mapCalific = new HashMap<>();
+                    int[] counts = new int[10];
+                    for (int i = 1; i < 11; i++) {
+                        mapCalific.put(i, 0);
+                        counts[i - 1] = 0;
+                    }
+
+                    int j = 1;
+                    int x = 0;
+                    for (RespuestaObtenida resp : respList) {
+//                        if (Integer.valueOf(resp.getRespuesta()) == j) {
+//                            counts[x] = mapCalific.get(j);
+//                            mapCalific.put(j, ++counts[x]);
+//                        }
+//                        j++;
+//                        x++;
+                        switch (resp.getRespuesta()) {
+                            case "1":
+                                counts[0] = mapCalific.get(1);
+                                mapCalific.put(1, ++counts[0]);
+                                break;
+                            case "2":
+                                counts[1] = mapCalific.get(2);
+                                mapCalific.put(2, ++counts[1]);
+                                break;
+                            case "3":
+                                counts[2] = mapCalific.get(3);
+                                mapCalific.put(3, ++counts[2]);
+                                break;
+                            case "4":
+                                counts[3] = mapCalific.get(4);
+                                mapCalific.put(4, ++counts[3]);
+                                break;
+                            case "5":
+                                counts[4] = mapCalific.get(5);
+                                mapCalific.put(5, ++counts[4]);
+                                break;
+                            case "6":
+                                counts[5] = mapCalific.get(6);
+                                mapCalific.put(6, ++counts[5]);
+                                break;
+                            case "7":
+                                counts[6] = mapCalific.get(7);
+                                mapCalific.put(7, ++counts[6]);
+                                break;
+                            case "8":
+                                counts[7] = mapCalific.get(8);
+                                mapCalific.put(8, ++counts[7]);
+                                break;
+                            case "9":
+                                counts[8] = mapCalific.get(9);
+                                mapCalific.put(9, ++counts[8]);
+                                break;
+                            case "10":
+                                counts[9] = mapCalific.get(10);
+                                mapCalific.put(10, ++counts[9]);
+                                break;
+                        }
+                    }
+
+                    int i = 0;
+                    for (Map.Entry<Integer, Integer> mapa : mapCalific.entrySet()) {
+                        listRespObtenidas.add(mapa.getValue());
+                        i++;
+                    }
+                }
+                pregunta.setTotalRespuestas(respList.size());
                 pregunta.setRespuestaObtenidaList(respList);
+                pregunta.setListRespObtenidas(listRespObtenidas);
+                pregunta.setListaNumericas(listaNumericas);
             }
         }
         return preguntaItems;
@@ -506,30 +614,4 @@ public class PreguntaBeanController implements Serializable {
         promptPreguntaTextual = null;
         message3 = false;
     }
-//    public void exportarReportePDF(ActionEvent actionEvent) throws JRException, IOException {
-//        String extension = "PDF";
-//        String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/reporteEncuestaPdf.jasper");
-//        exportarReporte(extension, jasperFileAddress);
-//
-//    }
-//    public void exportarReporte(String extension, String jasperFileAddress) {
-//        try {
-//            List<JasperBeanEncuestas> myList;
-//            JasperManagement jm = new JasperManagement();
-//            String logoAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/ferretotallogo.jpg");
-//            Map parametros = new HashMap();          
-//            
-//            parametros.put("logo", logoAddress);
-//            parametros.put("nombrereporte", nombreReporte);
-//            
-//            getPreguntaList();
-//
-//            myList = jm.FillListEncuestas(preguntaList);
-//            jm.FillReportEncuesta(parametros, myList, extension, jasperFileAddress, nombreReporte);
-//
-//        } catch (JRException | IOException ex) {
-//            Logger.getLogger(PreguntaBeanController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-//    }
 }

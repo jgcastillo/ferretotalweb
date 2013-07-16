@@ -6,6 +6,9 @@ package com.spontecorp.ferreasesor.controller.reporte;
 
 import com.spontecorp.ferreasesor.entity.Asesor;
 import com.spontecorp.ferreasesor.entity.Boton;
+import com.spontecorp.ferreasesor.entity.Pregunta;
+import com.spontecorp.ferreasesor.entity.RespuestaConf;
+import com.spontecorp.ferreasesor.entity.RespuestaObtenida;
 import com.spontecorp.ferreasesor.entity.Turno;
 import java.io.File;
 import java.io.IOException;
@@ -35,6 +38,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 public class JasperManagement {
 
     private List<JasperBeanLlamadas> lista = new ArrayList<>();
+    private List<JasperBeanEncuestas> listaEncuesta = new ArrayList<>();
     List<JasperBeanTiempoCalidad> listatiempo = new ArrayList<>();
 
     public List<JasperBeanLlamadas> FillList(List<Object[]> result) {
@@ -82,6 +86,21 @@ public class JasperManagement {
         return lista;
     }
 
+    /**
+     * Preparar Listado Reporte Encuestas
+     *
+     * @param pregunta
+     * @return
+     */
+    public List<JasperBeanEncuestas> FillListEncuesta(List<Pregunta> pregunta) {
+        for (int i = 0; i < pregunta.size(); i++) {
+            System.out.println("Pregunta: " + pregunta.get(i).getPregunta() + " - Total RespuestaObtenidaList: "+pregunta.get(i).getRespuestaObtenidaList().size());
+            JasperBeanEncuestas jb = new JasperBeanEncuestas(pregunta.get(i).getPregunta(), pregunta.get(i).getRespuestaObtenidaList());
+            listaEncuesta.add(jb);
+        }
+        return listaEncuesta;
+    }
+
     public void FillReportTiempoCalidad(Map parametros, List<JasperBeanTiempoCalidad> lista, String extension, String nombreJasper, String nombreReporte) throws JRException, IOException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         File file = new File(nombreJasper);
@@ -113,7 +132,7 @@ public class JasperManagement {
         JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, parametros, jbs);
         HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
         httpServletResponse.addHeader("Content-disposition", "attachment; filename=" + nombreReporte + "_" + sdf.format((new Date())) + "." + extension);
-      
+
         ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
 
         if ("PDF".equals(extension)) {
@@ -125,11 +144,43 @@ public class JasperManagement {
             xlsxExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
             xlsxExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, servletOutputStream);
             xlsxExporter.exportReport();
-            FacesContext.getCurrentInstance().responseComplete();  
+            FacesContext.getCurrentInstance().responseComplete();
         }
+    }
 
+    /**
+     * Reporte Encuestas
+     *
+     * @param parametros
+     * @param lista
+     * @param extension
+     * @param nombreJasper
+     * @param nombreReporte
+     * @throws JRException
+     * @throws IOException
+     */
+    public void FillReportEncuesta(Map parametros, List<JasperBeanEncuestas> lista, String extension, String nombreJasper, String nombreReporte) throws JRException, IOException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        File file = new File(nombreJasper);
+        JasperReport reporte = (JasperReport) JRLoader.loadObject(file);
+        JRBeanCollectionDataSource jbs = new JRBeanCollectionDataSource(lista);
+        JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, parametros, jbs);
+        HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+        httpServletResponse.addHeader("Content-disposition", "attachment; filename=" + nombreReporte + "_" + sdf.format((new Date())) + "." + extension);
 
+        ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
 
+        if ("PDF".equals(extension)) {
+            JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
+            FacesContext.getCurrentInstance().responseComplete();
+        } else {
+            httpServletResponse.setContentType("application/vnd.ms-excel");
+            JRXlsExporter xlsxExporter = new JRXlsExporter();
+            xlsxExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+            xlsxExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, servletOutputStream);
+            xlsxExporter.exportReport();
+            FacesContext.getCurrentInstance().responseComplete();
+        }
     }
 
     public JasperManagement() {

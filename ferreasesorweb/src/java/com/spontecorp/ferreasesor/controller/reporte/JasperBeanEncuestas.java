@@ -19,11 +19,15 @@ public class JasperBeanEncuestas {
     public JasperBeanEncuestas() {
     }
 
+    public JasperBeanEncuestas(String pregunta) {
+        this.pregunta = pregunta;
+    }
+
     public JasperBeanEncuestas(String pregunta, List<RespuestaObtenida> respuesta) {
         this.pregunta = pregunta;
         this.respuesta = respuesta;
     }
-
+    
     public String getPregunta() {
         return pregunta;
     }

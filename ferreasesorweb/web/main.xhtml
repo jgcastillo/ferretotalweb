@@ -36,7 +36,7 @@
                     <p:fieldset style="width: 81%; margin-left:25px;" rendered="#{question.tipo == 2}">
                         <h:panelGrid columns="3">
                             <h:outputText value="#{question.respuestaConfList[0]}: "/>
-                            <p:inputText id="respuesta" value="#{fillEncuestaBean.respuestaList[status.index]}" style="width: 60px;">
+                            <p:inputText id="respuesta" value="#{fillEncuestaBean.respuestaList[status.index]}" style="width: 60px;" required="false">
                                 <f:convertNumber integerOnly="true" maxIntegerDigits="2"/>
                             </p:inputText>
                             <p:message for="respuesta"/>
@@ -57,7 +57,7 @@
                         <h:panelGrid columns="3">
                             <h:outputText value="En una escala del 1 al 10, siendo 1 la más baja y 10 la más alta, ¿cómo lo califica?: "/>
                             <p:inputText id="ratingTextBox" value="#{fillEncuestaBean.respuestaList[status.index]}" style="width: 60px;">
-                                <f:convertNumber integerOnly="true" maxIntegerDigits="2"/>
+                                 <f:validateLongRange minimum="1" maximum="10"/>
                             </p:inputText>
                             <p:message for="ratingTextBox"/>
                         </h:panelGrid>

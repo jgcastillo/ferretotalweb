@@ -5,6 +5,10 @@
 package com.spontecorp.ferreasesor.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 /**
@@ -47,7 +52,7 @@ public class RespuestaObtenida implements Serializable {
     @JoinColumn(name = "encuesta_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Encuesta encuestaId;
-
+    
     public RespuestaObtenida() {
     }
 

@@ -5,6 +5,7 @@
 package com.spontecorp.ferreasesor.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -20,6 +21,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -57,6 +59,12 @@ public class Pregunta implements Serializable {
     private List<RespuestaObtenida> respuestaObtenidaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "preguntaId")
     private List<RespuestaConf> respuestaConfList;
+    @Transient
+    private int totalRespuestas;
+    @Transient
+    private List<Integer> listRespObtenidas = new ArrayList<>();
+    @Transient
+    private List<Numericas> listaNumericas;
 
     public Pregunta() {
     }
@@ -117,6 +125,30 @@ public class Pregunta implements Serializable {
 
     public void setRespuestaConfList(List<RespuestaConf> respuestaConfList) {
         this.respuestaConfList = respuestaConfList;
+    }
+
+    public int getTotalRespuestas() {
+        return totalRespuestas;
+    }
+
+    public void setTotalRespuestas(int totalRespuestas) {
+        this.totalRespuestas = totalRespuestas;
+    }
+
+    public List<Integer> getListRespObtenidas() {
+        return listRespObtenidas;
+    }
+
+    public void setListRespObtenidas(List<Integer> listRespObtenidas) {
+        this.listRespObtenidas = listRespObtenidas;
+    }
+
+    public List<Numericas> getListaNumericas() {
+        return listaNumericas;
+    }
+
+    public void setListaNumericas(List<Numericas> listaNumericas) {
+        this.listaNumericas = listaNumericas;
     }
 
     @Override
