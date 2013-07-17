@@ -205,15 +205,15 @@ public class PreguntaBeanController implements Serializable {
     public DataModel getPreguntaItems() {
         //recreateModel();
         preguntaItems = null;
+        opcionsList = null;
         if (preguntaItems == null) {
             preguntaItems = new ListDataModel(getPreguntaFacade().findAll(encuesta));
             for (Pregunta pregunta : preguntaItems) {
-                System.out.println("Pregunta: "+pregunta.getPregunta());
                 List<RespuestaObtenida> respList = null;
                 List<RespuestaConf> options = null;
                 List<Numericas> listaNumericas = new ArrayList<>();
                 List<Integer> listRespObtenidas = new ArrayList<>();
-                
+
                 if (respList == null) {
                     respList = getRespObtenidaFacade().findRespuestaObtenidaList(pregunta);
                 }
@@ -221,17 +221,17 @@ public class PreguntaBeanController implements Serializable {
                 //Si la Pregunta es de Tipo Numérica
                 if (pregunta.getTipo() == 2) {
                     Map<Integer, Integer> mapNumeric = new HashMap<>();
-                    
+
                     for (int i = 0; i < respList.size(); i++) {
                         mapNumeric.put(Integer.valueOf(respList.get(i).getRespuesta()), 0);
                     }
- 
+
                     int i = 0;
                     int cant = 0;
                     for (Map.Entry<Integer, Integer> mapa : mapNumeric.entrySet()) {
-                        cant = getRespObtenidaFacade().findCantidadRespuestaObtenida(pregunta,(String)mapa.getKey().toString());
+                        cant = getRespObtenidaFacade().findCantidadRespuestaObtenida(pregunta, (String) mapa.getKey().toString());
                         Numericas numericas = new Numericas();
-                        numericas.setOpcion((String)mapa.getKey().toString());
+                        numericas.setOpcion((String) mapa.getKey().toString());
                         numericas.setCantidad(cant);
                         listaNumericas.add(numericas);
                         i++;
@@ -241,15 +241,12 @@ public class PreguntaBeanController implements Serializable {
                 //Si la Pregunta es de Tipo Selección
                 if (pregunta.getTipo() == 3) {
                     if (options == null) {
-                        //options = pregunta.getRespuestaConfList();
                         options = getRespuestaFacade().findRespuestaConf(pregunta);
+                        pregunta.setRespuestaConfList(options);
                     }
-                    System.out.println("    Option Size: "+options.size());
                     for (RespuestaConf option : options) {
-                        System.out.println("        idOption: "+option.getId());
                         int count = 0;
                         for (RespuestaObtenida resp : respList) {
-                            System.out.println("idRespuesta: " + resp.getRespuestaConfId().getId());
                             if (option.getId() == resp.getRespuestaConfId().getId()) {
                                 option.setTotalOptions(++count);
                             }
@@ -493,7 +490,7 @@ public class PreguntaBeanController implements Serializable {
             preguntaSeleccionItem = null;
             JsfUtil.addSuccessMessage("Opción agregada con éxito");
         } else {
-            JsfUtil.addErrorMessage("No se pudo agregar Opciónr");
+            JsfUtil.addErrorMessage("No se pudo agregar Opción");
         }
     }
 
