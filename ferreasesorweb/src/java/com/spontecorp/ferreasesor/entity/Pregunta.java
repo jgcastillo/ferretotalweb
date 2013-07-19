@@ -24,6 +24,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.primefaces.model.chart.CartesianChartModel;
+import org.primefaces.model.chart.PieChartModel;
 
 /**
  *
@@ -65,6 +67,10 @@ public class Pregunta implements Serializable {
     private List<Integer> listRespObtenidas = new ArrayList<>();
     @Transient
     private List<Numericas> listaNumericas;
+    @Transient
+    private CartesianChartModel categoryModel;
+    @Transient
+    private PieChartModel categoryModelPie;
 
     public Pregunta() {
     }
@@ -149,6 +155,22 @@ public class Pregunta implements Serializable {
 
     public void setListaNumericas(List<Numericas> listaNumericas) {
         this.listaNumericas = listaNumericas;
+    }
+
+    public CartesianChartModel getCategoryModel() {
+        return categoryModel;
+    }
+
+    public void setCategoryModel(CartesianChartModel categoryModel) {
+        this.categoryModel = categoryModel;
+    }
+
+    public PieChartModel getCategoryModelPie() {
+        return categoryModelPie;
+    }
+
+    public void setCategoryModelPie(PieChartModel categoryModelPie) {
+        this.categoryModelPie = categoryModelPie;
     }
 
     @Override

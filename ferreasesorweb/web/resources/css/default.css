@@ -249,3 +249,7 @@ a:link:hover, a:visited:hover  {
     font-size: 15px; 
     color:red;
 }
+
+.jqplot-table-legend{
+    border-color: white;
+}

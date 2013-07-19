@@ -22,6 +22,9 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import org.primefaces.model.chart.CartesianChartModel;
+import org.primefaces.model.chart.ChartSeries;
+import org.primefaces.model.chart.PieChartModel;
 
 /**
  *
@@ -32,6 +35,7 @@ import javax.faces.model.ListDataModel;
 public class PreguntaBeanController implements Serializable {
 
     private Pregunta current;
+    private Pregunta selectedQuestion;
     private RespuestaConf respuesta;
     private String preguntaTexto;
     private String promptPreguntaTextual;
@@ -41,8 +45,7 @@ public class PreguntaBeanController implements Serializable {
     private String preguntaSeleccionItem;
     private List<String> preguntaSeleccionValores;
     private List<Pregunta> preguntaList = null;
-    //private List<String> respuestaList = new ArrayList();
-    //  private String[] respuestaList;
+    private List<Pregunta> preguntas = null;
     private String respuestaList[] = new String[25];
     private List<RespuestaConf> opcionsList = null;
     private Integer respuestaSeleccion;
@@ -68,6 +71,13 @@ public class PreguntaBeanController implements Serializable {
     private boolean message1 = false;
     private boolean message2 = false;
     private boolean message3 = false;
+    //Datos para los Gráficos y Reportes
+    protected boolean showChart = false;
+    private CartesianChartModel categoryModel;
+    private PieChartModel categoryModelPie;
+    private String nombreReporte = "Cantidad Total de Llamadas";
+    private String nombreRango = "Id de Botón";
+    private String nombreDominio = "Cantidad";
 
     public PreguntaBeanController() {
     }
@@ -197,18 +207,39 @@ public class PreguntaBeanController implements Serializable {
         return message3;
     }
 
+    public boolean isShowChart() {
+        return showChart;
+    }
+
+    public CartesianChartModel getCategoryModel() {
+        return categoryModel;
+    }
+
+    public PieChartModel getCategoryModelPie() {
+        return categoryModelPie;
+    }
+
+    public Pregunta getSelectedQuestion() {
+        return selectedQuestion;
+    }
+
+    public void setSelectedQuestion(Pregunta selectedQuestion) {
+        this.selectedQuestion = selectedQuestion;
+    }
+
     /**
-     * Listado de Preguntas para llenar la Tabla
-     *
-     * @return
+     * Listado de Preguntas para Analizar las Encuestas
+     * @return 
      */
-    public DataModel getPreguntaItems() {
-        //recreateModel();
-        preguntaItems = null;
+    public List<Pregunta> getPreguntas() {
+        preguntas = null;
         opcionsList = null;
-        if (preguntaItems == null) {
-            preguntaItems = new ListDataModel(getPreguntaFacade().findAll(encuesta));
-            for (Pregunta pregunta : preguntaItems) {
+        categoryModel = null;
+        categoryModelPie = null;
+
+        if (preguntas == null) {
+            preguntas = new ArrayList(getPreguntaFacade().findAll(encuesta));
+            for (Pregunta pregunta : preguntas) {
                 List<RespuestaObtenida> respList = null;
                 List<RespuestaConf> options = null;
                 List<Numericas> listaNumericas = new ArrayList<>();
@@ -246,11 +277,15 @@ public class PreguntaBeanController implements Serializable {
                     }
                     for (RespuestaConf option : options) {
                         int count = 0;
+                        Numericas numericas = new Numericas();
+                        numericas.setOpcion(option.getOpcion());
                         for (RespuestaObtenida resp : respList) {
                             if (option.getId() == resp.getRespuestaConfId().getId()) {
                                 option.setTotalOptions(++count);
                             }
+                            numericas.setCantidad(count);
                         }
+                        listaNumericas.add(numericas);
                     }
                 }
 
@@ -266,12 +301,6 @@ public class PreguntaBeanController implements Serializable {
                     int j = 1;
                     int x = 0;
                     for (RespuestaObtenida resp : respList) {
-//                        if (Integer.valueOf(resp.getRespuesta()) == j) {
-//                            counts[x] = mapCalific.get(j);
-//                            mapCalific.put(j, ++counts[x]);
-//                        }
-//                        j++;
-//                        x++;
                         switch (resp.getRespuesta()) {
                             case "1":
                                 counts[0] = mapCalific.get(1);
@@ -326,9 +355,61 @@ public class PreguntaBeanController implements Serializable {
                 pregunta.setRespuestaObtenidaList(respList);
                 pregunta.setListRespObtenidas(listRespObtenidas);
                 pregunta.setListaNumericas(listaNumericas);
+                categoryModel = createCategoryModel(listaNumericas);
+                categoryModelPie = createCategoryModelPie(listaNumericas);
+                pregunta.setCategoryModel(categoryModel);
+                pregunta.setCategoryModelPie(categoryModelPie);
             }
         }
+        return preguntas;
+    }
+
+    /**
+     * Listado de Preguntas para llenar la Tabla
+     *
+     * @return
+     */
+    public DataModel getPreguntaItems() {
+        //recreateModel();
+        preguntaItems = null;
+        opcionsList = null;
+        //categoryModel = null;
+
+        if (preguntaItems == null) {
+            preguntaItems = new ListDataModel(getPreguntaFacade().findAll(encuesta));
+        }
         return preguntaItems;
+    }
+
+    /**
+     * Metodo para Generar el Grafico de Barras en PrimeFaces
+     */
+    public CartesianChartModel createCategoryModel(List<Numericas> listaNumericas) {
+        categoryModel = new CartesianChartModel();
+
+        ChartSeries cant = new ChartSeries("Opción");
+
+        for (Numericas data : listaNumericas) {
+            cant.set(data.getOpcion(), data.getCantidad());
+        }
+        categoryModel.addSeries(cant);
+
+        return categoryModel;
+
+    }
+
+     /**
+     * Metodo para Generar el Grafico de Tortas en PrimeFaces
+     */
+    public PieChartModel createCategoryModelPie(List<Numericas> listaNumericas) {
+        categoryModelPie = new PieChartModel();
+
+        for (Numericas data : listaNumericas) {
+            categoryModelPie.set(data.getOpcion(), data.getCantidad());
+        }
+
+        return categoryModelPie;
+
     }
 
     /**
@@ -394,7 +475,7 @@ public class PreguntaBeanController implements Serializable {
 
     public String showMessage() {
         //System.out.println("Entro a ShowMessage()");
-        return "message?faces-redirect=true";
+        return "message";
     }
 
     /**
@@ -410,9 +491,9 @@ public class PreguntaBeanController implements Serializable {
         String next;
 
         if (tipoPregunta == 1 || tipoPregunta == 2) {
-            next = "showQuestion?faces-redirect=true";
+            next = "showQuestion";
         } else {
-            next = "configQuestion?faces-redirect=true";
+            next = "configQuestion";
         }
         resetMessage();
         return next;
@@ -425,7 +506,7 @@ public class PreguntaBeanController implements Serializable {
     public String retornaCreate() {
         resetMessage();
         recreateModel();
-        return "createQuestions?faces-redirect=true";
+        return "createQuestions";
     }
 
     /**
@@ -433,7 +514,7 @@ public class PreguntaBeanController implements Serializable {
      * @return
      */
     public String muestraPregunta() {
-        return "showQuestion?faces-redirect=true";
+        return "showQuestion";
     }
 
     /**
@@ -477,7 +558,7 @@ public class PreguntaBeanController implements Serializable {
         recreateModel();
         resetMessage();
         message3 = true;
-        return "createQuestions?faces-redirect=true";
+        return "createQuestions";
     }
 
     /**
@@ -530,7 +611,7 @@ public class PreguntaBeanController implements Serializable {
         //setEncuesta(null);
         current = null;
         recreateModel();
-        return "createQuestions?faces-redirect=true";
+        return "createQuestions";
     }
 
     /**
@@ -539,7 +620,7 @@ public class PreguntaBeanController implements Serializable {
      */
     public String prepareCreate() {
         recreateModel();
-        return "createQuestions?faces-redirect=true";
+        return "createQuestions";
     }
 
     /**
@@ -557,7 +638,7 @@ public class PreguntaBeanController implements Serializable {
         }
         resetMessage();
         message3 = false;
-        return "deleteQuestions?faces-redirect=true";
+        return "deleteQuestions";
     }
 
     /**

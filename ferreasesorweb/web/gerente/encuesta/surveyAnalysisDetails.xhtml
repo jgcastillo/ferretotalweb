@@ -15,112 +15,23 @@
 
     <ui:define name="content">
 
-        <h:form id="form">
+        <h:form id="formQuestions">
+            
             <p:fieldset legend="Análisis de la Encuesta: #{preguntaBean.encuesta.nombre}" style="width: 75%;">
-                <p:dataTable value="#{preguntaBean.preguntaItems}" var="pregunta" style="margin-top:15px;">
-                    <p:column id="verMas" headerText="ver" style="width: 10%; text-align: center">
-                        <p:rowToggler/>
-                    </p:column>
-
-                    <p:rowExpansion >
-                        <p:rowExpansion>
-
-                            <p:dataTable id="respTableTextual" var="respuesta" value="#{pregunta.respuestaObtenidaList}" rowIndexVar="status"
-                                         style="margin-top:20px; margin-bottom: 20px; margin-left:5%; margin-right: 5%; width: 90%"
-                                         rendered="#{pregunta.tipo == 1}">
-
-                                <p:column id="number" headerText="N°" style="width:5%;">
-                                    <h:outputText value="#{status+1}"/>
-                                </p:column>
-                                <p:column id="nombre" headerText="Respuestas Obtenidas" style="width:95%;">
-                                    <h:outputText value="#{respuesta.respuesta}"/>
-                                </p:column>   
-                                <f:facet name="footer" >
-                                    Total Respuestas Obtenidas: #{pregunta.totalRespuestas}
-                                </f:facet>
-                            </p:dataTable>
-
-                            <p:dataTable id="respTableNumeric" var="respuesta" value="#{pregunta.listaNumericas}" rowIndexVar="status"
-                                         style="margin-top:20px; margin-bottom: 20px; margin-left:5%; margin-right: 5%; width: 90%"
-                                         rendered="#{pregunta.tipo == 2}">
-                                <p:column id="number" headerText="N°" style="width:5%;">
-                                    <h:outputText value="#{status+1}"/>
-                                </p:column>
-                                <p:column id="nombre" headerText="Valores Obtenidos" style="width:95%;">
-                                    <h:outputText value="#{respuesta.opcion}"/>  
-                                </p:column>   
-                                <p:column id="total" headerText="Total por Valor" style="width:10%;text-align: center">
-                                    <h:outputText value="#{respuesta.cantidad}"/>  
-                                </p:column>
-                                <f:facet name="footer" >
-                                    Total Respuestas Obtenidas: #{pregunta.totalRespuestas}
-                                </f:facet>
-                            </p:dataTable>
-
-                            <p:dataTable id="respTableSelect" var="respuesta" value="#{pregunta.respuestaConfList}" rowIndexVar="status"
-                                         style="margin-top:20px; margin-bottom: 20px; margin-left:5%; margin-right: 5%; width: 90%"
-                                         rendered="#{pregunta.tipo == 3}">
-                                <p:column id="number" headerText="N°" style="width:5%;">
-                                    <h:outputText value="#{status+1}"/>
-                                </p:column>
-                                <p:column id="nombre" headerText="Opciones" style="width:95%;">
-                                    <h:outputText value="#{respuesta.opcion}"/>  
-                                </p:column>   
-                                <p:column id="total" headerText="Total por Opción" style="width:10%;text-align: center">
-                                    <h:outputText value="#{respuesta.totalOptions}"/>  
-                                </p:column>
-                                <f:facet name="footer" >
-                                    Total Respuestas Obtenidas: #{pregunta.totalRespuestas}
-                                </f:facet>
-                            </p:dataTable>
-
-                            <p:dataTable id="respTableCalific" var="respuesta" value="#{pregunta.listRespObtenidas}" rowIndexVar="status"
-                                         style="margin-top:20px; margin-bottom: 20px; margin-left:5%; margin-right: 5%; width: 90%"
-                                         rendered="#{pregunta.tipo == 4}">
-                                <p:column id="number" headerText="N°" style="width:5%;">
-                                    <h:outputText value="#{status+1}"/>
-                                </p:column>
-                                <p:column id="nombre" headerText="Valores del 1 al 10" style="width:95%;">
-                                    <h:outputText value="#{status+1}"/>  
-                                </p:column>   
-                                <p:column id="total" headerText="Total por Valor" style="width:10%;text-align: center">
-                                    <h:outputText value="#{respuesta}"/>  
-                                </p:column>
-                                <f:facet name="footer" >
-                                    Total Respuestas Obtenidas: #{pregunta.totalRespuestas}
-                                </f:facet>
-                            </p:dataTable>
-
-                        </p:rowExpansion>
-                    </p:rowExpansion>
-
+                <p:dataTable value="#{preguntaBean.preguntas}" var="pregunta" style="margin-top:15px;">
                     <p:column headerText="Pregunta">
                         <h:outputText value="#{pregunta.pregunta}"/>
                     </p:column>
-                    <p:column headerText="Tipo" style="width: 15%; text-align: center">
-                        <h:outputText value="Textual" rendered="#{pregunta.tipo == 1}"/>
-                        <h:outputText value="Numérica" rendered="#{pregunta.tipo == 2}"/>
-                        <h:outputText value="Selección" rendered="#{pregunta.tipo == 3}"/>
-                        <h:outputText value="Calificación" rendered="#{pregunta.tipo == 4}"/>
-                    </p:column>
-
-                    <p:column headerText="Acción" style="width: 15%; text-align: center">
-                        <p:commandButton title="Exportar a PDF" icon="ui-icon-document" style="margin-left: 10px;" 
-                                         actionListener="#{encuestaBeanController.exportarReportePDF}" immediate="true"/>
-                        <p:commandButton title="Exportar a Excel" icon="ui-icon-document" style="margin-left: 10px;" 
-                                         actionListener="#{encuestaBeanController.exportarReportePDF}" immediate="true"/>
-                    </p:column>
+                    <p:column style="width:4%">  
+                        <p:commandButton id="selectQuestion" ajax="true" update=":grafico" oncomplete="composeDlg.show()" icon="ui-icon-search" title="View">  
+                            <f:setPropertyActionListener value="#{pregunta}" target="#{preguntaBean.selectedQuestion}" />  
+                        </p:commandButton>  
+                    </p:column> 
                 </p:dataTable>
-                <br/>
-                <h:panelGrid columns="3">
-                    <h:commandButton value="Exportar PDF"  actionListener="#{encuestaBeanController.exportarReportePDF}" style="margin-left:485px" title="Exportar a PDF" immediate="true"/>
-                    <p:spacer style="width: 10px;"/>
-                    <h:commandButton value="Exportar Excel"  actionListener="#{encuestaBeanController.exportarReportePDF}" title="Exportar a Excel" immediate="true"/>
-                </h:panelGrid>
-                <br/>
             </p:fieldset>
-
+            
         </h:form>
+        
     </ui:define>
 
 </ui:composition>
