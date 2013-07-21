@@ -60,15 +60,19 @@ public class CalidadTotal extends LlamadaReporteAbstract implements Serializable
         for (Llamada llamada : llamadas) {
             int turnoId = llamada.getDistribucionId().getTurnoId();
             Turno turno = turnoFacade.find(turnoId);
-            List<Tiempo> tiempos = turno.getTiempoList();
-            for (Tiempo tiempo : tiempos) {
-                if (tiempo.getTurnoId().equals(turno)) {
-                    atencionBuena = tiempo.getAtencionBuena();
-                    atencionRegular = tiempo.getAtencionRegular();
-                    cierreAutomatico = tiempo.getCerrarLlamada();
-                    break;
-                }
-            }
+            //List<Tiempo> tiempos = turno.getTiempoList();
+            atencionBuena = llamada.getTiempoId().getAtencionBuena();
+            atencionRegular = llamada.getTiempoId().getAtencionRegular();
+            cierreAutomatico = llamada.getTiempoId().getCerrarLlamada();
+
+//            for (Tiempo tiempo : tiempos) {
+//                if (tiempo.getTurnoId().equals(turno)) {
+//                    atencionBuena = tiempo.getAtencionBuena();
+//                    atencionRegular = tiempo.getAtencionRegular();
+//                    cierreAutomatico = tiempo.getCerrarLlamada();
+//                    break;
+//                }
+//            }
             atencion = (llamada.getHoraClose().getTime() - llamada.getHoraOpen().getTime()) / 1000;
 
             if (atencion <= atencionBuena) {
@@ -110,7 +114,7 @@ public class CalidadTotal extends LlamadaReporteAbstract implements Serializable
 
         ReporteHelper helper = reporteData.get(0);
         Object[] valor = helper.getPropiedadObj();
-        
+
         llamada.set("buenas", Double.valueOf(valor[0].toString()));
         llamada.set("regulares", Double.valueOf(valor[1].toString()));
         llamada.set("malas", Double.valueOf(valor[2].toString()));

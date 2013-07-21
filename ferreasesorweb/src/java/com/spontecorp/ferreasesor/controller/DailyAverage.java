@@ -140,15 +140,16 @@ public class DailyAverage implements Serializable {
         int total = 0;
         for (Llamada llamada : getLlamadas(fecha)) {
             int tiempoRegular = 0;
-            int turnoId = llamada.getDistribucionId().getTurnoId();
-            Turno turno = turnoFacade.find(turnoId);
-            List<Tiempo> tiempos = turno.getTiempoList();
-            for(Tiempo temp : tiempos){
-                if(temp.getTurnoId().equals(turno)){
-                    tiempoRegular = temp.getAtencionRegular();
-                    break;
-                }
-            }
+//            int turnoId = llamada.getDistribucionId().getTurnoId();
+//            Turno turno = turnoFacade.find(turnoId);
+//            List<Tiempo> tiempos = turno.getTiempoList();
+//            for(Tiempo temp : tiempos){
+//                if(temp.getTurnoId().equals(turno)){
+//                    tiempoRegular = temp.getAtencionRegular();
+//                    break;
+//                }
+//            }
+            tiempoRegular = llamada.getTiempoId().getAtencionRegular();
             long dif = (llamada.getHoraClose().getTime() - llamada.getHoraOpen().getTime()) / 1000;
             if(dif > tiempoRegular){
                 total++;

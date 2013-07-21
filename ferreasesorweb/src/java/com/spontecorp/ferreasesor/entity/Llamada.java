@@ -64,6 +64,9 @@ public class Llamada implements Serializable {
     @JoinColumn(name = "distribucion_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Distribucion distribucionId;
+    @JoinColumn(name = "tiempo_id", referencedColumnName = "id")
+    @ManyToOne
+    private Tiempo tiempoId;
 
     public Llamada() {
     }
@@ -141,6 +144,14 @@ public class Llamada implements Serializable {
 
     public void setDistribucionId(Distribucion distribucionId) {
         this.distribucionId = distribucionId;
+    }
+
+    public Tiempo getTiempoId() {
+        return tiempoId;
+    }
+
+    public void setTiempoId(Tiempo tiempoId) {
+        this.tiempoId = tiempoId;
     }
 
     @Override

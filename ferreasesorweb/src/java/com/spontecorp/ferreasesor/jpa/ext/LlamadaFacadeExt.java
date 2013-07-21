@@ -96,21 +96,21 @@ public class LlamadaFacadeExt extends LlamadaFacade {
                 query = "SELECT ll, b, t "
                         + "FROM Llamada ll, Distribucion d, Boton b, Tiempo t "
                         + "WHERE ll.distribucionId.id = d.id AND t.turnoId.id = d.turnoId AND d.botonId = b.id "
-                        + "AND ll.fechaClose >= :fechaInicio AND ll.fechaClose <= :fechaFin "
+                        + "AND ll.tiempoId.id = t.id AND ll.fechaClose >= :fechaInicio AND ll.fechaClose <= :fechaFin "
                         + "ORDER BY b.id";
                 break;
             case ReporteHelper.CALIDAD_X_FERREASESOR:
                 query = "SELECT ll, a, t "
                         + "FROM Llamada ll, Distribucion d, Asesor a, Tiempo t "
-                        + "WHERE ll.distribucionId.id = d.id AND t.turnoId.id = d.turnoId AND d.asesorId = a.id "
-                        + "AND ll.fechaClose >= :fechaInicio AND ll.fechaClose <= :fechaFin "
+                        + "WHERE ll.distribucionId.id = d.id AND t.turnoId.id = d.turnoId AND ll.tiempoId.id = t.id "
+                        + "AND d.asesorId = a.id AND ll.fechaClose >= :fechaInicio AND ll.fechaClose <= :fechaFin "
                         + "ORDER BY a.id";
                 break;
             case ReporteHelper.CALIDAD_X_TURNO:
                 query = "SELECT ll, tu , t "
                         + "FROM Llamada ll , Distribucion d, Turno tu, Tiempo t "
                         + "WHERE ll.distribucionId.id = d.id AND t.turnoId.id = d.turnoId AND d.turnoId = tu.id "
-                        + "AND ll.fechaClose >= :fechaInicio AND ll.fechaClose <= :fechaFin "
+                        + "AND ll.tiempoId.id = t.id AND ll.fechaClose >= :fechaInicio AND ll.fechaClose <= :fechaFin "
                         + "ORDER BY tu.id";
                 break;
         }
@@ -137,9 +137,8 @@ public class LlamadaFacadeExt extends LlamadaFacade {
     public List<Llamada> findLlamadasList(Date fechaInicio, Date fechaFin) {
         List<Llamada> result = null;
         String query = "SELECT ll "
-                + "FROM Llamada ll , Distribucion d "
-                + "WHERE ll.distribucionId.id = d.id "
-                + "AND ll.fechaClose >= :fechaInicio AND ll.fechaClose <= :fechaFin "
+                + "FROM Llamada ll , Distribucion d, Tiempo t WHERE ll.distribucionId.id = d.id AND ll.tiempoId.id = t.id "
+                + "AND ll.fechaClose >= :fechaInicio AND ll.fechaClose <= :fechaFin AND ll.accion = '0'"
                 + "ORDER BY ll.id";
         try {
             Query q = em.createQuery(query);

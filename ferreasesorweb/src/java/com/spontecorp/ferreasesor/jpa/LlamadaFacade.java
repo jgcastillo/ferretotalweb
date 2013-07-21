@@ -46,8 +46,11 @@ public class LlamadaFacade extends AbstractFacade<Llamada> {
         EntityManager em = getEntityManager();
         List<Llamada> result = null;
         try {
-            String query = "SELECT ll FROM Llamada ll "
-                + "WHERE ll.accion = '0' AND ll.fechaOpen = :fechaInicio AND ll.fechaClose = :fechaFin";
+            String query = "SELECT ll "
+                + "FROM Llamada ll , Distribucion d, Tiempo t WHERE ll.distribucionId.id = d.id AND ll.tiempoId.id = t.id "
+                + "AND ll.fechaClose = :fechaInicio AND ll.fechaClose = :fechaFin AND ll.accion = '0'"
+                + "ORDER BY ll.id";
+            
             Query q = em.createQuery(query);
             q.setParameter("fechaInicio", fechaInicio);
             q.setParameter("fechaFin", fechaFin);
