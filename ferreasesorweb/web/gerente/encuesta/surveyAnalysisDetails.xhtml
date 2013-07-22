@@ -19,11 +19,11 @@
             
             <p:fieldset legend="Análisis de la Encuesta: #{preguntaBean.encuesta.nombre}" style="width: 75%;">
                 <p:dataTable value="#{preguntaBean.preguntas}" var="pregunta" style="margin-top:15px;">
-                    <p:column headerText="Pregunta">
+                    <p:column headerText="Preguntas">
                         <h:outputText value="#{pregunta.pregunta}"/>
                     </p:column>
-                    <p:column style="width:4%">  
-                        <p:commandButton id="selectQuestion" ajax="true" update=":grafico" oncomplete="composeDlg.show()" icon="ui-icon-search" title="View">  
+                    <p:column headerText="Acciones" style="width:4%; text-align: center">  
+                        <p:commandButton id="selectQuestion" ajax="true" update=":grafico" oncomplete="composeDlg.show()" icon="ui-icon-search" title="Ver Análisis">  
                             <f:setPropertyActionListener value="#{pregunta}" target="#{preguntaBean.selectedQuestion}" />  
                         </p:commandButton>  
                     </p:column> 

@@ -348,6 +348,10 @@ public class PreguntaBeanController implements Serializable {
                     int i = 0;
                     for (Map.Entry<Integer, Integer> mapa : mapCalific.entrySet()) {
                         listRespObtenidas.add(mapa.getValue());
+                        Numericas numericas = new Numericas();
+                        numericas.setOpcion((String) mapa.getKey().toString());
+                        numericas.setCantidad(mapa.getValue());
+                        listaNumericas.add(numericas);
                         i++;
                     }
                 }

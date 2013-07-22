@@ -219,6 +219,13 @@ public class FillEncuestaBeanController implements Serializable {
                     respuestaTexto = null;
                 }
             }
+            //Si la pregunta es de Tipo Calificación y la Respuesta
+            //es igual a cero, no se gurada en la BD
+            if (preguntaList.get(i).getTipo() == CALIFICACION) {
+                if(respuestaList[i].equals("0")){
+                     respuestaTexto = null;
+                }
+            }
 
             RespuestaObtenida respObtenida = new RespuestaObtenida();
 

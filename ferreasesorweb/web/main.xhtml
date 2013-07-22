@@ -19,10 +19,10 @@
             <p:panel id="panel" header="#{fillEncuestaBean.encuestaActiva.nombre}" style="width:75%; margin-left:15px;">
                 <ui:repeat value="#{fillEncuestaBean.preguntaList}" var="question" varStatus="status">
 
-                    <h:outputText value="#{question.pregunta}" style="font-size: 14px; font-weight: bold; margin-left:25px;"/><br/>
+                    <h:outputText value="#{question.pregunta}" style="font-size: 15px; font-weight: bold; margin-left:25px;"/><br/>
 
                     <p:fieldset style="width: 81%; margin-left:25px;" rendered="#{question.tipo == 1}">
-                        <h:panelGrid columns="2" style="">
+                        <h:panelGrid columns="2" style="margin-top:-20px;">
                             <p:outputLabel value="#{question.respuestaConfList[0]}: "/>
                             <p:inputTextarea id="opinionTextBox#{status.index}" rows="6" cols="85" counter="counter" maxlength="350"  value="#{fillEncuestaBean.respuestaList[status.index]}"      
                                              counterTemplate="{0} caracteres restantes." /><br/> 
@@ -44,7 +44,7 @@
                     </p:fieldset>
 
                     <p:fieldset style="width: 81%; margin-left:25px;" rendered="#{question.tipo == 3}">
-                        <h:panelGrid columns="2">
+                        <h:panelGrid columns="2" style="margin-top:-20px;">
                             <h:outputLabel for="opciones" value="Opciones: "/>
                             <h:selectOneRadio id="opciones#{status.index}" value="#{fillEncuestaBean.respuestaList[status.index]}" layout="pageDirection">
                                 <f:selectItems value="#{question.respuestaConfList}" var="option" 
@@ -57,7 +57,7 @@
                         <h:panelGrid columns="3">
                             <h:outputText value="En una escala del 1 al 10, siendo 1 la más baja y 10 la más alta, ¿cómo lo califica?: "/>
                             <p:inputText id="ratingTextBox" value="#{fillEncuestaBean.respuestaList[status.index]}" style="width: 60px;">
-                                 <f:validateLongRange minimum="1" maximum="10"/>
+                                 <f:validateLongRange minimum="0" maximum="10"/>
                             </p:inputText>
                             <p:message for="ratingTextBox"/>
                         </h:panelGrid>

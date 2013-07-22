@@ -73,16 +73,35 @@
             </p:layout>
 
             <!--Ventana para mostrar Análisis de Encuestas, se llama desde surveyAnalisysDetails.xhtml -->
-            <p:dialog widgetVar="composeDlg" modal="true"  width="1050" showEffect="fade" hideEffect="fade">
+            <p:dialog widgetVar="composeDlg" modal="true" header="Análisis de la Pregunta"  width="1050" showEffect="fade" hideEffect="fade">
                 <h:form id="grafico" style="width: 1000px;">  
                     <p:panelGrid>  
                         <p:row>  
                             <p:column rowspan="2" style="width: 50%">
                                 <p:panel header="#{preguntaBean.selectedQuestion.pregunta}">
+                                    <!--Preguntas de Tipo NUMERICAS-->
+                                    <p:dataTable id="respTableNumeric" var="respuesta" value="#{preguntaBean.selectedQuestion.listaNumericas}" rowIndexVar="status"
+                                                 style="margin-top:20px; margin-bottom: 20px; margin-left:5%; margin-right: 5%; width: 90%"
+                                                 rendered="#{preguntaBean.selectedQuestion.tipo == 2}">
+                                        <p:column id="number" headerText="N°" style="width:5%;">
+                                            <h:outputText value="#{status+1}"/>
+                                        </p:column>
+                                        <p:column id="nombre" headerText="Valores Obtenidos" style="width:95%;">
+                                            <h:outputText value="#{respuesta.opcion}"/>  
+                                        </p:column>   
+                                        <p:column id="total" headerText="Total por Valor" style="width:10%;text-align: center">
+                                            <h:outputText value="#{respuesta.cantidad}"/>  
+                                        </p:column>
+                                        <f:facet name="footer" >
+                                            Total Respuestas Obtenidas: #{preguntaBean.selectedQuestion.totalRespuestas}
+                                        </f:facet>
+                                    </p:dataTable>
+                                    
+                                    <!--Preguntas de Tipo SELECCION-->
                                     <p:dataTable id="respTableSelect" var="respuesta" value="#{preguntaBean.selectedQuestion.respuestaConfList}" 
                                                  rowIndexVar="status"
                                                  style="margin-top:20px; margin-bottom: 20px; margin-left:5%; margin-right: 5%; width: 80%"
-                                                 rendered="#{pregunta.tipo == 3}">
+                                                 rendered="#{preguntaBean.selectedQuestion.tipo == 3}">
                                         <p:column id="number" headerText="N°" style="width:5%;">
                                             <h:outputText value="#{status+1}"/>
                                         </p:column>
@@ -96,6 +115,24 @@
                                             Total Respuestas Obtenidas: #{preguntaBean.selectedQuestion.totalRespuestas}
                                         </f:facet>
                                     </p:dataTable>
+                                    
+                                    <!--Preguntas de Tipo CALIFICACION-->
+                                    <p:dataTable id="respTableCalific" var="respuesta" value="#{preguntaBean.selectedQuestion.listRespObtenidas}" rowIndexVar="status"
+                                                 style="margin-top:20px; margin-bottom: 20px; margin-left:5%; margin-right: 5%; width: 90%"
+                                                 rendered="#{preguntaBean.selectedQuestion.tipo == 4}">
+                                        <p:column id="number" headerText="N°" style="width:5%;">
+                                            <h:outputText value="#{status+1}"/>
+                                        </p:column>
+                                        <p:column id="nombre" headerText="Valores del 1 al 10" style="width:95%;">
+                                            <h:outputText value="#{status+1}"/>  
+                                        </p:column>   
+                                        <p:column id="total" headerText="Total por Valor" style="width:10%;text-align: center">
+                                            <h:outputText value="#{respuesta}"/>  
+                                        </p:column>
+                                        <f:facet name="footer" >
+                                            Total Respuestas Obtenidas: #{preguntaBean.selectedQuestion.totalRespuestas}
+                                        </f:facet>
+                                    </p:dataTable>  
                                 </p:panel>
                             </p:column>  
                             <p:column>
@@ -110,11 +147,7 @@
                             <p:column>
                                 <p:panel id="panelPie" style="border: 0px solid #FFFFFF;" rendered="#{preguntaBean.selectedQuestion.categoryModelPie != null}">
                                     <p:pieChart id="custom" value="#{preguntaBean.selectedQuestion.categoryModelPie}" legendPosition="e" fill="true" sliceMargin="5" showDataLabels="true"  
-                                                title="Custom Options" style="width:400px;height:300px; margin-left: 35px;" />  
-
-<!--                                    <p:pieChart value="#{preguntaBean.selectedQuestion.categoryModelPie}" legendPosition="ne" widgetVar="chartPie"
-                                                title="Gráfico 2" extender="customExtender" />
-                                    <br/>-->
+                                                title="Gráfico 2" style="width:400px;height:300px; margin-left: 34px;" />  
                                 </p:panel>
                             </p:column>  
                         </p:row>  
