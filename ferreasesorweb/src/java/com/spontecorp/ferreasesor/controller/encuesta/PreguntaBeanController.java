@@ -36,6 +36,7 @@ public class PreguntaBeanController implements Serializable {
 
     private Pregunta current;
     private Pregunta selectedQuestion;
+    private Pregunta selectedQuestionTextual;
     private RespuestaConf respuesta;
     private String preguntaTexto;
     private String promptPreguntaTextual;
@@ -227,6 +228,14 @@ public class PreguntaBeanController implements Serializable {
         this.selectedQuestion = selectedQuestion;
     }
 
+    public Pregunta getSelectedQuestionTextual() {
+        return selectedQuestionTextual;
+    }
+
+    public void setSelectedQuestionTextual(Pregunta selectedQuestionTextual) {
+        this.selectedQuestionTextual = selectedQuestionTextual;
+    }
+
     /**
      * Listado de Preguntas para Analizar las Encuestas
      * @return 
@@ -255,6 +264,13 @@ public class PreguntaBeanController implements Serializable {
 
                     for (int i = 0; i < respList.size(); i++) {
                         mapNumeric.put(Integer.valueOf(respList.get(i).getRespuesta()), 0);
+                    }
+                    
+                    if(respList.isEmpty()){
+                        Numericas numericas = new Numericas();
+                        numericas.setOpcion("0");
+                        numericas.setCantidad(0);
+                        listaNumericas.add(numericas);
                     }
 
                     int i = 0;

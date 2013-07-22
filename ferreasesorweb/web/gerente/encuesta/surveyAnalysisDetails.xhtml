@@ -22,10 +22,15 @@
                     <p:column headerText="Preguntas">
                         <h:outputText value="#{pregunta.pregunta}"/>
                     </p:column>
-                    <p:column headerText="Acciones" style="width:4%; text-align: center">  
-                        <p:commandButton id="selectQuestion" ajax="true" update=":grafico" oncomplete="composeDlg.show()" icon="ui-icon-search" title="Ver Análisis">  
-                            <f:setPropertyActionListener value="#{pregunta}" target="#{preguntaBean.selectedQuestion}" />  
+                    <p:column headerText="Acción" style="width:4%; text-align: center">  
+                        <p:commandButton id="selectQuestion" ajax="true" update=":grafico" oncomplete="composeDlg.show()" icon="ui-icon-search" 
+                                         rendered="#{pregunta.tipo != 1}" title="Ver Análisis">  
+                            <f:setPropertyActionListener value="#{pregunta}" target="#{preguntaBean.selectedQuestion}"/>  
                         </p:commandButton>  
+                        <p:commandButton id="selectQuestionText" ajax="true" update=":textual" oncomplete="composeDlgText.show()" icon="ui-icon-search" 
+                                         rendered="#{pregunta.tipo == 1}" title="Ver Análisis">  
+                            <f:setPropertyActionListener value="#{pregunta}" target="#{preguntaBean.selectedQuestionTextual}"/>  
+                        </p:commandButton> 
                     </p:column> 
                 </p:dataTable>
             </p:fieldset>

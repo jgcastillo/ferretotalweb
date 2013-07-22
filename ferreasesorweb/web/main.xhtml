@@ -22,9 +22,9 @@
                     <h:outputText value="#{question.pregunta}" style="font-size: 15px; font-weight: bold; margin-left:25px;"/><br/>
 
                     <p:fieldset style="width: 81%; margin-left:25px;" rendered="#{question.tipo == 1}">
-                        <h:panelGrid columns="2" style="margin-top:-20px;">
+                        <h:panelGrid columns="2">
                             <p:outputLabel value="#{question.respuestaConfList[0]}: "/>
-                            <p:inputTextarea id="opinionTextBox#{status.index}" rows="6" cols="85" counter="counter" maxlength="350"  value="#{fillEncuestaBean.respuestaList[status.index]}"      
+                            <p:inputTextarea id="opinionTextBox#{status.index}" rows="6" cols="85" counter="counter" maxlength="150"  value="#{fillEncuestaBean.respuestaList[status.index]}"      
                                              counterTemplate="{0} caracteres restantes." /><br/> 
 
                             <h:outputText id="counter" /><br/> 
