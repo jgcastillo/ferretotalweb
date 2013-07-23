@@ -26,11 +26,13 @@
                         <p:commandButton id="selectQuestion" ajax="true" update=":grafico" oncomplete="composeDlg.show()" icon="ui-icon-search" 
                                          rendered="#{pregunta.tipo != 1}" title="Ver Análisis">  
                             <f:setPropertyActionListener value="#{pregunta}" target="#{preguntaBean.selectedQuestion}"/>  
-                        </p:commandButton>  
+                        </p:commandButton> 
+                        
                         <p:commandButton id="selectQuestionText" ajax="true" update=":textual" oncomplete="composeDlgText.show()" icon="ui-icon-search" 
                                          rendered="#{pregunta.tipo == 1}" title="Ver Análisis">  
                             <f:setPropertyActionListener value="#{pregunta}" target="#{preguntaBean.selectedQuestionTextual}"/>  
                         </p:commandButton> 
+                        
                     </p:column> 
                 </p:dataTable>
             </p:fieldset>

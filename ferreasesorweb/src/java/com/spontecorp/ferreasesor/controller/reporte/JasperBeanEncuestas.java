@@ -4,44 +4,37 @@
  */
 package com.spontecorp.ferreasesor.controller.reporte;
 
-import com.spontecorp.ferreasesor.entity.RespuestaObtenida;
-import java.util.List;
-
 /**
  *
  * @author sponte03
  */
 public class JasperBeanEncuestas {
     
-    private String pregunta;
-    private List<RespuestaObtenida> respuesta;
+    private String respuesta;
+    private int numero;
 
     public JasperBeanEncuestas() {
     }
 
-    public JasperBeanEncuestas(String pregunta) {
-        this.pregunta = pregunta;
-    }
-
-    public JasperBeanEncuestas(String pregunta, List<RespuestaObtenida> respuesta) {
-        this.pregunta = pregunta;
+    public JasperBeanEncuestas(String respuesta, int numero) {
         this.respuesta = respuesta;
-    }
-    
-    public String getPregunta() {
-        return pregunta;
+        this.numero = numero;
     }
 
-    public void setPregunta(String pregunta) {
-        this.pregunta = pregunta;
-    }
-
-    public List<RespuestaObtenida> getRespuesta() {
+    public String getRespuesta() {
         return respuesta;
     }
 
-    public void setRespuesta(List<RespuestaObtenida> respuesta) {
+    public void setRespuesta(String respuesta) {
         this.respuesta = respuesta;
+    }
+
+    public int getNumero() {
+        return numero;
+    }
+
+    public void setNumero(int numero) {
+        this.numero = numero;
     }
 
 }

@@ -87,7 +87,7 @@
                                             <h:outputText value="#{status+1}"/>
                                         </p:column>
                                         <p:column id="nombre" headerText="Valores Obtenidos" style="width:95%;">
-                                            <h:outputText value="#{respuesta.opcion}"/>  
+                                            <h:outputText value="#{respuesta.nombre}"/>  
                                         </p:column>   
                                         <p:column id="total" headerText="Total por Valor" style="width:10%;text-align: center">
                                             <h:outputText value="#{respuesta.cantidad}"/>  
@@ -151,12 +151,15 @@
                                 </p:panel>
                             </p:column>  
                         </p:row>  
-                    </p:panelGrid>     
-                    <p:commandButton value="Cancel" onclick="composeDlg.hide()" type="button" style="margin-left:93%;margin-top: 10px;"/>
+                    </p:panelGrid>  
+                    <h:commandButton value="Cancel" onclick="composeDlg.hide()" type="button" title="Cancelar" style="margin-left: 55%;margin-top: 10px;margin-right: 10px;"/>
+                    <h:commandButton value="Exportar PDF Bar" actionListener="#{preguntaBean.exportarReportePDFBar}" title="Exportar a PDF Gráfico Barras" style="margin-top: 10px;margin-right: 10px;"/>
+                    <h:commandButton value="Exportar PDF Pie" actionListener="#{preguntaBean.exportarReportePDFPie}" title="Exportar a PDF Gráfico Pie" style="margin-top: 10px;margin-right: 10px;"/>
+                    <h:commandButton value="Exportar Excel" actionListener="#{preguntaBean.exportarReporteXLS}" title="Exportar a Excel" style="margin-top: 10px;margin-right: 10px;"/>
                 </h:form>
             </p:dialog>
 
-            <p:dialog widgetVar="composeDlgText" modal="true" header="Análisis de la Pregunta"  width="850" showEffect="fade" hideEffect="fade">
+            <p:dialog widgetVar="composeDlgText" modal="true" header="Respuestas Obtenidas"  width="850" showEffect="fade" hideEffect="fade">
                 <h:form id="textual" style="width: 800px;height:auto;">   
                     <p:panel header="#{preguntaBean.selectedQuestionTextual.pregunta}" footer="Total Respuestas Obtenidas: #{preguntaBean.selectedQuestionTextual.totalRespuestas}">  
                         <p:separator id="separator" style="margin-bottom: 15px; border: 0px solid gray"/> 
@@ -165,7 +168,9 @@
                             <p:separator id="separator" style="margin-top: 15px;margin-bottom: 15px;"/> 
                         </ui:repeat>
                     </p:panel>  
-                    <p:commandButton value="Cancel" onclick="composeDlgText.hide()" type="button" style="margin-left:93%;margin-top: 10px;"/>
+                    <h:commandButton value="Cancel" onclick="composeDlgText.hide()" type="button" style="margin-left:63%;margin-top: 10px;margin-right: 10px;"/>
+                     <h:commandButton value="Exportar PDF" actionListener="#{preguntaBean.exportarReportePDFTextual}" title="Exportar a PDF" style="margin-top: 10px;margin-right: 10px;"/>
+                    <h:commandButton value="Exportar Excel" actionListener="#{preguntaBean.exportarReporteXLSTextual}" title="Exportar a Excel" style="margin-top: 10px;margin-right: 10px;"/>
                 </h:form>
             </p:dialog>    
         </h:body>

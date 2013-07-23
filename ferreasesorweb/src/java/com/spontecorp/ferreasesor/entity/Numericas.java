@@ -10,18 +10,18 @@ package com.spontecorp.ferreasesor.entity;
  */
 public class Numericas {
     
-    private String opcion;
+    private String nombre;
     private int cantidad;
 
     public Numericas() {
     }
 
-    public String getOpcion() {
-        return opcion;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setOpcion(String opcion) {
-        this.opcion = opcion;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public int getCantidad() {

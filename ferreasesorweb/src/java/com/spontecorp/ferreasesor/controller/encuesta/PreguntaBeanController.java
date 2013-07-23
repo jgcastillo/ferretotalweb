@@ -1,5 +1,7 @@
 package com.spontecorp.ferreasesor.controller.encuesta;
 
+import com.spontecorp.ferreasesor.controller.reporte.JasperBeanEncuestas;
+import com.spontecorp.ferreasesor.controller.reporte.JasperManagement;
 import com.spontecorp.ferreasesor.controller.util.JsfUtil;
 import com.spontecorp.ferreasesor.entity.Encuesta;
 import com.spontecorp.ferreasesor.entity.Numericas;
@@ -10,6 +12,7 @@ import com.spontecorp.ferreasesor.jpa.EncuestaFacade;
 import com.spontecorp.ferreasesor.jpa.PreguntaFacade;
 import com.spontecorp.ferreasesor.jpa.RespuestaConfFacade;
 import com.spontecorp.ferreasesor.jpa.RespuestaObtenidaFacade;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,12 +22,16 @@ import java.util.Map;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import net.sf.jasperreports.engine.JRException;
 import org.primefaces.model.chart.CartesianChartModel;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.PieChartModel;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -37,6 +44,7 @@ public class PreguntaBeanController implements Serializable {
     private Pregunta current;
     private Pregunta selectedQuestion;
     private Pregunta selectedQuestionTextual;
+    private Pregunta selectedQuestionExport;
     private RespuestaConf respuesta;
     private String preguntaTexto;
     private String promptPreguntaTextual;
@@ -76,8 +84,8 @@ public class PreguntaBeanController implements Serializable {
     protected boolean showChart = false;
     private CartesianChartModel categoryModel;
     private PieChartModel categoryModelPie;
-    private String nombreReporte = "Cantidad Total de Llamadas";
-    private String nombreRango = "Id de Botón";
+    private String nombreReporte;
+    private String nombreRango = "Opción";
     private String nombreDominio = "Cantidad";
 
     public PreguntaBeanController() {
@@ -236,9 +244,26 @@ public class PreguntaBeanController implements Serializable {
         this.selectedQuestionTextual = selectedQuestionTextual;
     }
 
+    public Pregunta getSelectedQuestionExport() {
+        return selectedQuestionExport;
+    }
+
+    public void setSelectedQuestionExport(Pregunta selectedQuestionExport) {
+        this.selectedQuestionExport = selectedQuestionExport;
+    }
+
+    public String getNombreReporte() {
+        return nombreReporte;
+    }
+
+    public void setNombreReporte(String nombreReporte) {
+        this.nombreReporte = nombreReporte;
+    }
+
     /**
      * Listado de Preguntas para Analizar las Encuestas
-     * @return 
+     *
+     * @return
      */
     public List<Pregunta> getPreguntas() {
         preguntas = null;
@@ -265,10 +290,10 @@ public class PreguntaBeanController implements Serializable {
                     for (int i = 0; i < respList.size(); i++) {
                         mapNumeric.put(Integer.valueOf(respList.get(i).getRespuesta()), 0);
                     }
-                    
-                    if(respList.isEmpty()){
+
+                    if (respList.isEmpty()) {
                         Numericas numericas = new Numericas();
-                        numericas.setOpcion("0");
+                        numericas.setNombre("0");
                         numericas.setCantidad(0);
                         listaNumericas.add(numericas);
                     }
@@ -278,7 +303,7 @@ public class PreguntaBeanController implements Serializable {
                     for (Map.Entry<Integer, Integer> mapa : mapNumeric.entrySet()) {
                         cant = getRespObtenidaFacade().findCantidadRespuestaObtenida(pregunta, (String) mapa.getKey().toString());
                         Numericas numericas = new Numericas();
-                        numericas.setOpcion((String) mapa.getKey().toString());
+                        numericas.setNombre((String) mapa.getKey().toString());
                         numericas.setCantidad(cant);
                         listaNumericas.add(numericas);
                         i++;
@@ -294,7 +319,7 @@ public class PreguntaBeanController implements Serializable {
                     for (RespuestaConf option : options) {
                         int count = 0;
                         Numericas numericas = new Numericas();
-                        numericas.setOpcion(option.getOpcion());
+                        numericas.setNombre(option.getOpcion());
                         for (RespuestaObtenida resp : respList) {
                             if (option.getId() == resp.getRespuestaConfId().getId()) {
                                 option.setTotalOptions(++count);
@@ -365,7 +390,7 @@ public class PreguntaBeanController implements Serializable {
                     for (Map.Entry<Integer, Integer> mapa : mapCalific.entrySet()) {
                         listRespObtenidas.add(mapa.getValue());
                         Numericas numericas = new Numericas();
-                        numericas.setOpcion((String) mapa.getKey().toString());
+                        numericas.setNombre((String) mapa.getKey().toString());
                         numericas.setCantidad(mapa.getValue());
                         listaNumericas.add(numericas);
                         i++;
@@ -410,7 +435,7 @@ public class PreguntaBeanController implements Serializable {
         ChartSeries cant = new ChartSeries("Opción");
 
         for (Numericas data : listaNumericas) {
-            cant.set(data.getOpcion(), data.getCantidad());
+            cant.set(data.getNombre(), data.getCantidad());
         }
         categoryModel.addSeries(cant);
 
@@ -418,14 +443,14 @@ public class PreguntaBeanController implements Serializable {
 
     }
 
-     /**
+    /**
      * Metodo para Generar el Grafico de Tortas en PrimeFaces
      */
     public PieChartModel createCategoryModelPie(List<Numericas> listaNumericas) {
         categoryModelPie = new PieChartModel();
 
         for (Numericas data : listaNumericas) {
-            categoryModelPie.set(data.getOpcion(), data.getCantidad());
+            categoryModelPie.set(data.getNombre(), data.getCantidad());
         }
 
         return categoryModelPie;
@@ -711,5 +736,153 @@ public class PreguntaBeanController implements Serializable {
         preguntaItems = null;
         promptPreguntaTextual = null;
         message3 = false;
+    }
+
+    /**
+     * Exportar Reportes a PDF (Gráfico Bar)
+     *
+     * @throws JRException
+     * @throws IOException
+     */
+    public void exportarReportePDFBar() throws JRException, IOException {
+        String extension = "PDF";
+        String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/encuesta/reportepdf.jasper");
+        exportarReporte(extension, jasperFileAddress);
+
+    }
+
+    /**
+     * Exportar Reportes a PDF (Gráfico Pie)
+     *
+     * @throws JRException
+     * @throws IOException
+     */
+    public void exportarReportePDFPie() throws JRException, IOException {
+
+        String extension = "PDF";
+        String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/encuesta/reportepdfpie.jasper");
+        exportarReporte(extension, jasperFileAddress);
+
+    }
+    
+    /**
+     * Exportar Reportes a PDF (Sólo para Preguntas de tipo Textual)
+     * @throws JRException
+     * @throws IOException 
+     */
+    public void exportarReportePDFTextual() throws JRException, IOException {
+        String extension = "PDF";
+        String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/encuesta/reportepdfTextual.jasper");
+        exportarReporteTextual(extension, jasperFileAddress);
+
+    }
+    
+     /**
+     * Exportar Reportes a PDF (Sólo para Preguntas de tipo Textual)
+     * @throws JRException
+     * @throws IOException 
+     */
+    public void exportarReporteXLSTextual() throws JRException, IOException {
+        String extension = "XLS";
+        String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/encuesta/reportexlsTextual.jasper");
+        exportarReporteTextual(extension, jasperFileAddress);
+
+    }
+
+    /**
+     * Exportar Reportes a Excel
+     *
+     * @throws JRException
+     * @throws IOException
+     */
+    public void exportarReporteXLS() throws JRException, IOException {
+        String extension = "XLS";
+        String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/encuesta/reportexls.jasper");
+        exportarReporte(extension, jasperFileAddress);
+
+    }
+
+    /**
+     * Método para exportar Reportes de Encuestas Para Preguntas de Tipo
+     * Númerico, Selección y Calificación
+     *
+     * @param extension
+     * @param jasperFileAddress
+     * @throws JRException
+     * @throws IOException
+     */
+    public void exportarReporte(String extension, String jasperFileAddress) throws JRException, IOException {
+
+        JasperManagement jm = new JasperManagement();
+        List<Numericas> myList;
+        String logoAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/ferretotallogo.jpg");
+
+        try {
+
+            //Revisa los casos y llena la lista de jasperbean
+            myList = selectedQuestion.getListaNumericas();
+            nombreReporte = selectedQuestion.getEncuestaId().getNombre();
+            String pregunta = selectedQuestion.getPregunta();
+            int totalRespuestas = selectedQuestion.getTotalRespuestas();
+
+            Map parametros = new HashMap();
+            parametros.put("pregunta", pregunta);
+            parametros.put("nombrereporte", nombreReporte);
+            parametros.put("totalRespuestas", totalRespuestas);
+            parametros.put("nombre", nombreRango);
+            parametros.put("cantidad", nombreDominio);
+            parametros.put("logo", logoAddress);
+
+            nombreReporte = nombreReporte + " - " + pregunta;
+            jm.FillReportEncuesta(parametros, myList, extension, jasperFileAddress, nombreReporte);
+
+        } catch (JRException e) {
+            Logger.getLogger(PreguntaBeanController.class.getName()).log(Level.SEVERE, null, e);
+        }
+
+    }
+
+    /**
+     * Método para exportar Reportes de Encuestas Sólo para Preguntas de tipo
+     * Textual
+     *
+     * @param extension
+     * @param jasperFileAddress
+     * @throws JRException
+     * @throws IOException
+     */
+    public void exportarReporteTextual(String extension, String jasperFileAddress) throws JRException, IOException {
+
+        JasperManagement jm = new JasperManagement();
+        List<JasperBeanEncuestas> myList;
+        String logoAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/ferretotallogo.jpg");
+
+        try {
+
+            //Revisa los casos y llena la lista de jasperbean
+
+            List<RespuestaObtenida> respList = selectedQuestionTextual.getRespuestaObtenidaList();
+
+            myList = jm.FillListEncuesta(respList);
+
+            nombreReporte = selectedQuestionTextual.getEncuestaId().getNombre();
+            nombreRango = "Respuestas Obtenidas";
+            String pregunta = selectedQuestionTextual.getPregunta();
+            int totalRespuestas = selectedQuestionTextual.getTotalRespuestas();
+
+            Map parametros = new HashMap();
+            parametros.put("pregunta", pregunta);
+            parametros.put("nombrereporte", nombreReporte);
+            parametros.put("nombre", nombreRango);
+            parametros.put("totalRespuestas", totalRespuestas);
+            parametros.put("logo", logoAddress);
+
+            nombreReporte = nombreReporte + " - " + pregunta;
+            jm.FillReportTextualEncuesta(parametros, myList, extension, jasperFileAddress, nombreReporte);
+
+        } catch (JRException e) {
+            Logger.getLogger(PreguntaBeanController.class.getName()).log(Level.SEVERE, null, e);
+        }
+
     }
 }

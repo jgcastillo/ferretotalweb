@@ -228,7 +228,7 @@ public class EncuestaBeanController implements Serializable {
     public void exportarReportePDF(ActionEvent actionEvent) throws JRException, IOException {
         String extension = "PDF";
         String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/encuesta/reporteEncuestaPdf.jasper");
-        exportarReporte(extension, jasperFileAddress);
+   //     exportarReporte(extension, jasperFileAddress);
 
     }
     
@@ -237,26 +237,26 @@ public class EncuestaBeanController implements Serializable {
      * @param extension
      * @param jasperFileAddress 
      */
-    public void exportarReporte(String extension, String jasperFileAddress) {
-        try {
-            List<JasperBeanEncuestas> myList;
-            JasperManagement jm = new JasperManagement();
-            String logoAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/ferretotallogo.jpg");
-            Map parametros = new HashMap(); 
-            nombreReporte = current.getNombre();
-            
-            parametros.put("logo", logoAddress);
-            parametros.put("nombrereporte", nombreReporte);
-            
-            getPreguntaList();
-
-            myList = jm.FillListEncuesta(preguntaList);
-            jm.FillReportEncuesta(parametros, myList, extension, jasperFileAddress, nombreReporte);
-
-        } catch (JRException | IOException ex) {
-            java.util.logging.Logger.getLogger(PreguntaBeanController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
+//    public void exportarReporte(String extension, String jasperFileAddress) {
+//        try {
+//            List<JasperBeanEncuestas> myList;
+//            JasperManagement jm = new JasperManagement();
+//            String logoAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/ferretotallogo.jpg");
+//            Map parametros = new HashMap(); 
+//            nombreReporte = current.getNombre();
+//            
+//            parametros.put("logo", logoAddress);
+//            parametros.put("nombrereporte", nombreReporte);
+//            
+//            getPreguntaList();
+//
+//            myList = jm.FillListEncuesta(preguntaList);
+//            jm.FillReportEncuesta(parametros, myList, extension, jasperFileAddress, nombreReporte);
+//
+//        } catch (JRException | IOException ex) {
+//            java.util.logging.Logger.getLogger(PreguntaBeanController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//    }
     
 }
