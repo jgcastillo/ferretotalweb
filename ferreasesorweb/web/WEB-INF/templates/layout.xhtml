@@ -63,7 +63,7 @@
                 </p:layoutUnit>
 
                 <c:if test="#{loginBean.loggedIn}">
-                    <p:layoutUnit position="east" size="200" header="Estado Actual" resizable="false"
+                    <p:layoutUnit position="east" size="200" header="Estado Actual: #{loginBean.fechaActual}" resizable="false"
                                   closable="false" collapsible="true">
                         <ui:insert name="status"> 
                             <ui:include src="./snippets/dailyAverage.xhtml" />

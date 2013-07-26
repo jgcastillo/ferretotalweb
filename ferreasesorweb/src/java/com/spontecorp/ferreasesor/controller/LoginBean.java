@@ -2,8 +2,11 @@ package com.spontecorp.ferreasesor.controller;
 
 import com.spontecorp.ferreasesor.entity.Usuario;
 import com.spontecorp.ferreasesor.security.Login;
-import java.io.IOException;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -13,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Valida y permite o niega el ingreso del usuario a la aplicaión
- * 
+ *
  * @author jgcastillo
  */
 @ManagedBean(name = "loginBean")
@@ -23,8 +26,9 @@ public class LoginBean implements Serializable {
     private String usuario;
     private String password;
     private Usuario current;
+    private Date fechaActual;
     private static final Logger logger = LoggerFactory.getLogger(LoginBean.class);
-    
+
     /**
      * Creates a new instance of LogindBean
      */
@@ -50,20 +54,38 @@ public class LoginBean implements Serializable {
     public Usuario getCurrent() {
         return current;
     }
- 
-    public String login(){
+
+    public String getFechaActual() {
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(new Date());
+
+        int mes = cal.get(Calendar.MONTH);
+        int year = cal.get(Calendar.YEAR);
+        int thisDay = cal.get(Calendar.DATE);
+
+        cal.set(year, mes, thisDay);
+        Date fecha = cal.getTime();
+
+        return new SimpleDateFormat("dd/MM/yyyy").format(fecha);
+    }
+
+    public void setFechaActual(Date fechaActual) {
+        this.fechaActual = fechaActual;
+    }
+
+    public String login() {
         char[] pswChar = password.toCharArray();
         FacesMessage msg = null;
         String result = "";
         current = Login.authenticate(usuario, pswChar);
-        if(current != null){
-                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("username", usuario);
-                msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido", usuario);
-                if(current.getPerfilId().getPermiso() == 1 || current.getPerfilId().getPermiso() == 2){
-                    result = "main1?faces-redirect=true";
-                } else {
-                    result = "main?faces-redirect=true";
-                }
+        if (current != null) {
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("username", usuario);
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido", usuario);
+            if (current.getPerfilId().getPermiso() == 1 || current.getPerfilId().getPermiso() == 2) {
+                result = "main1?faces-redirect=true";
+            } else {
+                result = "main?faces-redirect=true";
+            }
         } else {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("username", "");
             msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error de Ingreso", "Credenciales no válidas");
@@ -71,27 +93,27 @@ public class LoginBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, msg);
         return result;
     }
-    
-    public String logout(){
+
+    public String logout() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove(usuario);
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         current = null;
         return "index?faces-redirect=true";
     }
-    
-    public boolean isLoggedIn(){
+
+    public boolean isLoggedIn() {
         return (current != null);
     }
-    
-    public boolean isAdmin(){
+
+    public boolean isAdmin() {
         String perfil = current.getPerfilId().getNombre();
-        if(perfil.equals("Administrador")){
+        if (perfil.equals("Administrador")) {
             return true;
         } else {
             return false;
         }
     }
-    
+
     public boolean isGerente() {
         String perfil = current.getPerfilId().getNombre();
         if (perfil.equals("Gerente")) {
@@ -100,7 +122,7 @@ public class LoginBean implements Serializable {
             return false;
         }
     }
-    
+
     public boolean isAsesor() {
         String perfil = current.getPerfilId().getNombre();
         if (perfil.equals("Usuario")) {
