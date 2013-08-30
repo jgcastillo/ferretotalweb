@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../../WEB-INF/templates/layout.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="title">
+        Tiempos de Atención
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form prependId="false">
+            <p:panel header="Recolector de información" style="width:95%; margin-left:15px;">
+                <p:dataTable value="#{respuestaMotivoController.items}" var="item" paginator="true"
+                             rows="15" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                             rowsPerPageTemplate="5,10,15"
+                             paginatorPosition="top"
+                             resizableColumns="false">
+
+                    <p:column headerText="Fecha" style="text-align: center; width: 20%">
+                         <h:outputText value="#{item.fecha}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    
+                    <p:column headerText="Hora" style="text-align: center; width: 20%">
+                         <h:outputText value="#{item.fecha}">
+                            <f:convertDateTime pattern="HH:mm" />
+                        </h:outputText>
+                    </p:column>
+                    
+                    <p:column headerText="Motivo de Llamado">
+                        <h:outputText value="#{item.motivoId.nombre}"/>
+                    </p:column>
+
+                </p:dataTable>
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+            </p:panel>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -8,10 +8,14 @@ import com.spontecorp.ferreasesor.controller.LoginBean;
 import com.spontecorp.ferreasesor.controller.util.JsfUtil;
 import com.spontecorp.ferreasesor.entity.Categoria;
 import com.spontecorp.ferreasesor.entity.Motivo;
+import com.spontecorp.ferreasesor.entity.RespuestaMotivo;
+import com.spontecorp.ferreasesor.entity.Usuario;
 import com.spontecorp.ferreasesor.jpa.CategoriaFacade;
 import com.spontecorp.ferreasesor.jpa.MotivoFacade;
+import com.spontecorp.ferreasesor.jpa.RespuestaMotivoFacade;
 import com.spontecorp.ferreasesor.utilities.JpaUtilities;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -28,6 +32,8 @@ import javax.faces.model.SelectItem;
 public class FillRecolectorBeanController implements Serializable {
 
     @EJB
+    private RespuestaMotivoFacade respuestaMotivoFacade;
+    @EJB
     private CategoriaFacade categoriaFacade;
     @EJB
     private MotivoFacade motivoFacade;
@@ -35,6 +41,7 @@ public class FillRecolectorBeanController implements Serializable {
     private Categoria categoria;
     private List<Motivo> motivoList = null;
     private Motivo motivo;
+    private RespuestaMotivo respuestaMotivo;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean loginBean;
     
@@ -73,10 +80,22 @@ public class FillRecolectorBeanController implements Serializable {
         return arreglo;
     }
 
+     /**
+      * 
+      */
     public void guardaRespuesta() {
-        System.out.println("Entro a guardaRespuesta");
-        System.out.println("Motivo: "+motivo);
-        System.out.println("Usuario: "+loginBean.getUsuario());
+        respuestaMotivo = new RespuestaMotivo();
+        respuestaMotivo.setFecha(new Date());
+        respuestaMotivo.setMotivoId(motivo);
+        respuestaMotivo.setUsuarioId(loginBean.getCurrent());
+        respuestaMotivoFacade.create(respuestaMotivo);
+        recreateModel();
+        JsfUtil.addSuccessMessage("La información fue enviada con éxito!");
+    }
+    
+    private void recreateModel() {
+        categoria = null;
+        motivo = null;
     }
 
     public Categoria getCategoria() {
@@ -98,6 +117,14 @@ public class FillRecolectorBeanController implements Serializable {
 
     public boolean isMotivoListDisabled() {
         return motivoListDisabled;
+    }
+
+    public RespuestaMotivo getRespuestaMotivo() {
+        return respuestaMotivo;
+    }
+
+    public void setRespuestaMotivo(RespuestaMotivo respuestaMotivo) {
+        this.respuestaMotivo = respuestaMotivo;
     }
     
     
