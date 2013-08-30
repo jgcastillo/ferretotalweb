@@ -4,10 +4,13 @@
  */
 package com.spontecorp.ferreasesor.jpa;
 
+import com.spontecorp.ferreasesor.entity.Categoria;
 import com.spontecorp.ferreasesor.entity.Motivo;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -25,6 +28,20 @@ public class MotivoFacade extends AbstractFacade<Motivo> {
 
     public MotivoFacade() {
         super(Motivo.class);
+    }
+    
+    /**
+     * Listado de Motivos por Status y Categorías
+     * @param status
+     * @param categoria
+     * @return 
+     */
+    public List<Motivo> findMotivo(int status, Categoria categoria) {
+        String query = "SELECT m from Motivo m WHERE m.status = :status and m.categoriaId = :categoria";
+        Query q = getEntityManager().createQuery(query);
+        q.setParameter("status", status);
+        q.setParameter("categoria", categoria);
+        return q.getResultList();
     }
     
 }

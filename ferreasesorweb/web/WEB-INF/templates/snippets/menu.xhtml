@@ -19,8 +19,6 @@
                         <p:menuitem value="Dispositivos" action="/admin/boton/List.xhtml" ajax="false" icon="ui-icon-signal-diag"/>
                         <p:menuitem value="Asesores" action="/admin/asesor/List.xhtml" ajax="false" icon="ui-icon-person"/>
                         <p:menuitem value="Usuarios" action="/admin/usuario/List.xhtml" ajax="false" icon="ui-icon-person"/>
-                        <p:menuitem value="Categorías" action="/admin/categoria/List.xhtml" ajax="false" icon="ui-icon-person"/>
-                        <p:menuitem value="Motivos de Llamado" action="/admin/motivo/List.xhtml" ajax="false" icon="ui-icon-person"/>
                     </p:submenu>
                     <p:submenu label="Configurar Atención">
                         <p:menuitem value="Atención Asesor-Turno" action="/admin/distribucion/List.xhtml" ajax="false" icon="ui-icon-person"/>
@@ -54,16 +52,21 @@
                         <p:menuitem value="Calidad por FerreAsesor" action="/gerente/reportes/calidadXasesor.xhtml" ajax="false" icon="ui-icon-contact" />
                         <p:menuitem value="Calidad por Turno" action="/gerente/reportes/calidadXturno.xhtml" ajax="false" icon="ui-icon-contact" />
                     </p:submenu>
+                    <p:submenu label="Configurar Atención">
+                        <p:menuitem value="Atención Asesor-Turno" action="/admin/distribucion/List.xhtml" ajax="false" icon="ui-icon-person"/>
+                        <p:menuitem value="Definir Asesor para Feriado" action="/admin/asesorFeriado/Create.xhtml" ajax="false" icon="ui-icon-person"/>
+                    </p:submenu>
                     <p:submenu label="Encuestas">
-                        <p:menuitem value="Lista Encuestas" action="/gerente/encuesta/encuestaMain" 
+                        <p:menuitem value="Config. Encuestas" action="/gerente/encuesta/encuestaMain" 
                                     ajax="false" icon="ui-icon-comment"/>
                         <p:menuitem value="Análisis Encuestas" action="/gerente/encuesta/surveyAnalysisMain" 
                                     ajax="false" icon="ui-icon-image"/>
                         <p:menuitem value="Ver Encuesta" action="/main.xhtml" ajax="false" icon="ui-icon-search"/>
                     </p:submenu>
-                    <p:submenu label="Configurar Atención">
-                        <p:menuitem value="Atención Asesor-Turno" action="/admin/distribucion/List.xhtml" ajax="false" icon="ui-icon-person"/>
-                        <p:menuitem value="Definir Asesor para Feriado" action="/admin/asesorFeriado/Create.xhtml" ajax="false" icon="ui-icon-person"/>
+                    <p:submenu label="Recolector de Información">
+                        <p:menuitem value="Config. Categorías" action="/admin/categoria/List.xhtml" ajax="false" icon="ui-icon-person"/>
+                        <p:menuitem value="Config. Motivos" action="/admin/motivo/List.xhtml" ajax="false" icon="ui-icon-person"/>
+                        <p:menuitem value="Ver Recolector Información" action="/recolectorInformacion.xhtml" ajax="false" icon="ui-icon-search"/>
                     </p:submenu>
                     <p:submenu label="Navegación">
                         <p:menuitem value="Principal" action="/main1.xhtml" ajax="false" icon="ui-icon-home" />
