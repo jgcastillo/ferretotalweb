@@ -79,7 +79,7 @@ public class DistribucionController implements Serializable {
 
     public String prepareView() {
         current = (Distribucion) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        //selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
 
@@ -102,7 +102,7 @@ public class DistribucionController implements Serializable {
 
     public String prepareEdit() {
         current = (Distribucion) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        //selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
 
@@ -134,7 +134,7 @@ public class DistribucionController implements Serializable {
 
     public String destroy() {
         current = (Distribucion) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+       // selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
         recreateModel();

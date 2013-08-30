@@ -13,9 +13,12 @@
     <ui:define name="content">
         <h:form id="form">
             <p:panel header="Configuración de Asesores" style="width:60%; margin-left:15px;">
-                <p:dataTable value="#{asesorController.items}" var="item" style="width: auto;"
-                             paginator="true" rows="9" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
-                    <f:facet name="header" >
+                <p:dataTable value="#{asesorController.items}" var="item" paginator="true"
+                             rows="10" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                             rowsPerPageTemplate="5,10,15"
+                             paginatorPosition="top"
+                             resizableColumns="false">
+                <f:facet name="header" >
                         <p:commandButton value="Agregar" title="Agregar" icon="ui-icon-document" 
                                          style="display:block;text-align: right;" action="#{asesorController.prepareCreate}"></p:commandButton>
                     </f:facet>

@@ -40,15 +40,6 @@
                                  title="#{bundle.CreateUsuarioTitleRepeat_psw}" required="true" 
                                  requiredMessage="#{bundle.CreateUsuarioRequiredMessage_psw}"/>
                     <p:message for="psw_repeat"/>
-                    
-<!--                    <p:outputLabel value="#{bundle.CreateUsuarioLabel_status}" for="status" />
-                    <p:selectOneMenu id="status" value="#{usuarioController.selected.status}" required="true" 
-                                     requiredMessage="#{bundle.CreateUsuarioRequiredMessage_status}" style="width: 130px;">
-                        <f:selectItem itemLabel="Habilitado" itemValue="1" />
-                        <f:selectItem itemLabel="Inhabilitado" itemValue="0" />
-                    </p:selectOneMenu>
-                    <p:message for="status"/>-->
-                    
                     <p:outputLabel value="#{bundle.CreateUsuarioLabel_perfilId}" for="perfilId" />
                     <h:selectOneMenu id="perfilId" value="#{usuarioControllerExt.selected.perfilId}" style="width: 130px;"
                                      required="true" 
@@ -69,6 +60,14 @@
                 </f:facet>
             </p:panel>
         </h:form>
+        <p:ajaxStatus style="right:45%; left:45%">  
+            <f:facet name="start">  
+                <h:graphicImage library="images" name="ajax-loader.gif" style="margin-top: 10px; margin-bottom: 0px; margin-left: 40%;margin-right: 45%"/>
+            </f:facet>  
+            <f:facet name="complete">  
+                <h:outputText value="" />  
+            </f:facet>  
+        </p:ajaxStatus>
     </ui:define>
 </ui:composition>
 

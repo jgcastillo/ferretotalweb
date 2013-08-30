@@ -12,12 +12,8 @@
         </ui:define>
         <ui:define name="content">
             <h:form id="form">
-                <p:panel header="Configuración de Tienda" style="width:60%; margin-left:15px;">
+                <p:panel header="Configuración de Tienda" style="width:70%;">
                     <p:dataTable value="#{tiendaController.items}" var="item" style="width: auto;">
-                        <!--                        <f:facet name="header" >
-                                                    <p:commandButton value="Agregar" title="Agregar" icon="ui-icon-document" 
-                                                                     style="display:block;text-align: right;" action="#{tiendaController.prepareCreate}"></p:commandButton>
-                                                </f:facet>-->
                         <p:column headerText="Sucursal" width="10%" style="text-align: center;">
                             <h:outputText value="#{item.sucursal}"/>
                         </p:column>
@@ -30,7 +26,7 @@
                         <p:column headerText="Teléfono" width="15%" style="text-align: center;">
                             <h:outputText value="#{item.telefono}"/>
                         </p:column>
-                        <p:column headerText="Acción" width="10%">
+                        <p:column headerText="Acción" width="10%" style="text-align: center;">
                             <p:commandButton title="Editar" icon="ui-icon-pencil" action="#{tiendaController.prepareEdit}"/>
                         </p:column>
                     </p:dataTable>

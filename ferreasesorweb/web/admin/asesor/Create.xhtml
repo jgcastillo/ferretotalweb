@@ -31,12 +31,6 @@
                         <f:selectItem itemLabel="Inactivo" itemValue="0" />
                     </h:selectOneMenu>
                     <p:message for="status"/>
-<!--                    <p:outputLabel value="#{bundle.CreateAsesorLabel_tiendaId}" for="tiendaId" />
-                    <p:selectOneMenu id="tiendaId" value="#{asesorController.selected.tiendaId}" 
-                                     title="#{bundle.CreateAsesorTitle_tiendaId}" required="true" 
-                                     requiredMessage="#{bundle.CreateAsesorRequiredMessage_tiendaId}" style="width: 130px;">
-                        <f:selectItems value="#{tiendaController.itemsAvailableSelectOne}"/>
-                    </p:selectOneMenu>-->
                 </h:panelGrid>
                 <f:facet name="footer">
                     <h:panelGrid columns="3" style="display:block;margin-left: 50%">
@@ -50,6 +44,14 @@
                 </f:facet>
             </p:panel>
         </h:form>
+        <p:ajaxStatus style="right:45%; left:45%">  
+            <f:facet name="start">  
+                <h:graphicImage library="images" name="ajax-loader.gif" style="margin-top: 10px; margin-bottom: 0px; margin-left: 40%;margin-right: 45%"/>
+            </f:facet>  
+            <f:facet name="complete">  
+                <h:outputText value="" />  
+            </f:facet>  
+        </p:ajaxStatus>
     </ui:define>
 </ui:composition>
 
