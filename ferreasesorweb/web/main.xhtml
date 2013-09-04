@@ -55,11 +55,14 @@
 
                     <p:fieldset style="width: 81%; margin-left:25px;" rendered="#{question.tipo == 4}">
                         <h:panelGrid columns="3">
-                            <h:outputText value="En una escala del 1 al 10, siendo 1 la más baja y 10 la más alta, ¿cómo lo califica?: "/>
+                            <h:outputText value="En una escala del 1 al 10, siendo 1 la más baja y 10 la más alta, ¿Cómo lo califica?: "/>
                             <p:inputText id="ratingTextBox" value="#{fillEncuestaBean.respuestaList[status.index]}" style="width: 60px;">
                                  <f:validateLongRange minimum="0" maximum="10"/>
                             </p:inputText>
                             <p:message for="ratingTextBox"/>
+                        </h:panelGrid>
+                        <h:panelGrid columns="3">
+                            <h:outputText value="Coloque cero (0) si no obtiene respuesta." style="color:red"/>
                         </h:panelGrid>
                     </p:fieldset>
 
@@ -94,13 +97,11 @@
                         <!--                        <p:commandButton value="Regresar" title="Regresar" icon="ui-icon-arrowthick-1-w" 
                                                                  action="#{fillEncuestaBean.retornaCreate}"/>
                                                 <p:spacer width="10"/>-->
-                        <h:commandButton value="Enviar Encuesta" title="Enviar Encuesta" 
-                                         action="#{fillEncuestaBean.guardaRespuesta}"/>
+                        <p:commandButton value="Enviar Encuesta" title="Enviar Encuesta" 
+                                         action="#{fillEncuestaBean.guardaRespuesta}" ajax="true" update="panel"/>
 
                     </h:panelGrid>
                 </f:facet>
-
-
             </p:panel>
         </h:form>
     </ui:define>

@@ -68,7 +68,7 @@ public class TiendaController implements Serializable {
 
     public String prepareView() {
         current = (Tienda) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        //selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
 
@@ -91,7 +91,7 @@ public class TiendaController implements Serializable {
 
     public String prepareEdit() {
         current = (Tienda) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        //selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
 
@@ -108,7 +108,7 @@ public class TiendaController implements Serializable {
 
     public String destroy() {
         current = (Tienda) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        //selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
         recreateModel();
@@ -154,7 +154,8 @@ public class TiendaController implements Serializable {
 
     public DataModel getItems() {
         if (items == null) {
-            items = getPagination().createPageDataModel();
+            //items = getPagination().createPageDataModel();
+            items = new ListDataModel(getFacade().findAll());
         }
         return items;
     }

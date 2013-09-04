@@ -16,7 +16,7 @@
     <ui:define name="content">
 
         <h:form id="formQuestions">
-            
+
             <p:fieldset legend="Análisis de la Encuesta: #{preguntaBean.encuesta.nombre}" style="width: 75%;">
                 <p:dataTable value="#{preguntaBean.preguntas}" var="pregunta" style="margin-top:15px;">
                     <p:column headerText="Preguntas">
@@ -27,18 +27,23 @@
                                          rendered="#{pregunta.tipo != 1}" title="Ver Análisis">  
                             <f:setPropertyActionListener value="#{pregunta}" target="#{preguntaBean.selectedQuestion}"/>  
                         </p:commandButton> 
-                        
+
                         <p:commandButton id="selectQuestionText" ajax="true" update=":textual" oncomplete="composeDlgText.show()" icon="ui-icon-search" 
                                          rendered="#{pregunta.tipo == 1}" title="Ver Análisis">  
                             <f:setPropertyActionListener value="#{pregunta}" target="#{preguntaBean.selectedQuestionTextual}"/>  
                         </p:commandButton> 
-                        
+
                     </p:column> 
                 </p:dataTable>
+
+                <h:panelGrid columns="3" style="display:block;margin-left: 73%; margin-top: 15px; margin-bottom: 10px;">
+                    <p:commandButton value="Lista de Encuestas" title="Lista de Encuestas" action="surveyAnalysisMain" ajax="true"/>
+                </h:panelGrid>
+
             </p:fieldset>
-            
+
         </h:form>
-        
+
     </ui:define>
 
 </ui:composition>

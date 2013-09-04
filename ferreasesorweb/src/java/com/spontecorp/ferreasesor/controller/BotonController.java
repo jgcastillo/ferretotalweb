@@ -105,7 +105,7 @@ public class BotonController implements Serializable {
 
     public String prepareView() {
         current = (Boton) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        //selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
 
@@ -157,7 +157,7 @@ public class BotonController implements Serializable {
 
     public String prepareEdit() {
         current = (Boton) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+       // selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
 
@@ -190,7 +190,7 @@ public class BotonController implements Serializable {
 
     public String destroy() {
         current = (Boton) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+       // selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
         recreateModel();
@@ -236,7 +236,8 @@ public class BotonController implements Serializable {
 
     public DataModel getItems() {
         if (items == null) {
-            items = getPagination().createPageDataModel();
+            //items = getPagination().createPageDataModel();
+            items = new ListDataModel(getFacade().findAll());
         }
         return items;
     }

@@ -19,20 +19,10 @@
                                  required="true" requiredMessage="#{bundle.EditTurnoRequiredMessage_nombre}"/>
                     <p:message for="nombre"/>
                     <p:outputLabel value="#{bundle.EditTurnoLabel_horaStart}" for="horaStart" />
-<!--                    <p:inputText id="horaStart" value="#{turnoController.selected.horaStart}" title="#{bundle.EditTurnoTitle_horaStart}" 
-                                 required="true" requiredMessage="#{bundle.EditTurnoRequiredMessage_horaStart}">
-                        <f:convertDateTime pattern="HH:mm:ss" />
-                    </p:inputText>-->
                     <p:calendar id="horaStart" value="#{turnoController.selected.horaStart}" title="#{bundle.EditTurnoTitle_horaStart}"
                                 pattern="HH:mm:ss a" timeOnly="true" required="true" requiredMessage="#{bundle.EditTurnoRequiredMessage_horaStart}"/> 
                     <p:message for="horaStart"/>
-                    
-                    
                     <p:outputLabel value="#{bundle.EditTurnoLabel_horaEnd}" for="horaEnd" />
-<!--                    <p:inputText id="horaEnd" value="#{turnoController.selected.horaEnd}" title="#{bundle.EditTurnoTitle_horaEnd}" 
-                                 required="true" requiredMessage="#{bundle.EditTurnoRequiredMessage_horaEnd}">
-                        <f:convertDateTime pattern="HH:mm:ss" />
-                    </p:inputText>-->
                     <p:calendar id="horaEnd" value="#{turnoController.selected.horaEnd}" title="#{bundle.EditTurnoTitle_horaEnd}"
                                 pattern="HH:mm:ss a" timeOnly="true" required="true" requiredMessage="#{bundle.EditTurnoRequiredMessage_horaEnd}"/> 
                     <p:message for="horaEnd"/>
@@ -52,11 +42,6 @@
                         <f:selectItem itemLabel="Inahibilitado" itemValue="0" />
                     </h:selectOneMenu>
                     <p:message for="status"/>
-<!--                    <p:outputLabel value="#{bundle.EditTurnoLabel_tiendaId}" for="tiendaId" />
-                    <p:selectOneMenu id="tiendaId" value="#{turnoController.selected.tiendaId}" title="#{bundle.EditTurnoTitle_tiendaId}" 
-                                     required="true" requiredMessage="#{bundle.EditTurnoRequiredMessage_tiendaId}" style="width: 130px;">
-                        <f:selectItems value="#{tiendaController.itemsAvailableSelectOne}"/>
-                    </p:selectOneMenu>-->
                 </h:panelGrid>
                 <f:facet name="footer">
                     <h:panelGrid columns="3" style="display:block;margin-left: 50%">
@@ -70,6 +55,14 @@
                 </f:facet>
             </p:panel>
         </h:form>
+        <p:ajaxStatus style="right:45%; left:45%">  
+            <f:facet name="start">  
+                <h:graphicImage library="images" name="ajax-loader.gif" style="margin-top: 10px; margin-bottom: 0px; margin-left: 40%;margin-right: 45%"/>
+            </f:facet>  
+            <f:facet name="complete">  
+                <h:outputText value="" />  
+            </f:facet>  
+        </p:ajaxStatus>
     </ui:define>
 </ui:composition>
 

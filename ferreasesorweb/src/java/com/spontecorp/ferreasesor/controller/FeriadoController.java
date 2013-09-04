@@ -78,7 +78,7 @@ public class FeriadoController implements Serializable {
 
     public String prepareView() {
         current = (Feriado) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        //selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
 
@@ -117,7 +117,7 @@ public class FeriadoController implements Serializable {
 
     public String prepareEdit() {
         current = (Feriado) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        //selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
 
@@ -136,7 +136,7 @@ public class FeriadoController implements Serializable {
 
     public String destroy() {
         current = (Feriado) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+       // selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
         recreateModel();
@@ -182,7 +182,8 @@ public class FeriadoController implements Serializable {
 
     public DataModel getItems() {
         if (items == null) {
-            items = getPagination().createPageDataModel();
+            items = new ListDataModel(getFacade().findAll());
+            //items = getPagination().createPageDataModel();
         }
         return items;
     }

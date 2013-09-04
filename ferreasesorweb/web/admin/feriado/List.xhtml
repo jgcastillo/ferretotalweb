@@ -12,10 +12,13 @@
 
     <ui:define name="content">
         <h:form id="form">
-            <p:panel header="Configuración de Feriados" style="width: 60%; margin-left: 15px;">
-                <p:dataTable value="#{feriadoController.items}" var="item" style="width: auto;"
-                             paginator="true" rows="9" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
-                    <f:facet name="header">
+            <p:panel header="Configuración de Feriados" style="width: 70%; margin-left: 15px;">
+                <p:dataTable value="#{feriadoController.items}" var="item" paginator="true"
+                             rows="10" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                             rowsPerPageTemplate="5,10,15"
+                             paginatorPosition="top"
+                             resizableColumns="false">
+                <f:facet name="header">
                         <p:commandButton value="Agregar" title="Agregar" icon="ui-icon-document" 
                                          action="#{feriadoController.prepareCreate}"
                                          style="display: block; text-align: right;"/>

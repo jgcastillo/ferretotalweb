@@ -11,7 +11,7 @@
     </ui:define>
     <ui:define name="content">
 
-<!--        jgcastillop@gmail.com-->
+        <!--        jgcastillop@gmail.com-->
         <h:form>
             <p:panel id="panel" header="Editar Tienda" style="width:60%; margin-left:15px;">
                 <h:panelGrid columns="3">
@@ -46,6 +46,14 @@
                 </f:facet>
             </p:panel>
         </h:form>
+        <p:ajaxStatus style="right:45%; left:45%">  
+            <f:facet name="start">  
+                <h:graphicImage library="images" name="ajax-loader.gif" style="margin-top: 10px; margin-bottom: 0px; margin-left: 40%;margin-right: 45%"/>
+            </f:facet>  
+            <f:facet name="complete">  
+                <h:outputText value="" />  
+            </f:facet>  
+        </p:ajaxStatus>
     </ui:define>
 </ui:composition>
 

@@ -35,7 +35,6 @@ public class ShowEncuestaBeanController implements Serializable{
 
     public Encuesta getEncuesta() {
         encuesta = getEncuestaFacade().find(ENCUESTA_ACTIVA);
-        System.out.println("Buscó la encuesta");
         return encuesta;
     }
 
@@ -48,7 +47,7 @@ public class ShowEncuestaBeanController implements Serializable{
         if(preguntas == null){
             preguntas = getPreguntaFacade().findAll(encuesta);
         }
-        System.out.println("Encontró las preguntas");
+        
         return preguntas;
     }
 

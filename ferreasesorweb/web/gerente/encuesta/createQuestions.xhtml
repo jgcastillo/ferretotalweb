@@ -25,7 +25,7 @@
                     <p:message for="textoPregunta"/>
 
                     <p:outputLabel for="tipoPregunta" value="Tipo pregunta: "/>
-                    <p:selectOneMenu id="tipoPregunta" value="#{preguntaBean.tipoPregunta}" style="margin-left: 108px;"
+                    <h:selectOneMenu id="tipoPregunta" value="#{preguntaBean.tipoPregunta}" style="margin-left: 108px;"
                                      required="true" requiredMessage="El Tipo de Pregunta es requerido">
                         <f:selectItem itemLabel="Seleccione un tipo" itemValue=""/>
                         <f:selectItem itemLabel="Textual" itemValue="1"/>
@@ -33,7 +33,7 @@
                         <f:selectItem itemLabel="Selección" itemValue="3"/>
                         <f:selectItem itemLabel="Calificación" itemValue="4"/>
                         <p:ajax update="prompt" />
-                    </p:selectOneMenu>
+                    </h:selectOneMenu>
                     <p:message for="tipoPregunta"/>
                 </h:panelGrid>
                 <h:panelGrid columns="3" id="prompt">
@@ -85,6 +85,7 @@
                 <br/>
             </p:fieldset>
         </h:form>
+        
     </ui:define>
 
 </ui:composition>

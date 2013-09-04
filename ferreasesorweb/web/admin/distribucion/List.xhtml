@@ -14,8 +14,11 @@
         <h:form id="formAtencion">
             <p:growl id="growls"/>
             <p:panel header="Configuración de Atención" style="width:60%; margin-left:15px;">
-                <p:dataTable value="#{distribucionController.items}" var="item" style="width: auto;">
-
+                <p:dataTable value="#{distribucionController.items}" var="item" paginator="true"
+                             rows="10" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                             rowsPerPageTemplate="5,10,15"
+                             paginatorPosition="top"
+                             resizableColumns="false">
                     <p:column headerText="Asesor" width="25%">
                         <h:outputText value="#{item.asesorNombre}"/>
                     </p:column>
