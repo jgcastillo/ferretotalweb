@@ -409,11 +409,9 @@ public class SerialService implements SerialPortEventListener, Serializable {
                 case ACCION_CANCEL:
                     //Si la Acción es 0 se edita el Registro del Botón correspondiente
                     //Status y fecha de cierre de la Llamada
-                  //  llamada = llamFacade.findLlamadaAbierta(boton);
                     llamada.setFechaClose(calFecha.getTime());
                     llamada.setHoraClose(momento);
                     llamada.setAccion(ACCION_CANCEL);
-                 //   llamFacade.edit(llamada);
                     break;
             }
         } catch (Exception e) {

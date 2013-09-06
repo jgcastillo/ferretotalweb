@@ -73,7 +73,6 @@ public class LlamadaFacade extends AbstractFacade<Llamada> {
         EntityManager em = getEntityManager();
         Llamada llamada = null;
         try {
-            System.out.println("Entro a findLlamadaAbierta");
             String q = "SELECT ll From Llamada ll INNER JOIN ll.distribucionId d "
                     + "WHERE (ll.accion = :accion OR ll.accion = :accion1) AND d.botonId = :boton"
                     + " ORDER BY ll.id DESC";
@@ -83,7 +82,6 @@ public class LlamadaFacade extends AbstractFacade<Llamada> {
             query.setParameter("boton", boton.getId());
             
             llamada = (Llamada) query.getResultList().get(0);
-            System.out.println("Llamada: "+llamada.getId());
             
         } catch (Exception e) {
             e.printStackTrace();

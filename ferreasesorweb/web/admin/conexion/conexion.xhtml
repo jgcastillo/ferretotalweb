@@ -26,12 +26,18 @@
                     </h:selectOneMenu>
                     <p:spacer width="10"/>
                     
-                    <p:commandButton  value="Conectar" title="Conectar" icon="ui-icon-disk"
+                    <p:commandButton  value="Conectar" title="Conectar" icon="ui-icon-disk" rendered="#{!conexBeanController.connected}" 
                                       actionListener="#{conexBeanController.connectButtonActionPerformed}"
-                                      ajax="true" update="panel"/>
+                                      disabled="false" ajax="true" update="panel"/>
+                    <p:commandButton  value="Conectar" title="Conectar" icon="ui-icon-disk" rendered="#{conexBeanController.connected}" 
+                                      actionListener="#{conexBeanController.connectButtonActionPerformed}"
+                                      disabled="true" ajax="true" update="panel"/>
                     <p:spacer width="10"/>
-                    <p:commandButton value="Desconectar" title="Desconectar" icon="ui-icon-disk" 
-                                     actionListener="#{conexBeanController.disconnect}"
+                    <p:commandButton value="Desconectar" title="Desconectar" icon="ui-icon-disk" rendered="#{conexBeanController.connected}"  
+                                     disabled="false" actionListener="#{conexBeanController.disconnect}"
+                                     ajax="true" update="panel"/>
+                    <p:commandButton value="Desconectar" title="Desconectar" icon="ui-icon-disk" rendered="#{!conexBeanController.connected}"
+                                     actionListener="#{conexBeanController.disconnect}" disabled="true"
                                      ajax="true" update="panel"/>
                 </h:panelGrid>
 
@@ -42,8 +48,8 @@
         </h:form>
     </ui:define>
 
-    <ui:define name="status">
-        status
-    </ui:define>
+<!--   <ui:define name="statusConexion">
+      
+    </ui:define>-->
 
 </ui:composition>

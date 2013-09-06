@@ -101,9 +101,6 @@ public class AlarmaController implements Serializable {
      */
     public void startThread(PushContext pushContext, Boton boton, int tiempoBueno, int tiempoRegular, int tCierre) {
         String buttonSelected = boton.getUbicacion();
-        System.out.println("1.- El boton en startThread es: " + boton.getId());
-        System.out.println("2.- Ubicacion: "+buttonSelected);
-        System.out.println("3.- Total llamados: "+llamados.size());
 
         //Se verifica si el Botón existe en el mapa, 
         //si no existe se crea el hilo y se agrega a llamados
@@ -113,8 +110,7 @@ public class AlarmaController implements Serializable {
             
             //Se llena el mapa con el hilo creado y el botón correspondiente
             llamados.put(buttonSelected, hilo);
-            
-            System.out.println("4.- Llamados.size: "+llamados.size());
+
             hilo.setArrancar();
             executor.execute(hilo);
         }
@@ -126,14 +122,10 @@ public class AlarmaController implements Serializable {
      */
     public void stopThread(Boton boton) {
         String buttonSelected = boton.getUbicacion();
-        System.out.println("5.- El boton en stopThread Alarmacontroller es: " + boton.getId());
-        System.out.println("6.- Ubicacion: "+buttonSelected);
-        System.out.println("7.- Total llamados: "+llamados.size());
         
         //Se verifica si el Botón existe en el mapa, 
         //si existe se detiene el hilo y se elimina de llamados
         if (llamados.containsKey(buttonSelected)) {
-            System.out.println("8.- Existe en llamados: "+buttonSelected);
             hilo = (ThreadOnButton) llamados.get(buttonSelected);
             hilo.setTerminar();
             llamados.remove(buttonSelected);
@@ -154,13 +146,11 @@ public class AlarmaController implements Serializable {
             InitialContext context = new InitialContext();
             
             LlamadaFacade llamadaFacade = (LlamadaFacade) context.lookup("java:module/LlamadaFacade");
-            System.out.println("Invoco findLlamadaAbierta");
             Llamada llamada = llamadaFacade.findLlamadaAbierta(boton);
             
             llamada.setFechaClose(calFecha.getTime());
             llamada.setHoraClose(momento);
             llamada.setAccion(ACCION_CANCEL);
-            System.out.println("Invoco edit Llamada");
             llamadaFacade.edit(llamada);
         } catch (NamingException ex) {
             Logger.getLogger(AlarmaController.class.getName()).log(Level.SEVERE, null, ex);
