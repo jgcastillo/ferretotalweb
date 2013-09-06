@@ -78,8 +78,9 @@ function handleMessage2(data) {
 function handleMessage3(data) {
 
     var status = data.status;
-
+    
     if (status == 1) {
+        //alert("Entro al Script Status 1");
         $('.display31').html(function() {
             $('.display31').show();
             return '<p><h2>Ubicación: ' + data.ubicacion + '</h2></p><p>Tiempo: ' + data.counter + '</p>';
@@ -87,6 +88,7 @@ function handleMessage3(data) {
     }
 
     if (status == 2) {
+       // alert("Entro al Script Status 2");
         $('.display32').html(function() {
             $('.display31').hide();
             $('.display32').show();
@@ -95,6 +97,7 @@ function handleMessage3(data) {
     }
 
     if (status == 3) {
+        //alert("Entro al Script Status 3");
         $('.display33').html(function() {
             $('.display32').hide();
             $('.display33').show();

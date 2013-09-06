@@ -20,7 +20,7 @@ public class ThreadOnButton implements Runnable {
     private int tiempoBueno;
     private int tiempoRegular;
     private int tiempoCierre;
-    private Boton boton;
+    private Boton boton;   
     private volatile PushContext pushContext;
     private String showCounter;
     private volatile boolean terminar;
@@ -29,7 +29,6 @@ public class ThreadOnButton implements Runnable {
     private String CHANNEL;
     private AlarmaController alarmaController;
     
-
     ThreadOnButton(AlarmaController alarmaController, String nombreHilo, PushContext pushContext, Boton boton, int tiempoBueno, int tiempoRegular, int tCierre) {
         this.alarmaController = alarmaController;
         this.nombreHilo = nombreHilo;
@@ -66,12 +65,16 @@ public class ThreadOnButton implements Runnable {
                 this.showCounter = secFormat.format(sec);
                 if (counter > 0 && counter <= tiempoBueno) {
                     pushContext.push(getCHANNEL(), new BotonIntermedia(boton.getUbicacion(), boton.getId(), this.tiempoBueno, this.tiempoRegular, 1, this.showCounter));
+                    System.out.println(counter);
                 } else if (counter > tiempoBueno && counter <= tiempoRegular) {
                     pushContext.push(getCHANNEL(), new BotonIntermedia(boton.getUbicacion(), boton.getId(), this.tiempoBueno, this.tiempoRegular, 2, this.showCounter));
+                    System.out.println(counter);
                 } else if (counter > tiempoRegular && counter < tiempoCierre) {
                     pushContext.push(getCHANNEL(), new BotonIntermedia(boton.getUbicacion(), boton.getId(), this.tiempoBueno, this.tiempoRegular, 3, this.showCounter));
+                    System.out.println(counter);
                 } else if (counter >= tiempoCierre){
                     terminar = true;
+                    System.out.println(counter);
                     //pushContext.push(getCHANNEL(), new BotonIntermedia(boton.getUbicacion(), boton.getId(), this.tiempoBueno, this.tiempoRegular, 4, this.showCounter));
                 }
                 Thread.sleep(1000);
@@ -81,7 +84,13 @@ public class ThreadOnButton implements Runnable {
             }
         }
         if (terminar) {
+            //Se invoca al método que detiene el hilo 
             alarmaController.stopThread(boton);
+            
+            //Se invoca al método que actualiza el status y fecha de cierre de la Llamada
+            alarmaController.detenerLlamada(boton);
+            
+            //Se maneja la vista que muestra el Status de la Llamada
             pushContext.push(getCHANNEL(), new BotonIntermedia(boton.getUbicacion(), boton.getId(), this.tiempoBueno, this.tiempoRegular, 4, this.showCounter));
         }
         

@@ -22,8 +22,9 @@ public class JpaUtilities {
     
     public static int HABILITADO = 1;
     public static int INHABILITADO = 0;
-    public static final int ID_TIENDA = 1;
+    public static final Integer ID_TIENDA = 1;
     public static final int FERIADO = 1;
+    public static final int NORMAL = 0;
 
     public JpaUtilities(){
     }
