@@ -422,7 +422,7 @@ public class SerialService implements SerialPortEventListener, Serializable {
     /**
      * Se verifica el Turno correspondiente
      */
-    private void chequeaTurno() {
+    public void chequeaTurno() {
 
         try {
             conexionController = getConexionController();
@@ -546,4 +546,14 @@ public class SerialService implements SerialPortEventListener, Serializable {
     public void setTienda(Tienda tienda) {
         this.tienda = tienda;
     }
+
+    public Turno getTurnoActual() {
+        return turnoActual;
+    }
+
+    public void setTurnoActual(Turno turnoActual) {
+        this.turnoActual = turnoActual;
+    }
+    
+    
 }

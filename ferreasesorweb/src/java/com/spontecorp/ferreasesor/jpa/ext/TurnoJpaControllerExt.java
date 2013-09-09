@@ -34,7 +34,7 @@ public class TurnoJpaControllerExt {
     }
 
     public List<Turno> findTurnoEntities() {
-        System.out.println("3.- Llego a findTurnoEntities");
+        //System.out.println("3.- Llego a findTurnoEntities");
         List<Turno> turnos = null;
         try {
             Query query = em.createQuery("SELECT t FROM Turno t WHERE t.status = 1");

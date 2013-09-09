@@ -1,5 +1,6 @@
 package com.spontecorp.ferreasesor.controller;
 
+import com.spontecorp.ferreasesor.entity.Turno;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
@@ -20,6 +21,7 @@ public class ConexionBeanController implements Serializable {
     private boolean connected;
     private String portSelected;
     private List<String> items = null;
+    private Turno turnoActual;
 
     public ConexionBeanController() {
         serialService = new SerialService();
@@ -64,7 +66,7 @@ public class ConexionBeanController implements Serializable {
      */
     public void connectButtonActionPerformed(ActionEvent evt) {
         serialService.connectAction();
-        System.out.println("Entro a connectButtonActionPerformed");
+        //System.out.println("Entro a connectButtonActionPerformed");
         if (serialService.isConnected()) {
             connected = serialService.isConnected();
             serialService.initListener();
@@ -77,8 +79,27 @@ public class ConexionBeanController implements Serializable {
      * puerto serial
      */
     public void disconnect(ActionEvent evt) {
-        System.out.println("Entro a disconnect");
+        //System.out.println("Entro a disconnect");
         serialService.disconnect();
         connected = serialService.isConnected();
     }
+    
+    /**
+     * Se verifica el Turno Actual
+     */
+    public void updateTurnoActual(){
+        serialService.chequeaTurno();
+        System.out.println("Checkeando Turno...");
+        setTurnoActual(serialService.getTurnoActual());
+    } 
+
+    public Turno getTurnoActual() {
+        return turnoActual;
+    }
+
+    public void setTurnoActual(Turno turnoActual) {
+        this.turnoActual = turnoActual;
+    }
+    
+    
 }
