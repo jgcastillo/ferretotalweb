@@ -82,9 +82,9 @@ public class LoginBean implements Serializable {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("username", usuario);
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido", usuario);
             if (current.getPerfilId().getPermiso() == 1 || current.getPerfilId().getPermiso() == 2) {
-                result = "main1?faces-redirect=true";
+                result = "/main1?faces-redirect=true";
             } else {
-                result = "main?faces-redirect=true";
+                result = "/main?faces-redirect=true";
             }
         } else {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("username", "");
@@ -98,7 +98,7 @@ public class LoginBean implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove(usuario);
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         current = null;
-        return "index?faces-redirect=true";
+        return "/index?faces-redirect=true";
     }
 
     public boolean isLoggedIn() {
