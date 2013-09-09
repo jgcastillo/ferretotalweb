@@ -258,10 +258,10 @@ public class FillEncuestaBeanController implements Serializable {
 
     public String showMessage(int counter) {
         if(counter > 0){
-            return "message?faces-redirect=true";
+            return "/message?faces-redirect=true";
         }else{
             showMessageResp = true;
-            return "main?faces-redirect=true";
+            return "/main?faces-redirect=true";
         }   
     }
 
