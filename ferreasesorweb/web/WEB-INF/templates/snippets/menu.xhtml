@@ -81,13 +81,20 @@
                         <p:menuitem value="Status Dispositivos" action="/statusDispositivos.xhtml" ajax="false" icon="ui-icon-home" />
                         <p:menuitem value="Logout" action="#{loginBean.logout}" icon="ui-icon-power"/>
                     </p:submenu>
-                    
+
                 </p:panelMenu>
             </c:if>
             <c:if test="#{loginBean.asesor}" >
                 <p:panelMenu id="menuAsesor">
+                    <p:submenu label="Encuestas">
+                        <p:menuitem value="Ver Encuesta" action="/main.xhtml" ajax="false" icon="ui-icon-search"/>
+                    </p:submenu>
+                    <p:submenu label="Recolector de Información">
+                        <p:menuitem value="Ver Recolector Información" action="/recolectorInformacion.xhtml" 
+                                    ajax="false" icon="ui-icon-search"/>
+                    </p:submenu>
                     <p:submenu label="Navegación">
-                        <p:menuitem value="Principal" action="/main.xhtml" ajax="false" icon="ui-icon-home" />
+                        <p:menuitem value="Principal" action="/main1.xhtml" ajax="false" icon="ui-icon-home" />
                         <p:menuitem value="Logout" action="#{loginBean.logout}" icon="ui-icon-power"/>
                     </p:submenu>
                 </p:panelMenu>

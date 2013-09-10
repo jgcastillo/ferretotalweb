@@ -12,7 +12,7 @@
     </ui:define>
 
     <ui:define name="content">
-        <h:form id="mainFor">
+        <h:form id="mainFor" rendered="#{loginBean.admin || loginBean.gerente}">
             <p:fieldset>
                 <p:dataTable value="#{mainBean.llamadaList}" var="item" paginator="true"
                              rows="15" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
@@ -48,6 +48,18 @@
                     </p:column>
                 </p:dataTable>
             </p:fieldset>
+        </h:form>
+
+        <h:form id="mainForAsesor" rendered="#{loginBean.asesor}">
+            <p:panel id="panelOptions" header="Opciones:" style="width:50%; margin-right:25%; margin-left:25%;margin-top:80px;">
+                <h:panelGrid style="text-align: center; width:100%;">
+                    <p:commandButton value="Recolector Información" title="Ver Recolector Información" icon="ui-icon-search" 
+                                     action="/recolectorInformacion.xhtml" ajax="true" style="margin-top: 10px"/>
+
+                    <p:commandButton value="Ver Encuesta Activa" title="Ver Encuesta" icon="ui-icon-search" style="margin-top: 10px; margin-bottom: 10px;"
+                                     action="/main.xhtml" ajax="true"/>
+                </h:panelGrid>
+            </p:panel>
         </h:form>
     </ui:define>
 

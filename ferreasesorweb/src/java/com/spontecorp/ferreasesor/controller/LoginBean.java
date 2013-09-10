@@ -84,7 +84,7 @@ public class LoginBean implements Serializable {
             if (current.getPerfilId().getPermiso() == 1 || current.getPerfilId().getPermiso() == 2) {
                 result = "/main1?faces-redirect=true";
             } else {
-                result = "/main?faces-redirect=true";
+                result = "/main1?faces-redirect=true";
             }
         } else {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("username", "");
