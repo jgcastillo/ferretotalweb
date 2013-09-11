@@ -1,15 +1,22 @@
 package com.spontecorp.ferreasesor.controller;
 
+import com.spontecorp.ferreasesor.controller.reporte.JasperBeanRecolectorInformacion;
+import com.spontecorp.ferreasesor.controller.reporte.JasperManagement;
 import com.spontecorp.ferreasesor.controller.util.JsfUtil;
 import com.spontecorp.ferreasesor.controller.util.PaginationHelper;
 import com.spontecorp.ferreasesor.entity.RespuestaMotivo;
 import com.spontecorp.ferreasesor.jpa.RespuestaMotivoFacade;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -21,6 +28,7 @@ import javax.faces.event.ActionEvent;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import net.sf.jasperreports.engine.JRException;
 
 @ManagedBean(name = "respuestaMotivoController")
 @SessionScoped
@@ -185,7 +193,7 @@ public class RespuestaMotivoController implements Serializable {
     }
 
     /**
-     * Listado de Respustas Obtenidas en el Recolector de Información filtradas
+     * Listado de Respuestas Obtenidas en el Recolector de Información filtradas
      * por fecha
      *
      * @param actionEvent
@@ -196,6 +204,70 @@ public class RespuestaMotivoController implements Serializable {
 
         //Se muestra la Tabla
         showTable = true;
+
+    }
+    
+    /**
+     * Exportar Reportes a PDF (Respuestas de Motivos de Llamado)
+     * @throws JRException
+     * @throws IOException 
+     */
+    public void exportarReportePDFMotivos() throws JRException, IOException {
+        String extension = "PDF";
+        String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/encuesta/reportepdfMotivos.jasper");
+        exportarReporteMotivos(extension, jasperFileAddress);
+
+    }
+    
+     /**
+     * Exportar Reportes a PDF (Respuestas de Motivos de Llamado)
+     * @throws JRException
+     * @throws IOException 
+     */
+    public void exportarReporteXLSMotivos() throws JRException, IOException {
+        String extension = "XLS";
+        String jasperFileAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/encuesta/reportexlsMotivos.jasper");
+        exportarReporteMotivos(extension, jasperFileAddress);
+
+    }
+    
+    /**
+     * Método para exportar Reportes de Respuestas de Motivos de Llamado
+     * 
+     *
+     * @param extension
+     * @param jasperFileAddress
+     * @throws JRException
+     * @throws IOException
+     */
+    public void exportarReporteMotivos(String extension, String jasperFileAddress) throws JRException, IOException {
+
+        JasperManagement jm = new JasperManagement();
+        List<JasperBeanRecolectorInformacion> myList;
+        String logoAddress = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reports/ferretotallogo.jpg");
+
+        try {
+
+            //Revisa los casos y llena la lista de jasperbean
+            List<RespuestaMotivo> respList = getListaRespuestas();
+            myList = jm.FillListRecolector(respList);
+
+            String nombreReporte = "Recolector de Información";
+            String nombreRango = "Motivo de Llamado";
+            
+            int totalRespuestas = respList.size();
+
+            Map parametros = new HashMap();
+            parametros.put("nombrereporte", nombreReporte);
+            parametros.put("nombre", nombreRango);
+            parametros.put("totalRespuestas", totalRespuestas);
+            parametros.put("logo", logoAddress);
+
+            jm.FillReportRecolector(parametros, myList, extension, jasperFileAddress, nombreReporte);
+
+        } catch (JRException e) {
+            Logger.getLogger(RespuestaMotivoController.class.getName()).log(Level.SEVERE, null, e);
+        }
 
     }
 

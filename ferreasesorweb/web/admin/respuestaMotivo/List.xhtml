@@ -32,38 +32,36 @@
                     <p:spacer style="width: 10px;"/>
                 </h:panelGrid>
                 <br/><br/> 
-                 <p:dataTable value="#{respuestaMotivoController.listaRespuestas}" var="item" paginator="true" rendered="#{respuestaMotivoController.showTable}"
-                                 rows="15" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                                 rowsPerPageTemplate="5,10,15"
-                                 paginatorPosition="top"
-                                 resizableColumns="false">
-                        <f:facet name="header">
-                            <p  style="text-align: center">Respuestas Obtenidas Recolector de Información<br/>
-                                (<h:outputText value="#{respuestaMotivoController.fechaInicio}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText> 
-                                - <h:outputText value="#{respuestaMotivoController.fechaFin}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>)
-                            </p>
-                        </f:facet><br/>
-                        <p:column headerText="Fecha" style="text-align: center; width: 20%">
-                            <h:outputText value="#{item.fecha}">
-                                <f:convertDateTime pattern="dd/MM/yyyy" />
-                            </h:outputText>
-                        </p:column>
+                <p:dataTable value="#{respuestaMotivoController.listaRespuestas}" var="item" paginator="true" rendered="#{respuestaMotivoController.showTable}"
+                             rows="15" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                             rowsPerPageTemplate="5,10,15"
+                             paginatorPosition="top"
+                             resizableColumns="false">
+                    <f:facet name="header">
+                        <p  style="text-align: center">Respuestas Obtenidas Recolector de Información<br/>
+                            (<h:outputText value="#{respuestaMotivoController.fechaInicio}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText> 
+                            - <h:outputText value="#{respuestaMotivoController.fechaFin}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>)
+                        </p>
+                    </f:facet><br/>
+                    <p:column headerText="Fecha" style="text-align: center; width: 20%">
+                        <h:outputText value="#{item.fecha}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
 
-                        <p:column headerText="Hora" style="text-align: center; width: 20%">
-                            <h:outputText value="#{item.fecha}">
-                                <f:convertDateTime pattern="HH:mm" />
-                            </h:outputText>
-                        </p:column>
+                    <p:column headerText="Hora" style="text-align: center; width: 20%">
+                        <h:outputText value="#{item.fecha}">
+                            <f:convertDateTime pattern="HH:mm" />
+                        </h:outputText>
+                    </p:column>
 
-                        <p:column headerText="Motivo de Llamado">
-                            <h:outputText value="#{item.motivoId.nombre}"/>
-                        </p:column>
+                    <p:column headerText="Motivo de Llamado">
+                        <h:outputText value="#{item.motivoId.nombre}"/>
+                    </p:column>
 
-                    </p:dataTable>
-                    <h:panelGroup id="messagePanel" layout="block">
-                        <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
-                    </h:panelGroup>
-            
+                </p:dataTable>
+                <h:commandButton value="Exportar PDF" actionListener="#{respuestaMotivoController.exportarReportePDFMotivos}" title="Exportar a PDF" style="margin-top: 15px;margin-left: 70%;"/>
+                <h:commandButton value="Exportar Excel" actionListener="#{respuestaMotivoController.exportarReporteXLSMotivos}" title="Exportar a Excel" style="margin-top: 15px; margin-left: 10px;"/>
             </h:form>
         </p:fieldset>
     </ui:define>

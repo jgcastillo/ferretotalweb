@@ -7,6 +7,7 @@ package com.spontecorp.ferreasesor.controller.reporte;
 import com.spontecorp.ferreasesor.entity.Asesor;
 import com.spontecorp.ferreasesor.entity.Boton;
 import com.spontecorp.ferreasesor.entity.Numericas;
+import com.spontecorp.ferreasesor.entity.RespuestaMotivo;
 import com.spontecorp.ferreasesor.entity.RespuestaObtenida;
 import com.spontecorp.ferreasesor.entity.Turno;
 import java.io.File;
@@ -37,6 +38,7 @@ public class JasperManagement {
 
     private List<JasperBeanLlamadas> lista = new ArrayList<>();
     private List<JasperBeanEncuestas> listaRespuestas = new ArrayList<>();
+    private List<JasperBeanRecolectorInformacion> listaRecolector = new ArrayList<>();
     List<JasperBeanTiempoCalidad> listatiempo = new ArrayList<>();
 
     public List<JasperBeanLlamadas> FillList(List<Object[]> result) {
@@ -96,6 +98,14 @@ public class JasperManagement {
             listaRespuestas.add(jb);
         }
         return listaRespuestas;
+    }
+    
+    public List<JasperBeanRecolectorInformacion> FillListRecolector(List<RespuestaMotivo> respList) {
+        for (int i = 0; i < respList.size(); i++) {
+            JasperBeanRecolectorInformacion jb = new JasperBeanRecolectorInformacion(respList.get(i).getMotivoId().getNombre(), i+1);
+            listaRecolector.add(jb);
+        }
+        return listaRecolector;
     }
 
     public void FillReportTiempoCalidad(Map parametros, List<JasperBeanTiempoCalidad> lista, String extension, String nombreJasper, String nombreReporte) throws JRException, IOException {
@@ -193,6 +203,41 @@ public class JasperManagement {
      * @throws IOException 
      */
     public void FillReportTextualEncuesta(Map parametros, List<JasperBeanEncuestas> lista, String extension, String nombreJasper, String nombreReporte) throws JRException, IOException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        File file = new File(nombreJasper);
+        JasperReport reporte = (JasperReport) JRLoader.loadObject(file);
+        JRBeanCollectionDataSource jbs = new JRBeanCollectionDataSource(lista);
+        JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, parametros, jbs);
+        HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+        httpServletResponse.addHeader("Content-disposition", "attachment; filename=" + nombreReporte + "_" + sdf.format((new Date())) + "." + extension);
+
+        ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+
+        if ("PDF".equals(extension)) {
+            JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
+        } else {
+            httpServletResponse.setContentType("application/vnd.ms-excel");
+            JRXlsExporter xlsxExporter = new JRXlsExporter();
+            xlsxExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+            xlsxExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, servletOutputStream);
+            xlsxExporter.exportReport();
+        }
+        FacesContext.getCurrentInstance().responseComplete();
+    }
+    
+    /**
+     * Reportes Recolector de Información
+     * Motivo de Llamado
+     * 
+     * @param parametros
+     * @param lista
+     * @param extension
+     * @param nombreJasper
+     * @param nombreReporte
+     * @throws JRException
+     * @throws IOException 
+     */
+    public void FillReportRecolector(Map parametros, List<JasperBeanRecolectorInformacion> lista, String extension, String nombreJasper, String nombreReporte) throws JRException, IOException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         File file = new File(nombreJasper);
         JasperReport reporte = (JasperReport) JRLoader.loadObject(file);
