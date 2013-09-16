@@ -70,7 +70,7 @@ public class ConexionBeanController implements Serializable {
         if (serialService.isConnected()) {
             connected = serialService.isConnected();
             serialService.initListener();
-            System.out.println("Esta conectado: "+connected);
+            //System.out.println("Esta conectado: "+connected);
         }
     }
 
@@ -89,7 +89,7 @@ public class ConexionBeanController implements Serializable {
      */
     public void updateTurnoActual(){
         serialService.chequeaTurno();
-        System.out.println("Checkeando Turno...");
+        //System.out.println("Checkeando Turno...");
         setTurnoActual(serialService.getTurnoActual());
     } 
 

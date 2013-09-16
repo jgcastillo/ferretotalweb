@@ -60,7 +60,7 @@ public class ThreadOnButton implements Runnable {
         setCHANNEL("/channel" + boton.getId());
         while (!terminar) {
             try {
-                counter++;
+                //counter++;
                 sec.setTime(counter * 1000);
                 this.showCounter = secFormat.format(sec);
                 if (counter > 0 && counter <= tiempoBueno) {
