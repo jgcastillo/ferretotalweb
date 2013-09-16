@@ -60,21 +60,21 @@ public class ThreadOnButton implements Runnable {
         setCHANNEL("/channel" + boton.getId());
         while (!terminar) {
             try {
-                //counter++;
+                counter++;
                 sec.setTime(counter * 1000);
                 this.showCounter = secFormat.format(sec);
                 if (counter > 0 && counter <= tiempoBueno) {
                     pushContext.push(getCHANNEL(), new BotonIntermedia(boton.getUbicacion(), boton.getId(), this.tiempoBueno, this.tiempoRegular, 1, this.showCounter));
-                    System.out.println(counter);
+                    //System.out.println(counter);
                 } else if (counter > tiempoBueno && counter <= tiempoRegular) {
                     pushContext.push(getCHANNEL(), new BotonIntermedia(boton.getUbicacion(), boton.getId(), this.tiempoBueno, this.tiempoRegular, 2, this.showCounter));
-                    System.out.println(counter);
+                    //System.out.println(counter);
                 } else if (counter > tiempoRegular && counter < tiempoCierre) {
                     pushContext.push(getCHANNEL(), new BotonIntermedia(boton.getUbicacion(), boton.getId(), this.tiempoBueno, this.tiempoRegular, 3, this.showCounter));
-                    System.out.println(counter);
+                    //System.out.println(counter);
                 } else if (counter >= tiempoCierre){
                     terminar = true;
-                    System.out.println(counter);
+                    //System.out.println(counter);
                     //pushContext.push(getCHANNEL(), new BotonIntermedia(boton.getUbicacion(), boton.getId(), this.tiempoBueno, this.tiempoRegular, 4, this.showCounter));
                 }
                 Thread.sleep(1000);
