@@ -47,7 +47,9 @@
                 <c:if test="#{loginBean.loggedIn}">
                     <p:layoutUnit position="south" size="70" header="Status de Conexión" resizable="false" 
                                   closable="false" collapsible="true">
-                        <ui:include src="./snippets/statusConexion.xhtml" />
+                        <ui:insert name="statusDispositivo"> 
+                             <ui:include src="./snippets/statusConexion.xhtml" />
+                        </ui:insert>
                     </p:layoutUnit>
                 </c:if>
 
@@ -170,7 +172,7 @@
                         </ui:repeat>
                     </p:panel>  
                     <h:commandButton value="Cancel" onclick="composeDlgText.hide()" type="button" style="margin-left:63%;margin-top: 10px;margin-right: 10px;"/>
-                     <h:commandButton value="Exportar PDF" actionListener="#{preguntaBean.exportarReportePDFTextual}" title="Exportar a PDF" style="margin-top: 10px;margin-right: 10px;"/>
+                    <h:commandButton value="Exportar PDF" actionListener="#{preguntaBean.exportarReportePDFTextual}" title="Exportar a PDF" style="margin-top: 10px;margin-right: 10px;"/>
                     <h:commandButton value="Exportar Excel" actionListener="#{preguntaBean.exportarReporteXLSTextual}" title="Exportar a Excel" style="margin-top: 10px;margin-right: 10px;"/>
                 </h:form>
             </p:dialog>    
