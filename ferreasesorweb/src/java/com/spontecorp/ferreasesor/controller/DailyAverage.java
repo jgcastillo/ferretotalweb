@@ -35,7 +35,7 @@ public class DailyAverage implements Serializable {
     private int totalLlamadas;
     private int calidadAtencion;
     private List<Llamada> llamadas;
-    
+
     public DailyAverage() {
     }
 
@@ -66,19 +66,18 @@ public class DailyAverage implements Serializable {
     public void setCalidadAtencion(int calidadAtencion) {
         this.calidadAtencion = calidadAtencion;
     }
-    
-    private List<Llamada> getLlamadas(Date fecha){
-        if(llamadas == null){
+
+    private List<Llamada> getLlamadas(Date fecha) {
+        if (llamadas == null) {
             llamadas = llamadaFacade.findLlamadasTiempo(fecha, fecha);
         }
-        
+
         return llamadas;
     }
 
     /**
-     * Seteo la fecha actual y 
-     * llamo los metodos que calculan Promedio de Atención,
-     * Total Llamadas y Total Llamadas Malas
+     * Seteo la fecha actual y llamo los metodos que calculan Promedio de
+     * Atención, Total Llamadas y Total Llamadas Malas
      */
     public void updateEstatistics() {
         Calendar cal = new GregorianCalendar();
@@ -103,24 +102,30 @@ public class DailyAverage implements Serializable {
 
     /**
      * Se calcula el Promedio General
+     *
      * @param fecha
-     * @return 
+     * @return
      */
     public double[] promedioGral(Date fecha) {
         double[] valores = new double[2];
         double promedio = 0.0;
         long total = 0L;
 
-        for (Llamada llamada : getLlamadas(fecha)) {           
+        for (Llamada llamada : getLlamadas(fecha)) {
             long tOpen = llamada.getHoraOpen().getTime();
+            //System.out.println("tOpen: " + tOpen);
             long tClose = llamada.getHoraClose().getTime();
+            //System.out.println("tClose: " + tClose);
             long tiempo = (tClose - tOpen) / 1000;
+            //System.out.println("tiempo: " + tiempo);
             total += tiempo;
+            //System.out.println("Total: " + total);
         }
 
-        promedio = total / ((double) llamadas.size());
-
         if (llamadas.size() > 0) {
+            promedio = total / llamadas.size();
+            //System.out.println("Promedio: " + promedio);
+
             valores[0] = promedio;
             valores[1] = llamadas.size();
         } else {
@@ -130,13 +135,14 @@ public class DailyAverage implements Serializable {
         llamadas = null;
         return valores;
     }
-    
+
     /**
      * Se calcula Total Llamadas Malas
+     *
      * @param fecha
-     * @return 
+     * @return
      */
-    public int getTotalMalas(Date fecha){
+    public int getTotalMalas(Date fecha) {
         int total = 0;
         for (Llamada llamada : getLlamadas(fecha)) {
             int tiempoRegular = 0;
@@ -151,7 +157,7 @@ public class DailyAverage implements Serializable {
 //            }
             tiempoRegular = llamada.getTiempoId().getAtencionRegular();
             long dif = (llamada.getHoraClose().getTime() - llamada.getHoraOpen().getTime()) / 1000;
-            if(dif > tiempoRegular){
+            if (dif > tiempoRegular) {
                 total++;
             }
         }
