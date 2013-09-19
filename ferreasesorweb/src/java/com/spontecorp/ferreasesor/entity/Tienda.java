@@ -4,6 +4,7 @@
  */
 package com.spontecorp.ferreasesor.entity;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -36,18 +37,23 @@ public class Tienda implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @Expose
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
     @Column(name = "sucursal")
+    @Expose
     private int sucursal;
     @Basic(optional = false)
     @Column(name = "nombre")
+    @Expose
     private String nombre;
     @Lob
     @Column(name = "direccion")
+    @Expose
     private String direccion;
     @Column(name = "telefono")
+    @Expose
     private String telefono;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tiendaId")
     private List<Asesor> asesorList;

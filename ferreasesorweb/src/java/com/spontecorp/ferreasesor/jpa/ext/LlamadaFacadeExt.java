@@ -5,6 +5,7 @@ import com.spontecorp.ferreasesor.entity.Llamada;
 import com.spontecorp.ferreasesor.jpa.LlamadaFacade;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author jgcastillo
  */
+@Stateless
 public class LlamadaFacadeExt extends LlamadaFacade {
     //@PersistenceContext(unitName = "FerreAsesorWebPU")
 
