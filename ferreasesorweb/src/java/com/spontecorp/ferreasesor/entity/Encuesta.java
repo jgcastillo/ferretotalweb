@@ -4,6 +4,7 @@
  */
 package com.spontecorp.ferreasesor.entity;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -39,35 +40,42 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Encuesta.findByFechaFin", query = "SELECT e FROM Encuesta e WHERE e.fechaFin = :fechaFin"),
     @NamedQuery(name = "Encuesta.findByStatus", query = "SELECT e FROM Encuesta e WHERE e.status = :status")})
 public class Encuesta implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
+    @Expose
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 150)
     @Column(name = "nombre")
+    @Expose
     private String nombre;
     @Basic(optional = false)
     @NotNull
     @Column(name = "fecha_inicio")
     @Temporal(TemporalType.TIMESTAMP)
+    @Expose
     private Date fechaInicio;
     @Column(name = "fecha_fin")
     @Temporal(TemporalType.TIMESTAMP)
+    @Expose
     private Date fechaFin;
     @Basic(optional = false)
     @NotNull
     @Column(name = "status")
+    @Expose
     private int status;
-    @OneToMany(mappedBy = "encuestaId")
+    @OneToMany(mappedBy = "encuestaId")   
+    @Expose
     private List<Pregunta> preguntaList;
     @JoinColumn(name = "tienda_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false)    
     private Tienda tiendaId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "encuestaId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "encuestaId")    
     private List<RespuestaObtenida> respuestaObtenidaList;
 
     public Encuesta() {
@@ -172,5 +180,4 @@ public class Encuesta implements Serializable {
     public String toString() {
         return "com.spontecorp.ferreasesor.entity.Encuesta[ id=" + id + " ]";
     }
-    
 }

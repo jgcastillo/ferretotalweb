@@ -4,6 +4,7 @@
  */
 package com.spontecorp.ferreasesor.entity;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,16 +44,19 @@ public class Pregunta implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
+    @Expose
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Lob
     @Size(min = 1, max = 65535)
     @Column(name = "pregunta")
+    @Expose
     private String pregunta;
     @Basic(optional = false)
     @NotNull
     @Column(name = "tipo")
+    @Expose
     private int tipo;
     @JoinColumn(name = "encuesta_id", referencedColumnName = "id")
     @ManyToOne
@@ -60,6 +64,7 @@ public class Pregunta implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "preguntaId")
     private List<RespuestaObtenida> respuestaObtenidaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "preguntaId")
+    @Expose
     private List<RespuestaConf> respuestaConfList;
     @Transient
     private int totalRespuestas;
