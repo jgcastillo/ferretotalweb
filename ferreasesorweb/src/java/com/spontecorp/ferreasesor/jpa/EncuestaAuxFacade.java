@@ -33,7 +33,7 @@ public class EncuestaAuxFacade extends AbstractFacade<EncuestaAux>{
     private RespuestaObtenidaFacade respuestaFacade;
 
     @Override
-    protected EntityManager getEntityManager() {
+    public EntityManager getEntityManager() {
         return em;
     }
     
@@ -66,5 +66,11 @@ public class EncuestaAuxFacade extends AbstractFacade<EncuestaAux>{
         String query = "SELECT resp FROM RespuestaObtenida resp WHERE resp.encuestaId = : encuesta";
         Query q = respuestaFacade.getEntityManager().createQuery(query);
         return q.getResultList();
+    }
+     public Object findEncuestasByIdGlobal(int idGlobal){
+        String query = "SELECT enc FROM Encuesta enc WHERE enc.globalId = :idGlobal";           
+        Query q = respuestaFacade.getEntityManager().createQuery(query);
+        q.setParameter("idGlobal", idGlobal);
+        return q.getSingleResult();
     }
 }

@@ -18,7 +18,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,7 +27,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 @RequestScoped
-public class LlamadaServerManager implements Serializable {
+public class LlamadaServiceManager implements Serializable {
 
     private List<LlamadaServer> listaLlamadasServer = new ArrayList<>();
     private LlamadaServer llamadaServer = new LlamadaServer();
@@ -65,7 +64,7 @@ public class LlamadaServerManager implements Serializable {
             }
 
         } catch (NamingException ex) {
-            Logger.getLogger(LlamadaServerManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LlamadaServiceManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listaLlamadasServer;
     }
@@ -181,7 +180,12 @@ public class LlamadaServerManager implements Serializable {
         String ubicacion = boton.getUbicacion();
         return ubicacion;
     }
-
+/**
+ * Método para recibir fecha String en formato dd-MM-yyyy
+ * y retornar un objeto tipo Date con la fecha dada
+ * @param fecha
+ * @return Fecha tipo "Date"
+ */
     public Date convertirFecha(String fecha) {
         Date date = null;
         try {
@@ -189,12 +193,12 @@ public class LlamadaServerManager implements Serializable {
             date = formateador.parse(fecha);
             
         } catch (ParseException ex) {
-            Logger.getLogger(LlamadaServerManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LlamadaServiceManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return date;
     }
 
-    public LlamadaServerManager() {
+    public LlamadaServiceManager() {
     }
 
     public List<LlamadaServer> getListaLlamadasServer() {

@@ -23,6 +23,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -48,6 +49,10 @@ public class Encuesta implements Serializable {
     @Column(name = "id")
     @Expose
     private Integer id;
+    @Column(name = "global_id")
+    private Integer globalId;
+    @Column(name = "global")
+    private Integer global;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 150)
@@ -69,14 +74,18 @@ public class Encuesta implements Serializable {
     @Column(name = "status")
     @Expose
     private int status;
-    @OneToMany(mappedBy = "encuestaId")   
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "encuestaId")
     @Expose
     private List<Pregunta> preguntaList;
     @JoinColumn(name = "tienda_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)    
+    @ManyToOne(optional = false)
     private Tienda tiendaId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "encuestaId")    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "encuestaId")  
     private List<RespuestaObtenida> respuestaObtenidaList;
+    @Transient
+    private String fechaInicioString;
+    @Transient
+    private String fechaFinString;
 
     public Encuesta() {
     }
@@ -179,5 +188,37 @@ public class Encuesta implements Serializable {
     @Override
     public String toString() {
         return "com.spontecorp.ferreasesor.entity.Encuesta[ id=" + id + " ]";
+    }
+
+    public Integer getGlobalId() {
+        return globalId;
+    }
+
+    public void setGlobalId(Integer globalId) {
+        this.globalId = globalId;
+    }
+
+    public Integer getGlobal() {
+        return global;
+    }
+
+    public void setGlobal(Integer global) {
+        this.global = global;
+    }
+
+    public String getFechaInicioString() {
+        return fechaInicioString;
+    }
+
+    public void setFechaInicioString(String fechaInicioString) {
+        this.fechaInicioString = fechaInicioString;
+    }
+
+    public String getFechaFinString() {
+        return fechaFinString;
+    }
+
+    public void setFechaFinString(String fechaFinString) {
+        this.fechaFinString = fechaFinString;
     }
 }
