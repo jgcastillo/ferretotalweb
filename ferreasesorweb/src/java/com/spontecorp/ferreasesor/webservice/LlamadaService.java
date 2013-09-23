@@ -21,14 +21,13 @@ import javax.enterprise.context.RequestScoped;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.ws.rs.POST;
+import javax.ws.rs.core.Response;
 
 /**
  * REST Web Service
  *
  * @author sponte07
  */
-
-
 @Path("llamadaService")
 @RequestScoped
 public class LlamadaService {
@@ -36,18 +35,16 @@ public class LlamadaService {
     @Context
     private UriInfo context;
 
-    /**
-     * Creates a new instance of LlamadaService
-     */
     public LlamadaService() {
     }
 
     @POST
     @Path("enviarencuesta")
     @Consumes("application/json")
-    public void setEncuestaGlobal(Encuesta encuesta) {        
+    public Response setEncuestaGlobal(Encuesta encuesta) {
         EncuestaServiceManager encuestaServiceManager = new EncuestaServiceManager();
-        encuestaServiceManager.crearEncuestaGlobal(encuesta);
+        Response rsp = encuestaServiceManager.crearEncuestaGlobal(encuesta);
+        return rsp;
     }
 
     @GET
@@ -57,7 +54,7 @@ public class LlamadaService {
         String json = "";
         try {
             Encuesta encuesta;
-            InitialContext cont = new InitialContext();            
+            InitialContext cont = new InitialContext();
             EncuestaAuxFacade encuestaFacadeAux = (EncuestaAuxFacade) cont.lookup("java:module/EncuestaAuxFacade");
             encuesta = (Encuesta) encuestaFacadeAux.findEncuestasByIdGlobal(globalId);
             Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
@@ -68,7 +65,6 @@ public class LlamadaService {
         return json;
     }
 
- 
     /**
      * Con éste WS se pueden obtener las llamadas de una tienda por un rango de
      * fechas
@@ -102,5 +98,4 @@ public class LlamadaService {
         return arrLlamaJson;
 
     }
-   
 }
