@@ -19,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -33,6 +34,9 @@ import javax.persistence.Table;
     @NamedQuery(name = "Tienda.findByNombre", query = "SELECT t FROM Tienda t WHERE t.nombre = :nombre"),
     @NamedQuery(name = "Tienda.findByTelefono", query = "SELECT t FROM Tienda t WHERE t.telefono = :telefono")})
 public class Tienda implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tiendaId")
+    private List<Encuesta> encuestaList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -181,7 +185,15 @@ public class Tienda implements Serializable {
 
     @Override
     public String toString() {
-        return nombre ;
+        return nombre;
     }
-    
+
+    @XmlTransient
+    public List<Encuesta> getEncuestaList() {
+        return encuestaList;
+    }
+
+    public void setEncuestaList(List<Encuesta> encuestaList) {
+        this.encuestaList = encuestaList;
+    }
 }

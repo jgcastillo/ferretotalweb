@@ -1,7 +1,6 @@
 package com.spontecorp.ferreasesor.controller.encuesta;
 
-import com.spontecorp.ferreasesor.controller.reporte.JasperBeanEncuestas;
-import com.spontecorp.ferreasesor.controller.reporte.JasperManagement;
+
 import com.spontecorp.ferreasesor.controller.util.JsfUtil;
 import com.spontecorp.ferreasesor.entity.Encuesta;
 import com.spontecorp.ferreasesor.entity.Pregunta;
@@ -13,11 +12,7 @@ import com.spontecorp.ferreasesor.jpa.RespuestaConfFacade;
 import com.spontecorp.ferreasesor.jpa.TiendaFacade;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
