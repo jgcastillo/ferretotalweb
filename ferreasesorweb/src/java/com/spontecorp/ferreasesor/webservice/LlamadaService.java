@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.spontecorp.ferreasesor.entity.Encuesta;
-import com.spontecorp.ferreasesor.entity.LlamadaServer;
 import com.spontecorp.ferreasesor.jpa.EncuestaAuxFacade;
 import java.util.Date;
 import java.util.List;
@@ -51,17 +50,20 @@ public class LlamadaService {
     @Path("obtenerresultadosencuesta/{globalId}")
     @Produces("application/json")
     public String getResultadosEncuesta(@PathParam(value = "globalId") int globalId) {
-        String json = "";
-        try {
-            Encuesta encuesta;
-            InitialContext cont = new InitialContext();
-            EncuestaAuxFacade encuestaFacadeAux = (EncuestaAuxFacade) cont.lookup("java:module/EncuestaAuxFacade");
-            encuesta = (Encuesta) encuestaFacadeAux.findEncuestasByIdGlobal(globalId);
-            Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
-            json = gson.toJson(encuesta);
-        } catch (NamingException ex) {
-            Logger.getLogger(LlamadaService.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+        EncuestaServiceManager encuestaServiceManager = new EncuestaServiceManager();
+        String json = encuestaServiceManager.enviarResultadoEncuesta(globalId);
+        return json;
+    }
+
+    @GET
+    @Path("obtenerresultadosencuesta2/{globalId}")
+    @Produces("application/json")
+    public String getResultadosEncuesta2(@PathParam(value = "globalId") int globalId) {
+
+
+        EncuestaServiceManager encuestaServiceManager = new EncuestaServiceManager();
+        String json = encuestaServiceManager.enviarResultadoEncuesta2(globalId);
         return json;
     }
 

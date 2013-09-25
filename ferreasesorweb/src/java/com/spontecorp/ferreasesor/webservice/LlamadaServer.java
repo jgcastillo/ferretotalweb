@@ -1,6 +1,7 @@
-package com.spontecorp.ferreasesor.entity;
+package com.spontecorp.ferreasesor.webservice;
 
 import com.google.gson.annotations.Expose;
+import com.spontecorp.ferreasesor.entity.Tienda;
 import java.io.Serializable;
 import java.util.Date;
 

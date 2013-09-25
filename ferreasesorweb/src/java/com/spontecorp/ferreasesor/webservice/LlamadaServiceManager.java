@@ -4,7 +4,6 @@ import com.spontecorp.ferreasesor.entity.Asesor;
 import com.spontecorp.ferreasesor.entity.Boton;
 import com.spontecorp.ferreasesor.entity.Llamada;
 
-import com.spontecorp.ferreasesor.entity.LlamadaServer;
 import com.spontecorp.ferreasesor.entity.Tienda;
 import com.spontecorp.ferreasesor.entity.Turno;
 import com.spontecorp.ferreasesor.jpa.AsesorFacade;

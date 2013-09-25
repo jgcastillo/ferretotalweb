@@ -6,10 +6,6 @@ package com.spontecorp.ferreasesor.entity;
 
 import com.google.gson.annotations.Expose;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,7 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+
 import javax.validation.constraints.Size;
 
 /**
@@ -34,6 +30,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "RespuestaObtenida.findAll", query = "SELECT r FROM RespuestaObtenida r"),
     @NamedQuery(name = "RespuestaObtenida.findById", query = "SELECT r FROM RespuestaObtenida r WHERE r.id = :id"),
     @NamedQuery(name = "RespuestaObtenida.findByRespuesta", query = "SELECT r FROM RespuestaObtenida r WHERE r.respuesta = :respuesta")})
+
 public class RespuestaObtenida implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

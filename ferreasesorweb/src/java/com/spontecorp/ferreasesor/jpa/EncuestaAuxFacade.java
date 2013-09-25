@@ -9,6 +9,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -17,7 +18,8 @@ import javax.persistence.Query;
  * @author Casper
  */
 @Stateless
-public class EncuestaAuxFacade extends AbstractFacade<EncuestaAux>{
+public class EncuestaAuxFacade extends AbstractFacade<EncuestaAux> {
+
     @PersistenceContext(unitName = "FerreAsesorWebPU")
     private EntityManager em;
     private List<Encuesta> encuestas;
@@ -36,7 +38,7 @@ public class EncuestaAuxFacade extends AbstractFacade<EncuestaAux>{
     public EntityManager getEntityManager() {
         return em;
     }
-    
+
     public EncuestaAuxFacade() {
         super(EncuestaAux.class);
     }
@@ -61,16 +63,21 @@ public class EncuestaAuxFacade extends AbstractFacade<EncuestaAux>{
         }
         return opciones;
     }
-    
-    public List<RespuestaObtenida> findRespuestas(Encuesta encuesta){
+
+    public List<RespuestaObtenida> findRespuestas(Encuesta encuesta) {
         String query = "SELECT resp FROM RespuestaObtenida resp WHERE resp.encuestaId = : encuesta";
         Query q = respuestaFacade.getEntityManager().createQuery(query);
         return q.getResultList();
     }
-     public Object findEncuestasByIdGlobal(int idGlobal){
-        String query = "SELECT enc FROM Encuesta enc WHERE enc.globalId = :idGlobal";           
-        Query q = respuestaFacade.getEntityManager().createQuery(query);
-        q.setParameter("idGlobal", idGlobal);
-        return q.getSingleResult();
+
+    public Object findEncuestasByIdGlobal(int idGlobal) {
+        try {
+            String query = "SELECT enc FROM Encuesta enc WHERE enc.globalId = :idGlobal";
+            Query q = respuestaFacade.getEntityManager().createQuery(query);
+            q.setParameter("idGlobal", idGlobal);
+            return q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }
