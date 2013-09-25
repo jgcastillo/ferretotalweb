@@ -59,8 +59,7 @@ public class EncuestaServiceManager implements Serializable {
                 encuesta.setFechaFin(convertirFecha(encuesta.getFechaFinString()));
                 encuesta.setGlobalId(encuesta.getId());
                 tienda = tiendafacade.find(WebServicesUtilities.ID_TIENDA);
-                encuesta.setTiendaId(tienda);
-                encuesta.setGlobal(WebServicesUtilities.ENCUESTA_GLOBAL);
+                encuesta.setTiendaId(tienda);            
                 encuesta.getPreguntaList();
                 for (Pregunta pregunta : encuesta.getPreguntaList()) {
                     pregunta.setEncuestaId(encuesta);
@@ -87,7 +86,7 @@ public class EncuestaServiceManager implements Serializable {
             date = formateador.parse(fecha);
 
         } catch (ParseException ex) {
-            Logger.getLogger(LlamadaServiceManager.class
+            Logger.getLogger(EncuestaServiceManager.class
                     .getName()).log(Level.SEVERE, null, ex);
         }
         return date;
@@ -102,7 +101,7 @@ public class EncuestaServiceManager implements Serializable {
             Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
             json = gson.toJson(encuesta);
         } catch (NamingException ex) {
-            Logger.getLogger(LlamadaService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EncuestaServiceManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return json;
     }

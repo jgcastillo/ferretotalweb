@@ -209,7 +209,7 @@ public class SerialService implements SerialPortEventListener, Serializable {
                 }
             }
         } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(ConexionBeanController.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SerialService.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

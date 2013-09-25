@@ -53,7 +53,7 @@ public class FillEncuestaBeanController implements Serializable {
     private static final int SELECCION = 3;
     private static final int CALIFICACION = 4;
     private boolean showMessageResp = false;
-    private static final Logger logger = LoggerFactory.getLogger(PreguntaBeanController.class);
+    private static final Logger logger = LoggerFactory.getLogger(FillEncuestaBeanController.class);
 
     public FillEncuestaBeanController() {
     }

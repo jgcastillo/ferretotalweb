@@ -51,8 +51,6 @@ public class Encuesta implements Serializable {
     private Integer id;
     @Column(name = "global_id")
     private Integer globalId;
-    @Column(name = "global")
-    private Integer global;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 150)
@@ -198,13 +196,7 @@ public class Encuesta implements Serializable {
         this.globalId = globalId;
     }
 
-    public Integer getGlobal() {
-        return global;
-    }
-
-    public void setGlobal(Integer global) {
-        this.global = global;
-    }
+    
 
     public String getFechaInicioString() {
         return fechaInicioString;

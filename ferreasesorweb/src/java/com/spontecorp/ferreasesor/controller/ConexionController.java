@@ -62,7 +62,7 @@ public class ConexionController implements SerialPortEventListener, Serializable
     private ConexionJpaController controller;
     private final static int TIMEOUT = 1;
     protected Map<String, Runnable> llamados = new HashMap<>();
-    private final static Logger logger = LoggerFactory.getLogger(SerialService.class);
+    private final static Logger logger = LoggerFactory.getLogger(ConexionController.class);
     private byte[] buffer;
     private int tail;
     private boolean isFeriado;

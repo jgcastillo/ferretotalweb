@@ -34,7 +34,7 @@ public class AsesorFacadeExt {
     
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("FerreAsesorWebPU");
     private EntityManager em = emf.createEntityManager();
-    private static final Logger logger = LoggerFactory.getLogger(LlamadaFacadeExt.class);
+    private static final Logger logger = LoggerFactory.getLogger(AsesorFacadeExt.class);
     
     /**
      * Selecciono el Asesor actual asignado al Turno Feriado
