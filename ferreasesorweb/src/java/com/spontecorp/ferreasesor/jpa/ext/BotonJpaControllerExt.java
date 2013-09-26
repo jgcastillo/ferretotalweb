@@ -33,6 +33,17 @@ public class BotonJpaControllerExt {
         return boton;
     }
 
+     public Boton findBotonAddress(String address) {
+        Boton boton = null;
+        try {
+            Query query = em.createQuery("SELECT b FROM Boton b WHERE b.address = :address AND b.status = 1");
+            query.setParameter("address", address);
+            boton = (Boton) query.getSingleResult();
+        } catch (Exception e) {
+        }
+        return boton;
+    }
+    
     public Boton findBotonByAddress(String address) {
         Query query = em.createNamedQuery("Boton.findByAddress", Boton.class);
         query.setParameter("address", address);

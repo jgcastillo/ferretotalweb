@@ -310,7 +310,7 @@ public class SerialService implements SerialPortEventListener, Serializable {
         String address = botonStr.substring(0, 4).trim();
         String display = botonStr.substring(4, 7).trim();
         int action = Integer.parseInt(botonStr.substring(7).trim());
-        Boton boton = botonController.findBotonByAddress(address);
+        Boton boton = botonController.findBotonAddress(address);
         switch (action) {
             case 0:
                 pararBoton(boton);
