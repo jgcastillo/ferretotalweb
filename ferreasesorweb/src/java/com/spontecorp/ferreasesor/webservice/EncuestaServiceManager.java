@@ -24,19 +24,29 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.enterprise.context.RequestScoped;
+
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.ws.rs.core.Response;
 
-@RequestScoped
 public class EncuestaServiceManager implements Serializable {
 
-    private Encuesta encuesta;
-    private Tienda tienda;
     private Response rsp;
-    private ResultadoEncuesta restultadoEncuesta;
-   
+
+    public Response eliminarEncuestaGlobal(int idGlobal) {
+        try {
+            InitialContext cont = new InitialContext();
+            EncuestaAuxFacade encuestaFacadeAux = (EncuestaAuxFacade) cont.lookup("java:module/EncuestaAuxFacade");
+            EncuestaFacade encuestaFacade = (EncuestaFacade) cont.lookup("java:module/EncuestaFacade");
+            Encuesta encuesta = (Encuesta) encuestaFacadeAux.findEncuestasByIdGlobal(idGlobal);
+            encuestaFacade.remove(encuesta);
+            rsp = Response.status(200).entity("La encuesta fue eliminado " + encuesta.getTiendaId().getNombre()).build();
+
+        } catch (NamingException ex) {
+            Logger.getLogger(EncuestaServiceManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rsp;
+    }
 
     /**
      * Método para crear una encuesta global recibida en un "POST request" Se
@@ -52,14 +62,14 @@ public class EncuestaServiceManager implements Serializable {
             EncuestaFacade encuestaFacade = (EncuestaFacade) cont.lookup("java:module/EncuestaFacade");
             TiendaFacade tiendafacade = (TiendaFacade) cont.lookup("java:module/TiendaFacade");
             EncuestaAuxFacade encuestaFacadeAux = (EncuestaAuxFacade) cont.lookup("java:module/EncuestaAuxFacade");
-            encuesta = (Encuesta) encuestaFacadeAux.findEncuestasByIdGlobal(enc.getId());
+            Encuesta encuesta = (Encuesta) encuestaFacadeAux.findEncuestasByIdGlobal(enc.getId());
             if (encuesta == null) {
                 encuesta = enc;
                 encuesta.setFechaInicio(convertirFecha(encuesta.getFechaInicioString()));
                 encuesta.setFechaFin(convertirFecha(encuesta.getFechaFinString()));
                 encuesta.setGlobalId(encuesta.getId());
-                tienda = tiendafacade.find(WebServicesUtilities.ID_TIENDA);
-                encuesta.setTiendaId(tienda);            
+                Tienda tienda = tiendafacade.find(WebServicesUtilities.ID_TIENDA);
+                encuesta.setTiendaId(tienda);
                 encuesta.getPreguntaList();
                 for (Pregunta pregunta : encuesta.getPreguntaList()) {
                     pregunta.setEncuestaId(encuesta);
@@ -94,12 +104,15 @@ public class EncuestaServiceManager implements Serializable {
 
     public String enviarResultadoEncuesta(int idGlobal) {
         String json = "";
-        try {           
+        try {
+            Encuesta encuesta = null;
             InitialContext cont = new InitialContext();
             EncuestaAuxFacade encuestaFacadeAux = (EncuestaAuxFacade) cont.lookup("java:module/EncuestaAuxFacade");
-            encuesta = (Encuesta) encuestaFacadeAux.findEncuestasByIdGlobal(idGlobal);
-            Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
-            json = gson.toJson(encuesta);
+            if (encuesta == null) {
+                encuesta = (Encuesta) encuestaFacadeAux.findEncuestasByIdGlobal(idGlobal);
+                Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
+                json = gson.toJson(encuesta);
+            }
         } catch (NamingException ex) {
             Logger.getLogger(EncuestaServiceManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -109,10 +122,10 @@ public class EncuestaServiceManager implements Serializable {
     public String enviarResultadoEncuesta2(int idGlobal) {
         String jsonResultado = null;
         try {
-            restultadoEncuesta = new ResultadoEncuesta();
+            ResultadoEncuesta restultadoEncuesta = new ResultadoEncuesta();
             InitialContext cont = new InitialContext();
             EncuestaAuxFacade encuestaFacadeAux = (EncuestaAuxFacade) cont.lookup("java:module/EncuestaAuxFacade");
-            encuesta = (Encuesta) encuestaFacadeAux.findEncuestasByIdGlobal(idGlobal);
+            Encuesta encuesta = (Encuesta) encuestaFacadeAux.findEncuestasByIdGlobal(idGlobal);
             List<Pregunta> listaPreguntas = encuesta.getPreguntaList();
 
             restultadoEncuesta.setIdGlobal(idGlobal);
@@ -162,9 +175,9 @@ public class EncuestaServiceManager implements Serializable {
                 }
             }
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-           jsonResultado  = gson.toJson(restultadoEncuesta);
+            jsonResultado = gson.toJson(restultadoEncuesta);
             System.out.println(jsonResultado);
-            
+
         } catch (NamingException ex) {
             Logger.getLogger(EncuestaServiceManager.class.getName()).log(Level.SEVERE, null, ex);
         }

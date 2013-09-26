@@ -8,7 +8,6 @@ import com.spontecorp.ferreasesor.entity.Tienda;
 import com.spontecorp.ferreasesor.entity.Turno;
 import com.spontecorp.ferreasesor.jpa.AsesorFacade;
 import com.spontecorp.ferreasesor.jpa.BotonFacade;
-import com.spontecorp.ferreasesor.jpa.TiendaFacade;
 import com.spontecorp.ferreasesor.jpa.TurnoFacade;
 import com.spontecorp.ferreasesor.jpa.ext.LlamadaFacadeExt;
 import com.spontecorp.ferreasesor.utilities.WebServicesUtilities;
@@ -20,12 +19,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.enterprise.context.RequestScoped;
+
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-@RequestScoped
 public class LlamadaServiceManager implements Serializable {
 
     private List<LlamadaServer> listaLlamadasServer = new ArrayList<>();
