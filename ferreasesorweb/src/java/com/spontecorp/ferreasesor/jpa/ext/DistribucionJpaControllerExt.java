@@ -87,7 +87,7 @@ public class DistribucionJpaControllerExt {
             query.setParameter("boton", boton.getId());
             query.setParameter("turno", turno.getId());
             dist = (Distribucion) query.getSingleResult();
-            System.out.println("DistJpaContrExt 96, la distribución traida es: " + dist.getId());
+            //System.out.println("DistJpaContrExt 96, la distribución traida es: " + dist.getId());
         } catch (NoResultException e) {
         }
         return dist;
@@ -119,6 +119,21 @@ public class DistribucionJpaControllerExt {
         return dist;
     }
 
+    public List<Distribucion> findDistribucionList(Asesor asesor, Turno turno, Boton boton) {
+        String q = "SELECT d FROM Distribucion d WHERE d.asesorId = :asesor "
+                + "AND d.turnoId = :turno AND d.botonId = :boton";
+        List<Distribucion> dist = null;
+        try {
+            Query query = em.createQuery(q);
+            query.setParameter("asesor", asesor.getId());
+            query.setParameter("turno", turno.getId());
+            query.setParameter("boton", boton.getId());
+            dist = query.getResultList();
+        } catch (NoResultException e) {
+        }
+        return dist;
+    }
+    
     public List<Distribucion> findDistribucion(Asesor asesor, int status) {
         String q = "SELECT d FROM Distribucion d WHERE d.asesorId = :asesor "
                 + "AND d.status = :status";

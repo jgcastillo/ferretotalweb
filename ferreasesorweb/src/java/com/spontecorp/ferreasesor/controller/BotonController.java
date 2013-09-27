@@ -12,6 +12,7 @@ import com.spontecorp.ferreasesor.jpa.BotonFacade;
 import com.spontecorp.ferreasesor.jpa.DistribucionFacade;
 import com.spontecorp.ferreasesor.jpa.TiendaFacade;
 import com.spontecorp.ferreasesor.jpa.TurnoFacade;
+import com.spontecorp.ferreasesor.jpa.ext.DistribucionJpaControllerExt;
 import com.spontecorp.ferreasesor.utilities.JpaUtilities;
 import java.io.Serializable;
 import java.util.List;
@@ -34,7 +35,6 @@ public class BotonController implements Serializable {
     private Boton current;
     private Tienda tienda;
     private DataModel items = null;
-    
     @EJB
     private BotonFacade ejbFacade;
     @EJB
@@ -45,7 +45,8 @@ public class BotonController implements Serializable {
     private AsesorFacade ejbFacadeAsesor;
     @EJB
     private DistribucionFacade ejbFacadeDistribucion;
-    
+    @EJB
+    private DistribucionJpaControllerExt ejbFacadeDistribucionExt;
     private PaginationHelper pagination;
     private int selectedItemIndex;
     private JpaUtilities utils = new JpaUtilities();
@@ -68,15 +69,15 @@ public class BotonController implements Serializable {
     private TiendaFacade getFacadeTienda() {
         return ejbFacadeTienda;
     }
-    
+
     private TurnoFacade getFacadeTurno() {
         return ejbFacadeTurno;
     }
-    
+
     private AsesorFacade getFacadeAsesor() {
         return ejbFacadeAsesor;
     }
-    
+
     private DistribucionFacade getFacadeDistribucion() {
         return ejbFacadeDistribucion;
     }
@@ -124,17 +125,17 @@ public class BotonController implements Serializable {
     public String create() {
         try {
             //Seteo la Tienda
-            tienda = getTienda();        
+            tienda = getTienda();
             current.setTiendaId(tienda);
-            
+
             //Guardo el Boton
             getFacade().create(current);
-            
+
             //Listado de Turnos
             List<Turno> turnos = getFacadeTurno().findAll();
             //Listado de Asesores
             List<Asesor> asesores = getFacadeAsesor().findAll();
-            
+
             //Para el Boton creado se hace el insert en la tabla Distribucion
             for (Turno turno : turnos) {
                 for (Asesor asesor : asesores) {
@@ -142,11 +143,11 @@ public class BotonController implements Serializable {
                     dist.setAsesorId(asesor.getId());
                     dist.setTurnoId(turno.getId());
                     dist.setBotonId(current.getId());
-                    dist.setStatus(JpaUtilities.INHABILITADO);
+                    dist.setStatus(JpaUtilities.HABILITADO);
                     ejbFacadeDistribucion.create(dist);
                 }
             }
-            
+
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("BotonCreated"));
             return prepareList();
         } catch (Exception e) {
@@ -157,15 +158,30 @@ public class BotonController implements Serializable {
 
     public String prepareEdit() {
         current = (Boton) getItems().getRowData();
-       // selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        // selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
 
     public String updateStatus() {
         try {
-            tienda = getTienda();        
+            tienda = getTienda();
             current.setTiendaId(tienda);
             current.setStatus(JpaUtilities.INHABILITADO);
+            //Listado de Turnos
+            List<Turno> turnos = getFacadeTurno().findAll();
+            //Listado de Asesores
+            List<Asesor> asesores = getFacadeAsesor().findAll();
+
+            //Inhabilitar la Distribución para este Botón
+            for (Turno turno : turnos) {
+                for (Asesor asesor : asesores) {
+                    List<Distribucion> lista = ejbFacadeDistribucionExt.findDistribucionList(asesor, turno, current);
+                    for (Distribucion dist : lista) {
+                        dist.setStatus(JpaUtilities.INHABILITADO);
+                        ejbFacadeDistribucion.edit(dist);
+                    }
+                }
+            }
             getFacade().edit(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("BotonUpdated"));
             return prepareList();
@@ -177,9 +193,39 @@ public class BotonController implements Serializable {
 
     public String update() {
         try {
-            tienda = getTienda();        
+            tienda = getTienda();
             current.setTiendaId(tienda);
             getFacade().edit(current);
+
+            //Listado de Turnos
+            List<Turno> turnos = getFacadeTurno().findAll();
+            //Listado de Asesores
+            List<Asesor> asesores = getFacadeAsesor().findAll();
+
+            if (current.getStatus() == JpaUtilities.INHABILITADO) {
+                //Inhabilitar la Distribución para este Botón
+                for (Turno turno : turnos) {
+                    for (Asesor asesor : asesores) {
+                        List<Distribucion> lista = ejbFacadeDistribucionExt.findDistribucionList(asesor, turno, current);
+                        for (Distribucion dist : lista) {
+                            dist.setStatus(JpaUtilities.INHABILITADO);
+                            ejbFacadeDistribucion.edit(dist);
+                        }
+                    }
+                }
+            } else {
+                //Habilito la Distribución para este Botón
+                for (Turno turno : turnos) {
+                    for (Asesor asesor : asesores) {
+                        List<Distribucion> lista = ejbFacadeDistribucionExt.findDistribucionList(asesor, turno, current);
+                        for (Distribucion dist : lista) {
+                            dist.setStatus(JpaUtilities.HABILITADO);
+                            ejbFacadeDistribucion.edit(dist);
+                        }
+                    }
+                }
+            }
+
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("BotonUpdated"));
             return prepareList();
         } catch (Exception e) {
@@ -190,7 +236,7 @@ public class BotonController implements Serializable {
 
     public String destroy() {
         current = (Boton) getItems().getRowData();
-       // selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        // selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
         recreateModel();
