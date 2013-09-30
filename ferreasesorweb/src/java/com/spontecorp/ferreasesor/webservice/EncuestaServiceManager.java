@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.spontecorp.ferreasesor.webservice;
 
 import com.google.gson.Gson;
@@ -39,8 +36,10 @@ public class EncuestaServiceManager implements Serializable {
             EncuestaAuxFacade encuestaFacadeAux = (EncuestaAuxFacade) cont.lookup("java:module/EncuestaAuxFacade");
             EncuestaFacade encuestaFacade = (EncuestaFacade) cont.lookup("java:module/EncuestaFacade");
             Encuesta encuesta = (Encuesta) encuestaFacadeAux.findEncuestasByIdGlobal(idGlobal);
+            Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+            System.out.println(gson.toJson(encuesta));
             encuestaFacade.remove(encuesta);
-            rsp = Response.status(200).entity("La encuesta fue eliminado " + encuesta.getTiendaId().getNombre()).build();
+            rsp = Response.status(200).entity("La encuesta fue eliminada " + encuesta.getTiendaId().getNombre()).build();
 
         } catch (NamingException ex) {
             Logger.getLogger(EncuestaServiceManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -101,7 +100,11 @@ public class EncuestaServiceManager implements Serializable {
         }
         return date;
     }
-
+/**
+ * Método para retornar el resultado de una encuesta dado el igGlobal
+ * @param idGlobal
+ * @return String json de la encueta con las preguntas y sus resultados.
+ */
     public String enviarResultadoEncuesta(int idGlobal) {
         String json = "";
         try {
@@ -118,7 +121,11 @@ public class EncuestaServiceManager implements Serializable {
         }
         return json;
     }
-
+    /**
+     * Método auxiliar para obtener los resultados de la encuesta con la clase auxiliar "ResultadoEncuesta"
+     * @param idGlobal
+     * @return 
+     */
     public String enviarResultadoEncuesta2(int idGlobal) {
         String jsonResultado = null;
         try {

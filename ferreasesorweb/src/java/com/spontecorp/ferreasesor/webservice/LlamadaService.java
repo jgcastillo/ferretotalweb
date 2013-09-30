@@ -51,15 +51,15 @@ public class LlamadaService {
     @DELETE
     @Path("eliminarencuesta/{globalId}")
     @Consumes("application/json")
-    public Response eliminarEncuestaGlobal(@PathParam(value = "globalId") int globalId) {
+    public void eliminarEncuestaGlobal(@PathParam(value = "globalId") int globalId) {
+        System.out.println("EL id global es: "+globalId);
         EncuestaServiceManager encuestaServiceManager = new EncuestaServiceManager();
         Response rsp = encuestaServiceManager.eliminarEncuestaGlobal(globalId);
-        return rsp;
-
+        
     }
 
     /**
-     * MÃ©todo que permite colocar una nueva encuesta en las tiendas, retorna un
+     * Método que permite colocar una nueva encuesta en las tiendas, retorna un
      * response con un mensaje dependiendo si se pudo crear la encuesta o no.
      */
     @POST
@@ -72,7 +72,7 @@ public class LlamadaService {
     }
 
     /**
-     * MÃ©todo que retorna el resultados de una encuesta dado el IdGlobal
+     * Método que retorna el resultados de una encuesta dado el IdGlobal
      *
      * @param globalId
      * @return
@@ -98,7 +98,7 @@ public class LlamadaService {
     }
 
     /**
-     * Con Ã©ste WS se pueden obtener las llamadas de una tienda por un rango de
+     * método para obtener las llamadas de una tienda por un rango de
      * fechas
      *
      * @param fechaI Fecha inicial del rango
