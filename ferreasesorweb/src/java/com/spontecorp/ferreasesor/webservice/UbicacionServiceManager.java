@@ -2,7 +2,6 @@ package com.spontecorp.ferreasesor.webservice;
 
 import com.spontecorp.ferreasesor.entity.Ubicacion;
 import com.spontecorp.ferreasesor.jpa.UbicacionFacade;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;

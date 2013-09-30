@@ -28,17 +28,25 @@ public class LlamadaService {
     private UriInfo context;
     
     public LlamadaService() {
-    }
+    }/**
+     * Método para guardar una ubicación en la BD de la tienda
+     * @param ubicacion
+     * @return 
+     */
 
     @POST
     @Path("guardarubicaciones")
     @Consumes("application/json")
-    public Response guardarUbicaciones(Ubicacion ubicacion) {
+    public Response guardarUbicacion(Ubicacion ubicacion) {
         UbicacionServiceManager ubicacionServiceManager = new UbicacionServiceManager();
         Response resp = ubicacionServiceManager.guardarUbicaciones(ubicacion);
         return resp;
     }
-
+/**
+ * Metodo para editar una ubicación en las tiendas.
+ * @param ubicacion
+ * @return 
+ */
     @PUT
     @Path("editarubicacion")
     @Consumes("application/json")
@@ -47,7 +55,10 @@ public class LlamadaService {
         Response resp = ubicacionServiceManager.editarUbicacion(ubicacion);
         return resp;
     }
-
+/**
+ * Método que permite borrar una encuesta en las tiendas dado su id_global
+ * @param globalId 
+ */
     @DELETE
     @Path("eliminarencuesta/{globalId}")
     @Consumes("application/json")

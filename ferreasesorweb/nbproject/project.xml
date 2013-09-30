@@ -139,6 +139,9 @@
                     <file>${file.reference.slf4j-api-1.7.5.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
+                <library dirs="200">
+                    <file>${libs.GlassFish Server 3+ Jersey.classpath}</file>
+                </library>
             </web-module-libraries>
             <web-module-additional-libraries/>
             <source-roots>

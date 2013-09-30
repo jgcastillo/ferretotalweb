@@ -26,6 +26,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.ws.rs.core.Response;
 
+
 public class EncuestaServiceManager implements Serializable {
 
     private Response rsp;
@@ -62,6 +63,7 @@ public class EncuestaServiceManager implements Serializable {
             TiendaFacade tiendafacade = (TiendaFacade) cont.lookup("java:module/TiendaFacade");
             EncuestaAuxFacade encuestaFacadeAux = (EncuestaAuxFacade) cont.lookup("java:module/EncuestaAuxFacade");
             Encuesta encuesta = (Encuesta) encuestaFacadeAux.findEncuestasByIdGlobal(enc.getId());
+            //Busco la encuesta por si idglobal, si viene null la creo
             if (encuesta == null) {
                 encuesta = enc;
                 encuesta.setFechaInicio(convertirFecha(encuesta.getFechaInicioString()));
@@ -70,6 +72,8 @@ public class EncuestaServiceManager implements Serializable {
                 Tienda tienda = tiendafacade.find(WebServicesUtilities.ID_TIENDA);
                 encuesta.setTiendaId(tienda);
                 encuesta.getPreguntaList();
+                //Se hace este doble ciclo apra volver a setear los ids de las listas de clases
+                //cuando no lo hacía me daba un error de que estaban en null
                 for (Pregunta pregunta : encuesta.getPreguntaList()) {
                     pregunta.setEncuestaId(encuesta);
                     List<RespuestaConf> listaRespConf = pregunta.getRespuestaConfList();
@@ -77,7 +81,9 @@ public class EncuestaServiceManager implements Serializable {
                         respuestaConf.setPreguntaId(pregunta);
                     }
                 }
+                //con la persistencia se guarda la informacion en todas las tablas por la anotacion de cascada en las relaciones "one to many"
                 encuestaFacade.create(encuesta);
+                //Este mensaje de response puede ser leido en el lado cliente a través del inputstream con un streambuilder.
                 rsp = Response.status(200).entity("La encuesta fue creada exitosamente en la tienda " + encuesta.getTiendaId().getNombre()).build();
             } else {
                 rsp = Response.status(200).entity("La encuesta ya fue enviada anteriormente a la tienda " + encuesta.getTiendaId().getNombre()).build();
