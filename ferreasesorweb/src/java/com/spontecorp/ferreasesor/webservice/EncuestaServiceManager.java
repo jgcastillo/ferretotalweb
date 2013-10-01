@@ -6,6 +6,7 @@ package com.spontecorp.ferreasesor.webservice;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.spontecorp.ferreasesor.entity.Encuesta;
 import com.spontecorp.ferreasesor.entity.Pregunta;
 import com.spontecorp.ferreasesor.entity.RespuestaConf;
@@ -13,6 +14,7 @@ import com.spontecorp.ferreasesor.entity.RespuestaObtenida;
 import com.spontecorp.ferreasesor.entity.Tienda;
 import com.spontecorp.ferreasesor.jpa.EncuestaAuxFacade;
 import com.spontecorp.ferreasesor.jpa.EncuestaFacade;
+import com.spontecorp.ferreasesor.jpa.RespuestaObtenidaFacade;
 import com.spontecorp.ferreasesor.jpa.TiendaFacade;
 import com.spontecorp.ferreasesor.utilities.WebServicesUtilities;
 
@@ -36,7 +38,6 @@ public class EncuestaServiceManager implements Serializable {
     private Tienda tienda;
     private Response rsp;
     private ResultadoEncuesta restultadoEncuesta;
-   
 
     /**
      * Método para crear una encuesta global recibida en un "POST request" Se
@@ -59,7 +60,7 @@ public class EncuestaServiceManager implements Serializable {
                 encuesta.setFechaFin(convertirFecha(encuesta.getFechaFinString()));
                 encuesta.setGlobalId(encuesta.getId());
                 tienda = tiendafacade.find(WebServicesUtilities.ID_TIENDA);
-                encuesta.setTiendaId(tienda);            
+                encuesta.setTiendaId(tienda);
                 encuesta.getPreguntaList();
                 for (Pregunta pregunta : encuesta.getPreguntaList()) {
                     pregunta.setEncuestaId(encuesta);
@@ -94,7 +95,7 @@ public class EncuestaServiceManager implements Serializable {
 
     public String enviarResultadoEncuesta(int idGlobal) {
         String json = "";
-        try {           
+        try {
             InitialContext cont = new InitialContext();
             EncuestaAuxFacade encuestaFacadeAux = (EncuestaAuxFacade) cont.lookup("java:module/EncuestaAuxFacade");
             encuesta = (Encuesta) encuestaFacadeAux.findEncuestasByIdGlobal(idGlobal);
@@ -103,6 +104,7 @@ public class EncuestaServiceManager implements Serializable {
         } catch (NamingException ex) {
             Logger.getLogger(EncuestaServiceManager.class.getName()).log(Level.SEVERE, null, ex);
         }
+        System.out.println("1.- json al enviar Respuestas: " + json);
         return json;
     }
 
@@ -162,12 +164,37 @@ public class EncuestaServiceManager implements Serializable {
                 }
             }
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-           jsonResultado  = gson.toJson(restultadoEncuesta);
+            jsonResultado = gson.toJson(restultadoEncuesta);
             System.out.println(jsonResultado);
-            
+
         } catch (NamingException ex) {
             Logger.getLogger(EncuestaServiceManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return jsonResultado;
+    }
+
+    public String enviarResultadoEncuesta3(int idGlobal) {
+        String jsonRespuestas = null;
+        try {          
+            InitialContext cont = new InitialContext();
+            EncuestaAuxFacade encuestaFacadeAux = (EncuestaAuxFacade) cont.lookup("java:module/EncuestaAuxFacade");
+            encuesta = (Encuesta) encuestaFacadeAux.findEncuestasByIdGlobal(idGlobal);
+            RespuestaObtenidaFacade respObtenidaFacade = (RespuestaObtenidaFacade) cont.lookup("java:module/RespuestaObtenidaFacade");
+            List<RespuestaObtenida> respuestas = respObtenidaFacade.findRespuestaObtenida(encuesta);
+            
+            for(RespuestaObtenida resp : respuestas){
+                resp.setPregunta(resp.getPreguntaId().getPregunta());
+                resp.setTipoPregunta(resp.getPreguntaId().getTipo());
+                resp.setConf(resp.getRespuestaConfId().getOpcion());
+            }
+
+            Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
+            jsonRespuestas = gson.toJson(respuestas, new TypeToken<List<RespuestaObtenida>>() {}.getType());
+            System.out.println(jsonRespuestas);
+
+        } catch (NamingException ex) {
+            Logger.getLogger(EncuestaServiceManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return jsonRespuestas;
     }
 }

@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import javax.validation.constraints.Size;
 
@@ -52,6 +53,15 @@ public class RespuestaObtenida implements Serializable {
     @JoinColumn(name = "encuesta_id", referencedColumnName = "id")
     @ManyToOne(optional = false)    
     private Encuesta encuestaId;
+    @Expose
+    @Transient
+    private String pregunta;
+    @Expose
+    @Transient
+    private int tipoPregunta;
+    @Expose
+    @Transient
+    private String conf;
     
     public RespuestaObtenida() {
     }
@@ -98,6 +108,30 @@ public class RespuestaObtenida implements Serializable {
 
     public void setEncuestaId(Encuesta encuestaId) {
         this.encuestaId = encuestaId;
+    }
+
+    public String getPregunta() {
+        return pregunta;
+    }
+
+    public void setPregunta(String pregunta) {
+        this.pregunta = pregunta;
+    }
+
+    public String getConf() {
+        return conf;
+    }
+
+    public void setConf(String conf) {
+        this.conf = conf;
+    }
+
+    public int getTipoPregunta() {
+        return tipoPregunta;
+    }
+
+    public void setTipoPregunta(int tipoPregunta) {
+        this.tipoPregunta = tipoPregunta;
     }
 
     @Override

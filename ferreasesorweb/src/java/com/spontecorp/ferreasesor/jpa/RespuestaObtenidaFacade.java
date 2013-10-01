@@ -32,9 +32,9 @@ public class RespuestaObtenidaFacade extends AbstractFacade<RespuestaObtenida> {
     }
     
     public List<RespuestaObtenida> findRespuestaObtenida(Encuesta encuesta) {
-        String query = "SELECT rc from RespuestaObtenida rc WHERE rc.respuestaId = :respuesta";
+        String query = "SELECT rc from RespuestaObtenida rc WHERE rc.encuestaId = :encuesta";
         Query q = getEntityManager().createQuery(query);
-        q.setParameter("respuesta", encuesta);
+        q.setParameter("encuesta", encuesta);
         return q.getResultList();
     }
     

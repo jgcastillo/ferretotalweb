@@ -44,7 +44,7 @@ public class LlamadaService {
     @GET
     @Path("obtenerresultadosencuesta/{globalId}")
     @Produces("application/json")
-    public String getResultadosEncuesta(@PathParam(value = "globalId") int globalId) {
+    public String getResultadosEncuesta1(@PathParam(value = "globalId") int globalId) {
 
         EncuestaServiceManager encuestaServiceManager = new EncuestaServiceManager();
         String json = encuestaServiceManager.enviarResultadoEncuesta(globalId);
@@ -59,6 +59,17 @@ public class LlamadaService {
 
         EncuestaServiceManager encuestaServiceManager = new EncuestaServiceManager();
         String json = encuestaServiceManager.enviarResultadoEncuesta2(globalId);
+        return json;
+    }
+    
+    @GET
+    @Path("obtenerresultadosencuesta3/{globalId}")
+    @Produces("application/json")
+    public String getResultadosEncuesta3(@PathParam(value = "globalId") int globalId) {
+
+
+        EncuestaServiceManager encuestaServiceManager = new EncuestaServiceManager();
+        String json = encuestaServiceManager.enviarResultadoEncuesta3(globalId);
         return json;
     }
 

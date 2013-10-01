@@ -183,12 +183,12 @@ public class SerialService implements SerialPortEventListener, Serializable {
         PortDriverInfo pdi;
         for (int i = 0; i < nPorts; i++) {
             pdi = diList[i];
-            if (pdi.getDriverMfgr().equalsIgnoreCase("Prolific")) {
-                items.add(pdi.getPortName() + ": Dispositivo Vellux");
-            } else {
-                items.add(pdi.getPortName() + ": " + pdi.getDriverDesc());
-            }
-
+//            if (pdi.getDriverMfgr().equalsIgnoreCase("Prolific")) {
+//                items.add(pdi.getPortName() + ": Dispositivo Vellux");
+//            } else {
+//                items.add(pdi.getPortName() + ": " + pdi.getDriverDesc());
+//            }
+            items.add(pdi.getPortName() + ": " + pdi.getDriverDesc());
         }
         return items;
     }
@@ -204,9 +204,9 @@ public class SerialService implements SerialPortEventListener, Serializable {
             PortDriverInfo pdi;
             for (int i = 0; i < nPorts; i++) {
                 pdi = diList[i];
-                if (pdi.getDriverMfgr().equalsIgnoreCase("Prolific") && pdi.getDriverDesc().equalsIgnoreCase("Prolific USB-to-Serial Comm Port")) {
+               // if (pdi.getDriverMfgr().equalsIgnoreCase("Prolific") && pdi.getDriverDesc().equalsIgnoreCase("Prolific USB-to-Serial Comm Port")) {
                     connect(pdi.getPortName());
-                }
+             //   }
             }
         } catch (IOException ex) {
             java.util.logging.Logger.getLogger(SerialService.class.getName()).log(Level.SEVERE, null, ex);
