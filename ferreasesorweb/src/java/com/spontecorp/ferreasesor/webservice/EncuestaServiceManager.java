@@ -75,7 +75,7 @@ public class EncuestaServiceManager implements Serializable {
                 encuesta.setFechaInicio(convertirFecha(encuesta.getFechaInicioString()));
                 encuesta.setFechaFin(convertirFecha(encuesta.getFechaFinString()));
                 encuesta.setGlobalId(encuesta.getId());
-                tienda = tiendafacade.find(WebServicesUtilities.ID_TIENDA);
+                //tienda = tiendafacade.find(WebServicesUtilities.ID_TIENDA);
                 Tienda tienda = tiendafacade.find(WebServicesUtilities.ID_TIENDA);
                 encuesta.setTiendaId(tienda);
                 encuesta.getPreguntaList();
