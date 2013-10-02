@@ -3,7 +3,7 @@ package com.spontecorp.ferreasesor.controller;
 import com.spontecorp.ferreasesor.entity.Llamada;
 import com.spontecorp.ferreasesor.controller.util.JsfUtil;
 import com.spontecorp.ferreasesor.controller.util.PaginationHelper;
-import com.spontecorp.ferreasesor.jpa.LlamadaFacade;
+import com.spontecorp.ferreasesor.jpa.ext.LlamadaFacadeExt;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
@@ -25,7 +25,7 @@ public class LlamadaController implements Serializable {
     private Llamada current;
     private DataModel items = null;
     @EJB
-    private com.spontecorp.ferreasesor.jpa.LlamadaFacade ejbFacade;
+    private LlamadaFacadeExt ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
@@ -40,7 +40,7 @@ public class LlamadaController implements Serializable {
         return current;
     }
 
-    private LlamadaFacade getFacade() {
+    private LlamadaFacadeExt getFacade() {
         return ejbFacade;
     }
 

@@ -2,17 +2,15 @@ package com.spontecorp.ferreasesor.controller;
 
 import com.spontecorp.ferreasesor.entity.Asesor;
 import com.spontecorp.ferreasesor.entity.Boton;
-import com.spontecorp.ferreasesor.entity.Distribucion;
 import com.spontecorp.ferreasesor.entity.Llamada;
 import com.spontecorp.ferreasesor.entity.LlamadaAux;
 import com.spontecorp.ferreasesor.entity.Turno;
 import com.spontecorp.ferreasesor.jpa.AsesorFacade;
 import com.spontecorp.ferreasesor.jpa.BotonFacade;
-import com.spontecorp.ferreasesor.jpa.LlamadaFacade;
 import com.spontecorp.ferreasesor.jpa.TurnoFacade;
+import com.spontecorp.ferreasesor.jpa.ext.LlamadaFacadeExt;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -32,7 +30,7 @@ public class MainPageController implements Serializable {
     @Transient
     private LlamadaAux aux;
     @EJB
-    private LlamadaFacade llamadaFacade;
+    private LlamadaFacadeExt llamadaFacade;
     @EJB
     private AsesorFacade asesorFacade;
     @EJB
@@ -44,7 +42,7 @@ public class MainPageController implements Serializable {
     public MainPageController() {
     }
 
-    private LlamadaFacade getLlamadaFacade(){
+    private LlamadaFacadeExt getLlamadaFacade(){
         return llamadaFacade;
     }
     

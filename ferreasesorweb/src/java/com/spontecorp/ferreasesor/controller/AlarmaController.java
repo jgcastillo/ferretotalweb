@@ -4,7 +4,7 @@ import static com.spontecorp.ferreasesor.controller.SerialService.ACCION_CANCEL;
 import com.spontecorp.ferreasesor.entity.Boton;
 import com.spontecorp.ferreasesor.entity.Llamada;
 import com.spontecorp.ferreasesor.jpa.BotonFacade;
-import com.spontecorp.ferreasesor.jpa.LlamadaFacade;
+import com.spontecorp.ferreasesor.jpa.ext.LlamadaFacadeExt;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -145,7 +145,7 @@ public class AlarmaController implements Serializable {
             calFecha.set(calFecha.get(Calendar.YEAR), calFecha.get(Calendar.MONTH), calFecha.get(Calendar.DATE));
             InitialContext context = new InitialContext();
             
-            LlamadaFacade llamadaFacade = (LlamadaFacade) context.lookup("java:module/LlamadaFacade");
+            LlamadaFacadeExt llamadaFacade = (LlamadaFacadeExt) context.lookup("java:module/LlamadaFacadeExt");
             Llamada llamada = llamadaFacade.findLlamadaAbierta(boton);
             
             llamada.setFechaClose(calFecha.getTime());

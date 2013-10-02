@@ -9,11 +9,11 @@ import com.spontecorp.ferreasesor.entity.Llamada;
 import com.spontecorp.ferreasesor.entity.Tiempo;
 import com.spontecorp.ferreasesor.entity.Tienda;
 import com.spontecorp.ferreasesor.entity.Turno;
-import com.spontecorp.ferreasesor.jpa.LlamadaFacade;
 import com.spontecorp.ferreasesor.jpa.TiendaFacade;
 import com.spontecorp.ferreasesor.jpa.ext.BotonJpaControllerExt;
 import com.spontecorp.ferreasesor.jpa.ext.ConexionJpaController;
 import com.spontecorp.ferreasesor.jpa.ext.DistribucionJpaControllerExt;
+import com.spontecorp.ferreasesor.jpa.ext.LlamadaFacadeExt;
 import com.spontecorp.ferreasesor.utilities.JpaUtilities;
 import java.io.IOException;
 import java.io.InputStream;
@@ -369,7 +369,7 @@ public class SerialService implements SerialPortEventListener, Serializable {
         try {
             InitialContext context = new InitialContext();
             DistribucionJpaControllerExt distControl = (DistribucionJpaControllerExt) context.lookup("java:module/DistribucionJpaControllerExt");
-            LlamadaFacade llamFacade = (LlamadaFacade) context.lookup("java:module/LlamadaFacade");
+            LlamadaFacadeExt llamFacade = (LlamadaFacadeExt) context.lookup("java:module/LlamadaFacadeExt");
 
             Llamada llamada = null;
             Calendar calFecha = new GregorianCalendar();

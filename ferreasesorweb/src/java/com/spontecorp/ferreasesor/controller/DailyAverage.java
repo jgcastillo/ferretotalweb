@@ -5,10 +5,8 @@
 package com.spontecorp.ferreasesor.controller;
 
 import com.spontecorp.ferreasesor.entity.Llamada;
-import com.spontecorp.ferreasesor.entity.Tiempo;
-import com.spontecorp.ferreasesor.entity.Turno;
-import com.spontecorp.ferreasesor.jpa.LlamadaFacade;
 import com.spontecorp.ferreasesor.jpa.TurnoFacade;
+import com.spontecorp.ferreasesor.jpa.ext.LlamadaFacadeExt;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.Calendar;
@@ -28,7 +26,7 @@ import javax.faces.bean.ViewScoped;
 public class DailyAverage implements Serializable {
 
     @EJB
-    private LlamadaFacade llamadaFacade;
+    private LlamadaFacadeExt llamadaFacade;
     @EJB
     private TurnoFacade turnoFacade;
     private String promedioTiempo;
@@ -39,7 +37,7 @@ public class DailyAverage implements Serializable {
     public DailyAverage() {
     }
 
-    private LlamadaFacade getLlamadaFacade() {
+    private LlamadaFacadeExt getLlamadaFacade() {
         return llamadaFacade;
     }
 
