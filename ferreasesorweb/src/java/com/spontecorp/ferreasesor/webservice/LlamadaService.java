@@ -29,7 +29,7 @@ public class LlamadaService {
     
     public LlamadaService() {
     }/**
-     * Método para guardar una ubicación en la BD de la tienda
+     * MÃ©todo para guardar una ubicaciÃ³n en la BD de la tienda
      * @param ubicacion
      * @return 
      */
@@ -43,7 +43,7 @@ public class LlamadaService {
         return resp;
     }
 /**
- * Metodo para editar una ubicación en las tiendas.
+ * Metodo para editar una ubicaciÃ³n en las tiendas.
  * @param ubicacion
  * @return 
  */
@@ -56,7 +56,7 @@ public class LlamadaService {
         return resp;
     }
 /**
- * Método que permite borrar una encuesta en las tiendas dado su id_global
+ * MÃ©todo que permite borrar una encuesta en las tiendas dado su id_global
  * @param globalId 
  */
     @DELETE
@@ -70,7 +70,7 @@ public class LlamadaService {
     }
 
     /**
-     * Método que permite colocar una nueva encuesta en las tiendas, retorna un
+     * MÃ©todo que permite colocar una nueva encuesta en las tiendas, retorna un
      * response con un mensaje dependiendo si se pudo crear la encuesta o no.
      */
     @POST
@@ -83,7 +83,7 @@ public class LlamadaService {
     }
 
     /**
-     * Método que retorna el resultados de una encuesta dado el IdGlobal
+     * MÃ©todo que retorna el resultados de una encuesta dado el IdGlobal
      *
      * @param globalId
      * @return
@@ -120,7 +120,7 @@ public class LlamadaService {
     }
 
     /**
-     * método para obtener las llamadas de una tienda por un rango de
+     * MÃ©todo para obtener las llamadas de una tienda por un rango de
      * fechas
      *
      * @param fechaI Fecha inicial del rango

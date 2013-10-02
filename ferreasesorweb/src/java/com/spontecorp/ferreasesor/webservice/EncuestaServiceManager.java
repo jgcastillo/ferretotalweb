@@ -80,7 +80,7 @@ public class EncuestaServiceManager implements Serializable {
                 encuesta.setTiendaId(tienda);
                 encuesta.getPreguntaList();
                 //Se hace este doble ciclo apra volver a setear los ids de las listas de clases
-                //cuando no lo hacía me daba un error de que estaban en null
+                //cuando no lo hacÃ­a me daba un error de que estaban en null
                 for (Pregunta pregunta : encuesta.getPreguntaList()) {
                     pregunta.setEncuestaId(encuesta);
                     List<RespuestaConf> listaRespConf = pregunta.getRespuestaConfList();
@@ -90,7 +90,7 @@ public class EncuestaServiceManager implements Serializable {
                 }
                 //con la persistencia se guarda la informacion en todas las tablas por la anotacion de cascada en las relaciones "one to many"
                 encuestaFacade.create(encuesta);
-                //Este mensaje de response puede ser leido en el lado cliente a través del inputstream con un streambuilder.
+                //Este mensaje de response puede ser leido en el lado cliente a travÃ©s del inputstream con un streambuilder.
                 rsp = Response.status(200).entity("La encuesta fue creada exitosamente en la tienda " + encuesta.getTiendaId().getNombre()).build();
             } else {
                 rsp = Response.status(200).entity("La encuesta ya fue enviada anteriormente a la tienda " + encuesta.getTiendaId().getNombre()).build();
@@ -114,7 +114,7 @@ public class EncuestaServiceManager implements Serializable {
         return date;
     }
 /**
- * Método para retornar el resultado de una encuesta dado el igGlobal
+ * MÃ©todo para retornar el resultado de una encuesta dado el igGlobal
  * @param idGlobal
  * @return String json de la encueta con las preguntas y sus resultados.
  */
@@ -136,7 +136,7 @@ public class EncuestaServiceManager implements Serializable {
         return json;
     }
     /**
-     * Método auxiliar para obtener los resultados de la encuesta con la clase auxiliar "ResultadoEncuesta"
+     * MÃ©todo auxiliar para obtener los resultados de la encuesta con la clase auxiliar "ResultadoEncuesta"
      * @param idGlobal
      * @return 
      */

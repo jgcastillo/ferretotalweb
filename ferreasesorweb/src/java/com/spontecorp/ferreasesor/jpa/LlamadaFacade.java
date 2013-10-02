@@ -59,7 +59,7 @@ public class LlamadaFacade extends AbstractFacade<Llamada> {
 //    }
 //
 //    /**
-//     * Selecciono la última Llamada abierta
+//     * Selecciono la Ãºltima Llamada abierta
 //     *
 //     * @param boton
 //     * @return

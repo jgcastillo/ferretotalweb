@@ -58,7 +58,7 @@ public class LlamadaFacadeExt extends LlamadaFacade {
     }
 
     /**
-     * Selecciono la última Llamada abierta
+     * Selecciono la Ãºltima Llamada abierta
      *
      * @param boton
      * @return

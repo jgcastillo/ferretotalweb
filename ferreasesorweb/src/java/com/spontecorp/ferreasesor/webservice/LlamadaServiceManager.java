@@ -147,7 +147,7 @@ public class LlamadaServiceManager implements Serializable {
     }
 
     /**
-     * Método que permite obtener el nombre y apellido de un ferreasesor dada
+     * MÃ©todo que permite obtener el nombre y apellido de un ferreasesor dada
      * una llamada
      *
      * @param llamada
@@ -164,7 +164,7 @@ public class LlamadaServiceManager implements Serializable {
     }
 
     /**
-     * Método para hallar el nombre de un boton dados los datos de la llamada
+     * MÃ©todo para hallar el nombre de un boton dados los datos de la llamada
      *
      * @param llamada
      * @return Nombre de la Ubicacion
@@ -178,7 +178,7 @@ public class LlamadaServiceManager implements Serializable {
         return ubicacion;
     }
 /**
- * Método para recibir fecha String en formato dd-MM-yyyy
+ * MÃ©todo para recibir fecha String en formato dd-MM-yyyy
  * y retornar un objeto tipo Date con la fecha dada
  * @param fecha
  * @return Fecha tipo "Date"
