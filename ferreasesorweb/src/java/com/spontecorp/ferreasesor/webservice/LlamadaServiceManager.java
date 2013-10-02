@@ -8,7 +8,6 @@ import com.spontecorp.ferreasesor.entity.Tienda;
 import com.spontecorp.ferreasesor.entity.Turno;
 import com.spontecorp.ferreasesor.jpa.AsesorFacade;
 import com.spontecorp.ferreasesor.jpa.BotonFacade;
-import com.spontecorp.ferreasesor.jpa.TiendaFacade;
 import com.spontecorp.ferreasesor.jpa.TurnoFacade;
 import com.spontecorp.ferreasesor.jpa.ext.LlamadaFacadeExt;
 import com.spontecorp.ferreasesor.utilities.WebServicesUtilities;
@@ -20,12 +19,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.enterprise.context.RequestScoped;
+
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-@RequestScoped
 public class LlamadaServiceManager implements Serializable {
 
     private List<LlamadaServer> listaLlamadasServer = new ArrayList<>();
@@ -149,7 +147,7 @@ public class LlamadaServiceManager implements Serializable {
     }
 
     /**
-     * Funcion que permite obtener el nombre y apellido de un ferreasesor dada
+     * Método que permite obtener el nombre y apellido de un ferreasesor dada
      * una llamada
      *
      * @param llamada
@@ -166,7 +164,7 @@ public class LlamadaServiceManager implements Serializable {
     }
 
     /**
-     * Funcion para hallar el nombre de un boton dados los datos de la llamada
+     * Método para hallar el nombre de un boton dados los datos de la llamada
      *
      * @param llamada
      * @return Nombre de la Ubicacion
@@ -180,7 +178,7 @@ public class LlamadaServiceManager implements Serializable {
         return ubicacion;
     }
 /**
- * MÃ©todo para recibir fecha String en formato dd-MM-yyyy
+ * Método para recibir fecha String en formato dd-MM-yyyy
  * y retornar un objeto tipo Date con la fecha dada
  * @param fecha
  * @return Fecha tipo "Date"

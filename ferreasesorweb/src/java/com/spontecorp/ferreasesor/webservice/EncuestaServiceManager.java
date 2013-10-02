@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.spontecorp.ferreasesor.webservice;
 
 import com.google.gson.Gson;
@@ -26,18 +23,36 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.enterprise.context.RequestScoped;
+
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.ws.rs.core.Response;
 
-@RequestScoped
+
 public class EncuestaServiceManager implements Serializable {
 
-    private Encuesta encuesta;
-    private Tienda tienda;
     private Response rsp;
     private ResultadoEncuesta restultadoEncuesta;
+    private Encuesta encuesta;
+    private Tienda tienda;
+
+
+    public Response eliminarEncuestaGlobal(int idGlobal) {
+        try {
+            InitialContext cont = new InitialContext();
+            EncuestaAuxFacade encuestaFacadeAux = (EncuestaAuxFacade) cont.lookup("java:module/EncuestaAuxFacade");
+            EncuestaFacade encuestaFacade = (EncuestaFacade) cont.lookup("java:module/EncuestaFacade");
+            Encuesta encuesta = (Encuesta) encuestaFacadeAux.findEncuestasByIdGlobal(idGlobal);
+            Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+            System.out.println(gson.toJson(encuesta));
+            encuestaFacade.remove(encuesta);
+            rsp = Response.status(200).entity("La encuesta fue eliminada " + encuesta.getTiendaId().getNombre()).build();
+
+        } catch (NamingException ex) {
+            Logger.getLogger(EncuestaServiceManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rsp;
+    }
 
     /**
      * MÃ©todo para crear una encuesta global recibida en un "POST request" Se
@@ -53,15 +68,19 @@ public class EncuestaServiceManager implements Serializable {
             EncuestaFacade encuestaFacade = (EncuestaFacade) cont.lookup("java:module/EncuestaFacade");
             TiendaFacade tiendafacade = (TiendaFacade) cont.lookup("java:module/TiendaFacade");
             EncuestaAuxFacade encuestaFacadeAux = (EncuestaAuxFacade) cont.lookup("java:module/EncuestaAuxFacade");
-            encuesta = (Encuesta) encuestaFacadeAux.findEncuestasByIdGlobal(enc.getId());
+            Encuesta encuesta = (Encuesta) encuestaFacadeAux.findEncuestasByIdGlobal(enc.getId());
+            //Busco la encuesta por si idglobal, si viene null la creo
             if (encuesta == null) {
                 encuesta = enc;
                 encuesta.setFechaInicio(convertirFecha(encuesta.getFechaInicioString()));
                 encuesta.setFechaFin(convertirFecha(encuesta.getFechaFinString()));
                 encuesta.setGlobalId(encuesta.getId());
                 tienda = tiendafacade.find(WebServicesUtilities.ID_TIENDA);
+                Tienda tienda = tiendafacade.find(WebServicesUtilities.ID_TIENDA);
                 encuesta.setTiendaId(tienda);
                 encuesta.getPreguntaList();
+                //Se hace este doble ciclo apra volver a setear los ids de las listas de clases
+                //cuando no lo hacía me daba un error de que estaban en null
                 for (Pregunta pregunta : encuesta.getPreguntaList()) {
                     pregunta.setEncuestaId(encuesta);
                     List<RespuestaConf> listaRespConf = pregunta.getRespuestaConfList();
@@ -69,7 +88,9 @@ public class EncuestaServiceManager implements Serializable {
                         respuestaConf.setPreguntaId(pregunta);
                     }
                 }
+                //con la persistencia se guarda la informacion en todas las tablas por la anotacion de cascada en las relaciones "one to many"
                 encuestaFacade.create(encuesta);
+                //Este mensaje de response puede ser leido en el lado cliente a través del inputstream con un streambuilder.
                 rsp = Response.status(200).entity("La encuesta fue creada exitosamente en la tienda " + encuesta.getTiendaId().getNombre()).build();
             } else {
                 rsp = Response.status(200).entity("La encuesta ya fue enviada anteriormente a la tienda " + encuesta.getTiendaId().getNombre()).build();
@@ -92,29 +113,40 @@ public class EncuestaServiceManager implements Serializable {
         }
         return date;
     }
-
+/**
+ * Método para retornar el resultado de una encuesta dado el igGlobal
+ * @param idGlobal
+ * @return String json de la encueta con las preguntas y sus resultados.
+ */
     public String enviarResultadoEncuesta(int idGlobal) {
         String json = "";
         try {
+            Encuesta encuesta = null;
             InitialContext cont = new InitialContext();
             EncuestaAuxFacade encuestaFacadeAux = (EncuestaAuxFacade) cont.lookup("java:module/EncuestaAuxFacade");
-            encuesta = (Encuesta) encuestaFacadeAux.findEncuestasByIdGlobal(idGlobal);
-            Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
-            json = gson.toJson(encuesta);
+            if (encuesta == null) {
+                encuesta = (Encuesta) encuestaFacadeAux.findEncuestasByIdGlobal(idGlobal);
+                Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
+                json = gson.toJson(encuesta);
+            }
         } catch (NamingException ex) {
             Logger.getLogger(EncuestaServiceManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         System.out.println("1.- json al enviar Respuestas: " + json);
         return json;
     }
-
+    /**
+     * Método auxiliar para obtener los resultados de la encuesta con la clase auxiliar "ResultadoEncuesta"
+     * @param idGlobal
+     * @return 
+     */
     public String enviarResultadoEncuesta2(int idGlobal) {
         String jsonResultado = null;
         try {
-            restultadoEncuesta = new ResultadoEncuesta();
+            ResultadoEncuesta restultadoEncuesta = new ResultadoEncuesta();
             InitialContext cont = new InitialContext();
             EncuestaAuxFacade encuestaFacadeAux = (EncuestaAuxFacade) cont.lookup("java:module/EncuestaAuxFacade");
-            encuesta = (Encuesta) encuestaFacadeAux.findEncuestasByIdGlobal(idGlobal);
+            Encuesta encuesta = (Encuesta) encuestaFacadeAux.findEncuestasByIdGlobal(idGlobal);
             List<Pregunta> listaPreguntas = encuesta.getPreguntaList();
 
             restultadoEncuesta.setIdGlobal(idGlobal);
