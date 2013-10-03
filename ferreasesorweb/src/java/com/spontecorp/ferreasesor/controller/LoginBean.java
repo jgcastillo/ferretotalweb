@@ -1,7 +1,10 @@
 package com.spontecorp.ferreasesor.controller;
 
+import com.spontecorp.ferreasesor.entity.Tienda;
 import com.spontecorp.ferreasesor.entity.Usuario;
+import com.spontecorp.ferreasesor.jpa.TiendaFacade;
 import com.spontecorp.ferreasesor.security.Login;
+import com.spontecorp.ferreasesor.utilities.JpaUtilities;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -11,6 +14,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,6 +32,7 @@ public class LoginBean implements Serializable {
     private String password;
     private Usuario current;
     private Date fechaActual;
+    private Tienda tienda;
     private static final Logger logger = LoggerFactory.getLogger(LoginBean.class);
 
     /**
@@ -53,6 +59,17 @@ public class LoginBean implements Serializable {
 
     public Usuario getCurrent() {
         return current;
+    }
+
+    public Tienda getTienda() throws NamingException {
+        InitialContext context = new InitialContext();
+        TiendaFacade tiendaFacade = (TiendaFacade) context.lookup("java:module/TiendaFacade");
+        tienda = tiendaFacade.find(JpaUtilities.ID_TIENDA);
+        return tienda;
+    }
+
+    public void setTienda(Tienda tienda) {
+        this.tienda = tienda;
     }
 
     public String getFechaActual() {

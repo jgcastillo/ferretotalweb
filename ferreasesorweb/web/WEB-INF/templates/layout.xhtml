@@ -54,7 +54,7 @@
                 </c:if>
 
                 <c:if test="#{loginBean.loggedIn}">
-                    <p:layoutUnit position="west" size="200" header="Menu" resizable="false" 
+                    <p:layoutUnit position="west" size="200" header=" Menú Tienda: #{loginBean.tienda.nombre}" resizable="false" 
                                   closable="false" collapsible="true">
                         <ui:include src="./snippets/menu.xhtml" />
                     </p:layoutUnit>
