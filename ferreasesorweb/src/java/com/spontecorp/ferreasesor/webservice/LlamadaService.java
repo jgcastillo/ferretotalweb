@@ -152,4 +152,28 @@ public class LlamadaService {
         return arrLlamaJson;
 
     }
+    
+    /**
+     * Método para obtener las llamadas de una Tienda 
+     *
+     * @param tiendaId id de la tienda
+     * @param content "application/json" obligatoriamente
+     * @return Arreglo Json con las llamadas
+     */    
+    @GET
+    @Path("totaltienda/{tiendaId}")
+    @Produces("application/json")
+    public String obtenerLlamadasTienda(@PathParam(value = "tiendaId") int tiendaId) {
+
+        LlamadaServiceManager llamadaServerManager = new LlamadaServiceManager();
+        //Se construye el gson de forma tal que ignore los campos que NO tengan la anotacion @Expose
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
+        //llenamos la lista con el método de la clase llamadaServerManager
+        List<LlamadaServer> listaLlamadaServer = llamadaServerManager.llenarListaLlamadasServer();
+        //Se convierte la lista a tipo json
+        String arrLlamaJson = gson.toJson(listaLlamadaServer, new TypeToken<List<LlamadaServer>>() {
+        }.getType());
+        //se retorna el arreglo de objetos json
+        return arrLlamaJson;
+    }
 }

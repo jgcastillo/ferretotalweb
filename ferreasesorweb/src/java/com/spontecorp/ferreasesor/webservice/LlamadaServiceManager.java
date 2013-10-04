@@ -32,7 +32,7 @@ public class LlamadaServiceManager implements Serializable {
     private List<Llamada> listaLlamadas;
 
     /**
-     *
+     * Obtener Lista de Llamadas de la Tienda por Fecha
      * @param fechaInicio
      * @param fechaFin
      */
@@ -42,6 +42,40 @@ public class LlamadaServiceManager implements Serializable {
             InitialContext context = new InitialContext();
             LlamadaFacadeExt llamadaFacadeExt = (LlamadaFacadeExt) context.lookup("java:module/LlamadaFacadeExt");
             listaLlamadas = llamadaFacadeExt.findLlamadasList(fechaInicio, fechaFin);
+
+            for (int i = 0; i < listaLlamadas.size(); i++) {
+
+                llamadaServer.setHoraOpen(listaLlamadas.get(i).getHoraOpen());
+                llamadaServer.setFechaOpen(listaLlamadas.get(i).getFechaOpen());
+                llamadaServer.setHoraClose(listaLlamadas.get(i).getHoraClose());
+                llamadaServer.setFechaClose(listaLlamadas.get(i).getFechaClose());
+                llamadaServer.setDispositivo(obtenerNombreDispositivo(listaLlamadas.get(i)));
+                llamadaServer.setTurno(obtenerTurno(listaLlamadas.get(i)));
+                llamadaServer.setAsesor(obtenerNombreAsesor(listaLlamadas.get(i)));
+                llamadaServer.setTiempo(obtenerTiempoLlamada(listaLlamadas.get(i)));
+                llamadaServer.setCalidad(obtenerCalidad(listaLlamadas.get(i)));
+                llamadaServer.setFeriado(obtenerIsFeriado(listaLlamadas.get(i)));
+                llamadaServer.setTiendaId(obtenerTienda(listaLlamadas.get(i)));
+                addLlamadaServer(llamadaServer);
+                llamadaServer = new LlamadaServer();
+            }
+
+        } catch (NamingException ex) {
+            Logger.getLogger(LlamadaServiceManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listaLlamadasServer;
+    }
+    
+    /**
+     * Obtener Lista de todas las Llmadas de la Tienda
+     * @return 
+     */
+    public List<LlamadaServer> llenarListaLlamadasServer() {
+        try {
+           
+            InitialContext context = new InitialContext();
+            LlamadaFacadeExt llamadaFacadeExt = (LlamadaFacadeExt) context.lookup("java:module/LlamadaFacadeExt");
+            listaLlamadas = llamadaFacadeExt.findAll();
 
             for (int i = 0; i < listaLlamadas.size(); i++) {
 
