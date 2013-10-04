@@ -75,7 +75,7 @@ public class LlamadaServiceManager implements Serializable {
            
             InitialContext context = new InitialContext();
             LlamadaFacadeExt llamadaFacadeExt = (LlamadaFacadeExt) context.lookup("java:module/LlamadaFacadeExt");
-            listaLlamadas = llamadaFacadeExt.findAll();
+            listaLlamadas = llamadaFacadeExt.findLlamadasList();
 
             for (int i = 0; i < listaLlamadas.size(); i++) {
 

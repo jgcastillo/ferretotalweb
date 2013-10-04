@@ -25,7 +25,7 @@ public class LlamadaFacadeExt extends LlamadaFacade {
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("FerreAsesorWebPU");
     private EntityManager em = emf.createEntityManager();
     private static final Logger logger = LoggerFactory.getLogger(LlamadaFacadeExt.class);
-    
+
     /**
      * Listado de las ultimas 75 Llamadas cerradas accion = 0
      *
@@ -82,7 +82,6 @@ public class LlamadaFacadeExt extends LlamadaFacade {
         }
         return llamada;
     }
-    
 
     public List<Object[]> findLlamadas(Date fechaInicio, Date fechaFin) {
         String q = "SELECT ll.fechaClose, count(ll) FROM Llamada ll "
@@ -212,6 +211,27 @@ public class LlamadaFacadeExt extends LlamadaFacade {
         return result;
 
 
+    }
+
+    /**
+     * Devuelve una lista de llamadas, excluyendo las llamadas que no han sido
+     * cerradas
+     *
+     * @return La lista de llamadas
+     */
+    public List<Llamada> findLlamadasList() {
+        List<Llamada> result = null;
+        String query = "SELECT ll "
+                + "FROM Llamada ll , Distribucion d, Tiempo t WHERE ll.distribucionId.id = d.id AND ll.tiempoId.id = t.id "
+                + "AND ll.accion = '0'"
+                + "ORDER BY ll.id";
+        try {
+            Query q = em.createQuery(query);
+            result = q.getResultList();
+        } catch (Exception e) {
+            logger.error("Error generando los datos: " + e);
+        }
+        return result;
     }
 
     /**
