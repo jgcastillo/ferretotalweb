@@ -44,7 +44,6 @@ public class EncuestaServiceManager implements Serializable {
             EncuestaFacade encuestaFacade = (EncuestaFacade) cont.lookup("java:module/EncuestaFacade");
             Encuesta encuesta = (Encuesta) encuestaFacadeAux.findEncuestasByIdGlobal(idGlobal);
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-            System.out.println(gson.toJson(encuesta));
             encuestaFacade.remove(encuesta);
             rsp = Response.status(200).entity("La encuesta fue eliminada " + encuesta.getTiendaId().getNombre()).build();
 
@@ -132,7 +131,6 @@ public class EncuestaServiceManager implements Serializable {
         } catch (NamingException ex) {
             Logger.getLogger(EncuestaServiceManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("1.- json al enviar Respuestas: " + json);
         return json;
     }
     /**
@@ -197,7 +195,6 @@ public class EncuestaServiceManager implements Serializable {
             }
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             jsonResultado = gson.toJson(restultadoEncuesta);
-            System.out.println(jsonResultado);
 
         } catch (NamingException ex) {
             Logger.getLogger(EncuestaServiceManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -205,6 +202,12 @@ public class EncuestaServiceManager implements Serializable {
         return jsonResultado;
     }
 
+    /**
+     * Método para retornar el resultado de una encuesta dado el igGlobal
+     * SE setea la lista de Respuestas por Pregunta
+     * @param idGlobal
+     * @return 
+     */
     public String enviarResultadoEncuesta3(int idGlobal) {
         String jsonRespuestas = null;
         try {          
@@ -222,7 +225,6 @@ public class EncuestaServiceManager implements Serializable {
 
             Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
             jsonRespuestas = gson.toJson(respuestas, new TypeToken<List<RespuestaObtenida>>() {}.getType());
-            System.out.println(jsonRespuestas);
 
         } catch (NamingException ex) {
             Logger.getLogger(EncuestaServiceManager.class.getName()).log(Level.SEVERE, null, ex);

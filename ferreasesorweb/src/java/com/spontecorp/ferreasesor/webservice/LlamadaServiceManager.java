@@ -33,12 +33,13 @@ public class LlamadaServiceManager implements Serializable {
 
     /**
      * Obtener Lista de Llamadas de la Tienda por Fecha
+     *
      * @param fechaInicio
      * @param fechaFin
      */
     public List<LlamadaServer> llenarListaLlamadasServer(Date fechaInicio, Date fechaFin) {
         try {
-           
+
             InitialContext context = new InitialContext();
             LlamadaFacadeExt llamadaFacadeExt = (LlamadaFacadeExt) context.lookup("java:module/LlamadaFacadeExt");
             listaLlamadas = llamadaFacadeExt.findLlamadasList(fechaInicio, fechaFin);
@@ -65,17 +66,56 @@ public class LlamadaServiceManager implements Serializable {
         }
         return listaLlamadasServer;
     }
-    
+
     /**
      * Obtener Lista de todas las Llmadas de la Tienda
-     * @return 
+     *
+     * @return
      */
     public List<LlamadaServer> llenarListaLlamadasServer() {
         try {
-           
+
             InitialContext context = new InitialContext();
             LlamadaFacadeExt llamadaFacadeExt = (LlamadaFacadeExt) context.lookup("java:module/LlamadaFacadeExt");
             listaLlamadas = llamadaFacadeExt.findLlamadasList();
+
+            for (int i = 0; i < listaLlamadas.size(); i++) {
+
+                llamadaServer.setHoraOpen(listaLlamadas.get(i).getHoraOpen());
+                llamadaServer.setFechaOpen(listaLlamadas.get(i).getFechaOpen());
+                llamadaServer.setHoraClose(listaLlamadas.get(i).getHoraClose());
+                llamadaServer.setFechaClose(listaLlamadas.get(i).getFechaClose());
+                llamadaServer.setDispositivo(obtenerNombreDispositivo(listaLlamadas.get(i)));
+                llamadaServer.setTurno(obtenerTurno(listaLlamadas.get(i)));
+                llamadaServer.setAsesor(obtenerNombreAsesor(listaLlamadas.get(i)));
+                llamadaServer.setTiempo(obtenerTiempoLlamada(listaLlamadas.get(i)));
+                llamadaServer.setCalidad(obtenerCalidad(listaLlamadas.get(i)));
+                llamadaServer.setFeriado(obtenerIsFeriado(listaLlamadas.get(i)));
+                llamadaServer.setTiendaId(obtenerTienda(listaLlamadas.get(i)));
+                addLlamadaServer(llamadaServer);
+                llamadaServer = new LlamadaServer();
+            }
+
+        } catch (NamingException ex) {
+            Logger.getLogger(LlamadaServiceManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listaLlamadasServer;
+    }
+
+    /**
+     * Obtener Lista de todas las Llmadas de la Tienda que todavía no han sido
+     * actualizadas en la BD del Server
+     *
+     * @param fechaInicio
+     * @param horaInicio
+     * @return
+     */
+    public List<LlamadaServer> llenarListaUpdateLlamadasServer(Date fechaInicio, Date horaInicio) {
+        try {
+
+            InitialContext context = new InitialContext();
+            LlamadaFacadeExt llamadaFacadeExt = (LlamadaFacadeExt) context.lookup("java:module/LlamadaFacadeExt");
+            listaLlamadas = llamadaFacadeExt.findLlamadasUpdateList(fechaInicio, horaInicio);
 
             for (int i = 0; i < listaLlamadas.size(); i++) {
 
@@ -211,18 +251,39 @@ public class LlamadaServiceManager implements Serializable {
         String ubicacion = boton.getUbicacion();
         return ubicacion;
     }
-/**
- * Método para recibir fecha String en formato dd-MM-yyyy
- * y retornar un objeto tipo Date con la fecha dada
- * @param fecha
- * @return Fecha tipo "Date"
- */
+
+    /**
+     * Método para recibir fecha String en formato dd-MM-yyyy y retornar un
+     * objeto tipo Date con la fecha dada
+     *
+     * @param fecha
+     * @return Fecha tipo "Date"
+     */
     public Date convertirFecha(String fecha) {
         Date date = null;
         try {
             SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
             date = formateador.parse(fecha);
-            
+
+        } catch (ParseException ex) {
+            Logger.getLogger(LlamadaServiceManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return date;
+    }
+
+    /**
+     * Método para recibir hora String en formato HH:mm:ss y retornar un
+     * objeto tipo Date con la hora dada
+     *
+     * @param hora
+     * @return hora tipo "Date"
+     */
+    public Date convertirHora(String hora) {
+        Date date = null;
+        try {
+            SimpleDateFormat formateador = new SimpleDateFormat("HH:mm:ss");
+            date = formateador.parse(hora);
+
         } catch (ParseException ex) {
             Logger.getLogger(LlamadaServiceManager.class.getName()).log(Level.SEVERE, null, ex);
         }

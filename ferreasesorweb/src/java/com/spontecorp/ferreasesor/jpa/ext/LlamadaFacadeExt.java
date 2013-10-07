@@ -212,6 +212,30 @@ public class LlamadaFacadeExt extends LlamadaFacade {
 
 
     }
+    
+    /**
+     * Devuelve una lista de llamadas cuya fecha de inicio sea igual o mayor
+     * y su hora de inicio sea superios a los parámetros recibidos
+     * @param fechaInicio
+     * @param horaInicio
+     * @return 
+     */
+    public List<Llamada> findLlamadasUpdateList(Date fechaInicio, Date horaInicio) {
+        List<Llamada> result = null;
+        String query = "SELECT ll "
+                + "FROM Llamada ll , Distribucion d, Tiempo t WHERE ll.distribucionId.id = d.id AND ll.tiempoId.id = t.id "
+                + "AND (ll.fechaOpen >= :fechaInicio AND ll.horaOpen > :horaInicio) OR (ll.fechaOpen > :fechaInicio) AND ll.accion = '0' "
+                + "ORDER BY ll.id";
+        try {
+            Query q = em.createQuery(query);
+            q.setParameter("fechaInicio", fechaInicio);
+            q.setParameter("horaInicio", horaInicio);
+            result = q.getResultList();
+        } catch (Exception e) {
+            logger.error("Error generando los datos: " + e);
+        }
+        return result;
+    }
 
     /**
      * Devuelve una lista de llamadas, excluyendo las llamadas que no han sido

@@ -63,7 +63,6 @@ public class LlamadaService {
     @Path("eliminarencuesta/{globalId}")
     @Consumes("application/json")
     public void eliminarEncuestaGlobal(@PathParam(value = "globalId") int globalId) {
-        System.out.println("EL id global es: "+globalId);
         EncuestaServiceManager encuestaServiceManager = new EncuestaServiceManager();
         Response rsp = encuestaServiceManager.eliminarEncuestaGlobal(globalId);
         
@@ -175,5 +174,38 @@ public class LlamadaService {
         }.getType());
         //se retorna el arreglo de objetos json
         return arrLlamaJson;
+    }
+    
+    /**
+     * Método para obtener listado de Llamadas cuya fecha de Inicio sea igual o mayor
+     * y su Hora de Inicio sea mayor a los parámetros recibidos
+     * @param fechaI
+     * @param horaI
+     * @param tiendaId
+     * @return 
+     */
+    @GET
+    @Path("updatellamadasporfecha/{fechaInicio}/{horaInicio}/{tiendaId}")
+    @Produces("application/json")
+    public String updateLlamadaPorFecha(
+            @PathParam(value = "fechaInicio") String fechaI,
+            @PathParam(value = "horaInicio") String horaI,
+            @PathParam(value = "tiendaId") int tiendaId) {
+
+        LlamadaServiceManager llamadaServerManager = new LlamadaServiceManager();
+        //Se transforman los string de la fecha a fecha
+        Date fechaInicio = llamadaServerManager.convertirFecha(fechaI);
+        //Se transforman los string de la hora a hora
+        Date horaInicio = llamadaServerManager.convertirHora(horaI);
+        //Se construye el gson de forma tal que ignore los campos que NO tengan la anotacion @Expose
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
+        //llenamos la lista con el método de la clase llamadaServerManager
+        List<LlamadaServer> listaLlamadaServer = llamadaServerManager.llenarListaUpdateLlamadasServer(fechaInicio, horaInicio);
+        //Se convierte la lista a tipo json
+        String arrLlamaJson = gson.toJson(listaLlamadaServer, new TypeToken<List<LlamadaServer>>() {
+        }.getType());
+        //se retorna el arreglo de objetos json
+        return arrLlamaJson;
+
     }
 }
