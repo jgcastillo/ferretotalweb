@@ -59,6 +59,7 @@ public class SerialService implements SerialPortEventListener, Serializable {
     private boolean isFeriado;
     private Turno turnoActual;
     private final static int TIMEOUT = 1;
+    private String portSelected;
     
     private Map<String, CommPortIdentifier> portMap;
     
@@ -165,6 +166,9 @@ public class SerialService implements SerialPortEventListener, Serializable {
                 portMap.put(curPort.getName(), curPort);
             }
         }
+        for(Map.Entry<String, CommPortIdentifier> map : portMap.entrySet()){
+            System.out.println("Puerto(Key): "+ map.getKey() + " CommPortIdentifier(Value)" + map.getValue().getName());
+        }
         return portMap;
     }
 
@@ -188,7 +192,8 @@ public class SerialService implements SerialPortEventListener, Serializable {
 //            } else {
 //                items.add(pdi.getPortName() + ": " + pdi.getDriverDesc());
 //            }
-            items.add(pdi.getPortName() + ": " + pdi.getDriverDesc());
+           // items.add(pdi.getPortName() + ": " + pdi.getDriverDesc());
+             items.add(pdi.getPortName());
         }
         return items;
     }
@@ -198,19 +203,20 @@ public class SerialService implements SerialPortEventListener, Serializable {
      */
     public void connectAction() {
         searchPorts();
-        try {
-            PortDriverInfo[] diList = SerialPortLocal.getDriverInfoList();
-            int nPorts = diList.length;
-            PortDriverInfo pdi;
-            for (int i = 0; i < nPorts; i++) {
-                pdi = diList[i];
-               // if (pdi.getDriverMfgr().equalsIgnoreCase("Prolific") && pdi.getDriverDesc().equalsIgnoreCase("Prolific USB-to-Serial Comm Port")) {
-                    connect(pdi.getPortName());
-             //   }
-            }
-        } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(SerialService.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        connect(portSelected);
+//        try {
+//            PortDriverInfo[] diList = SerialPortLocal.getDriverInfoList();
+//            int nPorts = diList.length;
+//            PortDriverInfo pdi;
+//            for (int i = 0; i < nPorts; i++) {
+//                pdi = diList[i];
+//               // if (pdi.getDriverMfgr().equalsIgnoreCase("Prolific") && pdi.getDriverDesc().equalsIgnoreCase("Prolific USB-to-Serial Comm Port")) {
+//                    connect(pdi.getPortName());
+//             //   }
+//            }
+//        } catch (IOException ex) {
+//            java.util.logging.Logger.getLogger(SerialService.class.getName()).log(Level.SEVERE, null, ex);
+//        }
 
     }
 
@@ -229,7 +235,6 @@ public class SerialService implements SerialPortEventListener, Serializable {
                     javax.comm.SerialPort.PARITY_NONE);
             input = serialPort.getInputStream();
             setConnected(true);
-
         } catch (PortInUseException e) {
             logger.error(selectedPort + " está en uso. (" + e.toString() + ")");
         } catch (Exception e) {
@@ -276,6 +281,7 @@ public class SerialService implements SerialPortEventListener, Serializable {
     @Override
     public void serialEvent(SerialPortEvent spe) {
         buffer = new byte[8];
+        System.out.println("Entro a serialEvent: " + spe.getEventType());
         if (spe.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
             try {
                 tail = 0;
@@ -553,6 +559,10 @@ public class SerialService implements SerialPortEventListener, Serializable {
 
     public void setTurnoActual(Turno turnoActual) {
         this.turnoActual = turnoActual;
+    }
+
+    public void setPortSelected(String portSelected) {
+        this.portSelected = portSelected;
     }
     
     

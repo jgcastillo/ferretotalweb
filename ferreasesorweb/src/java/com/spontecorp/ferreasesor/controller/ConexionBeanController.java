@@ -65,12 +65,11 @@ public class ConexionBeanController implements Serializable {
      * @param evt
      */
     public void connectButtonActionPerformed(ActionEvent evt) {
+        serialService.setPortSelected(portSelected);
         serialService.connectAction();
-        //System.out.println("Entro a connectButtonActionPerformed");
         if (serialService.isConnected()) {
             connected = serialService.isConnected();
             serialService.initListener();
-            //System.out.println("Esta conectado: "+connected);
         }
     }
 
@@ -79,7 +78,6 @@ public class ConexionBeanController implements Serializable {
      * puerto serial
      */
     public void disconnect(ActionEvent evt) {
-        //System.out.println("Entro a disconnect");
         serialService.disconnect();
         connected = serialService.isConnected();
     }
@@ -89,7 +87,6 @@ public class ConexionBeanController implements Serializable {
      */
     public void updateTurnoActual(){
         serialService.chequeaTurno();
-        //System.out.println("Checkeando Turno...");
         setTurnoActual(serialService.getTurnoActual());
     } 
 
