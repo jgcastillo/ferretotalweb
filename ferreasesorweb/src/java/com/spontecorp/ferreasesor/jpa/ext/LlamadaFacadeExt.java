@@ -224,7 +224,7 @@ public class LlamadaFacadeExt extends LlamadaFacade {
         List<Llamada> result = null;
         String query = "SELECT ll "
                 + "FROM Llamada ll , Distribucion d, Tiempo t WHERE ll.distribucionId.id = d.id AND ll.tiempoId.id = t.id "
-                + "AND (ll.fechaOpen >= :fechaInicio AND ll.horaOpen > :horaInicio) OR (ll.fechaOpen > :fechaInicio) AND ll.accion = '0' "
+                + "AND ((ll.fechaOpen >= :fechaInicio AND ll.horaOpen > :horaInicio) OR (ll.fechaOpen > :fechaInicio)) AND ll.accion = '0' "
                 + "ORDER BY ll.id";
         try {
             Query q = em.createQuery(query);
