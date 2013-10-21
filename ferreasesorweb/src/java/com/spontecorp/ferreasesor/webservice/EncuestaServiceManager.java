@@ -90,9 +90,9 @@ public class EncuestaServiceManager implements Serializable {
                 //con la persistencia se guarda la informacion en todas las tablas por la anotacion de cascada en las relaciones "one to many"
                 encuestaFacade.create(encuesta);
                 //Este mensaje de response puede ser leido en el lado cliente a través del inputstream con un streambuilder.
-                rsp = Response.status(200).entity("La encuesta fue creada exitosamente en la tienda " + encuesta.getTiendaId().getNombre()).build();
+                rsp = Response.status(200).entity("La encuesta fue enviada exitosamente a la Tienda.").build();
             } else {
-                rsp = Response.status(200).entity("La encuesta ya fue enviada anteriormente a la tienda " + encuesta.getTiendaId().getNombre()).build();
+                rsp = Response.status(200).entity("La encuesta ya se encuentra creada en la Tienda.").build();
             }
         } catch (NamingException ex) {
             Logger.getLogger(EncuestaServiceManager.class.getName()).log(Level.SEVERE, null, ex);
