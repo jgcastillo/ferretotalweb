@@ -142,11 +142,14 @@ public class EncuestaBeanController implements Serializable {
             JsfUtil.addErrorMessage("La encuesta tiene preguntas cargadas, no puede ser eliminada");
         } else {
             getFacade().remove(current);
-        }
-        return prepareCancel();
+            JsfUtil.addSuccessMessage("Encuesta eliminada con éxito!");
+        } 
+        recreateModel();
+        return "encuestaMain?faces-redirect=true";
     }
 
     private void recreateModel() {
+        current = null;
         items = null;
     }
 
@@ -154,11 +157,14 @@ public class EncuestaBeanController implements Serializable {
         getCurrent();
         if (current.getStatus() == ACTIVO) {
             current.setStatus(INACTIVO);
+            JsfUtil.addSuccessMessage("Encuesta Desactivada con éxito!");
         } else {
             current.setStatus(ACTIVO);
+            JsfUtil.addSuccessMessage("Encuesta Activada con éxito!");
         }
         update();
-        return prepareCancel();
+        recreateModel();
+        return "encuestaMain?faces-redirect=true";
     }
 
     public String create() {
@@ -167,7 +173,7 @@ public class EncuestaBeanController implements Serializable {
             current.setTiendaId(tienda);
             current.setStatus(INACTIVO);
             getFacade().create(current);
-            JsfUtil.addSuccessMessage("Encuesta creada con éxito");
+            JsfUtil.addSuccessMessage("Encuesta creada con éxito!");
             return prepareCancel();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, "Error a nivel de Base de Datos");
@@ -178,7 +184,7 @@ public class EncuestaBeanController implements Serializable {
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage("Encuesta actualizada con éxito");
+            JsfUtil.addSuccessMessage("Encuesta actualizada con éxito!");
             return prepareCancel();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, "Error a nivel de Base de Datos");

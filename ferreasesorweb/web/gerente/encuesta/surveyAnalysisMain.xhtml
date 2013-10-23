@@ -23,6 +23,10 @@
                     <p:column headerText="Encuesta">
                         <h:outputText value="#{encuesta.nombre}"/>
                     </p:column>
+                    <p:column headerText="Tipo" style="text-align: center">
+                        <h:outputText value="Local" rendered="#{encuesta.globalId == null}" />
+                        <h:outputText value="Global" rendered="#{encuesta.globalId != null}" />
+                    </p:column>
                     <p:column headerText="Fecha Inicio" style="text-align: center">
                         <h:outputText value="#{encuesta.fechaInicio}">
                             <f:convertDateTime pattern="dd/MM/yyyy"/>
