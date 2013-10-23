@@ -43,19 +43,20 @@
                             - <h:outputText value="#{respuestaMotivoController.fechaFin}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>)
                         </p>
                     </f:facet><br/>
-                    <p:column headerText="Fecha" style="text-align: center; width: 20%">
+                    <p:column headerText="Fecha" style="text-align: center; width: 10%">
                         <h:outputText value="#{item.fecha}">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
                     </p:column>
-
-                    <p:column headerText="Hora" style="text-align: center; width: 20%">
+<!--                    <p:column headerText="Hora" style="text-align: center; width: 10%">
                         <h:outputText value="#{item.fecha}">
                             <f:convertDateTime pattern="HH:mm" />
                         </h:outputText>
+                    </p:column>-->
+                    <p:column headerText="Categoría" style="width: 10%">
+                        <h:outputText value="#{item.motivoId.categoriaId.nombre}"/>
                     </p:column>
-
-                    <p:column headerText="Motivo de Llamado">
+                    <p:column headerText="Motivo de Llamado" style="width: 80%">
                         <h:outputText value="#{item.motivoId.nombre}"/>
                     </p:column>
 

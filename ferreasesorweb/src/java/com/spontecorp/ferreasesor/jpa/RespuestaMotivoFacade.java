@@ -49,7 +49,6 @@ public class RespuestaMotivoFacade extends AbstractFacade<RespuestaMotivo> {
             q.setParameter("fechaInicio", fechaInicio);
             q.setParameter("fechaFin", fechaFin);
             result = q.getResultList();
-            System.out.println("result: "+result.size());
         } catch (Exception e) {
             logger.error("Error generando los datos: " + e);
         }
