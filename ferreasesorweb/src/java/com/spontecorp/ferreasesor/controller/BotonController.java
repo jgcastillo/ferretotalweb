@@ -7,11 +7,13 @@ import com.spontecorp.ferreasesor.entity.Boton;
 import com.spontecorp.ferreasesor.entity.Distribucion;
 import com.spontecorp.ferreasesor.entity.Tienda;
 import com.spontecorp.ferreasesor.entity.Turno;
+import com.spontecorp.ferreasesor.entity.Ubicacion;
 import com.spontecorp.ferreasesor.jpa.AsesorFacade;
 import com.spontecorp.ferreasesor.jpa.BotonFacade;
 import com.spontecorp.ferreasesor.jpa.DistribucionFacade;
 import com.spontecorp.ferreasesor.jpa.TiendaFacade;
 import com.spontecorp.ferreasesor.jpa.TurnoFacade;
+import com.spontecorp.ferreasesor.jpa.UbicacionFacade;
 import com.spontecorp.ferreasesor.jpa.ext.DistribucionJpaControllerExt;
 import com.spontecorp.ferreasesor.utilities.JpaUtilities;
 import java.io.Serializable;
@@ -47,9 +49,13 @@ public class BotonController implements Serializable {
     private DistribucionFacade ejbFacadeDistribucion;
     @EJB
     private DistribucionJpaControllerExt ejbFacadeDistribucionExt;
+    @EJB
+    private UbicacionFacade ejbFacadeUbicacion;
+    private Ubicacion ubicacion;
     private PaginationHelper pagination;
     private int selectedItemIndex;
     private JpaUtilities utils = new JpaUtilities();
+    private String pasillo;
 
     public BotonController() {
     }
@@ -121,12 +127,39 @@ public class BotonController implements Serializable {
         tienda = getFacadeTienda().find(JpaUtilities.ID_TIENDA);
         return tienda;
     }
+    
+    public SelectItem[] getUbicacionesAvalaibleSelectOne() {
+        List<Ubicacion> ubicaciones = null;
+        
+        if(ubicaciones == null){
+            ubicaciones = ejbFacadeUbicacion.findAll();
+        }
+
+        return JsfUtil.getSelectItems(ubicaciones, true);
+    }
+
+    public Ubicacion getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(Ubicacion ubicacion) {
+        this.ubicacion = ubicacion;
+    }
+
+    public String getPasillo() {
+        return pasillo;
+    }
+
+    public void setPasillo(String pasillo) {
+        this.pasillo = pasillo;
+    }
 
     public String create() {
         try {
             //Seteo la Tienda
             tienda = getTienda();
             current.setTiendaId(tienda);
+            current.setUbicacion(pasillo);
 
             //Guardo el Boton
             getFacade().create(current);
@@ -289,6 +322,7 @@ public class BotonController implements Serializable {
     }
 
     private void recreateModel() {
+        pasillo = null;
         items = null;
     }
 

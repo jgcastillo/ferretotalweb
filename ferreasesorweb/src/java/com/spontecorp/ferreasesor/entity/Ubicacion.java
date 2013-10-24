@@ -95,7 +95,7 @@ public class Ubicacion implements Serializable {
 
     @Override
     public String toString() {
-        return "com.spontecorp.ferreasesor.entity.Ubicacion[ id=" + id + " ]";
+        return nombre;
     }
     
 }

@@ -23,11 +23,15 @@
                                  title="#{bundle.CreateBotonTitle_display}" required="true" 
                                  requiredMessage="#{bundle.CreateBotonRequiredMessage_display}"/>
                     <p:message for="display"/>
+
                     <p:outputLabel value="#{bundle.CreateBotonLabel_ubicacion}" for="ubicacion" />
-                    <p:inputText id="ubicacion" value="#{botonController.selected.ubicacion}" 
-                                 title="#{bundle.CreateBotonTitle_ubicacion}" required="true" 
-                                 requiredMessage="#{bundle.CreateBotonRequiredMessage_ubicacion}"/>
-                    <p:message for="ubicacion"/>
+                    <h:selectOneMenu id="ubicacion" value="#{botonController.pasillo}"
+                                     required="true" requiredMessage="#{bundle.CreateBotonRequiredMessage_ubicacion}" 
+                                     style="width: 130px">
+                        <f:selectItems value="#{botonController.ubicacionesAvalaibleSelectOne}"/>
+                    </h:selectOneMenu>
+                    <p:message for="ubicacion"/>                   
+
                     <p:outputLabel value="#{bundle.CreateBotonLabel_status}" for="status" />
                     <h:selectOneMenu id="status" value="#{botonController.selected.status}" required="true" 
                                      requiredMessage="#{bundle.EditBotonRequiredMessage_status}" style="width: 130px;">   
