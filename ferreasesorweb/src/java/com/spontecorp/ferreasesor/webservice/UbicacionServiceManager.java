@@ -42,7 +42,7 @@ public class UbicacionServiceManager {
                 ubicacionFacade.create(ubc);
             }
             
-            response = Response.status(200).entity("Los Pasillos fueron Configurados satisfactoriamente!").build();
+            response = Response.status(200).entity("Los Pasillos fueron Configurados con éxito!").build();
 
         } catch (NamingException ex) {
             Logger.getLogger(UbicacionServiceManager.class.getName()).log(Level.SEVERE, null, ex);
