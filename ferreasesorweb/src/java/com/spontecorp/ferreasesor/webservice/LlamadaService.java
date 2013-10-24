@@ -37,9 +37,9 @@ public class LlamadaService {
     @POST
     @Path("guardarubicaciones")
     @Consumes("application/json")
-    public Response guardarUbicacion(Ubicacion ubicacion) {
+    public Response guardarUbicacion(List<Ubicacion> ubicacionList) {
         UbicacionServiceManager ubicacionServiceManager = new UbicacionServiceManager();
-        Response resp = ubicacionServiceManager.guardarUbicaciones(ubicacion);
+        Response resp = ubicacionServiceManager.guardarUbicaciones(ubicacionList);
         return resp;
     }
 /**
