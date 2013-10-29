@@ -26,6 +26,11 @@ public class JpaUtilities {
     public static final int FERIADO = 1;
     public static final int NORMAL = 0;
 
+    //Datos de la BD a respaldar
+    public static final String DB_NAME = "ferreasesor";
+    public static final String DB_USER = "root";
+    public static final String DB_PASSWORD = "root";
+
     public JpaUtilities(){
     }
     
