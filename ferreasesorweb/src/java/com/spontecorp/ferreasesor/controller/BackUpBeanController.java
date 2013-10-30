@@ -10,9 +10,12 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -22,7 +25,8 @@ import javax.faces.event.ActionEvent;
 @SessionScoped
 public class BackUpBeanController implements Serializable {
 
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+    private UploadedFile file;
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
     //Datos de la BD a respaldar
     private String dbName = JpaUtilities.DB_NAME;
     private String dbUserName = JpaUtilities.DB_USER;
@@ -30,7 +34,8 @@ public class BackUpBeanController implements Serializable {
     //Ruta para crear el archivo .sql
     private String savePath = "C:\\ferreasesorBackUpDB\\";
     //Nombre del archivo .sql a crear
-    private String nameFile = "ferreasesorDB_" + sdf.format((new Date())) + ".sql";
+    private String nameFile;
+    private String restoreFile;
     //Ruta del mysqldump.exe 
     private String mysqldump = "\"C:\\Program Files\\MySQL\\MySQL Server 5.1\\bin\\mysqldump.exe\"";
     //Ruta del mysql.exe 
@@ -48,6 +53,7 @@ public class BackUpBeanController implements Serializable {
     public boolean backUpDB(ActionEvent evt) {
 
         boolean result = false;
+        nameFile = "ferreasesorDB_" + sdf.format((new Date())) + ".sql";
 
         //Se arma el comando a ejecutar
         String executeCmd = mysqldump + " -u " + dbUserName + " -p" + dbPassword
@@ -71,6 +77,7 @@ public class BackUpBeanController implements Serializable {
         } catch (IOException | InterruptedException ex) {
             System.out.println("Error al crear el Respaldo de la Base de Datos: " + ex.getMessage());
         }
+
         return result;
     }
 
@@ -80,31 +87,51 @@ public class BackUpBeanController implements Serializable {
      * @param evt
      * @return
      */
-    public boolean restoreDB(ActionEvent evt) {
+    public boolean restoreDB(ActionEvent evt) throws IOException {
 
         boolean result = false;
+        //Tipo de archivo permitido (.sql)
+        String contentType = "application/octet-stream";
 
-        //Se arma el comando a ejecutar
-        String[] executeCmd = new String[]{mysql, "--user=" + dbUserName, "--password=" 
-                + dbPassword, dbName, "-e", "source " + savePath + nameFile};
+        if (file != null) {
+            if (file.getContentType().equalsIgnoreCase(contentType)) {
+                restoreFile = file.getFileName();
+                
+                //Se arma el comando a ejecutar
+                String[] executeCmd = new String[]{mysql, "--user=" + dbUserName, "--password="
+                    + dbPassword, dbName, "-e", "source " + savePath + restoreFile};
+                Process runtimeProcess;
+                
+                try {
+                    runtimeProcess = Runtime.getRuntime().exec(executeCmd);
+                    int processComplete = runtimeProcess.waitFor();
 
-        Process runtimeProcess;
-        try {
-
-            runtimeProcess = Runtime.getRuntime().exec(executeCmd);
-            int processComplete = runtimeProcess.waitFor();
-
-            if (processComplete == 0) {
-                JsfUtil.addSuccessMessage("La Base de Datos fue restaurada con éxito!");
-                result = true;
+                    if (processComplete == 0) {
+                        JsfUtil.addSuccessMessage("La Base de Datos fue restaurada con éxito!");
+                        result = true;
+                    } else {
+                        JsfUtil.addErrorMessage("No se pudo restaurar la Base de Datos.");
+                        result = false;
+                    }
+                } catch (IOException | InterruptedException ex) {
+                    System.out.println("Error al restaurar la Base de Datos: " + ex.getMessage());
+                }
             } else {
-                JsfUtil.addErrorMessage("No se pudo restaurar la Base de Datos.");
-                result = false;
+                JsfUtil.addErrorMessage("Selecciones un archivo .sql");
             }
-        } catch (IOException | InterruptedException ex) {
-            System.out.println("Error al restaurar la Base de Datos: " + ex.getMessage());
+        } else {
+            JsfUtil.addErrorMessage("Selecciones un archivo .sql");
         }
-
+        file = null;
+        restoreFile = null;
         return result;
+    }
+
+    public UploadedFile getFile() {
+        return file;
+    }
+
+    public void setFile(UploadedFile file) {
+        this.file = file;
     }
 }
