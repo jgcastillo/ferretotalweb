@@ -30,6 +30,12 @@ public class JpaUtilities {
     public static final String DB_NAME = "ferreasesor";
     public static final String DB_USER = "root";
     public static final String DB_PASSWORD = "root";
+    //Ruta del mysqldump.exe 
+    //Hacer BackUp de la BD
+    public static final String mysqldump = "\"C:\\Program Files\\MySQL\\MySQL Server 5.1\\bin\\mysqldump.exe\"";
+    //Ruta del mysql.exe 
+    //Hacer Restore de la BD
+    public static final String mysql = "\"C:\\Program Files\\MySQL\\MySQL Server 5.1\\bin\\mysql.exe\"";
 
     public JpaUtilities(){
     }

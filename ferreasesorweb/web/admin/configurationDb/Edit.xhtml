@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditConfigurationDbTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditConfigurationDbLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{configurationDbController.selected.id}" title="#{bundle.EditConfigurationDbTitle_id}" required="true" requiredMessage="#{bundle.EditConfigurationDbRequiredMessage_id}"/>
+                    <h:outputLabel value="#{bundle.EditConfigurationDbLabel_dbName}" for="dbName" />
+                    <h:inputText id="dbName" value="#{configurationDbController.selected.dbName}" title="#{bundle.EditConfigurationDbTitle_dbName}" required="true" requiredMessage="#{bundle.EditConfigurationDbRequiredMessage_dbName}"/>
+                    <h:outputLabel value="#{bundle.EditConfigurationDbLabel_dbuserName}" for="dbuserName" />
+                    <h:inputText id="dbuserName" value="#{configurationDbController.selected.dbuserName}" title="#{bundle.EditConfigurationDbTitle_dbuserName}" required="true" requiredMessage="#{bundle.EditConfigurationDbRequiredMessage_dbuserName}"/>
+                    <h:outputLabel value="#{bundle.EditConfigurationDbLabel_dbPassword}" for="dbPassword" />
+                    <h:inputText id="dbPassword" value="#{configurationDbController.selected.dbPassword}" title="#{bundle.EditConfigurationDbTitle_dbPassword}" required="true" requiredMessage="#{bundle.EditConfigurationDbRequiredMessage_dbPassword}"/>
+                    <h:outputLabel value="#{bundle.EditConfigurationDbLabel_pathMysqldump}" for="pathMysqldump" />
+                    <h:inputText id="pathMysqldump" value="#{configurationDbController.selected.pathMysqldump}" title="#{bundle.EditConfigurationDbTitle_pathMysqldump}" required="true" requiredMessage="#{bundle.EditConfigurationDbRequiredMessage_pathMysqldump}"/>
+                    <h:outputLabel value="#{bundle.EditConfigurationDbLabel_pathMysql}" for="pathMysql" />
+                    <h:inputText id="pathMysql" value="#{configurationDbController.selected.pathMysql}" title="#{bundle.EditConfigurationDbTitle_pathMysql}" required="true" requiredMessage="#{bundle.EditConfigurationDbRequiredMessage_pathMysql}"/>
+                    <h:outputLabel value="#{bundle.EditConfigurationDbLabel_pathBackup}" for="pathBackup" />
+                    <h:inputText id="pathBackup" value="#{configurationDbController.selected.pathBackup}" title="#{bundle.EditConfigurationDbTitle_pathBackup}" required="true" requiredMessage="#{bundle.EditConfigurationDbRequiredMessage_pathBackup}"/>
+                </h:panelGrid>
+                <h:commandLink action="#{configurationDbController.update}" value="#{bundle.EditConfigurationDbSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditConfigurationDbViewLink}"/>
+                <br />
+                <h:commandLink action="#{configurationDbController.prepareList}" value="#{bundle.EditConfigurationDbShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditConfigurationDbIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

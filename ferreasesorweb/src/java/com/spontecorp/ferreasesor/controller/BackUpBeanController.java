@@ -28,22 +28,20 @@ public class BackUpBeanController implements Serializable {
 
     private UploadedFile uploadedFile;
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
-    //Datos de la BD a respaldar
+    //Datos de la BD 
     private String dbName = JpaUtilities.DB_NAME;
     private String dbUserName = JpaUtilities.DB_USER;
     private String dbPassword = JpaUtilities.DB_PASSWORD;
+    private String mysqldump = JpaUtilities.mysqldump;
+    private String mysql = JpaUtilities.mysql;
+    
     //Ruta para crear el archivo .sql
     private String srcFile;
     private String savePath;
     //Nombre del archivo .sql a crear
     private String nameFile;
     private String restoreFile;
-    //Ruta del mysqldump.exe 
-    //Hacer BackUp de la BD
-    private String mysqldump = "\"C:\\Program Files\\MySQL\\MySQL Server 5.1\\bin\\mysqldump.exe\"";
-    //Ruta del mysql.exe 
-    //Hacer Restore de la BD
-    String mysql = "\"C:\\Program Files\\MySQL\\MySQL Server 5.1\\bin\\mysql.exe\"";
+
     private long FileLength = 0;
 
     public BackUpBeanController() {
