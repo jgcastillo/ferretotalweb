@@ -2,12 +2,15 @@ package com.spontecorp.ferreasesor.utilities;
 
 import com.spontecorp.ferreasesor.security.Cifrador;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import org.primefaces.model.UploadedFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -99,5 +102,57 @@ public class JpaUtilities {
         return props;
     }
   
+    
+    /**
+     * Guardo el Archivo en la Carpeta Temporal
+     *
+     * @param mFile
+     * @return
+     */
+    public static boolean saveFile(UploadedFile mFile, String srcFile) {
+        boolean retorno = false;
+        long FileLength = 0;
+        
+        try {
+            File file = new File(srcFile);
+            byte[] bytes = mFile.getContents();
+            try (FileOutputStream fos = new FileOutputStream(file)) {
+                fos.write(bytes);
+                fos.flush();
+                fos.close();
+            }
+
+            FileLength = file != null ? file.length() : 0;
+            retorno = FileLength > 0;
+
+        } catch (Exception e) {
+            System.out.println("Error al salvar el archivo en la ruta: " + srcFile);
+            return false;
+        }
+        return retorno;
+    }
+    
+    /**
+     * Elimino el Archivo de la Carpeta Temporal una vez Restaurado
+     *
+     * @param srcFile
+     */
+    public static boolean deleteFile(String srcFile) {
+        boolean delete = false;
+        try {
+            //System.out.println("Delete file: " + srcFile);
+            File newfile = new File(srcFile);
+            if (newfile.delete()) {
+                //System.out.println(newfile.getName() + " is deleted!");
+                delete = true;
+            } else {
+                //System.out.println("Delete operation is failed.");
+                delete = false;
+            }
+        } catch (Exception e) {
+            System.out.println("Delete operation is failed.");
+        }
+        return delete;
+    }
     
 }

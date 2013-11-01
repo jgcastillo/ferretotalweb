@@ -16,14 +16,14 @@
             <p:panel id="panel" header="Restaurar la Base de Datos" style="width:75%; margin-left:15px;">
                 <h:panelGrid columns="2" style="margin-top: 10px;margin-bottom: 10px;">
                     <p:outputLabel value="Seleccione el archivo .sql que desea Restaurar: " />  
-                    <p:fileUpload value="#{backUpBeanController.uploadedFile}" mode="simple"/>  
+                    <p:fileUpload value="#{restoreBeanController.uploadedFile}" mode="simple"/>  
 
                 </h:panelGrid>
 
                 <f:facet name="footer">
                     <h:panelGrid columns="3" style="display:block;margin-left: 50%">
                         <p:commandButton  value="Aceptar" title="Aceptar" icon="ui-icon-disk"  
-                                          actionListener="#{backUpBeanController.restoreDB}"
+                                          actionListener="#{restoreBeanController.restoreDB}"
                                           ajax="false"/>
                         <p:spacer width="10"/>
                         <p:commandButton value="Cancelar" title="Cancelar" icon="ui-icon-cancel" immediate="true"
