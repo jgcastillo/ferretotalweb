@@ -6,11 +6,12 @@ package com.spontecorp.ferreasesor.controller;
 
 import com.spontecorp.ferreasesor.controller.util.JsfUtil;
 import com.spontecorp.ferreasesor.utilities.JpaUtilities;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -25,21 +26,25 @@ import org.primefaces.model.UploadedFile;
 @SessionScoped
 public class BackUpBeanController implements Serializable {
 
-    private UploadedFile file;
+    private UploadedFile uploadedFile;
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
     //Datos de la BD a respaldar
     private String dbName = JpaUtilities.DB_NAME;
     private String dbUserName = JpaUtilities.DB_USER;
     private String dbPassword = JpaUtilities.DB_PASSWORD;
     //Ruta para crear el archivo .sql
-    private String savePath = "C:\\ferreasesorBackUpDB\\";
+    private String srcFile;
+    private String savePath;
     //Nombre del archivo .sql a crear
     private String nameFile;
     private String restoreFile;
     //Ruta del mysqldump.exe 
+    //Hacer BackUp de la BD
     private String mysqldump = "\"C:\\Program Files\\MySQL\\MySQL Server 5.1\\bin\\mysqldump.exe\"";
     //Ruta del mysql.exe 
+    //Hacer Restore de la BD
     String mysql = "\"C:\\Program Files\\MySQL\\MySQL Server 5.1\\bin\\mysql.exe\"";
+    private long FileLength = 0;
 
     public BackUpBeanController() {
     }
@@ -53,6 +58,7 @@ public class BackUpBeanController implements Serializable {
     public boolean backUpDB(ActionEvent evt) {
 
         boolean result = false;
+        savePath = "C:\\ferreasesorBackUpDB\\";
         nameFile = "ferreasesorDB_" + sdf.format((new Date())) + ".sql";
 
         //Se arma el comando a ejecutar
@@ -93,15 +99,23 @@ public class BackUpBeanController implements Serializable {
         //Tipo de archivo permitido (.sql)
         String contentType = "application/octet-stream";
 
-        if (file != null) {
-            if (file.getContentType().equalsIgnoreCase(contentType)) {
-                restoreFile = file.getFileName();
-                
-                //Se arma el comando a ejecutar
-                String[] executeCmd = new String[]{mysql, "--user=" + dbUserName, "--password="
-                    + dbPassword, dbName, "-e", "source " + savePath + restoreFile};
-                Process runtimeProcess;
-                
+        if (uploadedFile != null) {
+
+            if (uploadedFile.getContentType().equalsIgnoreCase(contentType)) {
+                restoreFile = uploadedFile.getFileName();
+
+                //Ruta + Nombre del Archivo a Restaurar
+                srcFile = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/temp/" + restoreFile);
+
+                //Se copia el archivo a la Carpeta temporal
+                result = saveFile(uploadedFile, srcFile);
+
+                if (result) {
+                    //Se arma el comando a ejecutar
+                    String[] executeCmd = new String[]{mysql, "--user=" + dbUserName, "--password="
+                        + dbPassword, dbName, "-e", "source " + srcFile};
+                    Process runtimeProcess;
+
                 try {
                     runtimeProcess = Runtime.getRuntime().exec(executeCmd);
                     int processComplete = runtimeProcess.waitFor();
@@ -109,6 +123,8 @@ public class BackUpBeanController implements Serializable {
                     if (processComplete == 0) {
                         JsfUtil.addSuccessMessage("La Base de Datos fue restaurada con éxito!");
                         result = true;
+                        //Elimino el archivo de la Carpeta Temporal
+                        deleteFile(srcFile);
                     } else {
                         JsfUtil.addErrorMessage("No se pudo restaurar la Base de Datos.");
                         result = false;
@@ -116,22 +132,75 @@ public class BackUpBeanController implements Serializable {
                 } catch (IOException | InterruptedException ex) {
                     System.out.println("Error al restaurar la Base de Datos: " + ex.getMessage());
                 }
+
+                } else {
+                    JsfUtil.addErrorMessage("No se pudo restaurar la Base de Datos.");
+                }
             } else {
                 JsfUtil.addErrorMessage("Selecciones un archivo .sql");
             }
         } else {
             JsfUtil.addErrorMessage("Selecciones un archivo .sql");
         }
-        file = null;
+        uploadedFile = null;
         restoreFile = null;
         return result;
     }
 
-    public UploadedFile getFile() {
-        return file;
+    /**
+     * Elimino el Archivo de la Carpeta Temporal una vez Restaurado
+     * @param srcFile 
+     */
+    public boolean deleteFile(String srcFile) {
+        boolean delete = false;
+        try {
+            //System.out.println("Delete file: " + srcFile);
+            File newfile = new File(srcFile);
+            if (newfile.delete()) {
+                //System.out.println(newfile.getName() + " is deleted!");
+                delete = true;
+            } else {
+                //System.out.println("Delete operation is failed.");
+                delete = false;
+            }
+        } catch (Exception e) {
+            System.out.println("Delete operation is failed.");
+        }
+        return delete;
     }
 
-    public void setFile(UploadedFile file) {
-        this.file = file;
+    public UploadedFile getUploadedFile() {
+        return uploadedFile;
+    }
+
+    public void setUploadedFile(UploadedFile uploadedFile) {
+        this.uploadedFile = uploadedFile;
+    }
+
+    /**
+     * Guardo el Archivo en la Carpeta Temporal
+     *
+     * @param mFile
+     * @return
+     */
+    public boolean saveFile(UploadedFile mFile, String srcFile) {
+        boolean retorno = false;
+        try {
+            File file = new File(srcFile);
+            byte[] bytes = mFile.getContents();
+            try (FileOutputStream fos = new FileOutputStream(file)) {
+                fos.write(bytes);
+                fos.flush();
+                fos.close();
+            }
+
+            FileLength = file != null ? file.length() : 0;
+            retorno = FileLength > 0;
+
+        } catch (Exception e) {
+            System.out.println("Clase: " + this.getClass().getName() + ", Error al salvar el archivo en la ruta = " + srcFile);
+            return false;
+        }
+        return retorno;
     }
 }
