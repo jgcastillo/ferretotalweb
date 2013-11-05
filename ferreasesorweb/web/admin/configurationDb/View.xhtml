@@ -15,8 +15,6 @@
             </h:panelGroup>
             <h:form>
                 <h:panelGrid columns="2">
-                    <h:outputText value="#{bundle.ViewConfigurationDbLabel_id}"/>
-                    <h:outputText value="#{configurationDbController.selected.id}" title="#{bundle.ViewConfigurationDbTitle_id}"/>
                     <h:outputText value="#{bundle.ViewConfigurationDbLabel_dbName}"/>
                     <h:outputText value="#{configurationDbController.selected.dbName}" title="#{bundle.ViewConfigurationDbTitle_dbName}"/>
                     <h:outputText value="#{bundle.ViewConfigurationDbLabel_dbuserName}"/>
@@ -26,9 +24,6 @@
                     <h:outputText value="#{bundle.ViewConfigurationDbLabel_pathMysqldump}"/>
                     <h:outputText value="#{configurationDbController.selected.pathMysqldump}" title="#{bundle.ViewConfigurationDbTitle_pathMysqldump}"/>
                     <h:outputText value="#{bundle.ViewConfigurationDbLabel_pathMysql}"/>
-                    <h:outputText value="#{configurationDbController.selected.pathMysql}" title="#{bundle.ViewConfigurationDbTitle_pathMysql}"/>
-                    <h:outputText value="#{bundle.ViewConfigurationDbLabel_pathBackup}"/>
-                    <h:outputText value="#{configurationDbController.selected.pathBackup}" title="#{bundle.ViewConfigurationDbTitle_pathBackup}"/>
                 </h:panelGrid>
                 <br />
                 <h:commandLink action="#{configurationDbController.destroyAndView}" value="#{bundle.ViewConfigurationDbDestroyLink}"/>

@@ -11,26 +11,33 @@
     </ui:define>
     <ui:define name="content">
         <h:form>
-            <p:panel id="panel" header="Configurar Base de Datos" style="width:60%; margin-left:15px;">
+            <p:panel id="panel" header="Configurar Base de Datos" style="width:85%; margin-left:15px;">
                 <h:panelGrid columns="3">
-                    <p:outputLabel value="#{bundle.CreateConfigurationDbLabel_dbName}" for="dbName" />
-                    <p:inputText id="dbName" value="#{configurationDbController.selected.dbName}" title="#{bundle.CreateConfigurationDbTitle_dbName}" required="true" requiredMessage="#{bundle.CreateConfigurationDbRequiredMessage_dbName}"/>
+                    <p:outputLabel value="Nombre" for="dbName" />
+                    <p:inputText id="dbName" value="#{configurationDbController.selected.dbName}" 
+                                 title="#{bundle.CreateConfigurationDbTitle_dbName}" required="true" 
+                                 requiredMessage="#{bundle.CreateConfigurationDbRequiredMessage_dbName}"/>
                     <p:message for="dbName"/>
-                    <p:outputLabel value="#{bundle.CreateConfigurationDbLabel_dbuserName}" for="dbuserName" />
-                    <p:inputText id="dbuserName" value="#{configurationDbController.selected.dbuserName}" title="#{bundle.CreateConfigurationDbTitle_dbuserName}" required="true" requiredMessage="#{bundle.CreateConfigurationDbRequiredMessage_dbuserName}"/>
+                    <p:outputLabel value="Usuario" for="dbuserName" />
+                    <p:inputText id="dbuserName" value="#{configurationDbController.selected.dbuserName}" 
+                                 title="#{bundle.CreateConfigurationDbTitle_dbuserName}" required="true" 
+                                 requiredMessage="#{bundle.CreateConfigurationDbRequiredMessage_dbuserName}"/>
                     <p:message for="dbuserName"/>
-                    <p:outputLabel value="#{bundle.CreateConfigurationDbLabel_dbPassword}" for="dbPassword" />
-                    <p:inputText id="dbPassword" value="#{configurationDbController.selected.dbPassword}" title="#{bundle.CreateConfigurationDbTitle_dbPassword}" required="true" requiredMessage="#{bundle.CreateConfigurationDbRequiredMessage_dbPassword}"/>
+                    <p:outputLabel value="Password" for="dbPassword" />
+                    <p:inputText id="dbPassword" value="#{configurationDbController.selected.dbPassword}" 
+                                 title="#{bundle.CreateConfigurationDbTitle_dbPassword}" required="true" 
+                                 requiredMessage="#{bundle.CreateConfigurationDbRequiredMessage_dbPassword}"/>
                     <p:message for="dbPassword"/>
-                    <p:outputLabel value="#{bundle.CreateConfigurationDbLabel_pathMysqldump}" for="pathMysqldump" />
-                    <p:inputText id="pathMysqldump" value="#{configurationDbController.selected.pathMysqldump}" title="#{bundle.CreateConfigurationDbTitle_pathMysqldump}" required="true" requiredMessage="#{bundle.CreateConfigurationDbRequiredMessage_pathMysqldump}"/>
+                    <p:outputLabel value="Path Restore BD (mysqldump.exe)" for="pathMysqldump" />
+                    <p:inputText id="pathMysqldump" value="#{configurationDbController.selected.pathMysqldump}" 
+                                 title="#{bundle.CreateConfigurationDbTitle_pathMysqldump}" required="true" size="70"
+                                 requiredMessage="#{bundle.CreateConfigurationDbRequiredMessage_pathMysqldump}"/>
                     <p:message for="pathMysqldump"/>
-                    <p:outputLabel value="#{bundle.CreateConfigurationDbLabel_pathMysql}" for="pathMysql" />
-                    <p:inputText id="pathMysql" value="#{configurationDbController.selected.pathMysql}" title="#{bundle.CreateConfigurationDbTitle_pathMysql}" required="true" requiredMessage="#{bundle.CreateConfigurationDbRequiredMessage_pathMysql}"/>
+                    <p:outputLabel value="Path BackUp BD (mysql.exe)" for="pathMysql" />
+                    <p:inputText id="pathMysql" value="#{configurationDbController.selected.pathMysql}" 
+                                 title="#{bundle.CreateConfigurationDbTitle_pathMysql}" required="true" size="70"
+                                 requiredMessage="#{bundle.CreateConfigurationDbRequiredMessage_pathMysql}"/>
                     <p:message for="pathMysql"/>
-                    <p:outputLabel value="#{bundle.CreateConfigurationDbLabel_pathBackup}" for="pathBackup" />
-                    <p:inputText id="pathBackup" value="#{configurationDbController.selected.pathBackup}" title="#{bundle.CreateConfigurationDbTitle_pathBackup}" required="true" requiredMessage="#{bundle.CreateConfigurationDbRequiredMessage_pathBackup}"/>
-                    <p:message for="pathBackup"/>
                 </h:panelGrid>
                 <f:facet name="footer">
                     <h:panelGrid columns="3" style="display:block;margin-left: 50%">

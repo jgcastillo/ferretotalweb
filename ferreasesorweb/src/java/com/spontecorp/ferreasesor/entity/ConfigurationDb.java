@@ -32,8 +32,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ConfigurationDb.findByDbuserName", query = "SELECT c FROM ConfigurationDb c WHERE c.dbuserName = :dbuserName"),
     @NamedQuery(name = "ConfigurationDb.findByDbPassword", query = "SELECT c FROM ConfigurationDb c WHERE c.dbPassword = :dbPassword"),
     @NamedQuery(name = "ConfigurationDb.findByPathMysqldump", query = "SELECT c FROM ConfigurationDb c WHERE c.pathMysqldump = :pathMysqldump"),
-    @NamedQuery(name = "ConfigurationDb.findByPathMysql", query = "SELECT c FROM ConfigurationDb c WHERE c.pathMysql = :pathMysql"),
-    @NamedQuery(name = "ConfigurationDb.findByPathBackup", query = "SELECT c FROM ConfigurationDb c WHERE c.pathBackup = :pathBackup")})
+    @NamedQuery(name = "ConfigurationDb.findByPathMysql", query = "SELECT c FROM ConfigurationDb c WHERE c.pathMysql = :pathMysql")})
+
 public class ConfigurationDb implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -66,11 +66,6 @@ public class ConfigurationDb implements Serializable {
     @Size(min = 1, max = 200)
     @Column(name = "path_mysql")
     private String pathMysql;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 200)
-    @Column(name = "path_backup")
-    private String pathBackup;
 
     public ConfigurationDb() {
     }
@@ -79,14 +74,13 @@ public class ConfigurationDb implements Serializable {
         this.id = id;
     }
 
-    public ConfigurationDb(Integer id, String dbName, String dbuserName, String dbPassword, String pathMysqldump, String pathMysql, String pathBackup) {
+    public ConfigurationDb(Integer id, String dbName, String dbuserName, String dbPassword, String pathMysqldump, String pathMysql) {
         this.id = id;
         this.dbName = dbName;
         this.dbuserName = dbuserName;
         this.dbPassword = dbPassword;
         this.pathMysqldump = pathMysqldump;
         this.pathMysql = pathMysql;
-        this.pathBackup = pathBackup;
     }
 
     public Integer getId() {
@@ -135,14 +129,6 @@ public class ConfigurationDb implements Serializable {
 
     public void setPathMysql(String pathMysql) {
         this.pathMysql = pathMysql;
-    }
-
-    public String getPathBackup() {
-        return pathBackup;
-    }
-
-    public void setPathBackup(String pathBackup) {
-        this.pathBackup = pathBackup;
     }
 
     @Override

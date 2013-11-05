@@ -5,15 +5,24 @@
 package com.spontecorp.ferreasesor.controller;
 
 import com.spontecorp.ferreasesor.controller.util.JsfUtil;
+import com.spontecorp.ferreasesor.entity.ConfigurationDb;
+import com.spontecorp.ferreasesor.jpa.ConfigurationDbFacade;
 import com.spontecorp.ferreasesor.utilities.JpaUtilities;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -23,22 +32,56 @@ import org.primefaces.model.StreamedContent;
  * @author sponte03
  */
 @ManagedBean(name = "fileDownloadController")
-@SessionScoped
-public final class FileDownloadController implements Serializable{
+@ViewScoped
+public final class FileDownloadController implements Serializable {
 
     private StreamedContent downloadFile;
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
     //Datos de la BD 
-    private String dbName = JpaUtilities.DB_NAME;
-    private String dbUserName = JpaUtilities.DB_USER;
-    private String dbPassword = JpaUtilities.DB_PASSWORD;
-    private String mysqldump = JpaUtilities.mysqldump;
-    private String savePath;
+    private String dbName = null;
+    private String dbUserName = null;
+    private String dbPassword = null;
+    private String mysqldump = null;
+    private String savePath = null;
     //Nombre del archivo .sql a crear
-    private String nameFile;
+    private String nameFile = null;
 
     public FileDownloadController() {
-        backUpDB();
+        boolean findConfig = configurarDB();
+
+        if (findConfig) {
+            backUpDB();
+        } else {
+            JsfUtil.addErrorMessage("No se ha Configurado la Base de Datos.");
+        }
+    }
+
+    /**
+     * Busco la configuración de la Base de Datos
+     * @return 
+     */
+    public boolean configurarDB() {
+        List<ConfigurationDb> configuracionDB = new ArrayList<>();
+        ConfigurationDb configDB = new ConfigurationDb();
+        boolean isConfig = false;
+        try {
+            InitialContext context = new InitialContext();
+            ConfigurationDbFacade configuracionDBFacade = (ConfigurationDbFacade) context.lookup("java:module/ConfigurationDbFacade");
+            configuracionDB = configuracionDBFacade.findAll();
+            if (configuracionDB.size() > 0) {
+                configDB = configuracionDB.get(0);
+                dbName = configDB.getDbName();
+                dbUserName = configDB.getDbuserName();
+                dbPassword = configDB.getDbPassword();
+                mysqldump = "\"" + configDB.getPathMysqldump() + "\"";
+                isConfig = true;
+            } else {
+                isConfig = false;
+            }
+        } catch (NamingException ex) {
+            java.util.logging.Logger.getLogger(JpaUtilities.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return isConfig;
     }
 
     public StreamedContent getDownloadFile() {

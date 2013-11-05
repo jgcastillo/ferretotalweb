@@ -20,15 +20,13 @@ import org.slf4j.LoggerFactory;
  */
 public class JpaUtilities {
 
-    private static final Logger logger = LoggerFactory.getLogger(JpaUtilities.class); 
+    private static final Logger logger = LoggerFactory.getLogger(JpaUtilities.class);
     private static String PERSITENCE_UNIT = "FerreAsesorWebPU";
-    
     public static int HABILITADO = 1;
     public static int INHABILITADO = 0;
     public static final Integer ID_TIENDA = 1;
     public static final int FERIADO = 1;
     public static final int NORMAL = 0;
-
     //Datos de la BD a respaldar
     public static final String DB_NAME = "ferreasesor";
     public static final String DB_USER = "root";
@@ -40,10 +38,10 @@ public class JpaUtilities {
     //Hacer Restore de la BD
     public static final String mysql = "\"C:\\Program Files\\MySQL\\MySQL Server 5.1\\bin\\mysql.exe\"";
 
-    public JpaUtilities(){
+    public JpaUtilities() {
     }
-    
-    public static EntityManagerFactory getEntityManagerFactory(){
+
+    public static EntityManagerFactory getEntityManagerFactory() {
         return Persistence.createEntityManagerFactory(PERSITENCE_UNIT);
 //        String[] props = null;
 //        try {
@@ -52,8 +50,8 @@ public class JpaUtilities {
 //        }
 //        return setProperties(props[0], props[1], props[2], props[3]);
     }
-    
-    private static EntityManagerFactory setProperties(String url, String psw, String driver, String user){
+
+    private static EntityManagerFactory setProperties(String url, String psw, String driver, String user) {
         Map props = new HashMap();
         props.put("javax.persistence.jdbc.url", url);
         props.put("javax.persistence.jdbc.password", psw);
@@ -62,8 +60,8 @@ public class JpaUtilities {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSITENCE_UNIT, props);
         return emf;
     }
-    
-    private static String[] readPreFile() throws IOException{
+
+    private static String[] readPreFile() throws IOException {
         Cifrador cipher = new Cifrador();
         String[] props = new String[5];
         BufferedReader input = null;
@@ -73,10 +71,10 @@ public class JpaUtilities {
             String decode;
             String temp = null;
             input = new BufferedReader(new FileReader("pre.spt"));
-            
+
             while ((line = input.readLine()) != null) {
                 props[i++] = line;
-            } 
+            }
 //            while((line = input.readLine()) != null){
 //                System.out.println("read: " + line);
 //                if(line.endsWith("=")){
@@ -95,14 +93,13 @@ public class JpaUtilities {
         } catch (IOException e) {
             logger.error("Error leyendo archivo de configuración" + e);
         } finally {
-            if(input != null){
+            if (input != null) {
                 input.close();
             }
         }
         return props;
     }
-  
-    
+
     /**
      * Guardo el Archivo en la Carpeta Temporal
      *
@@ -112,7 +109,7 @@ public class JpaUtilities {
     public static boolean saveFile(UploadedFile mFile, String srcFile) {
         boolean retorno = false;
         long FileLength = 0;
-        
+
         try {
             File file = new File(srcFile);
             byte[] bytes = mFile.getContents();
@@ -131,7 +128,7 @@ public class JpaUtilities {
         }
         return retorno;
     }
-    
+
     /**
      * Elimino el Archivo de la Carpeta Temporal una vez Restaurado
      *
@@ -154,5 +151,5 @@ public class JpaUtilities {
         }
         return delete;
     }
-    
+
 }

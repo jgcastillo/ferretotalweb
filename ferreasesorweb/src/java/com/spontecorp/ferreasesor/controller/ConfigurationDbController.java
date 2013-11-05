@@ -83,7 +83,7 @@ public class ConfigurationDbController implements Serializable {
         try {
             getFacade().create(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ConfigurationDbCreated"));
-            return prepareCreate();
+            return prepareList();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
@@ -100,7 +100,7 @@ public class ConfigurationDbController implements Serializable {
         try {
             getFacade().edit(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ConfigurationDbUpdated"));
-            return "View";
+            return "List";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
@@ -154,6 +154,7 @@ public class ConfigurationDbController implements Serializable {
     }
 
     public DataModel getItems() {
+        items = null;
         if (items == null) {
             items = getPagination().createPageDataModel();
         }
