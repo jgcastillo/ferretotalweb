@@ -93,6 +93,7 @@ public class EncuestaBeanController implements Serializable {
     }
 
     public DataModel getItems() {
+        items = null;
         if (items == null) {
             items = new ListDataModel(getFacade().findAll());
         }
