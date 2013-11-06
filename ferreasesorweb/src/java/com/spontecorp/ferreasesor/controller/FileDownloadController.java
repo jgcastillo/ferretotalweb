@@ -71,9 +71,13 @@ public final class FileDownloadController implements Serializable {
             if (configuracionDB.size() > 0) {
                 configDB = configuracionDB.get(0);
                 dbName = configDB.getDbName();
+                System.out.println("dbName: "+dbName);
                 dbUserName = configDB.getDbuserName();
+                System.out.println("dbUserName: "+dbUserName);
                 dbPassword = configDB.getDbPassword();
+                System.out.println("dbPassword: "+dbPassword);
                 mysqldump = "\"" + configDB.getPathMysqldump() + "\"";
+                System.out.println("mysqldump: "+mysqldump);
                 isConfig = true;
             } else {
                 isConfig = false;
@@ -104,6 +108,8 @@ public final class FileDownloadController implements Serializable {
         //Se arma el comando a ejecutar
         String executeCmd = mysqldump + " -u " + dbUserName + " -p" + dbPassword
                 + " --add-drop-database -B " + dbName + " -r " + savePath;
+        
+        System.out.println("executeCmd: "+executeCmd);
 
         Process runtimeProcess;
         try {
