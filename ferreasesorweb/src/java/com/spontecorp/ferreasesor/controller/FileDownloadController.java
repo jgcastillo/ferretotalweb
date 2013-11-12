@@ -141,7 +141,7 @@ public final class FileDownloadController implements Serializable {
         boolean success = false;
         try {
             // Get SQL DUMP data
-            String dump = getServerDumpData(host, port, dbUserName, dbPassword, dbName);
+            String dump = getServerDumpData(dbUserName, dbPassword, dbName);
             if (!dump.isEmpty()) {
                 byte[] data = dump.getBytes("UTF-8");
                 // Set backup folder
@@ -176,15 +176,15 @@ public final class FileDownloadController implements Serializable {
      * @param db
      * @return
      */
-    public String getServerDumpData(String host, String port, String user, String password, String db) {
+    public String getServerDumpData(String user, String password, String db) {
         StringBuilder dumpdata = new StringBuilder();
         int STREAM_BUFFER = 512000;
         try {
             if (host != null && user != null && password != null && db != null) {
 
                 String command[] = new String[]{mysqldump,
-                    "--host=" + host,
-                    "--port=" + port,
+                   // "--host=" + host,
+                  //  "--port=" + port,
                     "--user=" + user,
                     "--password=" + password,
                     "--databases",
