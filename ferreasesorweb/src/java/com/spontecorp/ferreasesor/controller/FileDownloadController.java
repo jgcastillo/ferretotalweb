@@ -182,7 +182,7 @@ public final class FileDownloadController implements Serializable {
         try {
             if (host != null && user != null && password != null && db != null) {
 
-                String command[] = new String[]{mysqldump,
+                String[] command = new String[]{mysqldump,
                    // "--host=" + host,
                   //  "--port=" + port,
                     "--user=" + user,
