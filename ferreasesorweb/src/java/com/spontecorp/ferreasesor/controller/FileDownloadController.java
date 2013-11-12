@@ -182,19 +182,15 @@ public final class FileDownloadController implements Serializable {
         try {
             if (host != null && user != null && password != null && db != null) {
 
-                // Usage: mysqldump [OPTIONS] database [tables]
-                // OR     mysqldump [OPTIONS] --databases [OPTIONS] DB1 [DB2 DB3...]
-                // OR     mysqldump [OPTIONS] --all-databases [OPTIONS]
                 String command[] = new String[]{mysqldump,
                     "--host=" + host,
                     "--port=" + port,
                     "--user=" + user,
                     "--password=" + password,
-                    "--compact",
+                    "--databases",
+                    "--add-drop-database",
                     "--complete-insert",
                     "--extended-insert",
-                    "--skip-comments",
-                    "--skip-triggers",
                     db};
 
                 // Run mysqldump
